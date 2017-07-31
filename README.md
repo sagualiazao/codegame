@@ -61,36 +61,36 @@ git push origin 分支名字
 ```
 
 # 安装新插件
-如果使用pip安装新的插件，
-安装完之后在项目文件夹（doublegame）中执行
-  pip freeze > requirements.txt
-把你安装的插件写入到requirements.txt这个清单中
+如果使用pip安装新的插件，  
+安装完之后在项目文件夹（doublegame）中执行  
+  pip freeze > requirements.txt  
+把你安装的插件写入到requirements.txt这个清单中  
 
-如果使用npm安装新的插件,
-在安装的时候记得使用 npm install --save 插件名
+如果使用npm安装新的插件,  
+在安装的时候记得使用 npm install --save 插件名  
 把你安装的插件写入到package.json这个清单中
 
 
 # 静态资源放置
-如果你在前端要新建一些静态文件(js\html\css\图片)
-如果和某一个vue组件有关的,放到frontend/src/assets里面,这里的文件会被webpack打包
+如果你在前端要新建一些静态文件(js\html\css\图片)  
+如果和某一个vue组件有关的,放到frontend/src/assets里面,这里的文件会被webpack打包  
 如果和vue组件无关的,放到frontend/static,这里的文件生成时会直接被复制
 
 
 # 代码风格说明
-基本使用Standard ESlint,仅将缩进设置为4空格
-所以有一些比较坑的东西
+基本使用Standard ESlint,仅将缩进设置为4空格  
+所以有一些比较坑的东西  
 不改正ESlint的所有错误的话 npm run dev不会正常运行
 
 推荐在编译器安装pylint
 要求更细,比如在函数前写一行注释,在函数第一行写doc...
 
-#在Vue(JavaScript/HTML/CSS)中
-变量名/函数名使用小驼峰
-静态变量使用大写(加下划线还是破折号等遇到我再写)
-单文件组件的文件名使用大驼峰
-组件的'name'属性使用小写字母破折号(aaa-bbb)
-HTML/CSS使用小写字母破折号(aaa-bbb)
+# 在Vue(JavaScript/HTML/CSS)中
+变量名/函数名使用小驼峰  
+静态变量使用大写(加下划线还是破折号等遇到我再写)  
+单文件组件的文件名使用大驼峰  
+组件的'name'属性使用小写字母破折号(aaa-bbb)  
+HTML/CSS使用小写字母破折号(aaa-bbb)  
 类名使用大驼峰(MyClass)
 
 ``` bash
@@ -106,14 +106,13 @@ function () 在'function'和'()'中间要有空格
 ```
 
 
-#在Django(python)中
-变量名/函数名使用小写字母下划线(aaa_bbb)
-静态变量使用大写下划线(AAA_BBB)
-类名使用大驼峰(MyClass)
+# 在Django(python)中
+变量名/函数名使用小写字母下划线(aaa_bbb)  
+静态变量使用大写下划线(AAA_BBB)  
+类名使用大驼峰(MyClass)  
 装完pylint就清楚了...
 
-#python和js的不同的包名规则
-python中目录结构使用'.',类似java
-
+# python和js的不同的包名规则
+python中目录结构使用'.',类似java  
 JS中目录结构使用'/'
 
