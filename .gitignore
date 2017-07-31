@@ -124,5 +124,3 @@ yarn.lock
 /api/static
 /api/templates
 
-#django
-/api/migrations/*
