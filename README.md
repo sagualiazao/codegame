@@ -63,11 +63,16 @@ git push origin 分支名字
 # 安装新插件
 如果使用pip安装新的插件，  
 安装完之后在项目文件夹（doublegame）中执行  
+``` bash
   pip freeze > requirements.txt  
+```
 把你安装的插件写入到requirements.txt这个清单中  
 
 如果使用npm安装新的插件,  
-在安装的时候记得使用 npm install --save 插件名  
+在安装的时候记得使用  
+``` bash
+npm install --save 插件名  
+```
 把你安装的插件写入到package.json这个清单中
 
 
