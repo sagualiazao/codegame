@@ -15,7 +15,7 @@
                 <img class="captcha-image" :src="captchaImage" @click="refreshCaptcha">
                 <input type="text" placeholder="请输入验证码" maxlength="4" v-model="captcha">
                 <input type="button" value="发送验证邮件" @click="sendEmail" :disabled="accountStatus"><br>
-                <input type="text" placeholder="请输入邮件中的验证码" v-model="emailCaptcha">
+                <input type="text" placeholder="请输入邮件中的验证码" maxlength="6" v-model="emailCaptcha">
             </p>
             <label>{{ tips }}</label><br>
             <input type="button" value="确认注册" @click="commitRegister" :disabled="captchaStatus">
@@ -39,10 +39,14 @@ export default {
             captcha: null,
             captchaKey: null,
             emailCaptcha: null,
+            emailCaptchaKey: null,
+            // 判断格式
             isEmail: false,
             truePassword: false,
             suitPassword: false,
+            // 用户信息格式正确,可以发送邮件验证码
             accountStatus: 'disabled',
+            // 邮件验证码格式正确,可以提交注册
             captchaStatus: 'disabled'
         }
     },
@@ -67,29 +71,61 @@ export default {
                 alert('验证码错误')
                 return
             } else {
-                let jsonObj = JSON.stringify({
-                    'email': this.email,
-                    'password': this.password1
-                })
-                let fetchHead = {
-                    'Content-Type': 'application/json, text/plain, */*',
-                    'Accept': 'application/json'
-                }
-                let commitRegister = async function () {
-                    let response = await fetch('api/register', {
-                        method: 'post',
-                        mode: 'cors',
-                        headers: fetchHead,
-                        body: jsonObj
-                    })
-                    let obj = await response.json()
-                    await alert(obj.msg)
-                }
-                commitRegister()
+                this.getCaptchaEmail()
+            }
+        },
+        getCaptchaEmail: async function () {
+            let jsonObj = JSON.stringify({
+                'email': this.email
+            })
+            let fetchHead = {
+                'Content-Type': 'application/json, text/plain, */*',
+                'Accept': 'application/json'
+            }
+            let response = await fetch('api/captcha-email', {
+                method: 'post',
+                mode: 'cors',
+                headers: fetchHead,
+                body: jsonObj
+            })
+            let obj = await response.json()
+            if (await obj.status === '0') {
+                alert('该邮箱已被使用!')
+            } else {
+                this.emailCaptchaKey = await obj.captcha
+                alert('邮件已成功发送' + this.emailCaptchaKey)
             }
         },
         commitRegister: function () {
-            // TODO
+            if (this.emailCaptcha !== this.emailCaptchaKey) {
+                alert('邮件验证码错误!')
+                return
+            } else {
+                this.confirmRegister()
+            }
+        },
+        confirmRegister: async function () {
+            let jsonObj = JSON.stringify({
+                'email': this.email,
+                'password': this.password1
+            })
+            let fetchHead = {
+                'Content-Type': 'application/json, text/plain, */*',
+                'Accept': 'application/json'
+            }
+            let response = await fetch('api/register', {
+                method: 'post',
+                mode: 'cors',
+                headers: fetchHead,
+                body: jsonObj
+            })
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                alert('注册成功!')
+                this.closeWindow()
+            } else {
+                alert('注册失败!')
+            }
         },
         refreshCaptcha: async function () {
             let response = await fetch('/api/captcha', {
@@ -137,7 +173,18 @@ export default {
             if (this.isEmail && this.truePassword && this.suitPassword) {
                 if (this.captcha.length === 4) {
                     this.accountStatus = null
+                } else {
+                    this.accountStatus = 'disabled'
                 }
+            } else {
+                this.accountStatus = 'disabled'
+            }
+        },
+        emailCaptcha: function () {
+            if (this.emailCaptcha.length === 6) {
+                this.captchaStatus = null
+            } else {
+                this.captchaStatus = 'disabled'
             }
         }
     }
