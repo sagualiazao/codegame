@@ -4,6 +4,12 @@ import random, os
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 class Captcha:
+    # 删除了易混淆的'O'(大写字母)
+    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789'
+
+    def string_captcha():
+        return random.sample(Captcha.chars, 6)
+
     def generate_captcha(width=120, height=50,
         background='#FFFFFF', foreground='#0000FF',
         font_size=18, length=4,
@@ -11,8 +17,6 @@ class Captcha:
         draw_points=True, point_chance=2):
 
         # 初始化
-        # 删除了易混淆的'O'(大写字母)
-        chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789'
         BASE_DIR = os.path.dirname(__file__)
         file_path = os.path.join(BASE_DIR, 'static/font/MONACO.TTF')
         font = ImageFont.truetype(file_path, font_size)
@@ -44,7 +48,7 @@ class Captcha:
 
         # 生成给定长度的字符串，返回列表格式
         def get_chars():
-            return random.sample(chars, length)
+            return random.sample(Captcha.chars, length)
 
         # 绘制验证码字符
         def create_strs():
