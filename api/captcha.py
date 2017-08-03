@@ -1,9 +1,15 @@
-# 生成图片验证码
-# 原代码位于 http://www.cnblogs.com/skiler/p/6652848.html
+'''
+生成图片验证码
+原代码位于 http://www.cnblogs.com/skiler/p/6652848.html
+'''
 import random, os
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 class Captcha:
+    '''
+        generate_captcha() 生成验证码图片和对应的字符串
+        string_captcha() 生成验证码字符串
+    '''
     # 删除了易混淆的'O'(大写字母)
     chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789'
 

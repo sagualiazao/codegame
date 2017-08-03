@@ -37,7 +37,7 @@ const store = new Vuex.Store({
     mutations: {
         // 第一个参数一定是state,用来读取全局的属性
         // 之后可以有多个参数
-        changePopWindow (state, windowName) {
+        changePopWindow: function (state, windowName) {
             state.popWindow = windowName
         }
     },

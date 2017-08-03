@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import CryptoJS from 'crypto-js'
+
 export default {
     name: 'register-window',
     data: function () {
@@ -70,6 +72,21 @@ export default {
         this.captchaKey = await obj.captcha
     },
     methods: {
+        cbcEncrypt: function (keyStr, data) {
+            // 将加密段通过MD5生产16位字符串,用于AES加密的秘钥
+            keyStr = CryptoJS.MD5(keyStr).toString()
+            let key = CryptoJS.enc.Utf8.parse(keyStr)
+            // 生成初始向量iv
+            let iv = CryptoJS.enc.Utf8.parse(keyStr.substr(2, 18))
+            let encrypted = ''
+            encrypted = CryptoJS.AES.encrypt(data, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.ZeroPadding
+            })
+            // 最后加密得到的字符串
+            return encrypted.toString()
+        },
         closeWindow: function () {
             this.$parent.$store.commit('changePopWindow', null)
         },
@@ -115,10 +132,13 @@ export default {
             }
         },
         confirmRegister: async function () {
+            // 对密码执行一次CBC加密算法
+            let password = this.cbcEncrypt(this.captcha, this.password1)
             let jsonObj = JSON.stringify({
                 'email': this.email,
-                'password': this.password1,
-                'nickname': this.nickname
+                'password': password,
+                'nickname': this.nickname,
+                'captcha': this.captcha
             })
             let fetchHead = {
                 'Content-Type': 'application/json, text/plain, */*',

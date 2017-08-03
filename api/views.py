@@ -14,9 +14,13 @@ from api.models import User
 # password encrypt and decrypt
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
+import api.cbc as CBC
 
 
 def get_captcha(request):
+    '''
+        接受指向'/api/captcha'的GET请求,返回验证码图片的base64编码和对应字符串
+    '''
     f = BytesIO()
     img, code = Captcha.generate_captcha()
     img.save(f,'PNG')
@@ -28,18 +32,25 @@ def get_captcha(request):
 
 @csrf_exempt
 def register(request):
+    '''
+        接受指向'/api/register'的POST请求,在数据库中注册用户,成功的话返回状态码'1'
+    '''
     req = simplejson.load(request)
     email = req['email']
-    password = req['password']
+    # 接受到的password是经过前端CBC加密后的字符串
+    password_ace = req['password']
     nickname = req['nickname']
-    users = User.objects.filter(email=email)
+    captcha = req['captcha']
+    password = CBC.decrypt(captcha, password_ace)
     user = User.objects.create_user(email=email, nickname=nickname, password=password)
     response = JsonResponse({ 'status': '1' })
     return response
 
 @csrf_exempt
 def captcha_email(request):
-    '''获取请求中的email地址,发送邮件,返回状态码(0表示发送失败,1表示发送成功)和验证码答案'''
+    '''
+        获取请求中的email地址,发送邮件,返回状态码('0'表示发送失败/邮箱已被注册,'1'表示发送成功)和验证码答案
+    '''
     req = simplejson.load(request)
     email = req['email']
     users = User.objects.filter(email=email)
@@ -62,35 +73,6 @@ def captcha_email(request):
         })
         return response
 
-def aes(request):
-    # 生成秘钥的字符串,可以用验证码
-    needed_string = 'abcdefg'
-    key_md5 = MD5.new()
-    key_md5.update(b'abcdefg')
-    # 可以用于AES的key
-    keyString = key_md5.hexdigest()
-    print(keyString)
-    ivString = keyString[2:18]
-    print(ivString)
-    # python需要使用'\0'来填充,否则加密得到的结果可能会butong
-    # !shurufa huai le !
-    PADDING = '\0'
-    pad_it = lambda s: s + (16 - len(s) % 16) * PADDING
-    data = '666666'
-
-    # jiamiguocheng
-    generator = AES.new(keyString, AES.MODE_CBC, ivString)
-    crypt = generator.encrypt(pad_it(data))
-    cryptedStr = base64.b64encode(crypt).decode()
-    print(cryptedStr)
-
-    # jiemiguocheng
-    generator = AES.new(keyString, AES.MODE_CBC, ivString)
-    # jiema dao bytes geshi
-    recovery = generator.decrypt(crypt)
-    # !!!zhe shi jie mi hui lai de zi fu chuan
-    recovery_string = recovery.decode().rstrip(PADDING)
-    # recovery = recovery.rstrip(PADDING)
-    print(recovery_string)
-    # print(recovery.rstrip(PADDING)
+def test(request):
+    # 用于测试新的api
     return HttpResponse('hello')
