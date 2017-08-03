@@ -1,0 +1,71 @@
+body,html {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 0;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+}
+.whole-page {
+    margin: 0 auto;
+    width: 1300px;
+    height: 600px;
+    background-color: #FFEC8B;
+}
+.game-area {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position: absolute;
+    left: 30px;
+    width: 650px;
+    height: 600px;
+    padding: 10px;
+    border: solid 1px;
+}
+.tab-plugin {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position: absolute;
+    right: 30px;
+    width: 650px;
+    height: 600px;
+    border: solid 1px;
+}
+.button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height:20px;
+    text-align: center;
+    background: #272822;
+    color: #fff;
+    cursor: pointer;
+}
+.tab-plugin .tab-container {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: 570px;
+    opacity: 1;
+    border: solid 1px;
+}
+.tab-container pre {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+#game-h1 {
+    color: red;
+}
+#game-circle {
+    height: 30px;
+    width: 30px;
+    margin: auto auto;
+    border-radius: 50%;
+    background-color: white;
+    border: solid 1px black;
+}

@@ -1,17 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-# parse json request
 import simplejson
-# generate and send captcha
 from api.captcha import Captcha
 from io import BytesIO
 import base64
-# send email
 from django.core.mail import send_mail
-# create user
 from api.models import User
-# password encrypt and decrypt
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
 import api.cbc as CBC

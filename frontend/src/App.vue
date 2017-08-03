@@ -1,7 +1,9 @@
 <template>
 <div id="app">
-    <button @click="showPopWindow('register-window')">注册</button><br>
-    <component :is="$store.state.popWindow"></component>
+    <button @click="showPopWindow('register-window')">注册</button>
+    <button @click="showPopWindow('login-window')">登录</button>
+    <br>
+    <keep-alive><component :is="$store.state.popWindow" keep-></component></keep-alive>
     <img src="./assets/logo.png">
     <main-page></main-page>
 </div>
@@ -11,6 +13,7 @@
 // 在这个位置引入单文件组件
 import MainPage from './components/MainPage'
 import RegisterWindow from './components/RegisterWindow'
+import LoginWindow from './components/LoginWindow'
 
 // 这个部分定义使用vuex的整个应用层面的数据存储
 import Vue from 'vue'
@@ -51,7 +54,8 @@ export default {
     // 在这里注册单文件组件
     components: {
         MainPage,
-        RegisterWindow
+        RegisterWindow,
+        LoginWindow
     },
     methods: {
         showPopWindow (windowName) {
@@ -69,5 +73,28 @@ export default {
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+}
+
+.hide-background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(100, 100, 100, 0.1);
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+.pop-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 360px;
+    margin: -180px 0 0 -150px;
+    padding: 0 10px;
+    background-color: white;
+    border: 1px solid black;
+    z-index: 4;
 }
 </style>

@@ -15,8 +15,8 @@ def crypt(key_str, data):
     # 可以用于AES的iv
     iv_str = key_str[2:18]
     # python需要使用'\0'来填充,否则加密得到的结果会和js加密结果不同
-    PADDING = '\0'
-    pad_it = lambda s: s + (16 - len(s) % 16) * PADDING
+    padding = '\0'
+    pad_it = lambda s: s + (16 - len(s) % 16) * padding
     generator = AES.new(key_str, AES.MODE_CBC, iv_str)
     crypted_bytes = generator.encrypt(pad_it(data))
     crypted_str = base64.b64encode(crypted_bytes).decode()
@@ -27,10 +27,10 @@ def decrypt(key_str, data):
     key_md5.update(bytes(key_str, 'utf-8'))
     key_str = key_md5.hexdigest()
     iv_str = key_str[2:18]
-    PADDING = '\0'
-    pad_it = lambda s: s + (16 - len(s) % 16) * PADDING
+    padding = '\0'
+    pad_it = lambda s: s + (16 - len(s) % 16) * padding
     generator = AES.new(key_str, AES.MODE_CBC, iv_str)
     data = base64.b64decode(data)
     recovery = generator.decrypt(data)
-    recovery_str = recovery.decode().rstrip(PADDING)
+    recovery_str = recovery.decode().rstrip(padding)
     return recovery_str

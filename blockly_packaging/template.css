@@ -1,0 +1,52 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background-color: #fff;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+#whole-page {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#first-line {
+    width: 100%
+    flex: 1 1;
+}
+#second-line {
+    width: 100%;
+    flex: 9 9;
+    display: flex;
+    background: #fc9;
+    text-align: center;
+}
+#game-area {
+    height: 100%;
+    flex: 1 1;
+}
+#block-and-code-area {
+    height: 100%;
+    flex: 1.5 1.5;
+    display: flex;
+    flex-direction: column;
+}
+#block-area {
+    width: 100%;
+    flex: 2 2;
+}
+#code-area {
+    width: 100%;
+    flex: 1 1;
+}
+#circle {
+    height: 300px;
+    width: 300px;
+    margin: auto auto;;
+    border-radius: 50%;
+    background-color: white;
+    border: solid 1px black;
+}

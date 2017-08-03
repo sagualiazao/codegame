@@ -89,6 +89,7 @@ export default {
         },
         closeWindow: function () {
             this.$parent.$store.commit('changePopWindow', null)
+            this.clearWindow()
         },
         sendEmail: function () {
             if (this.captcha.toLowerCase() !== this.captchaKey) {
@@ -167,6 +168,25 @@ export default {
             let src = await 'data:image/png;base64,' + obj.img
             this.captchaImage = await src
             this.captchaKey = await obj.captcha
+        },
+        clearWindow: function () {
+            this.email = null
+            this.password1 = null
+            this.password2 = null
+            this.nickname = null
+            this.captchaImage = null
+            this.captcha = null
+            this.captchaKey = null
+            this.emailCaptcha = null
+            this.emailCaptchaKey = null
+            this.isEmail = false
+            this.truePassword = false
+            this.suitPassword = false
+            this.accountStatus = 'disabled'
+            this.captchaStatus = 'disabled'
+            this.step1 = true
+            this.step2 = false
+            this.refreshCaptcha()
         }
     },
     computed: {
@@ -223,26 +243,4 @@ export default {
 </script>
 
 <style scope>
-    .hide-background {
-        position: absolute;
-        left: 0;
-        top: 0;
-        background-color: rgba(100, 100, 100, 0.1);
-        width: 100%;
-        height: 100%;
-        z-index: 3;
-    }
-
-    .pop-window {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 300px;
-        height: 360px;
-        margin: -180px 0 0 -150px;
-        padding: 0 10px;
-        background-color: white;
-        border: 1px solid black;
-        z-index: 4;
-    }
 </style>
