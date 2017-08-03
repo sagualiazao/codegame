@@ -30,7 +30,7 @@ exit
 ``` bash
 cd ..
 pip install -r requirements.txt
-./manage.py makemigrationss
+./manage.py makemigrations
 ./manage.py migrate
 ```
 生成前端静态资源并添加软链接
