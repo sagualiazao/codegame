@@ -26,10 +26,11 @@ drop database doublegame
 create database doublegame default character set utf8 collate utf8_unicode_ci;
 exit
 ```
-第二句可能不用
+第三句可能不用
 ``` bash
 cd ..
-./manage.py makemigrationss
+pip install -r requirements.txt
+./manage.py makemigrations
 ./manage.py migrate
 ```
 生成前端静态资源并添加软链接
