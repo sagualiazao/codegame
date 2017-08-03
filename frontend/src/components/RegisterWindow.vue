@@ -2,7 +2,7 @@
 <div class="register-window">
     <div class="pop-window">
         <button class="close-button" @click="closeWindow">关闭</button>
-        <form>
+        <form v-if="step1">
             <p>
                 <label>邮箱</label><br>
                 <input type="text" placeholder="请输入你的邮箱地址" v-model="email"><br>
@@ -12,12 +12,15 @@
                 <input type="password" placeholder="请确认密码" maxlength="16" v-model="password2"><br>
             </p>
             <p>
-                <img class="captcha-image" :src="captchaImage" @click="refreshCaptcha">
-                <input type="text" placeholder="请输入验证码" maxlength="4" v-model="captcha">
+                <img class="captcha-image" :src="captchaImage" @click="refreshCaptcha"><br>
+                <input type="text" placeholder="请输入验证码" maxlength="4" v-model="captcha"><br>
                 <input type="button" value="发送验证邮件" @click="sendEmail" :disabled="accountStatus"><br>
-                <input type="text" placeholder="请输入邮件中的验证码" maxlength="6" v-model="emailCaptcha">
             </p>
             <label>{{ tips }}</label><br>
+        </form>
+        <form v-if="step2">
+            <input type="text" placeholder="请输入邮件中的验证码" maxlength="6" v-model="emailCaptcha"><br><br>
+            <input type="text" placeholder="设定你的昵称" maxlength="16" v-model="nickname"><br><br>
             <input type="button" value="确认注册" @click="commitRegister" :disabled="captchaStatus">
         </form>
     </div>
@@ -34,6 +37,7 @@ export default {
             email: null,
             password1: null,
             password2: null,
+            nickname: null,
             // 验证码
             captchaImage: null,
             captcha: null,
@@ -47,7 +51,10 @@ export default {
             // 用户信息格式正确,可以发送邮件验证码
             accountStatus: 'disabled',
             // 邮件验证码格式正确,可以提交注册
-            captchaStatus: 'disabled'
+            captchaStatus: 'disabled',
+            // 注册步骤
+            step1: true,
+            step2: false
         }
     },
     mounted: async function () {
@@ -92,8 +99,11 @@ export default {
             if (await obj.status === '0') {
                 alert('该邮箱已被使用!')
             } else {
+                // 发送邮件成功,进入下一步
                 this.emailCaptchaKey = await obj.captcha
                 alert('邮件已成功发送' + this.emailCaptchaKey)
+                this.step1 = false
+                this.step2 = true
             }
         },
         commitRegister: function () {
@@ -107,7 +117,8 @@ export default {
         confirmRegister: async function () {
             let jsonObj = JSON.stringify({
                 'email': this.email,
-                'password': this.password1
+                'password': this.password1,
+                'nickname': this.nickname
             })
             let fetchHead = {
                 'Content-Type': 'application/json, text/plain, */*',

@@ -23,8 +23,9 @@ def register(request):
     req = simplejson.load(request)
     email = req['email']
     password = req['password']
+    nickname = req['nickname']
     users = User.objects.filter(email=email)
-    user = User.objects.create_user(email=email, nickname='', password=password)
+    user = User.objects.create_user(email=email, nickname=nickname, password=password)
     response = JsonResponse({ 'status': '1' })
     return response
 

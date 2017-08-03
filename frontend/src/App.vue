@@ -25,7 +25,7 @@ const store = new Vuex.Store({
         loginStatus: false,
         userEmail: null,
         userId: null,
-        userNickName: null,
+        userNickname: null,
         userGameProgress: null,
         userHasPaied: null,
 
