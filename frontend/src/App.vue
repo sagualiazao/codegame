@@ -39,7 +39,7 @@ const store = new Vuex.Store({
         currentView: 'main-page',
         textMainPage: 'mainPage',
         textGame: 'game',
-      //  text
+        //  text
         textMapEditor: 'mapEditor',
         textAccountMessage: 'accountMessage'
     },
