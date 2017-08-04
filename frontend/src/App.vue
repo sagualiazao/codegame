@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <div id="navbar">
-        <menu-bar :currentView="currentView"></menu-bar>
+        <menu-bar1 :currentView="currentView"></menu-bar1>
     </div>
     <component :is="$store.state.currentView"></component>
     {{ $store.state.currentView }}
@@ -12,7 +12,7 @@
 <script>
 // 在这个位置引入单文件组件
 import MainPage from './components/MainPage'
-import MenuBar from './components/MenuBar'
+import MenuBar1 from './components/MenuBar1'
 import Game from './components/Game'
 import EditMap from './components/EditMap'
 import MapSquare from './components/MapSquare'
@@ -69,7 +69,7 @@ export default {
     // 在这里注册单文件组件
     components: {
         MainPage,
-        MenuBar,
+        MenuBar1,
         Game,
         EditMap,
         MapSquare,

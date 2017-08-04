@@ -49,6 +49,7 @@ export default {
 
 <style scoped>
 #index4 {
-    margin-left: 1150px;
+   margin-left: 1150px;
 }
+
 </style>
