@@ -1,16 +1,14 @@
 <template>
 <div>
-    
     <div class="main-page">
-        <div id="button1">
+        <div id="button-container">
             <button id="start-game">开始游戏</button>
         </div>
     </div>
     <div id="intro">
-        <p id="tag1">让孩子在游戏中走进编程世界，没有压力，开启头脑风暴</p>
+        <p id="game-wordintro">让孩子在游戏中走进编程世界，没有压力，开启头脑风暴</p>
         <div id="pic-intro">
             <div id="intro1">
-                <img source="../assets/logo.png"/>
                 <p>description1</p>
             </div>
             <div id="intro2">
@@ -73,11 +71,11 @@ h1 {
     background-color: #8FBC8F;
     font-size: 1.7em;
 }
-#button1 {
+#button-container {
     padding-top: 400px;
 }
 
-#tag1 {
+#game-wordintro {
     color: #00CED1;
     font-size: 1.5em;
     padding-top: 50px;
