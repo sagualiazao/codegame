@@ -1,5 +1,6 @@
 <template>
 <div>
+    
     <div class="main-page">
         <div id="button1">
             <button id="start-game">开始游戏</button>
