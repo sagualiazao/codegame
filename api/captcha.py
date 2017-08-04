@@ -7,13 +7,16 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 class Captcha:
     '''
-        generate_captcha() 生成验证码图片和对应的字符串
+        generate_captcha() 生成验证码图片和对应的字符串\n
         string_captcha() 生成验证码字符串
     '''
     # 删除了易混淆的'O'(大写字母)
     chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789'
 
     def string_captcha():
+        '''
+            @return 一个长度为6的验证码字符串
+        '''
         return random.sample(Captcha.chars, 6)
 
     def generate_captcha(width=120, height=50,
@@ -21,6 +24,10 @@ class Captcha:
         font_size=18, length=4,
         draw_lines=True, n_line=(1, 2),
         draw_points=True, point_chance=2):
+        '''
+            生成一个四位随机字符的图片验证码\n
+            @return :img:验证码的图片, :str: 验证码的字符串
+        '''
 
         # 初始化
         BASE_DIR = os.path.dirname(__file__)
