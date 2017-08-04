@@ -148,9 +148,50 @@ def reset_password(request):
             password = CBC.decrypt(captcha, password_ace)
             user = users[0]
             user.set_password(password)
+            user.save()
             response = JsonResponse({ 'status': '1'})
             return response
 
+@csrf_exempt
+def login(request):
+    '''
+        接受一个POST请求:request\n
+        包含'email', 'captcha'和加密后的'password'\n
+        接受请求中的email和password,检验是否匹配\n
+        如果匹配(登录成功),返回status='1',否则返回'0'
+    '''
+    if request.method == 'GET':
+        return HttpResponse(
+            'This request is designed to login your account, but you should send a POST request!'
+            )
+    elif request.method == 'POST':
+        req = simplejson.load(request)
+        email = req['email']
+        users = User.objects.filter(email=email)
+        if len(users) == 0:
+            response = JsonResponse({ 'status': '0'})
+            return response
+        else:
+            password_ace = req['password']
+            captcha = req['captcha']
+            password = CBC.decrypt(captcha, password_ace)
+            user = users[0]
+            login_status = user.check_password(password)
+            if login_status:
+                
+                return JsonResponse({
+                    'status': '1',
+                    'email': user.email,
+                    'nickname': user.nickname,
+                    'id': user.id,
+                    'gameProgress': user.game_progress,
+                    'hasPaied': user.has_paied
+                    })
+            else:
+                return JsonResponse({ 'status': '0'})
+
+
+@csrf_exempt
 def test(request):
     # 用于测试新的api
     return HttpResponse('hello')

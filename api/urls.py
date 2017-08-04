@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^api/captcha$', views.get_captcha),
     url(r'^api/reset-password-mail$', views.reset_password_email),
     url(r'^api/reset-password$', views.reset_password),
-    url(r'^api/register$', views.register)
+    url(r'^api/register$', views.register),
+    url(r'^api/login$', views.login)
 ]

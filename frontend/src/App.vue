@@ -6,6 +6,9 @@
     <keep-alive><component :is="$store.state.popWindow" keep-></component></keep-alive>
     <img src="./assets/logo.png">
     <main-page></main-page>
+    <p>
+        userEmail: {{ $store.state.userEmail }}
+    </p>
 </div>
 </template>
 
@@ -42,6 +45,13 @@ const store = new Vuex.Store({
         // 之后可以有多个参数
         changePopWindow: function (state, windowName) {
             state.popWindow = windowName
+        },
+        changeLoginStatus: function (state, email, id, nickname, gameProgress, hasPaied) {
+            state.userEmail = email
+            state.userId = id
+            state.userNickname = nickname
+            state.userGameProgress = gameProgress
+            state.userHasPaied = hasPaied
         }
     },
     // 异步逻辑方法,提交mutation

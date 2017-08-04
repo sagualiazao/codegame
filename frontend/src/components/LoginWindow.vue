@@ -9,7 +9,7 @@
                 <label>密码</label><br>
                 <input type="password" placeholder="请输入密码" maxlength="16" v-model="password"><br>
             </p>
-                <input type="button" value="登录">
+                <input type="button" value="登录" @click="login">
                 <input type="button" value="忘记密码" @click="resetPassword">
         </form>
         <form v-if="forgetPasswordWindow">
@@ -160,6 +160,41 @@ export default {
                 this.closeWindow()
             } else {
                 alert('密码重置失败!')
+            }
+        },
+        login: async function () {
+            let captcha = parseInt(Math.random() * 9000, 10) + 1000
+            captcha = captcha.toString()
+            let password = this.cbcEncrypt(captcha, this.password)
+            let jsonObj = JSON.stringify({
+                'email': this.email,
+                'password': password,
+                'captcha': captcha
+            })
+            let fetchHead = {
+                'Content-Type': 'application/json, text/plain, */*',
+                'Accept': 'application/json'
+            }
+            let response = await fetch('api/login', {
+                method: 'post',
+                mode: 'cors',
+                headers: fetchHead,
+                body: jsonObj
+            })
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                alert('登录成功')
+                this.$parent.$store.commit(
+                    'changeLoginStatus',
+                    obj.email,
+                    obj.id,
+                    obj.nickname,
+                    obj.gameProgress,
+                    obj.hasPaied
+                )
+                this.closeWindow()
+            } else {
+                alert('邮箱或密码错误')
             }
         }
     }
