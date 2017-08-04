@@ -1,5 +1,5 @@
 '''
-    给出一种AES加密和解密方法
+    给出一种CBC加密和解密方法
 '''
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
@@ -7,6 +7,11 @@ import base64
 
 
 def crypt(key_str, data):
+    '''
+        使用key_str作为密钥,对data进行加密\n
+        需要key_str是字符串类型\n
+        @return :crypted_str: 加密后的数据的base64编码
+    '''
     # 生成秘钥的字符串,可以用验证码
     key_md5 = MD5.new()
     key_md5.update(bytes(key_str, 'utf-8'))
@@ -23,6 +28,11 @@ def crypt(key_str, data):
     return crypted_str
 
 def decrypt(key_str, data):
+    '''
+        使用key_str作为密钥,对data进行解密\n
+        需要key_str是字符串类型,data是加密后的base64字符串\n
+        @return :recovery_str: 解密后的字符串
+    '''
     key_md5 = MD5.new()
     key_md5.update(bytes(key_str, 'utf-8'))
     key_str = key_md5.hexdigest()
