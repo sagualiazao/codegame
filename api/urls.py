@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^api/test$', views.test),
     url(r'^api/captcha-email$', views.captcha_email),
     url(r'^api/captcha$', views.get_captcha),
-    url(r'^api/reset-password-mail$', views.reset_password_email),
+    url(r'^api/reset-password-email$', views.reset_password_email),
     url(r'^api/reset-password$', views.reset_password),
     url(r'^api/register$', views.register),
     url(r'^api/login$', views.login)

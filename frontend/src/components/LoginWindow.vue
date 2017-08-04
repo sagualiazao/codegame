@@ -100,7 +100,7 @@ export default {
                 'Content-Type': 'application/json, text/plain, */*',
                 'Accept': 'application/json'
             }
-            let response = await fetch('api/reset-password-mail', {
+            let response = await fetch('api/reset-password-email', {
                 method: 'post',
                 mode: 'cors',
                 headers: fetchHead,
