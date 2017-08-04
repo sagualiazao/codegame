@@ -6,7 +6,10 @@
         <el-dialog title="我的地图" :visible.sync="Map_Window" size="large" :before-close="handleClose">
             <img alt="map-button" src="http://a3.qpic.cn/psb?/e877fef8-e58f-4c54-ae3c-7db93e2180fa/AtjLS5ZgmW*h4CKPttRXQSDVd3tGt9rXYQjKI8v2RUE!/m/dHIAAAAAAAAAnull&bo=JAIMAwAAAAADBws!&rf=photolist&t=5" />
         </el-dialog>
-        <el-menu-item index="register">注册</el-menu-item>
+        <el-menu-item index="register" @click="Signup_dialog = true">注册</el-menu-item>
+        <el-dialog title="注册" :visible.sync="Signup_dialog" size="tiny" :before-close="handleClose">
+            <signup-form></signup-form>
+        </el-dialog>
         <el-menu-item index="login" @click="Signin_dialog = true">登录</el-menu-item>
         <el-dialog title="登陆" :visible.sync="Signin_dialog" size="tiny" :before-close="handleClose">
             <signin-form></signin-form>
@@ -24,10 +27,12 @@
 <script>
 import store from '../main.js'
 import SigninForm from './SigninForm'
+import SignupForm from './SignupForm'
 export default {
     name: 'menu-bar1',
     components: {
-        SigninForm
+        SigninForm,
+        SignupForm
     },
     props: {
         'currentView': String
