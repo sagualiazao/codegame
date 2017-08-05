@@ -15,6 +15,8 @@ import Game from './components/Game'
 import EditMap from './components/EditMap'
 import MapSquare from './components/MapSquare'
 import UserInfo from './components/UserInfo'
+import SelectLevel from './components/SelectLevel'
+
 // 这个部分定义使用vuex的整个应用层面的数据存储
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -24,6 +26,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     // 驱动应用的数据源,整个应用层面上的共享数据
     state: {
+
         message: '这是一条整个应用上的信息',
         // 账户登录状态
         loginStatus: false,
@@ -31,8 +34,9 @@ const store = new Vuex.Store({
         userId: null,
         userNickName: null,
         userGameLevel: null,
+
         // 界面切换信息
-        currentView: 'main-page',
+        currentView: 'select-level',
         textMainPage: 'mainPage',
         textGame: 'game',
         //  text
@@ -67,7 +71,8 @@ export default {
         Game,
         EditMap,
         MapSquare,
-        UserInfo
+        UserInfo,
+        SelectLevel
     },
     methods: {
         testClick () {
