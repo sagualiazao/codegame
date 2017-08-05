@@ -140,5 +140,5 @@ function () 在'function'和'()'中间要有空格
 
 # python和js的不同的包名规则
 python中目录结构使用'.',类似java  
-JS中目录结构使用'/'
+JS中目录结构使用'/'  
 

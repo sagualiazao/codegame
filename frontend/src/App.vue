@@ -4,7 +4,6 @@
         <menu-bar1 :currentView="currentView"></menu-bar1>
     </div>
     <component :is="$store.state.currentView"></component>
-    <game-canval></game-canval>
 </div>
 </template>
 
@@ -17,7 +16,6 @@ import EditMap from './components/EditMap'
 import MapSquare from './components/MapSquare'
 import UserInfo from './components/UserInfo'
 // 这个部分定义使用vuex的整个应用层面的数据存储
-import GameCanval from './components/GameCanval'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -69,8 +67,7 @@ export default {
         Game,
         EditMap,
         MapSquare,
-        UserInfo,
-        GameCanval
+        UserInfo
     },
     methods: {
         testClick () {
