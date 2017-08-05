@@ -1,7 +1,27 @@
 # 小组成员
 
 > Group SaGuaLiaZao 仨瓜俩枣小组
-> 盛晓颖,左婧,肖飞,禚晨晨
+> 盛晓颖,左婧,肖飞,禚晨晨,樊文杰
+
+# 把项目部署到vagrant虚拟机:
+``` bash
+git clone http://se.jisuanke.com/code-game/Group1.git
+mysql -uroot -pvagrant
+create database doublegame default character set utf8 collate utf8_unicode_ci;
+exit
+source ~/venv/bin/activate
+cd Group1
+sudo pip install -r requirements.txt
+./manage.py migrate
+cd frontend
+sudo npm install
+sudp npm run build
+cd ../api
+ln -s ../frontend/dist templates
+ln -s ../frontend/dist/static static
+./manage.py runserver 0:8000
+```
+之后可以在浏览器的192.168.55.33:8000访问  
 
 # 从头开始这个项目
 
@@ -30,7 +50,7 @@ exit
 ``` bash
 cd ..
 pip install -r requirements.txt
-./manage.py makemigrationss
+./manage.py makemigrations
 ./manage.py migrate
 ```
 生成前端静态资源并添加软链接
@@ -45,7 +65,7 @@ ln -s ../frontend/dist/static static
 现在在Group1/执行./manage.py runserver应该可以正常运行了
 
 
-## 提交更改
+# 提交更改
 
 ``` bash
 # 添加修改到提交列表
@@ -120,5 +140,5 @@ function () 在'function'和'()'中间要有空格
 
 # python和js的不同的包名规则
 python中目录结构使用'.',类似java  
-JS中目录结构使用'/'
+JS中目录结构使用'/'  
 

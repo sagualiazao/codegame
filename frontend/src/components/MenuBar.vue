@@ -51,4 +51,5 @@ export default {
 #index4 {
     margin-left: 1000px;
 }
+
 </style>
