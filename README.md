@@ -1,7 +1,27 @@
 # 小组成员
 
 > Group SaGuaLiaZao 仨瓜俩枣小组
-> 盛晓颖,左婧,肖飞,禚晨晨
+> 盛晓颖,左婧,肖飞,禚晨晨,樊文杰
+
+# 把项目部署到vagrant虚拟机:
+``` bash
+git clone http://se.jisuanke.com/code-game/Group1.git
+mysql -uroot -pvagrant
+create database doublegame default character set utf8 collate utf8_unicode_ci;
+exit
+source ~/venv/bin/activate
+cd Group1
+sudo pip install -r requirements.txt
+./manage.py migrate
+cd frontend
+sudo npm install
+sudp npm run build
+cd ../api
+ln -s ../frontend/dist templates
+ln -s ../frontend/dist/static static
+./manage.py runserver 0:8000
+```
+之后可以在浏览器的192.168.55.33:8000访问  
 
 # 从头开始这个项目
 
@@ -26,10 +46,11 @@ drop database doublegame
 create database doublegame default character set utf8 collate utf8_unicode_ci;
 exit
 ```
-第二句可能不用
+第三句可能不用
 ``` bash
 cd ..
-./manage.py makemigrationss
+pip install -r requirements.txt
+./manage.py makemigrations
 ./manage.py migrate
 ```
 生成前端静态资源并添加软链接
@@ -44,7 +65,7 @@ ln -s ../frontend/dist/static static
 现在在Group1/执行./manage.py runserver应该可以正常运行了
 
 
-## 提交更改
+# 提交更改
 
 ``` bash
 # 添加修改到提交列表
@@ -63,11 +84,16 @@ git push origin 分支名字
 # 安装新插件
 如果使用pip安装新的插件，  
 安装完之后在项目文件夹（doublegame）中执行  
+``` bash
   pip freeze > requirements.txt  
+```
 把你安装的插件写入到requirements.txt这个清单中  
 
 如果使用npm安装新的插件,  
-在安装的时候记得使用 npm install --save 插件名  
+在安装的时候记得使用  
+``` bash
+npm install --save 插件名  
+```
 把你安装的插件写入到package.json这个清单中
 
 
