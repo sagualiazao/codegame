@@ -130,14 +130,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # 电子邮件配置
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # 主机
-EMAIL_HOST = 'smtp.sohu.com'
+EMAIL_HOST = 'smtp.aliyun.com'
 # 端口
 EMAIL_PORT = 25
 # 验证邮箱
-EMAIL_HOST_USER = 'sagua_liazao@sohu.com'
+EMAIL_HOST_USER = 'sagualiazao@aliyun.com'
 # 密码
-EMAIL_HOST_PASSWORD = 'sagualiazao'
+EMAIL_HOST_PASSWORD = 'sagua_liazao'
 # 是否使用https
-EMAIL_USE_TLS = True
+# EMAIL_USE_TLS = True
 # 发件人
 EMAIL_FROM = "仨瓜俩枣小组"

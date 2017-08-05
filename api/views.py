@@ -62,7 +62,7 @@ def captcha_email(request):
         @param :request:指向'/api/captcha-email'的POST请求\n
         获取请求中的email地址,发送邮件
         @return :JsonResponse:\n
-        :status: 表示发送失败/邮箱已被注册'0',发送成功'1'\n
+        :status: 表示邮箱已被注册'0',发送成功'1',发送失败'2'\n
         :captcha:验证码答案
     '''
     if request.method == 'POST':
@@ -78,12 +78,12 @@ def captcha_email(request):
                 mail_status = send_mail(
                     r'[验证码]仨瓜俩枣小组的编程游戏-新用户注册',
                     msg,
-                    'sagua_liazao@sohu.com',
+                    'sagualiazao@aliyun.com',
                     [email],
                     fail_silently=False
                     )
             except BaseException:
-                return JsonResponse({ 'status': '0' })
+                return JsonResponse({ 'status': '2' })
             else:
                 return JsonResponse({
                     'status': '%s'%mail_status,
@@ -98,7 +98,7 @@ def reset_password_email(request):
        @param :request:指向'/api/reset-password-email'的POST请求\n
        获取请求中的email地址,发送邮件\n
        @return JsonResponse\n
-       :status: '0'表示邮箱未被注册,'1'表示发送成功\n
+       :status: '0'表示邮箱未被注册,'1'表示发送成功,发送失败'2'\n
        :captcha: 验证码答案
     '''
     if request.method == 'POST':
@@ -115,12 +115,12 @@ def reset_password_email(request):
                 mail_status = send_mail(
                     r'[验证码]仨瓜俩枣小组的编程游戏-密码重置',
                     msg,
-                    'sagua_liazao@sohu.com',
+                    'sagualiazao@aliyun.com',
                     [email],
                     fail_silently=False
                     )
             except BaseException:
-                return JsonResponse({ 'status': '0' })
+                return JsonResponse({ 'status': '2' })
             else:
                 response = JsonResponse({
                     'status': '%s'%mail_status,
