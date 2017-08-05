@@ -2,7 +2,7 @@
 <div class="menu-bar">
     <div class="menu-bar1">
         <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="main-page">首页</el-menu-item>
+            <el-menu-item index="game">开始游戏</el-menu-item>
             <el-submenu index="2">
                 <template slot="title">我的地图</template>
                 <el-menu-item index="edit-map">制作地图</el-menu-item>
@@ -49,6 +49,6 @@ export default {
 
 <style scoped>
 #index4 {
-    margin-left: 1150px;
+    margin-left: 1000px;
 }
 </style>
