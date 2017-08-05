@@ -37,6 +37,7 @@
                     <img src="../assets/pc16.jpg">
                     <img src="../assets/pc17.jpg">
                     <img src="../assets/pc18.jpg">
+                    <button type="publish-map" @click="publishClick">发布地图</button>
                 </div>
             </el-tab-pane>
         </el-tabs>
@@ -71,6 +72,8 @@ export default {
         },
         saveClick () {
             // 这里保存地图
+        },
+        publishClick () {
         }
     }
 

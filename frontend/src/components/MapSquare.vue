@@ -14,6 +14,8 @@
             <img src="../assets/pc10.jpg">
             <img src="../assets/pc11.jpg">
             <img src="../assets/pc12.jpg">
+            <br>
+            <button type="playMap" @click="playClick">试玩</button>
             <h1>这是地图广场</h1>
         </el-tab-pane>
         <el-tab-pane label="我发布的地图" name="second">
@@ -45,6 +47,8 @@ export default {
     methods: {
         handleClick (tab, event) {
             console.log(tab, event)
+        },
+        playClick () {
         }
     }
 }
@@ -59,5 +63,32 @@ img {
     width: 300px;
     height: 200px;
 }
+button {
+    display: inline-block;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: white;
+    background-color: #8FBC8F;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 5px 5px  5px #333;
+
+}
+button:hover {
+    background-color: #D19275;
+}
+
+button:active {
+    background-color: #D19275;
+    box-shadow: 3px 5px #333;
+    transform: translateY(4px);
+}
+
 
 </style>
