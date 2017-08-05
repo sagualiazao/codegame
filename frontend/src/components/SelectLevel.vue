@@ -77,4 +77,8 @@ h1 {
 #lop {
     width: 200px;
 }
+#level1 {
+    font-size: 1.5em;
+    color: pink;
+}
 </style>

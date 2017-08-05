@@ -36,7 +36,7 @@ const store = new Vuex.Store({
         userGameLevel: null,
 
         // 界面切换信息
-        currentView: 'select-level',
+        currentView: 'main-page',
         textMainPage: 'mainPage',
         textGame: 'game',
         //  text
