@@ -52,17 +52,31 @@ export default {
                 alert(e)
             }
             let code3 = code2.split('#')
+            var cc = createjs.Tween.get(this.player)
             for (var i = 0; i < code3.length-1; i++) {
                 let code = code3[i]+";"
                 try {
                     eval(code)
                     this.move()
+                    cc.to({x: this.playerx, y: this.playery}, 3000)
+                    this.player.x = this.playerx
+                    this.player.y = this.playery
                 }catch (e) {
                     alert(e)
                 }
             }
+            cc.call(this.init)
         },
         init () {
+            this.map_width = 10
+            this.map_height = 10
+            this.mapx = 0
+            this.mapy = 0
+            this.playerx = 0
+            this.playery = 0
+            this.direct = 1
+            this.length = 0
+            this.divx = 36
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.pic = new createjs.Bitmap('../../static/black.png')
@@ -70,115 +84,91 @@ export default {
             this.pic.y = this.mapy
             this.stage.addChild(this.pic)
             this.maps = new Array(this.map_width)
-            for (var i = 0; i < this.map_width; i++) {
+            var i
+            var j
+            for (i = 0; i < this.map_width; i++) {
                 this.maps[i] = new Array(this.map_height)
             }
-            for (var i = 0; i < this.map_width; i++) {
-                for (var j = 0; j < this.map_height; j++) {
+            for (i = 0; i < this.map_width; i++) {
+                for (j = 0; j < this.map_height; j++) {
                     this.maps[i][j] = j % 2
                 }
             }
-            for (var j = 0; j < this.map_width; j++) {
+            for (j = 0; j < this.map_width; j++) {
                 this.maps[5][j] = 0
             }
-            for (var i = 0; i < this.map_width; i++) {
-                for (var j = 0; j < this.map_height; j++) {
-                    if (this.maps[i][j] == 1) {
+            for (i = 0; i < this.map_width; i++) {
+                for (j = 0; j < this.map_height; j++) {
+                    if (this.maps[i][j] === 1) {
                         var stone = new createjs.Bitmap('../../static/stone.png')
-                        stone.x = Math.floor(this.mapx +  this.divx * i)
-                        stone.y = Math.floor(this.mapy +  this.divx * j)
+                        stone.x = Math.floor(this.mapx + this.divx * i)
+                        stone.y = Math.floor(this.mapy + this.divx * j)
                         this.stage.addChild(stone)
                     }
                 }
             }
-            var spritesheet =new createjs.SpriteSheet({
-                'images':['http://cdn.gbtags.com/gblibraryassets/libid108/charactor.png'],
-                'frames':{'height':96,'count': 10, 'width':75},
-                'animations':{ run:[0,9]}
+            var spritesheet = new createjs.SpriteSheet({
+                'images': ['http://cdn.gbtags.com/gblibraryassets/libid108/charactor.png'],
+                'frames': {'height': 96, 'count': 10, 'width': 75},
+                'animations': {run: [0, 9]}
             })
-            this.player =new createjs.Sprite(spritesheet)
-            this.player.x=this.playerx
-            this.player.y=this.playery
+            this.player = new createjs.Sprite(spritesheet)
+            this.player.x = this.playerx
+            this.player.y = this.playery
             this.player.play()
             this.stage.addChild(this.player)
+            createjs.Ticker.addEventListener('tick', this.stage)
         },
-        move() {
+        move () {
+            var i
+            var x
+            var y
             switch (this.direct) {
-                case 1:
-                for (var i = 0; i <  this.length; i++) {
-                    var x = Math.floor((this.playerx +  this.divx - this.mapx) /  this.divx)
-                    var y = Math.floor((this.playery - this.mapy) /  this.divx)
-                    if (x > this.map_width || x < 0 ||this.maps[x][y] == 1) {
-                        alert(111)
+            case 1:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx + this.divx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery - this.mapy) / this.divx)
+                    if (x > this.map_width || x < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
-                        this.playerx = this.playerx +  this.divx
+                        this.playerx = this.playerx + this.divx
                     }
                 }
                 break
-                case 2:
-                for (var i = 0; i <  this.length; i++) {
-                    var x = Math.floor((this.playerx -  this.divx - this.mapx ) /  this.divx)
-                    var y = Math.floor((this.playery - this.mapy) /  this.divx)
-                    if (x > this.map_width || x < 0 ||this.maps[x][y] == 1) {
-                        alert(222)
-
+            case 2:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - this.divx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery - this.mapy) / this.divx)
+                    if (x > this.map_width || x < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
-                        this.playerx = this.playerx -  this.divx
+                        this.playerx = this.playerx - this.divx
                     }
                 }
                 break
-                case 3:
-                for (var i = 0; i <  this.length; i++) {
-                    var x = Math.floor((this.playerx -this.mapx) /  this.divx)
-                    var y = Math.floor((this.playery +  this.divx - this.mapy) /  this.divx)
-                    alert(x)
-                    alert(y)
-                    alert(this.maps[x][y])
-                    if (y > this.map_height || y < 0 ||this.maps[x][y] == 1) {
-                        alert(333)
+            case 3:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery + this.divx - this.mapy) / this.divx)
+                    if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
-                        this.playery = this.playery +  this.divx
+                        this.playery = this.playery + this.divx
                     }
                 }
                 break
-                case 4:
-                for (var i = 0; i <  this.length; i++) {
-                    var x = Math.floor((this.playerx - mapx) /  this.divx)
-                    var y = Math.floor((this.playery -  this.divx - mapy) /  this.divx)
-                    if (y > this.map_height || y < 0 ||this.maps[x][y] == 1) {
-                        alert(444)
-
+            case 4:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - mapx) / this.divx)
+                    y = Math.floor((this.playery - this.divx - mapy) / this.divx)
+                    if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
-                        this.playery = this.playery -  this.divx
+                        this.playery = this.playery - this.divx
                     }
                 }
                 break
             }
-        },
-        handleTicker () {
-            switch (this.direct) {
-                case 1:
-                if(this.player.x < this.playerx)
-                    this.player.x+=1
-                break
-                case 2:
-                if(this.player.x > this.playerx)
-                    this.player.x-=1
-                break
-                case 3:
-                if(this.player.y < this.playery)
-                    this.player.y+=1
-                break
-                case 4:
-                if(this.player.y > this.playery)
-                    this.player.y+=1
-                break
-            }
-            this.stage.update()
         }
     },
     mounted: function () {
@@ -189,7 +179,7 @@ export default {
         this.jsEditor.setHighlightActiveLine(true)
         this.jsEditor.resize()
         this.init()
-        createjs.Ticker.addEventListener('tick', this.handleTicker)
+        createjs.Ticker.addEventListener('tick', this.stage)
     }
 }
 </script>
