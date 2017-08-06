@@ -1,19 +1,17 @@
 <template>
 <div class="editor-base">
     <div class="game-area">
-        game area
-        <h1 id="game-h1">hello</h1>
-        <div id="game-circle"></div>
+        <canvas id="game-canval" height="360" width="360"></canvas>
     </div>
     <div class="tab-plugin">
-        <a class="block-tab tab" @click="blockClick('block-base')" id="block-tab">Block</a>
-        <a class="editor-tab tab" id="editor-tab">Editor</a>
         <div class="tab-container">
             <pre id='js-editor' style="font-size: 25px;">
             </pre>
         </div>
+        <a class="block-tab tab" @click="blockClick('block-base')" id="block-tab">Block</a>
+        <a class="editor-tab tab" id="editor-tab">Editor</a>
         <button class="clean-button">Clean</button>
-        <button class="run-button" onclick="tinyEditorRun()">Run</button>
+        <button class="run-button" @click="tinyEditorRun()">Run</button>
     </div>
 </div>
 </template>
@@ -23,7 +21,20 @@ export default {
     name: 'editor-base',
     data: function () {
         return {
-            jsEditor: null
+            jsEditor: null,
+            pic: null,
+            maps: null,
+            player: null,
+            stage: null,
+            map_width: 10,
+            map_height: 10,
+            mapx: 0,
+            mapy: 0,
+            playerx: 0,
+            playery: 0,
+            direct: 1,
+            length: 0,
+            divx: 36
         }
     },
     methods: {
@@ -33,16 +44,152 @@ export default {
             this.$parent.$store.commit('changeView', index)
         },
         tinyEditorRun() {
-            var js = this.jsEditor.getValue()
+            let code1 = this.jsEditor.getValue()
+            let code2 = ''
             try {
-                eval(js)
+                code2 = eval('(' + code1 + ')')
             }catch (e) {
                 alert(e)
             }
+            let code3 = code2.split('#')
+            for (var i = 0; i < code3.length-1; i++) {
+                let code = code3[i]+";"
+                try {
+                    eval(code)
+                    this.move()
+                }catch (e) {
+                    alert(e)
+                }
+            }
+        },
+        init () {
+            var canvas = document.getElementById('game-canval')
+            this.stage = new createjs.Stage(canvas)
+            this.pic = new createjs.Bitmap('../../static/black.png')
+            this.pic.x = this.mapx
+            this.pic.y = this.mapy
+            this.stage.addChild(this.pic)
+            this.maps = new Array(this.map_width)
+            for (var i = 0; i < this.map_width; i++) {
+                this.maps[i] = new Array(this.map_height)
+            }
+            for (var i = 0; i < this.map_width; i++) {
+                for (var j = 0; j < this.map_height; j++) {
+                    this.maps[i][j] = j % 2
+                }
+            }
+            for (var j = 0; j < this.map_width; j++) {
+                this.maps[5][j] = 0
+            }
+            for (var i = 0; i < this.map_width; i++) {
+                for (var j = 0; j < this.map_height; j++) {
+                    if (this.maps[i][j] == 1) {
+                        var stone = new createjs.Bitmap('../../static/stone.png')
+                        stone.x = Math.floor(this.mapx +  this.divx * i)
+                        stone.y = Math.floor(this.mapy +  this.divx * j)
+                        this.stage.addChild(stone)
+                    }
+                }
+            }
+            var spritesheet =new createjs.SpriteSheet({
+                'images':['http://cdn.gbtags.com/gblibraryassets/libid108/charactor.png'],
+                'frames':{'height':96,'count': 10, 'width':75},
+                'animations':{ run:[0,9]}
+            })
+            this.player =new createjs.Sprite(spritesheet)
+            this.player.x=this.playerx
+            this.player.y=this.playery
+            this.player.play()
+            this.stage.addChild(this.player)
+        },
+        move() {
+            switch (this.direct) {
+                case 1:
+                for (var i = 0; i <  this.length; i++) {
+                    var x = Math.floor((this.playerx +  this.divx - this.mapx) /  this.divx)
+                    var y = Math.floor((this.playery - this.mapy) /  this.divx)
+                    if (x > this.map_width || x < 0 ||this.maps[x][y] == 1) {
+                        alert(111)
+                        break
+                    } else {
+                        this.playerx = this.playerx +  this.divx
+                    }
+                }
+                break
+                case 2:
+                for (var i = 0; i <  this.length; i++) {
+                    var x = Math.floor((this.playerx -  this.divx - this.mapx ) /  this.divx)
+                    var y = Math.floor((this.playery - this.mapy) /  this.divx)
+                    if (x > this.map_width || x < 0 ||this.maps[x][y] == 1) {
+                        alert(222)
+
+                        break
+                    } else {
+                        this.playerx = this.playerx -  this.divx
+                    }
+                }
+                break
+                case 3:
+                for (var i = 0; i <  this.length; i++) {
+                    var x = Math.floor((this.playerx -this.mapx) /  this.divx)
+                    var y = Math.floor((this.playery +  this.divx - this.mapy) /  this.divx)
+                    alert(x)
+                    alert(y)
+                    alert(this.maps[x][y])
+                    if (y > this.map_height || y < 0 ||this.maps[x][y] == 1) {
+                        alert(333)
+                        break
+                    } else {
+                        this.playery = this.playery +  this.divx
+                    }
+                }
+                break
+                case 4:
+                for (var i = 0; i <  this.length; i++) {
+                    var x = Math.floor((this.playerx - mapx) /  this.divx)
+                    var y = Math.floor((this.playery -  this.divx - mapy) /  this.divx)
+                    if (y > this.map_height || y < 0 ||this.maps[x][y] == 1) {
+                        alert(444)
+
+                        break
+                    } else {
+                        this.playery = this.playery -  this.divx
+                    }
+                }
+                break
+            }
+        },
+        handleTicker () {
+            switch (this.direct) {
+                case 1:
+                if(this.player.x < this.playerx)
+                    this.player.x+=1
+                break
+                case 2:
+                if(this.player.x > this.playerx)
+                    this.player.x-=1
+                break
+                case 3:
+                if(this.player.y < this.playery)
+                    this.player.y+=1
+                break
+                case 4:
+                if(this.player.y > this.playery)
+                    this.player.y+=1
+                break
+            }
+            this.stage.update()
         }
     },
     mounted: function () {
         this.jsEditor = ace.edit('js-editor')
+        this.jsEditor.setTheme('ace/theme/twilight')
+        this.jsEditor.getSession().setMode('ace/mode/javascript')
+        // this.jsEditor.setValue('changeHelloWords(\'hello 仨瓜俩枣\')')
+        this.jsEditor.setHighlightActiveLine(true)
+        this.jsEditor.resize()
+        this.init()
+        createjs.Ticker.addEventListener('tick', this.handleTicker)
     }
 }
 </script>
@@ -75,27 +222,22 @@ export default {
     right: 30px;
     width: 650px;
     height: 600px;
-    border: solid 1px;
 }
 .tab-plugin .tab-container {
     position: absolute;
-    top: 30px;
+    top: 10px;
     left: 0;
     width: 100%;
     height: 540px;
     opacity: 1;
-    border: solid 1px;
-    background-color: #D1EEEE;
 }
 .tab-container pre {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 10px;
+    left: 10px;
     width: 100%;
     height: 525px;
     opacity: 1;
-    background-color: #D1EEEE;
-
 }
 .tab {
     position: absolute;
@@ -109,11 +251,11 @@ export default {
     border: solid 1px;
 }
 .block-tab {
-    left: 0;
+    left: 10px;
     background: #D1EEEE;
 }
 .editor-tab {
-    left: 60px;
+    left: 70px;
     background: #FFEC8B;
 }
 .run-button {

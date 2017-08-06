@@ -126,3 +126,6 @@ yarn.lock
 
 #google-blockly
 /frontend/static/google-blockly
+
+#ace-build
+/frontend/static/ace-builds
