@@ -16,6 +16,8 @@ import EditMap from './components/EditMap'
 import MapSquare from './components/MapSquare'
 import UserInfo from './components/UserInfo'
 import SelectLevel from './components/SelectLevel'
+import BlockBase from './components/BlockBase.vue'
+import EditorBase from './components/EditorBase.vue'
 
 // 这个部分定义使用vuex的整个应用层面的数据存储
 import Vue from 'vue'
@@ -71,7 +73,9 @@ export default {
         EditMap,
         MapSquare,
         UserInfo,
-        SelectLevel
+        SelectLevel,
+        BlockBase,
+        EditorBase
     },
     methods: {
         testClick () {

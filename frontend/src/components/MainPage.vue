@@ -2,7 +2,7 @@
 <div>
     <div class="main-page">
         <div id="button-container">
-            <button id="start-game">开始游戏</button>
+            <button id="start-game" @click="clickTest('block-base')">开始游戏</button>
         </div>
     </div>
     <div id="intro">
