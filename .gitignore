@@ -124,3 +124,5 @@ yarn.lock
 /api/static
 /api/templates
 
+#google-blockly
+/frontend/static/google-blockly
