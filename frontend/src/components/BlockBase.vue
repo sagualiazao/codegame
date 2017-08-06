@@ -66,7 +66,6 @@ export default {
             let string = code.split('#')
             Blockly.JavaScript.INFINITE_LOOP_TRAP = null
             var cc = createjs.Tween.get(this.player)
-
             for (var i = 0; i < string.length - 1; i++) {
                 code = string[i] + ';'
                 try {
