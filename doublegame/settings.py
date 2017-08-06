@@ -127,17 +127,46 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+
+
 # 电子邮件配置
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # 主机
-EMAIL_HOST = 'smtp.sohu.com'
+EMAIL_HOST = 'smtp.aliyun.com'
 # 端口
 EMAIL_PORT = 25
 # 验证邮箱
-EMAIL_HOST_USER = 'sagua_liazao@sohu.com'
+EMAIL_HOST_USER = 'sagualiazao@aliyun.com'
 # 密码
-EMAIL_HOST_PASSWORD = 'sagualiazao'
+EMAIL_HOST_PASSWORD = 'sagua_liazao'
 # 是否使用https
-EMAIL_USE_TLS = True
+# EMAIL_USE_TLS = True
 # 发件人
 EMAIL_FROM = "仨瓜俩枣小组"
+
+
+
+# 跨域访问配置
+# CORS_ORIGIN_ALLOW_ALL = True
+
+
+
+# 设置服务器session
+# 要让服务器的session生效,只需要在前端的fetch中加上:  credentials: 'include',
+# 设置cookie发送,与XHR2的withCredentials类似
+
+# Session的cookie保存在浏览器上时的key，即：sessionid＝随机字符串（默认）
+SESSION_COOKIE_NAME = 'sagualiazao'
+# Session的cookie保存的路径（默认）
+# SESSION_COOKIE_PATH = '/'
+# Session的cookie保存的域名（默认）
+# SESSION_COOKIE_DOMAIN = None
+# 是否Https传输cookie（默认）
+# SESSION_COOKIE_SECURE = False
+# 是否Session的cookie只支持http传输（默认）
+# SESSION_COOKIE_HTTPONLY = True
+# Session的cookie失效日期（2周）（默认）
+# SESSION_COOKIE_AGE = 1209600
+# 是否关闭浏览器使得Session过期（默认）
+# 默认值为false,浏览器会生成一个名为csrf_token的cookie,用来记录登录数据
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
