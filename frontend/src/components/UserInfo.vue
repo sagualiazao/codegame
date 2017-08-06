@@ -2,6 +2,7 @@
 <div class="user-info">
     <div>
         <h1>个人信息</h1>
+        <img src="../assets/h1.jpg" id="hh">
         <i class="el-icon-date"></i>
         <span>昵称</span>
         <p>{{userNickName}}</p>
@@ -55,9 +56,10 @@ h1 {
     color: #A0522D;
 }
 div {
-    width: 1200px;
+    width: 1250px;
     height: 500px;
     left: 100px;
+    margin-top: -20px;
     text-align: justify;
     background-color: #F0E6BC;
 }
@@ -73,6 +75,10 @@ img {
 
 p {
     border:2px solid #708090;
-    margin-right: 300px;
+    margin-right: 600px;
+}
+#hh {
+    float: right;
+    margin-right: 80px;
 }
 </style>
