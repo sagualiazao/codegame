@@ -5,21 +5,21 @@
         <img src="../assets/h1.jpg" id="hh">
         <i class="el-icon-date"></i>
         <span>昵称</span>
-        <p>{{userNickName}}</p>
+        <p>{{ userNickName }}</p>
         <i class="el-icon-date"></i>
         <span>年龄</span>
-        <p>{{age}}</p>
+        <p>{{ age }}</p>
         <i class="el-icon-message"></i>
         <span>邮箱地址</span>
-        <p>{{userEmail}}</p>
+        <p>{{ userEmail }}</p>
     </div>
     <div>
         <h1>关卡信息</h1>
         <br>
         <span>已完成的关卡数</span>
-        <p>{{finishedLevel}}</p>
+        <p>{{ finishedLevel }}</p>
         <span>剩下的关卡数</span>
-        <p>{{remainedLevel}}</p>
+        <p>{{ remainedLevel }}</p>
     </div>
     <div>
         <h1>收藏的地图</h1>
