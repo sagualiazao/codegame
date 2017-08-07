@@ -1,15 +1,13 @@
-
-
 //第三方function 在这里定义
-function changeHelloWords (words) {
-    document.getElementById('game-h1').innerHTML = words
+function goRight (step) {
+    return 'this.direct = 1;this.length = '+step+'#\n'
 }
-
-function setTheCircleColor(color) {
-    if (color == 'blue') {
-        document.getElementById('game-circle').style.backgroundColor = "blue"
-    }
-    else if (color == 'red') {
-        document.getElementById('game-circle').style.backgroundColor = "red"
-    }
+function goLeft (step) {
+    return 'this.direct = 2;this.length = '+step+'#\n'
+}
+function goUp (step) {
+    return 'this.direct = 4;this.length = '+step+'#\n'
+}
+function goDown (step) {
+    return 'this.direct = 3;this.length = '+step+'#\n'
 }

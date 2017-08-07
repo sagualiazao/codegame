@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import GameCanval from './GameCanval.vue'
-
 export default {
     name: 'block-base',
     data: function () {
@@ -56,35 +54,44 @@ export default {
     },
     methods: {
         editorClick (index) {
-            document.getElementById('editor-tab').style.backgroundColor = '#FFEC8B'
-            document.getElementById('block-tab').style.backgroundColor = '#D1EEEE'
             this.$parent.$store.commit('changeView', index)
         },
         runCode () {
             document.LoopTrap = 1000
             Blockly.JavaScript.INFINITE_LOOP_TRAP =
-            'if (--window.LoopTrap == 0) throw "Infinite loop.";\n'
+            'if (--window.LoopTrap === 0) throw "Infinite loop.";\n'
             let code = Blockly.JavaScript.workspaceToCode(this.workspace)
             let string = code.split('#')
             Blockly.JavaScript.INFINITE_LOOP_TRAP = null
-            for (var i=0; i<string.length-1; i++) {
-                code = string[i]+";"
+            var cc = createjs.Tween.get(this.player)
+            for (var i = 0; i < string.length - 1; i++) {
+                code = string[i] + ';'
                 try {
                     eval(code)
                     this.move()
-                    createjs.Ticker.addEventListener('tick', this.handleTicker)
-                    alert("xx : "+ this.playerx)
-                    alert("yy : "+ this.playery)
-                }catch (e) {
+                    cc.to({x: this.playerx, y: this.playery}, 3000)
+                    this.player.x = this.playerx
+                    this.player.y = this.playery
+                } catch (e) {
                     alert(e)
                 }
             }
+            cc.call(this.init)
         },
-        myUpdateFunction(event) {
+        myUpdateFunction (event) {
             let code = Blockly.JavaScript.workspaceToCode(this.workspace)
             document.getElementById('code-area').value = code
         },
         init () {
+            this.map_width = 10
+            this.map_height = 10
+            this.mapx = 0
+            this.mapy = 0
+            this.playerx = 0
+            this.playery = 0
+            this.direct = 1
+            this.length = 0
+            this.divx = 36
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.pic = new createjs.Bitmap('../../static/black.png')
@@ -92,139 +99,112 @@ export default {
             this.pic.y = this.mapy
             this.stage.addChild(this.pic)
             this.maps = new Array(this.map_width)
-            for (var i = 0; i < this.map_width; i++) {
+            var i
+            var j
+            for (i = 0; i < this.map_width; i++) {
                 this.maps[i] = new Array(this.map_height)
             }
-            for (var i = 0; i < this.map_width; i++) {
-                for (var j = 0; j < this.map_height; j++) {
+            for (i = 0; i < this.map_width; i++) {
+                for (j = 0; j < this.map_height; j++) {
                     this.maps[i][j] = j % 2
                 }
             }
-            for (var j = 0; j < this.map_width; j++) {
+            for (j = 0; j < this.map_width; j++) {
                 this.maps[5][j] = 0
             }
-            for (var i = 0; i < this.map_width; i++) {
-                for (var j = 0; j < this.map_height; j++) {
-                    if (this.maps[i][j] == 1) {
+            for (i = 0; i < this.map_width; i++) {
+                for (j = 0; j < this.map_height; j++) {
+                    if (this.maps[i][j] === 1) {
                         var stone = new createjs.Bitmap('../../static/stone.png')
-                        stone.x = Math.floor(this.mapx +  this.divx * i)
-                        stone.y = Math.floor(this.mapy +  this.divx * j)
+                        stone.x = Math.floor(this.mapx + this.divx * i)
+                        stone.y = Math.floor(this.mapy + this.divx * j)
                         this.stage.addChild(stone)
                     }
                 }
             }
-            var spritesheet =new createjs.SpriteSheet({
-                'images':['http://cdn.gbtags.com/gblibraryassets/libid108/charactor.png'],
-                'frames':{'height':96,'count': 10, 'width':75},
-                'animations':{ run:[0,9]}
+            var spritesheet = new createjs.SpriteSheet({
+                'images': ['http://cdn.gbtags.com/gblibraryassets/libid108/charactor.png'],
+                'frames': {'height': 96, 'count': 10, 'width': 75},
+                'animations': {run: [0, 9]}
             })
-            this.player =new createjs.Sprite(spritesheet)
-            this.player.x=this.playerx
-            this.player.y=this.playery
+            this.player = new createjs.Sprite(spritesheet)
+            this.player.x = this.playerx
+            this.player.y = this.playery
             this.player.play()
             this.stage.addChild(this.player)
+            createjs.Ticker.addEventListener('tick', this.stage)
         },
-        move() {
+        move () {
+            var i
+            var x
+            var y
             switch (this.direct) {
-                case 1:
-                for (var i = 0; i <  this.length; i++) {
-                    var x = Math.floor((this.playerx +  this.divx - this.mapx) /  this.divx)
-                    var y = Math.floor((this.playery - this.mapy) /  this.divx)
-                    if (x > this.map_width || x < 0 ||this.maps[x][y] == 1) {
-                        alert(111)
+            case 1:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx + this.divx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery - this.mapy) / this.divx)
+                    if (x > this.map_width || x < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
-                        this.playerx = this.playerx +  this.divx
+                        this.playerx = this.playerx + this.divx
                     }
                 }
                 break
-                case 2:
-                for (var i = 0; i <  this.length; i++) {
-                    var x = Math.floor((this.playerx -  this.divx - this.mapx ) /  this.divx)
-                    var y = Math.floor((this.playery - this.mapy) /  this.divx)
-                    if (x > this.map_width || x < 0 ||this.maps[x][y] == 1) {
-                        alert(222)
-
+            case 2:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - this.divx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery - this.mapy) / this.divx)
+                    if (x > this.map_width || x < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
-                        this.playerx = this.playerx -  this.divx
+                        this.playerx = this.playerx - this.divx
                     }
                 }
                 break
-                case 3:
-                for (var i = 0; i <  this.length; i++) {
-                    var x = Math.floor((this.playerx -this.mapx) /  this.divx)
-                    var y = Math.floor((this.playery +  this.divx - this.mapy) /  this.divx)
-                    alert(x)
-                    alert(y)
-                    alert(this.maps[x][y])
-                    if (y > this.map_height || y < 0 ||this.maps[x][y] == 1) {
-                        alert(333)
+            case 3:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery + this.divx - this.mapy) / this.divx)
+                    if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
-                        this.playery = this.playery +  this.divx
+                        this.playery = this.playery + this.divx
                     }
                 }
                 break
-                case 4:
-                for (var i = 0; i <  this.length; i++) {
-                    var x = Math.floor((this.playerx - mapx) /  this.divx)
-                    var y = Math.floor((this.playery -  this.divx - mapy) /  this.divx)
-                    if (y > this.map_height || y < 0 ||this.maps[x][y] == 1) {
-                        alert(444)
-
+            case 4:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - mapx) / this.divx)
+                    y = Math.floor((this.playery - this.divx - mapy) / this.divx)
+                    if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
-                        this.playery = this.playery -  this.divx
+                        this.playery = this.playery - this.divx
                     }
                 }
                 break
             }
-        },
-        handleTicker () {
-            switch (this.direct) {
-                case 1:
-                if(this.player.x < this.playerx)
-                    this.player.x+=1
-                break
-                case 2:
-                if(this.player.x > this.playerx)
-                    this.player.x-=1
-                break
-                case 3:
-                if(this.player.y < this.playery)
-                    this.player.y+=1
-                break
-                case 4:
-                if(this.player.y > this.playery)
-                    this.player.y+=1
-                break
-            }
-            this.stage.update()
         }
-    },
-    components: {
-        GameCanval
     },
     mounted: function () {
-        this.workspace = Blockly.inject('block-area',
-        {toolbox: document.getElementById('tool-box'),
-        grid: {
-            spacing: 20,
-            length: 3,
-            colour: '#ccc',
-            snap: true,
-            trashcan: true
-        },
-        zoom: {
-            controls: true,
-            wheel: true,
-            startScale: 1.0,
-            maxScale: 3,
-            minScale: 0.3,
-            scaleSpeed: 1.2,
-            trashcan: true
-        }
+        this.workspace = Blockly.inject('block-area', {
+            toolbox: document.getElementById('tool-box'),
+            grid: {
+                spacing: 20,
+                length: 3,
+                colour: '#ccc',
+                snap: true,
+                trashcan: true
+            },
+            zoom: {
+                controls: true,
+                wheel: true,
+                startScale: 1.0,
+                maxScale: 3,
+                minScale: 0.3,
+                scaleSpeed: 1.2,
+                trashcan: true
+            }
         })
         this.workspace.addChangeListener(this.myUpdateFunction)
         this.init()
