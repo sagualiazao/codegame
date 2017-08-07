@@ -208,7 +208,7 @@ export default {
         })
         this.workspace.addChangeListener(this.myUpdateFunction)
         this.init()
-        createjs.Ticker.addEventListener('tick', this.stage)
+        createjs.Ticker.addEventListener('tick', this.handleTicker)
     }
 }
 </script>
@@ -301,5 +301,4 @@ export default {
     color: #fff;
     cursor: pointer;
 }
-
 </style>

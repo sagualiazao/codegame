@@ -77,7 +77,6 @@ button {
     border: none;
     border-radius: 15px;
     box-shadow: 5px 5px  5px #333;
-
 }
 button:hover {
     background-color: #D19275;
@@ -88,6 +87,4 @@ button:active {
     box-shadow: 3px 5px #333;
     transform: translateY(4px);
 }
-
-
 </style>
