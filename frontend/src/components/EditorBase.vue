@@ -48,7 +48,7 @@ export default {
             let code2 = ''
             try {
                 code2 = eval('(' + code1 + ')')
-            }catch (e) {
+            } catch (e) {
                 alert(e)
             }
             let code3 = code2.split('#')
