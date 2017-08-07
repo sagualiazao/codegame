@@ -14,7 +14,6 @@
             <img src="../assets/pc10.jpg">
             <img src="../assets/pc11.jpg">
             <img src="../assets/pc12.jpg">
-            <br>
             <button type="playMap" @click="playClick">试玩</button>
             <h1>这是地图广场</h1>
         </el-tab-pane>

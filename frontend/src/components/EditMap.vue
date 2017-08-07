@@ -17,9 +17,7 @@
                     <img src="../assets/mat8.jpg" draggable="true" @dragstart="drag($event)" id="drag10">
                     <img src="../assets/mat9.jpg" draggable="true" @dragstart="drag($event)" id="drag11">
                 </div>
-                <br>
                 <button type="save-map" @click="saveClick">保存地图</button>
-                <br>
                 <h1>在这里创建地图</h1>
             </el-tab-pane>
             <el-tab-pane label="我做的地图" name="second">
