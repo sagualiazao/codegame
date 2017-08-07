@@ -39,8 +39,6 @@ export default {
     },
     methods: {
         blockClick (index) {
-            document.getElementById('block-tab').style.backgroundColor = '#FFEC8B'
-            document.getElementById('editor-tab').style.backgroundColor = '#D1EEEE'
             this.$parent.$store.commit('changeView', index)
         },
         tinyEditorRun() {

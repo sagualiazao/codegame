@@ -54,8 +54,6 @@ export default {
     },
     methods: {
         editorClick (index) {
-            document.getElementById('editor-tab').style.backgroundColor = '#FFEC8B'
-            document.getElementById('block-tab').style.backgroundColor = '#D1EEEE'
             this.$parent.$store.commit('changeView', index)
         },
         runCode () {
@@ -305,4 +303,3 @@ export default {
 }
 
 </style>
-
