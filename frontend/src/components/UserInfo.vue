@@ -62,8 +62,9 @@ div {
     margin-top: -20px;
     text-align: justify;
     background-color: #F0E6BC;
+    animation: myfirst 3s;
 }
-h1,p,span,i {
+h1, p, span, i {
     position: relative;
     left:100px;
 }
@@ -80,5 +81,19 @@ p {
 #hh {
     float: right;
     margin-right: 80px;
+    transition: width 2s,height 2s,transform 2s;
+    border:1px solid #BFBFBF;
+    box-shadow:2px 2px 3px #aaaaaa;
 }
+#hh:hover {
+    width: 300px;
+    height: 300px;
+    transform: skewX(30deg),skewY(50deg);
+    -moz-transform:rotate(360deg);
+}
+@keyframes myfirst {
+    from {background:#F0E6BC;}
+    to {background:#7FFFD4;}
+}
+
 </style>
