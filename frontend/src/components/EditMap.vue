@@ -88,17 +88,17 @@ h1 {
 h2 {
     color:#808000;
 }
-.published img,.unpublished img {
+.published img, .unpublished img {
     width: 400px;
     height: 300px;
 }
 #map1 {
     margin-top: -25px;
 }
-.map-scene,.materials {
+.map-scene, .materials {
     display: inline;
 }
-.map-scene img,.materials img {
+.map-scene img, .materials img {
     width: 70px;
     height: 60px;
 }

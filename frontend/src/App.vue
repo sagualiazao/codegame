@@ -11,6 +11,7 @@
 // 在这个位置引入单文件组件
 import MainPage from './components/MainPage'
 import MenuBar1 from './components/MenuBar1'
+import MenuBar from './components/MenuBar'
 import Game from './components/Game'
 import EditMap from './components/EditMap'
 import MapSquare from './components/MapSquare'
@@ -69,6 +70,7 @@ export default {
     components: {
         MainPage,
         MenuBar1,
+        MenuBar,
         Game,
         EditMap,
         MapSquare,

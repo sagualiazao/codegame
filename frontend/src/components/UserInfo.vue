@@ -5,21 +5,21 @@
         <img src="../assets/h1.jpg" id="hh">
         <i class="el-icon-date"></i>
         <span>昵称</span>
-        <p>{{userNickName}}</p>
+        <p>{{ userNickName }}</p>
         <i class="el-icon-date"></i>
         <span>年龄</span>
-        <p>{{age}}</p>
+        <p>{{ age }}</p>
         <i class="el-icon-message"></i>
         <span>邮箱地址</span>
-        <p>{{userEmail}}</p>
+        <p>{{ userEmail }}</p>
     </div>
     <div>
         <h1>关卡信息</h1>
         <br>
         <span>已完成的关卡数</span>
-        <p>{{finishedLevel}}</p>
+        <p>{{ finishedLevel }}</p>
         <span>剩下的关卡数</span>
-        <p>{{remainedLevel}}</p>
+        <p>{{ remainedLevel }}</p>
     </div>
     <div>
         <h1>收藏的地图</h1>
@@ -62,8 +62,9 @@ div {
     margin-top: -20px;
     text-align: justify;
     background-color: #F0E6BC;
+    animation: myfirst 3s;
 }
-h1,p,span,i {
+h1, p, span, i {
     position: relative;
     left:100px;
 }
@@ -80,5 +81,19 @@ p {
 #hh {
     float: right;
     margin-right: 80px;
+    transition: width 2s,height 2s,transform 2s;
+    border:1px solid #BFBFBF;
+    box-shadow:2px 2px 3px #aaaaaa;
 }
+#hh:hover {
+    width: 300px;
+    height: 300px;
+    transform: skewX(30deg),skewY(50deg);
+    -moz-transform:rotate(360deg);
+}
+@keyframes myfirst {
+    from {background:#F0E6BC;}
+    to {background:#7FFFD4;}
+}
+
 </style>
