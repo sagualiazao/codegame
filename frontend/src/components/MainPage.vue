@@ -54,8 +54,6 @@ h1 {
     height: 600px;
     margin-top: -22px;
     background: url(../assets/backg.jpg) no-repeat 0px center;
-
-
 }
 #intro {
     width: 1250px;
@@ -86,7 +84,6 @@ h1 {
     background-color: grey;
     display: inline-flex;
 }
-
 #intro1 {
     width: 312.5px;
     height: 200px;
@@ -107,5 +104,4 @@ h1 {
     height: 200px;
     background: url(../assets/desp3.jpg) no-repeat 0px center;
 }
-
 </style>
