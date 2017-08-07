@@ -1,19 +1,17 @@
 <template>
 <div class="editor-base">
     <div class="game-area">
-        game area
-        <h1 id="game-h1">hello</h1>
-        <div id="game-circle"></div>
+        <canvas id="game-canval" height="360" width="360"></canvas>
     </div>
     <div class="tab-plugin">
-        <a class="block-tab tab" @click="blockClick('block-base')" id="block-tab">Block</a>
-        <a class="editor-tab tab" id="editor-tab">Editor</a>
         <div class="tab-container">
             <pre id='js-editor' style="font-size: 25px;">
             </pre>
         </div>
+        <a class="block-tab tab" @click="blockClick('block-base')" id="block-tab">Block</a>
+        <a class="editor-tab tab" id="editor-tab">Editor</a>
         <button class="clean-button">Clean</button>
-        <button class="run-button" onclick="tinyEditorRun()">Run</button>
+        <button class="run-button" @click="tinyEditorRun()">Run</button>
     </div>
 </div>
 </template>
@@ -23,26 +21,163 @@ export default {
     name: 'editor-base',
     data: function () {
         return {
-            jsEditor: null
+            jsEditor: null,
+            pic: null,
+            maps: null,
+            player: null,
+            stage: null,
+            map_width: 10,
+            map_height: 10,
+            mapx: 0,
+            mapy: 0,
+            playerx: 0,
+            playery: 0,
+            direct: 1,
+            length: 0,
+            divx: 36
         }
     },
     methods: {
         blockClick (index) {
-            document.getElementById('block-tab').style.backgroundColor = '#FFEC8B'
-            document.getElementById('editor-tab').style.backgroundColor = '#D1EEEE'
             this.$parent.$store.commit('changeView', index)
         },
         tinyEditorRun() {
-            var js = this.jsEditor.getValue()
+            let code1 = this.jsEditor.getValue()
+            let code2 = ''
             try {
-                eval(js)
-            }catch (e) {
+                code2 = eval('(' + code1 + ')')
+            } catch (e) {
                 alert(e)
+            }
+            let code3 = code2.split('#')
+            var cc = createjs.Tween.get(this.player)
+            for (var i = 0; i < code3.length-1; i++) {
+                let code = code3[i]+";"
+                try {
+                    eval(code)
+                    this.move()
+                    cc.to({x: this.playerx, y: this.playery}, 3000)
+                    this.player.x = this.playerx
+                    this.player.y = this.playery
+                }catch (e) {
+                    alert(e)
+                }
+            }
+            cc.call(this.init)
+        },
+        init () {
+            this.map_width = 10
+            this.map_height = 10
+            this.mapx = 0
+            this.mapy = 0
+            this.playerx = 0
+            this.playery = 0
+            this.direct = 1
+            this.length = 0
+            this.divx = 36
+            var canvas = document.getElementById('game-canval')
+            this.stage = new createjs.Stage(canvas)
+            this.pic = new createjs.Bitmap('../../static/black.png')
+            this.pic.x = this.mapx
+            this.pic.y = this.mapy
+            this.stage.addChild(this.pic)
+            this.maps = new Array(this.map_width)
+            var i
+            var j
+            for (i = 0; i < this.map_width; i++) {
+                this.maps[i] = new Array(this.map_height)
+            }
+            for (i = 0; i < this.map_width; i++) {
+                for (j = 0; j < this.map_height; j++) {
+                    this.maps[i][j] = j % 2
+                }
+            }
+            for (j = 0; j < this.map_width; j++) {
+                this.maps[5][j] = 0
+            }
+            for (i = 0; i < this.map_width; i++) {
+                for (j = 0; j < this.map_height; j++) {
+                    if (this.maps[i][j] === 1) {
+                        var stone = new createjs.Bitmap('../../static/stone.png')
+                        stone.x = Math.floor(this.mapx + this.divx * i)
+                        stone.y = Math.floor(this.mapy + this.divx * j)
+                        this.stage.addChild(stone)
+                    }
+                }
+            }
+            var spritesheet = new createjs.SpriteSheet({
+                'images': ['http://cdn.gbtags.com/gblibraryassets/libid108/charactor.png'],
+                'frames': {'height': 96, 'count': 10, 'width': 75},
+                'animations': {run: [0, 9]}
+            })
+            this.player = new createjs.Sprite(spritesheet)
+            this.player.x = this.playerx
+            this.player.y = this.playery
+            this.player.play()
+            this.stage.addChild(this.player)
+            createjs.Ticker.addEventListener('tick', this.stage)
+        },
+        move () {
+            var i
+            var x
+            var y
+            switch (this.direct) {
+            case 1:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx + this.divx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery - this.mapy) / this.divx)
+                    if (x > this.map_width || x < 0 || this.maps[x][y] === 1) {
+                        break
+                    } else {
+                        this.playerx = this.playerx + this.divx
+                    }
+                }
+                break
+            case 2:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - this.divx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery - this.mapy) / this.divx)
+                    if (x > this.map_width || x < 0 || this.maps[x][y] === 1) {
+                        break
+                    } else {
+                        this.playerx = this.playerx - this.divx
+                    }
+                }
+                break
+            case 3:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery + this.divx - this.mapy) / this.divx)
+                    if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
+                        break
+                    } else {
+                        this.playery = this.playery + this.divx
+                    }
+                }
+                break
+            case 4:
+                for (i = 0; i < this.length; i++) {
+                    x = Math.floor((this.playerx - mapx) / this.divx)
+                    y = Math.floor((this.playery - this.divx - mapy) / this.divx)
+                    if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
+                        break
+                    } else {
+                        this.playery = this.playery - this.divx
+                    }
+                }
+                break
             }
         }
     },
     mounted: function () {
         this.jsEditor = ace.edit('js-editor')
+        this.jsEditor.setTheme('ace/theme/twilight')
+        this.jsEditor.getSession().setMode('ace/mode/javascript')
+        // this.jsEditor.setValue('changeHelloWords(\'hello 仨瓜俩枣\')')
+        this.jsEditor.setHighlightActiveLine(true)
+        this.jsEditor.resize()
+        this.init()
+        createjs.Ticker.addEventListener('tick', this.stage)
     }
 }
 </script>
@@ -75,27 +210,22 @@ export default {
     right: 30px;
     width: 650px;
     height: 600px;
-    border: solid 1px;
 }
 .tab-plugin .tab-container {
     position: absolute;
-    top: 30px;
+    top: 10px;
     left: 0;
     width: 100%;
     height: 540px;
     opacity: 1;
-    border: solid 1px;
-    background-color: #D1EEEE;
 }
 .tab-container pre {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 10px;
+    left: 10px;
     width: 100%;
     height: 525px;
     opacity: 1;
-    background-color: #D1EEEE;
-
 }
 .tab {
     position: absolute;
@@ -109,11 +239,11 @@ export default {
     border: solid 1px;
 }
 .block-tab {
-    left: 0;
+    left: 10px;
     background: #D1EEEE;
 }
 .editor-tab {
-    left: 60px;
+    left: 70px;
     background: #FFEC8B;
 }
 .run-button {
