@@ -19,9 +19,9 @@ class Captcha:
         '''
         return random.sample(Captcha.chars, 6)
 
-    def generate_captcha(width=120, height=50,
-        background='#FFFFFF', foreground='#0000FF',
-        font_size=18, length=4,
+    def generate_captcha(width=80, height=35,
+        background='#FFFFFF', foreground='#FF0000',
+        font_size=16, length=4, deform=False,
         draw_lines=True, n_line=(1, 2),
         draw_points=True, point_chance=2):
         '''
@@ -81,11 +81,12 @@ class Captcha:
             create_points()
         strs = create_strs()
 
-        # 图形扭曲参数
-        params = [1 - float(random.randint(1, 2)) / 100,  0, 0, 0,
-                1 - float(random.randint(1, 10)) / 100, float(random.randint(1, 2)) / 500, 0.001,float(random.randint(1, 2)) / 500]
-        # 创建扭曲
-        img = img.transform((width, height), Image.PERSPECTIVE, params)
+        if deform:
+            # 图形扭曲参数
+            params = [1 - float(random.randint(1, 2)) / 100,  0, 0, 0,
+                    1 - float(random.randint(1, 10)) / 100, float(random.randint(1, 2)) / 500, 0.001,float(random.randint(1, 2)) / 500]
+            # 创建扭曲
+            img = img.transform((width, height), Image.PERSPECTIVE, params)
 
         # 返回图片和对应的字符串
         return img, strs

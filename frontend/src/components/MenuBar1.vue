@@ -11,7 +11,7 @@
             <signup-form></signup-form>
         </el-dialog>
         <el-menu-item index="login" @click="Signin_dialog = true">登录</el-menu-item>
-        <el-dialog title="登陆" :visible.sync="Signin_dialog" size="tiny" :before-close="handleClose">
+        <el-dialog title="登录" :visible.sync="Signin_dialog" size="tiny" :before-close="handleClose">
             <signin-form></signin-form>
 <!--             <span slot="footer" class="dialog-footer">
             <el-button @click="Signin_dialog = false">取 消</el-button>
@@ -44,7 +44,6 @@ export default {
             Signin_dialog: false,
             Signup_dialog: false,
             Map_Window: false
-
         }
     },
     methods: {

@@ -170,11 +170,12 @@ def login(request):
         @return :JsonResponse:
         :status:如果匹配(登录成功)返回'1',否则返回'0'
     '''
+    # POST请求来自主动登录
     if request.method == 'POST':
-        print(request.session.get('email', False))
         req = simplejson.load(request)
         email = req['email']
         users = User.objects.filter(email=email)
+        # 用户不存在
         if len(users) == 0:
             response = JsonResponse({ 'status': '0'})
             return response
@@ -188,7 +189,9 @@ def login(request):
             except BaseException:
                 return JsonResponse({ 'status': '0' })
             else:
+                # 登录成功
                 if login_status:
+                    # 设置session的用户邮箱字段
                     request.session['email'] = email
                     return JsonResponse({
                         'status': '1',
@@ -200,8 +203,42 @@ def login(request):
                         })
                 else:
                     return JsonResponse({ 'status': '0'})
+    # GET请求来自登录状态检测
+    elif request.method == 'GET':
+        email = request.session.get('email', False)
+        if email == False:
+            return JsonResponse({ 'status': '0' })
+        else:
+            users = User.objects.filter(email=email)
+            if len(users) == 0:
+                return JsonResponse({ 'status': '0' })
+            else:
+                user = users[0]
+                return JsonResponse({
+                    'status': '1',
+                    'email': user.email,
+                    'nickname': user.nickname,
+                    'id': user.id,
+                    'gameProgress': user.game_progress,
+                    'hasPaied': user.has_paied
+                })
     else:
-        return HttpResponse('POST please!')
+        return HttpResponse('POST or GET plesase!')
+
+def check_email(request):
+    '''
+        @param :request:接受一个指向'/api/check-email'的GET请求\n
+        包含'email'\n
+        接受请求中的email,查询数据库中是否已有该邮箱的注册记录
+        @return :JsonResponse:
+        :status:如果匹配(登录成功)返回'1',否则返回'0'       
+    '''
+    email = request.GET['email']
+    users = User.objects.filter(email=email)
+    if len(users) == 0:
+        return JsonResponse({ 'status': '0' })
+    else:
+        return JsonResponse({ 'status': '1' })
 
 @csrf_exempt
 def test(request):
