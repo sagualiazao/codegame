@@ -14,6 +14,6 @@ Blockly.Blocks['dg_go_up'] = {
 Blockly.JavaScript['dg_go_up'] = function(block) {
   var number_step = block.getFieldValue('step')
   // TODO: Assemble JavaScript into code variable.
-  var code = 'this.length = '+number_step+' ; this.direct = 4#'
+  var code = number_step+',4,'
   return code
 };

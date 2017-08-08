@@ -61,22 +61,26 @@ export default {
             Blockly.JavaScript.INFINITE_LOOP_TRAP =
             'if (--window.LoopTrap === 0) throw "Infinite loop.";\n'
             let code = Blockly.JavaScript.workspaceToCode(this.workspace)
-            let string = code.split('#')
-            Blockly.JavaScript.INFINITE_LOOP_TRAP = null
-            var cc = createjs.Tween.get(this.player)
-            for (var i = 0; i < string.length - 1; i++) {
-                code = string[i] + ';'
-                try {
-                    eval(code)
-                    this.move()
-                    cc.to({x: this.playerx, y: this.playery}, 3000)
-                    this.player.x = this.playerx
-                    this.player.y = this.playery
-                } catch (e) {
-                    alert(e)
-                }
+            let string = code.split(',')
+            let numberStream = []
+            for (let i = 0; i < string.length - 1; i++) {
+                numberStream.push(parseInt(string[i]))
             }
-            cc.call(this.init)
+            // Blockly.JavaScript.INFINITE_LOOP_TRAP = null
+            // var cc = createjs.Tween.get(this.player)
+            // for (var i = 0; i < string.length - 1; i++) {
+            //     code = string[i] + ';'
+            //     try {
+            //         // eval(code)
+            //         this.move()
+            //         cc.to({x: this.playerx, y: this.playery}, 3000)
+            //         this.player.x = this.playerx
+            //         this.player.y = this.playery
+            //     } catch (e) {
+            //         alert(e)
+            //     }
+            // }
+            // cc.call(this.init)
         },
         myUpdateFunction (event) {
             let code = Blockly.JavaScript.workspaceToCode(this.workspace)
