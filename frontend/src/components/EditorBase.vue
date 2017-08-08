@@ -218,7 +218,6 @@ export default {
         this.jsEditor = ace.edit('js-editor')
         this.jsEditor.setTheme('ace/theme/twilight')
         this.jsEditor.getSession().setMode('ace/mode/javascript')
-        // this.jsEditor.setValue('changeHelloWords(\'hello 仨瓜俩枣\')')
         this.jsEditor.setHighlightActiveLine(true)
         this.jsEditor.resize()
         this.init()

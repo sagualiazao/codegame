@@ -13,6 +13,6 @@ Blockly.Blocks['dg_go_right'] = {
 }
 Blockly.JavaScript['dg_go_right'] = function (block) {
     let number_step = block.getFieldValue('step')
-    let code = 'this.length = ' + number_step + ' ; this.direct = 1#\n'
+    let code = number_step + ',1#'
     return code
 }
