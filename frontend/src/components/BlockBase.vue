@@ -66,21 +66,6 @@ export default {
             for (let i = 0; i < string.length - 1; i++) {
                 numberStream.push(parseInt(string[i]))
             }
-            // Blockly.JavaScript.INFINITE_LOOP_TRAP = null
-            // var cc = createjs.Tween.get(this.player)
-            // for (var i = 0; i < string.length - 1; i++) {
-            //     code = string[i] + ';'
-            //     try {
-            //         // eval(code)
-            //         this.move()
-            //         cc.to({x: this.playerx, y: this.playery}, 3000)
-            //         this.player.x = this.playerx
-            //         this.player.y = this.playery
-            //     } catch (e) {
-            //         alert(e)
-            //     }
-            // }
-            // cc.call(this.init)
         },
         myUpdateFunction (event) {
             let code = Blockly.JavaScript.workspaceToCode(this.workspace)
