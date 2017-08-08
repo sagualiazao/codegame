@@ -16,7 +16,7 @@
     </div>
 </template>
 <script>
-import CryptoJS from 'crypto-js'
+import { cbcEncrypt } from '@/assets/js/util.js'
 
 export default {
     name: 'signin-form',
@@ -77,7 +77,7 @@ export default {
         login: async function () {
             let captcha = parseInt(Math.random() * 9000, 10) + 1000
             captcha = captcha.toString()
-            let password = this.cbcEncrypt(captcha, this.loginForm.password)
+            let password = cbcEncrypt(captcha, this.loginForm.password)
             let jsonObj = JSON.stringify({
                 'email': this.loginForm.email,
                 'password': password,
@@ -107,18 +107,6 @@ export default {
             } else {
                 alert('邮箱或密码错误')
             }
-        },
-        cbcEncrypt: function (keyStr, data) {
-            keyStr = CryptoJS.MD5(keyStr).toString()
-            let key = CryptoJS.enc.Utf8.parse(keyStr)
-            let iv = CryptoJS.enc.Utf8.parse(keyStr.substr(2, 18))
-            let encrypted = ''
-            encrypted = CryptoJS.AES.encrypt(data, key, {
-                iv: iv,
-                mode: CryptoJS.mode.CBC,
-                padding: CryptoJS.pad.ZeroPadding
-            })
-            return encrypted.toString()
         }
     }
 }

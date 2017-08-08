@@ -33,7 +33,7 @@
     </div>
 </template>
 <script>
-import CryptoJS from 'crypto-js'
+import { cbcEncrypt } from '@/assets/js/util.js'
 
 export default {
     data: function () {
@@ -142,7 +142,7 @@ export default {
         // 向后端发送登录的POST请求
         register: async function () {
             // 对密码执行一次CBC加密算法
-            let password = this.cbcEncrypt(this.registerForm.captcha, this.registerForm.password)
+            let password = cbcEncrypt(this.registerForm.captcha, this.registerForm.password)
             let jsonObj = JSON.stringify({
                 'email': this.registerForm.email,
                 'password': password,
@@ -168,18 +168,6 @@ export default {
             } else {
                 alert('注册成功!')
             }
-        },
-        cbcEncrypt: function (keyStr, data) {
-            keyStr = CryptoJS.MD5(keyStr).toString()
-            let key = CryptoJS.enc.Utf8.parse(keyStr)
-            let iv = CryptoJS.enc.Utf8.parse(keyStr.substr(2, 18))
-            let encrypted = ''
-            encrypted = CryptoJS.AES.encrypt(data, key, {
-                iv: iv,
-                mode: CryptoJS.mode.CBC,
-                padding: CryptoJS.pad.ZeroPadding
-            })
-            return encrypted.toString()
         },
         refreshCaptcha: async function () {
             // fetch/then里面不能用this,暂时没有想到能够获取$data的方法,改用async/await方法
