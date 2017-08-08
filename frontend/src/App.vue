@@ -36,7 +36,8 @@ const store = new Vuex.Store({
         userEmail: null,
         userId: null,
         userNickName: null,
-        userGameLevel: null,
+        userGameProgress: null,
+        userHasPaied: null,
 
         // 界面切换信息
         currentView: 'main-page',
@@ -55,6 +56,24 @@ const store = new Vuex.Store({
         },
         changeView (state, text) {
             state.currentView = text
+        },
+        changeLoginStatus (state, status) {
+            state.loginStatus = status
+        },
+        changeUserEmail (state, text) {
+            state.userEmail = text
+        },
+        changeUserId (state, text) {
+            state.userId = text
+        },
+        changeUserNickName (state, text) {
+            state.userNickName = text
+        },
+        changeUserGameProgress (state, text) {
+            state.userGameProgress = text
+        },
+        changeUserHasPaied (state, text) {
+            state.userHasPaied = text
         }
     },
     // 异步逻辑方法,提交mutation
@@ -79,13 +98,24 @@ export default {
         BlockBase,
         EditorBase
     },
-    methods: {
-        testClick () {
-            // 在直接包含的store的模块进行调用, 使用'commit'来进行函数调用
-            // 第一个参数是函数名, 之后是一个参数列表, 给调用的函数传递参数
-            this.$store.commit('showMessage', 'abc')
-        }
-    }
+    mounted: async function () {
+        let response = await fetch('api/login', {
+            method: 'get',
+            mode: 'cors',
+            credentials: 'include'
+        })
+        let obj = await response.json()
+        if (await obj.status === '1') {
+            // TODO: 登录成功,传递信息,关闭窗口
+            this.$store.commit('changeLoginStatus', true)
+            this.$store.commit('changeUserEmail', obj.email)
+            this.$store.commit('changeUserId', obj.id)
+            this.$store.commit('changeUserNickName', obj.nickname)
+            this.$store.commit('changeUserGameProgress', obj.gameProgress)
+            this.$store.commit('changeUserHasPaied', obj.hasPaied)
+        } else {}
+    },
+    methods: {}
 }
 </script>
 

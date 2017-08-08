@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^api/reset-password-email$', views.reset_password_email),
     url(r'^api/reset-password$', views.reset_password),
     url(r'^api/register$', views.register),
-    url(r'^api/login$', views.login)
+    url(r'^api/login$', views.login),
+    url(r'^api/check-email', views.check_email)
 ]
