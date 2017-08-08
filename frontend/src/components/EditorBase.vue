@@ -41,29 +41,74 @@ export default {
         blockClick (index) {
             this.$parent.$store.commit('changeView', index)
         },
-        tinyEditorRun() {
-            let code1 = this.jsEditor.getValue()
-            let code2 = ''
-            try {
-                code2 = eval('(' + code1 + ')')
-            } catch (e) {
-                alert(e)
+        /**
+        *
+        解析当前ACE文本框中输入的内容,将内容分解成代码列表
+        *
+        @method getCommandCodeList
+        *
+        @for EditorBase.vue
+        *
+        @return {List} 返回一个列表 ,每个元素为一个独立的代码(没有分号)
+        */
+        getCommandCodeList () {
+            let commandCodeList = []
+            let lineCount = this.jsEditor.session.getLength()
+            for (let i = 0; i < lineCount; i++) {
+                let currentLine = this.jsEditor.session.getLine(i)
+                currentLine = currentLine.replace(/\s*/g, '')
+                if (currentLine !== '') {
+                    let codeListPerLine = currentLine.split(';')
+                    for (let j = 0; j < codeListPerLine.length; j++) {
+                        if (codeListPerLine[j] !== '') {
+                            commandCodeList.push(codeListPerLine[j])
+                        }
+                    }
+                }
             }
-            let code3 = code2.split('#')
-            var cc = createjs.Tween.get(this.player)
-            for (var i = 0; i < code3.length-1; i++) {
-                let code = code3[i]+";"
+            return commandCodeList
+        },
+        /**
+        *
+        eval() 执行 getCommandCodeList()函数获取的代码列表, 得到每个代码的返回值,存到
+        一个新的列表中
+        *
+        @method codeListToDataList
+        *
+        @for EditorBase.vue
+        *
+        @return {List} 返回一个列表,每个元素为执行一次createjs需要的数字列表
+        */
+        codeListToDataList () {
+            let dataList = []
+            let commandCodeList = this.getCommandCodeList()
+            for (let i = 0; i < commandCodeList.length; i++) {
                 try {
-                    eval(code)
-                    this.move()
-                    cc.to({x: this.playerx, y: this.playery}, 3000)
-                    this.player.x = this.playerx
-                    this.player.y = this.playery
-                }catch (e) {
+                    let tempString = eval('(' + commandCodeList[i] + ')')
+                    let tempStringList = tempString.split(',')
+                    let tempIntList = []
+                    for (let j = 0; j < tempStringList.length; j++) {
+                        tempIntList.push(parseInt(tempStringList[j]))
+                    }
+                    dataList.push(tempIntList)
+                } catch (e) {
                     alert(e)
                 }
             }
-            cc.call(this.init)
+            return dataList
+        },
+        /**
+        *
+        createjs 通过 codeListToDataList()获取需要的数组数据, 然后执行相应的动作函数,
+        完成人物的运动
+        *
+        @method tinyEditorRun
+        *
+        @for EditorBase.vue
+        */
+        tinyEditorRun () {
+            let dataList = this.codeListToDataList()
+            // TODO: 未处理的run程序
         },
         init () {
             this.map_width = 10
@@ -178,6 +223,8 @@ export default {
         this.jsEditor.resize()
         this.init()
         createjs.Ticker.addEventListener('tick', this.stage)
+        this.init()
+        createjs.Ticker.addEventListener('tick', this.handleTicker)
     }
 }
 </script>

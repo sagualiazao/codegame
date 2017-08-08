@@ -1,13 +1,13 @@
 //第三方function 在这里定义
 function goRight (step) {
-    return 'this.direct = 1;this.length = '+step+'#\n'
+    return step + ',1'
 }
 function goLeft (step) {
-    return 'this.direct = 2;this.length = '+step+'#\n'
+    return step + ',2'
 }
 function goUp (step) {
-    return 'this.direct = 4;this.length = '+step+'#\n'
+    return step + ',4'
 }
 function goDown (step) {
-    return 'this.direct = 3;this.length = '+step+'#\n'
+    return step + ',3'
 }
