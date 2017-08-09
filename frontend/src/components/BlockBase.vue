@@ -188,10 +188,10 @@ export default {
         }
     },
     mounted: function () {
-        require('../../static/block_defined/dg_go_up.js')
-        require('../../static/block_defined/dg_go_down.js')
-        require('../../static/block_defined/dg_go_left.js')
-        require('../../static/block_defined/dg_go_right.js')
+        require('../assets/block_defined/dg_go_up.js')
+        require('../assets/block_defined/dg_go_down.js')
+        require('../assets/block_defined/dg_go_left.js')
+        require('../assets/block_defined/dg_go_right.js')
         let toolBox = require('../../src/assets/js/blockly_const_list.js')
         this.workspace = global.Blockly.inject('block-area', {
             toolbox: toolBox,

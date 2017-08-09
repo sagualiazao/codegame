@@ -1,7 +1,7 @@
-global.Blockly.Blocks['dg_go_left'] = {
+global.Blockly.Blocks['dg_go_up'] = {
     init: function () {
         this.appendDummyInput()
-        .appendField('go left')
+        .appendField('go up')
         .appendField(new global.Blockly.FieldNumber(0, 0, 100), 'step')
         .appendField('step')
         this.setPreviousStatement(true, null)
@@ -11,8 +11,8 @@ global.Blockly.Blocks['dg_go_left'] = {
         this.setHelpUrl('')
     }
 }
-global.Blockly.JavaScript['dg_go_left'] = function (block) {
-    let number_step = block.getFieldValue('step')
-    let code = number_step + ',2#'
+global.Blockly.JavaScript['dg_go_up'] = function (block) {
+    let numberStep = block.getFieldValue('step')
+    let code = numberStep + ',4#'
     return code
 }
