@@ -45,7 +45,7 @@ export default {
                 // 错误消息交给placeholder,利用error进行逻辑判断
                 callback(new Error(' '))
             } else if (rEmail.test(email)) {
-                fetch('check-email?email=' + email, {
+                fetch('api/check-email?email=' + email, {
                     method: 'get',
                     mode: 'cors',
                     credentials: 'include'
@@ -129,7 +129,6 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.register()
-                    alert('submit!')
                 } else {
                     alert('error submit!!')
                     return false
@@ -163,6 +162,7 @@ export default {
             let obj = await response.json()
             if (await obj.status === '1') {
                 alert('注册成功!')
+                this.$parent.$parent.$parent.$store.commit('signupWindow', false)
             } else if (await obj.status === '2') {
                 alert('该邮箱已被注册!')
             } else {
