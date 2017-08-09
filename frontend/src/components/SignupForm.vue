@@ -4,23 +4,20 @@
         <el-form :model="registerForm" :rules="registerRules" ref="registerForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="registerForm.email" placeholder="请输入你的邮箱地址"></el-input>
-                 <!-- <div id="email-button">
-                    <el-button type="primary" icon="share">发送验证码</el-button>
-                </div>  -->
             </el-form-item>
             <el-form-item label="昵称" prop="nickname">
-                <el-input placeholder="请输入昵称" maxlength="16" v-model="registerForm.nickname" auto-complete="off"></el-input>
+                <el-input placeholder="请输入昵称" :maxlength="16" v-model="registerForm.nickname" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password">
-                <el-input type="password" placeholder="请输入密码,可使用数字\字母\下划线" maxlength="16" v-model="registerForm.password" auto-complete="off"></el-input>
+                <el-input type="password" placeholder="请输入密码,可使用数字\字母\下划线" :maxlength="16" v-model="registerForm.password" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="确认密码" prop="checkpassword">
-                <el-input type="password" placeholder="请再次输入密码" maxlength="16" v-model="registerForm.checkpassword" auto-complete="off"></el-input>
+                <el-input type="password" placeholder="请再次输入密码" :maxlength="16" v-model="registerForm.checkpassword" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="验证码" prop="captcha">
                 <div id="ver-area">
                     <div id="ver-code">
-                        <el-input placeholder="请输入验证码" maxlength="4" v-model="registerForm.captcha"></el-input>
+                        <el-input placeholder="请输入验证码" :maxlength="4" v-model="registerForm.captcha"></el-input>
                     </div>
                     <img :src="captchaImage" @click="refreshCaptcha" width="80" height="35"/>
                 </div>

@@ -10,7 +10,7 @@
             <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">立即购买</a></el-menu-item>
             <div id="index4">
                 <el-submenu index="4">
-                    <template slot="title">用户名</template>
+                    <template slot="title">{{ $parent.$store.state.userEmail }}</template>
                     <el-menu-item index="user-info">我的信息</el-menu-item>
                     <el-menu-item index="4-2" @click="signout">注销</el-menu-item>
                 </el-submenu>
@@ -20,13 +20,8 @@
 </template>
 
 <script>
-import store from '../main.js'
 export default {
     name: 'menu-bar-logged',
-    props: {
-        'currentView': String
-    },
-    store: store,
     data: function () {
         return {
             activeIndex: 'main-page'
@@ -41,6 +36,7 @@ export default {
         },
         signout: function () {
             this.$parent.$store.commit('changeMenu', 'menu-bar-unlogged')
+            this.$parent.$store.dispatch('signout')
         }
     }
 }

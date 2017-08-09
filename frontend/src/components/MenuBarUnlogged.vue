@@ -4,14 +4,14 @@
         <el-menu-item index="main-page">首页</el-menu-item>
         <el-menu-item index="edit-map" @click="mapWindow = true">我的地图</el-menu-item>
         <el-menu-item index="register" @click="signupChange">注册</el-menu-item>
-        <el-dialog title="注册" :visible.sync="$parent.$store.state.signupDialog" size="tiny" :before-close="handleClose">
+        <el-dialog title="注册" :visible.sync="$parent.$store.state.signupDialog" size="tiny">
             <signup-form></signup-form>
         </el-dialog>
-        <el-dialog title="找回密码" :visible.sync="$parent.$store.state.resetPasswordDialog" size="tiny" :before-close="handleClose">
+        <el-dialog title="找回密码" :visible.sync="$parent.$store.state.resetPasswordDialog" size="tiny">
             <reset-password-form></reset-password-form>
         </el-dialog>
         <el-menu-item index="login" @click="signinChange">登录</el-menu-item>
-        <el-dialog title="登录" :visible.sync="$parent.$store.state.signinDialog" size="tiny" :before-close="handleClose">
+        <el-dialog title="登录" :visible.sync="$parent.$store.state.signinDialog" size="tiny">
             <signin-form></signin-form>
         </el-dialog>
     </el-menu>
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import store from '../main.js'
 import SigninForm from './SigninForm'
 import SignupForm from './SignupForm'
 import ResetPasswordForm from './ResetPasswordForm'
@@ -30,10 +29,6 @@ export default {
         SignupForm,
         ResetPasswordForm
     },
-    props: {
-        'currentView': String
-    },
-    store: store,
     data: function () {
         return {
             activeIndex: 'main-page',

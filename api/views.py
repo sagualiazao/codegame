@@ -3,12 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
 from api.utils import *
-from io import BytesIO
-import base64
 from django.core.mail import send_mail
 from api.models import User
-from Crypto.Hash import MD5
-from Crypto.Cipher import AES
 
 
 def get_captcha(request):
@@ -107,7 +103,8 @@ def reset_password_email(request):
                 return JsonResponse({ 'status': '2' })
             else:
                 response = JsonResponse({
-                    'status': '%s'%mail_status,
+                    # 'status': '%s'%mail_status,
+                    'status': '1',
                     'captcha': captcha
                 })
                 return response
@@ -240,3 +237,24 @@ def check_email(request):
         return JsonResponse({ 'status': '0' })
     else:
         return JsonResponse({ 'status': '1' })
+
+def logout(request):
+    '''
+    注销
+
+    Parameters:  
+        request - 指向'/api/logout'的GET请求
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 注销失败'0', 注销成功'1'  
+    '''
+    # POST请求来自主动登录
+    if request.method == 'GET':
+        email = request.session.get('email', False)
+        print(email)
+        if email == False:
+            return JsonResponse({ 'status': '0' })
+        else:
+            del request.session['email']
+            return JsonResponse({ 'status': '1' })

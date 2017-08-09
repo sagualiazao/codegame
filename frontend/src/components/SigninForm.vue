@@ -6,7 +6,7 @@
                 <el-input v-model="loginForm.email"></el-input>
             </el-form-item>        
             <el-form-item label="密码" prop="password">
-                <el-input type="password" maxlength="16" v-model="loginForm.password" auto-complete="off"></el-input>
+                <el-input type="password" :maxlength="16" v-model="loginForm.password" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button class="forget-password" type="text" @click="resetPasswordChange">找回密码</el-button>
@@ -109,7 +109,6 @@ export default {
                 this.$parent.$parent.$store.commit('changeUserHasPaied', obj.hasPaied)
                 this.$parent.$parent.$store.commit('signinWindow', false)
                 this.$parent.$parent.$store.commit('changeMenu', 'menu-bar-logged')
-
             } else {
                 alert('邮箱或密码错误')
             }
