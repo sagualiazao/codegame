@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <div id="navbar">
-        <menu-bar1 :currentView="currentView"></menu-bar1>
+        <component :currentView="currentView" :is="$store.state.currentMenbar"></component>
     </div>
     <component :is="$store.state.currentView"></component>
 </div>
@@ -10,8 +10,8 @@
 <script>
 // 在这个位置引入单文件组件
 import MainPage from './components/MainPage'
-import MenuBar1 from './components/MenuBar1'
-import MenuBar from './components/MenuBar'
+import MenuBarUnlogged from './components/MenuBarUnlogged'
+import MenuBarLogged from './components/MenuBarLogged'
 import Game from './components/Game'
 import EditMap from './components/EditMap'
 import MapSquare from './components/MapSquare'
@@ -41,10 +41,17 @@ const store = new Vuex.Store({
 
         // 界面切换信息
         currentView: 'main-page',
+        currentMenbar: 'menu-bar-unlogged',
         textMainPage: 'mainPage',
         textGame: 'game',
         textMapEditor: 'mapEditor',
-        textAccountMessage: 'accountMessage'
+        textAccountMessage: 'accountMessage',
+
+        // 弹窗的弹出判断
+        signinDialog: false,
+        signupDialog: false,
+        resetPasswordDialog: false
+
     },
     // 更改vuex中的数据状态的方式
     mutations: {
@@ -72,8 +79,20 @@ const store = new Vuex.Store({
         changeUserGameProgress (state, text) {
             state.userGameProgress = text
         },
-        changeUserHasPaied (state, text) {
-            state.userHasPaied = text
+        changeUserHasPaied (state, status) {
+            state.userHasPaied = status
+        },
+        signinWindow (state, status) {
+            state.signinDialog = status
+        },
+        signupWindow (state, status) {
+            state.signupDialog = status
+        },
+        resetPasswordWindow (state, status) {
+            state.resetPasswordDialog = status
+        },
+        changeMenu (state, status) {
+            state.currentMenbar = status
         }
     },
     // 异步逻辑方法,提交mutation
@@ -88,8 +107,8 @@ export default {
     // 在这里注册单文件组件
     components: {
         MainPage,
-        MenuBar1,
-        MenuBar,
+        MenuBarUnlogged,
+        MenuBarLogged,
         Game,
         EditMap,
         MapSquare,
@@ -130,5 +149,6 @@ export default {
 }
 #navbar {
     margin-top: -60px;
+    width: 1250px;
 }
 </style>

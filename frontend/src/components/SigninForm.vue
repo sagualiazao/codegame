@@ -1,6 +1,6 @@
 <template>
 <!-- 用于登录的弹出窗口 -->
-    <div>
+    <div class="signin-form">
         <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="loginForm.email"></el-input>
@@ -9,10 +9,13 @@
                 <el-input type="password" maxlength="16" v-model="loginForm.password" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item>
+                <el-button class="forget-password" type="text" @click="resetPasswordChange">找回密码</el-button>
+            </el-form-item>
+            <el-form-item>
                 <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
                 <el-button @click="resetForm('loginForm')">重置</el-button>
             </el-form-item>
-          </el-form>
+        </el-form>
     </div>
 </template>
 <script>
@@ -104,10 +107,23 @@ export default {
                 this.$parent.$parent.$store.commit('changeUserNickName', obj.nickname)
                 this.$parent.$parent.$store.commit('changeUserGameProgress', obj.gameProgress)
                 this.$parent.$parent.$store.commit('changeUserHasPaied', obj.hasPaied)
+                this.$parent.$parent.$store.commit('signinWindow', false)
+                this.$parent.$parent.$store.commit('changeMenu', 'menu-bar-logged')
+
             } else {
                 alert('邮箱或密码错误')
             }
+        },
+        resetPasswordChange: function () {
+            this.$parent.$parent.$store.commit('resetPasswordWindow', true)
+            this.$parent.$parent.$store.commit('signinWindow', false)
         }
     }
 }
 </script>
+<style scoped>
+.find-pass {
+    padding-left: 200px;
+    margin-bottom: 0px;
+}
+</style>
