@@ -11,23 +11,6 @@
         <button class="clean-button">Clean</button>
         <button class="run-button" @click="blockRunCode()">Run</button>
     </div>
-        <!-- 在节点中引入blockly的元素  后面还需要挂载 -->
-    <xml id="tool-box" style="display: none;">
-        <category name="Action">
-            <block type="dg_go_up">
-                <field name="step">0</field>
-            </block>
-            <block type="dg_go_down">
-                <field name="step">0</field>
-            </block>
-            <block type="dg_go_left">
-                <field name="step">0</field>
-            </block>
-            <block type="dg_go_right">
-                <field name="step">0</field>
-            </block>
-        </category>
-    </xml>
 </div>
 </template>
 
@@ -68,9 +51,9 @@ export default {
         */
         getDataList () {
             document.LoopTrap = 1000
-            Blockly.JavaScript.INFINITE_LOOP_TRAP =
+            global.Blockly.JavaScript.INFINITE_LOOP_TRAP =
             'if (--window.LoopTrap === 0) throw "Infinite loop.";\n'
-            let dataString = Blockly.JavaScript.workspaceToCode(this.workspace)
+            let dataString = global.Blockly.JavaScript.workspaceToCode(this.workspace)
             let dataStringList = dataString.split('#')
             let dataList = []
             for (let i = 0; i < dataStringList.length - 1; i++) {
@@ -94,9 +77,10 @@ export default {
         blockRunCode () {
             let dataList = this.getDataList()
             // TODO: 未处理的run程序
+            alert(dataList)
         },
         myUpdateFunction (event) {
-            let code = Blockly.JavaScript.workspaceToCode(this.workspace)
+            let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
             document.getElementById('code-area').value = code
         },
         init () {
@@ -204,8 +188,13 @@ export default {
         }
     },
     mounted: function () {
-        this.workspace = Blockly.inject('block-area', {
-            toolbox: document.getElementById('tool-box'),
+        require('../../static/block_defined/dg_go_up.js')
+        require('../../static/block_defined/dg_go_down.js')
+        require('../../static/block_defined/dg_go_left.js')
+        require('../../static/block_defined/dg_go_right.js')
+        let toolBox = require('../../src/assets/js/blockly_const_list.js')
+        this.workspace = global.Blockly.inject('block-area', {
+            toolbox: toolBox,
             grid: {
                 spacing: 20,
                 length: 3,

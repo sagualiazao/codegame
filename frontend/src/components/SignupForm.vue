@@ -23,12 +23,12 @@
                         <el-input placeholder="请输入验证码" maxlength="4" v-model="registerForm.captcha"></el-input>
                     </div>
                     <img :src="captchaImage" @click="refreshCaptcha" width="80" height="35"/>
-                </div>  
+                </div>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('registerForm')">提交</el-button>
                 <el-button @click="resetForm('registerForm')">重置</el-button>
-            </el-form-item>            
+            </el-form-item>
         </el-form>
     </div>
 </template>
@@ -45,7 +45,7 @@ export default {
                 // 错误消息交给placeholder,利用error进行逻辑判断
                 callback(new Error(' '))
             } else if (rEmail.test(email)) {
-                fetch ('check-email?email=' + email, {
+                fetch('check-email?email=' + email, {
                     method: 'get',
                     mode: 'cors',
                     credentials: 'include'
@@ -163,7 +163,7 @@ export default {
             let obj = await response.json()
             if (await obj.status === '1') {
                 alert('注册成功!')
-            } else if (await obj.status === '2'){
+            } else if (await obj.status === '2') {
                 alert('该邮箱已被注册!')
             } else {
                 alert('注册成功!')

@@ -16,6 +16,7 @@
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "element-ui": "^1.4.1",
+    "node-blockly": "^1.0.24",
     "vue": "^2.3.3"
   },
   "devDependencies": {

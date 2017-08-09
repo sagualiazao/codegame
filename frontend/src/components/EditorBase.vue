@@ -109,6 +109,7 @@ export default {
         tinyEditorRun () {
             let dataList = this.codeListToDataList()
             // TODO: 未处理的run程序
+            alert(dataList)
         },
         init () {
             this.map_width = 10
