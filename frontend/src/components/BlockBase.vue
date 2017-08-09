@@ -9,9 +9,9 @@
         <div class="tab-container" id="block-area"></div>
         <input type="text" id="code-area" class="code-area">
         <button class="clean-button">Clean</button>
-        <button class="run-button" @click="runCode">Run</button>
+        <button class="run-button" @click="blockRunCode()">Run</button>
     </div>
-        <!-- 在节点中引入blockly的元素  后面还需要挂载  在template.js文件中 不用修改 -->
+        <!-- 在节点中引入blockly的元素  后面还需要挂载 -->
     <xml id="tool-box" style="display: none;">
         <category name="Action">
             <block type="dg_go_up">
@@ -56,16 +56,44 @@ export default {
         editorClick (index) {
             this.$parent.$store.commit('changeView', index)
         },
-        runCode () {
+        /**
+        *
+        根据当前workspace中的返回值, 通过该函数但会一个新的列表
+        *
+        @method getDataList
+        *
+        @for BlockBase.vue
+        *
+        @return {List} 返回一个列表,每个元素为执行一次createjs需要的数字列表
+        */
+        getDataList () {
             document.LoopTrap = 1000
             Blockly.JavaScript.INFINITE_LOOP_TRAP =
             'if (--window.LoopTrap === 0) throw "Infinite loop.";\n'
-            let code = Blockly.JavaScript.workspaceToCode(this.workspace)
-            let string = code.split(',')
-            let numberStream = []
-            for (let i = 0; i < string.length - 1; i++) {
-                numberStream.push(parseInt(string[i]))
+            let dataString = Blockly.JavaScript.workspaceToCode(this.workspace)
+            let dataStringList = dataString.split('#')
+            let dataList = []
+            for (let i = 0; i < dataStringList.length - 1; i++) {
+                let tempStringList = dataStringList[i].split(',')
+                let tempIntList = []
+                tempIntList.push(parseInt(tempStringList[0]))
+                tempIntList.push(parseInt(tempStringList[1]))
+                dataList.push(tempIntList)
             }
+            return dataList
+        },
+        /**
+        *
+        createjs 通过 getDataList()获取需要的数组数据, 然后执行相应的动作函数,
+        完成人物的运动
+        *
+        @method blockRunCode
+        *
+        @for BlockBase.vue
+        */
+        blockRunCode () {
+            let dataList = this.getDataList()
+            // TODO: 未处理的run程序
         },
         myUpdateFunction (event) {
             let code = Blockly.JavaScript.workspaceToCode(this.workspace)
@@ -230,7 +258,6 @@ export default {
     width: 650px;
     height: 600px;
     border: solid 1px;
-    /*background-color: #D1EEEE;*/
 }
 .tab-plugin .tab-container {
     position: absolute;
