@@ -3,12 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
 from api.utils import *
-from io import BytesIO
-import base64
 from django.core.mail import send_mail
 from api.models import User
-from Crypto.Hash import MD5
-from Crypto.Cipher import AES
 
 
 def get_captcha(request):
@@ -96,18 +92,20 @@ def reset_password_email(request):
             captcha = ''.join(Captcha.string_captcha())
             msg = '您重置账户: [' + email + '] 密码的验证码是: ' + captcha
             try:
-                mail_status = send_mail(
-                    r'[验证码]仨瓜俩枣小组的编程游戏-密码重置',
-                    msg,
-                    'sagualiazao@aliyun.com',
-                    [email],
-                    fail_silently=False
-                    )
+                print(msg)
+                # mail_status = send_mail(
+                #     r'[验证码]仨瓜俩枣小组的编程游戏-密码重置',
+                #     msg,
+                #     'sagualiazao@aliyun.com',
+                #     [email],
+                #     fail_silently=False
+                #     )
             except BaseException:
                 return JsonResponse({ 'status': '2' })
             else:
                 response = JsonResponse({
-                    'status': '%s'%mail_status,
+                    # 'status': '%s'%mail_status,
+                    'status': '1',
                     'captcha': captcha
                 })
                 return response
@@ -131,7 +129,6 @@ def reset_password(request):
     '''
     if request.method == 'POST':
         req = simplejson.load(request)
-        email = req['email']
         users = User.objects.filter(email=email)
         if len(users) == 0:
             response = JsonResponse({ 'status': '0' })
@@ -240,3 +237,24 @@ def check_email(request):
         return JsonResponse({ 'status': '0' })
     else:
         return JsonResponse({ 'status': '1' })
+
+def logout(request):
+    '''
+    注销
+
+    Parameters:  
+        request - 指向'/api/logout'的GET请求
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 注销失败'0', 注销成功'1'  
+    '''
+    # POST请求来自主动登录
+    if request.method == 'GET':
+        email = request.session.get('email', False)
+        print(email)
+        if email == False:
+            return JsonResponse({ 'status': '0' })
+        else:
+            del request.session['email']
+            return JsonResponse({ 'status': '1' })

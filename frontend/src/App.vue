@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <div id="navbar">
-        <component :currentView="currentView" :is="$store.state.currentMenbar"></component>
+        <component :is="$store.state.currentMenbar"></component>
     </div>
     <component :is="$store.state.currentView"></component>
 </div>
@@ -96,14 +96,31 @@ const store = new Vuex.Store({
         }
     },
     // 异步逻辑方法,提交mutation
-    action: {}
+    actions: {
+        signout: function (context) {
+            context.commit('changeLoginStatus', false)
+            context.commit('changeUserEmail', null)
+            context.commit('changeUserId', null)
+            context.commit('changeUserNickName', null)
+            context.commit('changeUserGameProgress', null)
+            context.commit('changeUserHasPaied', null)
+            context.commit('changeMenu', 'menu-bar-unlogged')
+            fetch('api/logout', {
+                method: 'get',
+                mode: 'cors',
+                credentials: 'include'
+            })
+        }
+    }
 })
 
 // App组件的属性
 export default {
     name: 'app',
     store: store,
-    data: function () {},
+    data: function () {
+        return {}
+    },
     // 在这里注册单文件组件
     components: {
         MainPage,
@@ -132,6 +149,7 @@ export default {
             this.$store.commit('changeUserNickName', obj.nickname)
             this.$store.commit('changeUserGameProgress', obj.gameProgress)
             this.$store.commit('changeUserHasPaied', obj.hasPaied)
+            this.$store.commit('changeMenu', 'menu-bar-logged')
         } else {}
     },
     methods: {}
