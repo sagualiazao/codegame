@@ -23,12 +23,12 @@
                         <el-input placeholder="请输入验证码" maxlength="4" v-model="registerForm.captcha"></el-input>
                     </div>
                     <img :src="captchaImage" @click="refreshCaptcha" width="80" height="35"/>
-                </div>  
+                </div>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('registerForm')">提交</el-button>
                 <el-button @click="resetForm('registerForm')">重置</el-button>
-            </el-form-item>            
+            </el-form-item>
         </el-form>
     </div>
 </template>
