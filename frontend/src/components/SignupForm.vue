@@ -4,9 +4,6 @@
         <el-form :model="registerForm" :rules="registerRules" ref="registerForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="registerForm.email" placeholder="请输入你的邮箱地址"></el-input>
-                 <!-- <div id="email-button">
-                    <el-button type="primary" icon="share">发送验证码</el-button>
-                </div>  -->
             </el-form-item>
             <el-form-item label="昵称" prop="nickname">
                 <el-input placeholder="请输入昵称" :maxlength="16" v-model="registerForm.nickname" auto-complete="off"></el-input>

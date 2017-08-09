@@ -62,14 +62,14 @@ export default {
                 callback(new Error('请输入验证码'))
             } else if (captcha.length < 6) {
                 callback(new Error('验证码长度不足'))
-            } else if (this.captchakey === captcha) {
+            } else if (this.captchaKey === captcha) {
                 callback()
             } else {
                 callback(new Error('验证码错误'))
             }
         }
         return {
-            captchakey: null,
+            captchaKey: null,
             sendEmailDisabled: true,
             cannotResetPassword: true,
             resetPasswordForm: {
@@ -108,7 +108,7 @@ export default {
         },
         resetForm: function (formName) {
             this.$refs[formName].resetFields()
-            this.captchakey = null,
+            this.captchaKey = null,
             this.sendEmailDisabled = true,
             this.cannotResetPassword = true
         },
@@ -144,7 +144,7 @@ export default {
             })
             let obj = await response.json()
             if (await obj.status === '1') {
-                this.captchakey = obj.captcha
+                this.captchaKey = obj.captcha
                 this.cannotResetPassword = false
             } else {
                 alert('邮件发送失败')
