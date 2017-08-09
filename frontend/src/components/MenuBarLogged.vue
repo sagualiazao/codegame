@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import store from '../main.js'
 export default {
     name: 'menu-bar-logged',
     data: function () {

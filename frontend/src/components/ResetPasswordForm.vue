@@ -108,8 +108,8 @@ export default {
         },
         resetForm: function (formName) {
             this.$refs[formName].resetFields()
-            this.captchaKey = null,
-            this.sendEmailDisabled = true,
+            this.captchaKey = null
+            this.sendEmailDisabled = true
             this.cannotResetPassword = true
         },
         checkEmail: async function (email, callback) {
