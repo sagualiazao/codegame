@@ -92,14 +92,13 @@ def reset_password_email(request):
             captcha = ''.join(Captcha.string_captcha())
             msg = '您重置账户: [' + email + '] 密码的验证码是: ' + captcha
             try:
-                print(msg)
-                # mail_status = send_mail(
-                #     r'[验证码]仨瓜俩枣小组的编程游戏-密码重置',
-                #     msg,
-                #     'sagualiazao@aliyun.com',
-                #     [email],
-                #     fail_silently=False
-                #     )
+                mail_status = send_mail(
+                    r'[验证码]仨瓜俩枣小组的编程游戏-密码重置',
+                    msg,
+                    'sagualiazao@aliyun.com',
+                    [email],
+                    fail_silently=False
+                    )
             except BaseException:
                 return JsonResponse({ 'status': '2' })
             else:
@@ -129,6 +128,7 @@ def reset_password(request):
     '''
     if request.method == 'POST':
         req = simplejson.load(request)
+        email = req['email']
         users = User.objects.filter(email=email)
         if len(users) == 0:
             response = JsonResponse({ 'status': '0' })
