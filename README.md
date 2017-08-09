@@ -3,6 +3,19 @@
 > Group SaGuaLiaZao 仨瓜俩枣小组
 > 盛晓颖,左婧,肖飞,禚晨晨,樊文杰
 
+# 环境配置添加:  
+1.安装yarn(全局)
+``` bash
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get update
+sudo apt-get install yarn
+```
+如果最后一条install出错(已存在之类) 使用:
+``` bash
+sudo apt-get -o Dpkg::Options::="--force-overwrite" install yarn)
+```
+
 # 把项目部署到vagrant虚拟机:
 ``` bash
 git clone http://se.jisuanke.com/code-game/Group1.git
@@ -141,4 +154,3 @@ function () 在'function'和'()'中间要有空格
 # python和js的不同的包名规则
 python中目录结构使用'.',类似java  
 JS中目录结构使用'/'  
-
