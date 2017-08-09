@@ -127,7 +127,7 @@ class Captcha:
         '''
         f = BytesIO()
         img, code = Captcha.generate_captcha()
-        img.save(f,'PNG')
+        img.save(f, 'PNG')
         img = base64.b64encode(f.getvalue()).decode()
         code = str.lower(code)
         return img, code

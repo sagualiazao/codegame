@@ -129,26 +129,16 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # 电子邮件配置
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
 EMAIL_HOST = 'smtp.aliyun.com'
-
 EMAIL_PORT = 25
-
 EMAIL_HOST_USER = 'sagualiazao@aliyun.com'
-
 EMAIL_HOST_PASSWORD = 'sagua_liazao'
-
 # EMAIL_USE_TLS = True
-
 EMAIL_FROM = "仨瓜俩枣小组"
 
 
 # 设置服务器session
-
 SESSION_COOKIE_NAME = 'sagualiazao'
-
 # SESSION_COOKIE_AGE = 1209600
-
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
