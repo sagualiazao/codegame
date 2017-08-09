@@ -2,31 +2,36 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
-from api.captcha import Captcha
+from api.utils import *
 from io import BytesIO
 import base64
 from django.core.mail import send_mail
 from api.models import User
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
-import api.cbc as CBC
 
 
 def get_captcha(request):
     '''
-        @param :request:指向'/api/captcha'的GET请求\n
-        @return :JsonResponse:\n
-        :img:验证码图片的base64编码\n
-        :captcha:验证码对应字符串
+    向web前端发送图片验证码
+
+    Parameters:  
+        request - 指向'/api/captcha'的GET请求  
+    
+    Returns:  
+        JsonResponse:  
+        'img' - 图片验证码的base64编码  
+        'capthca' - 验证码的小写字符串  
+
+    Raises:  
+        HTTPResponse('GET please!') - 如果传入请求不是GET
     '''
     if request.method == 'GET':
-        f = BytesIO()
-        img, code = Captcha.generate_captcha()
-        img.save(f,'PNG')
+        img, code = Captcha.base64_captcha()
         # 通过base64编码发送验证码图片
         return JsonResponse({
-            'img': base64.b64encode(f.getvalue()).decode(),
-            'captcha': str.lower(code)
+            'img': img,
+            'captcha': code,
         })
     else:
         return HttpResponse('GET please!')
@@ -34,10 +39,18 @@ def get_captcha(request):
 @csrf_exempt
 def register(request):
     '''
-        @param :request:指向'/api/register'的POST请求\n
-        在数据库中注册用户\n
-        @return :JsonResponse:\n
-        :status: 注册成功'1',注册失败'0'
+    执行注册用户操作
+
+    Parameters:  
+        request - 指向'/api/register'的POST请求  
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 注册失败'0', 注册成功'1'  
+        'capthca' - 验证码的小写字符串  
+
+    Raises:  
+        HTTPResponse('POST please!') - 如果传入请求不是POST
     '''
     if request.method == 'POST':
         try:
@@ -48,7 +61,7 @@ def register(request):
             nickname = req['nickname']
             captcha = req['captcha']
             password = CBC.decrypt(captcha, password_ace)
-            user = User.objects.create_user(email=email, nickname=nickname, password=password)
+            User.objects.create_user(email=email, nickname=nickname, password=password)
         except BaseException:
             return JsonResponse({ 'status': '0' })
         else:
@@ -57,49 +70,20 @@ def register(request):
         return HttpResponse('POST please!')
 
 @csrf_exempt
-def captcha_email(request):
-    '''
-        @param :request:指向'/api/captcha-email'的POST请求\n
-        获取请求中的email地址,发送邮件
-        @return :JsonResponse:\n
-        :status: 表示邮箱已被注册'0',发送成功'1',发送失败'2'\n
-        :captcha:验证码答案
-    '''
-    if request.method == 'POST':
-        req = simplejson.load(request)
-        email = req['email']
-        users = User.objects.filter(email=email)
-        if len(users) != 0:
-            return JsonResponse({ 'status': '0' })
-        else:
-            captcha = ''.join(Captcha.string_captcha())
-            msg = '您注册账户: [' + email + '] 的验证码是: ' + captcha
-            try:
-                mail_status = send_mail(
-                    r'[验证码]仨瓜俩枣小组的编程游戏-新用户注册',
-                    msg,
-                    'sagualiazao@aliyun.com',
-                    [email],
-                    fail_silently=False
-                    )
-            except BaseException:
-                return JsonResponse({ 'status': '2' })
-            else:
-                return JsonResponse({
-                    'status': '%s'%mail_status,
-                    'captcha': captcha
-                })
-    else:
-        return HttpResponse('POST please!')
-
-@csrf_exempt
 def reset_password_email(request):
     '''
-       @param :request:指向'/api/reset-password-email'的POST请求\n
-       获取请求中的email地址,发送邮件\n
-       @return JsonResponse\n
-       :status: '0'表示邮箱未被注册,'1'表示发送成功,发送失败'2'\n
-       :captcha: 验证码答案
+    发送重置密码的邮件验证码
+
+    Parameters:  
+        request - 指向'/api/reset-password-email'的POST请求  
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 当前邮箱未注册'0', 发送成功'1',发送失败'2'  
+        'capthca' - 验证码的小写字符串  
+
+    Raises:  
+        HTTPResponse('POST please!') - 如果传入请求不是POST
     '''
     if request.method == 'POST':
         req = simplejson.load(request)
@@ -133,11 +117,17 @@ def reset_password_email(request):
 @csrf_exempt
 def reset_password(request):
     '''
-        @param :request:接收一个指向'/api/reset-password'的POST请求\n
-        包含'email','captcha',加密后的'password'\n
-        接受请求中的'email'地址和'captcha',将对应账户的密码设为'password'\n
-        @return :Jsonresponse:\n
-        :status: 修改成功返回'1',否则返回'0'
+    重置密码
+
+    Parameters:  
+        request - 指向'/api/reset-password'的POST请求  
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 修改失败'0', 修改成功'1'  
+
+    Raises:  
+        HTTPResponse('POST please!') - 如果传入请求不是POST
     '''
     if request.method == 'POST':
         req = simplejson.load(request)
@@ -164,11 +154,19 @@ def reset_password(request):
 @csrf_exempt
 def login(request):
     '''
-        @param :request:接受一个指向'/api/login'的POST请求\n
-        包含'email', 'captcha'和加密后的'password'\n
-        接受请求中的email和password,检验是否匹配\n
-        @return :JsonResponse:
-        :status:如果匹配(登录成功)返回'1',否则返回'0'
+    登录
+
+    Parameters:  
+        request - 指向'/api/login'的POST请求或GET请求
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 登录失败'0', 登录成功'1'  
+        'email' - 用户的电子邮件  
+        'nickname' - 用户的昵称  
+        'id' - 用户的id
+        'gameProgress' - 用户的游戏进度
+        'hasPaied' - 用户是否已经付费
     '''
     # POST请求来自主动登录
     if request.method == 'POST':
@@ -227,11 +225,14 @@ def login(request):
 
 def check_email(request):
     '''
-        @param :request:接受一个指向'/api/check-email'的GET请求\n
-        包含'email'\n
-        接受请求中的email,查询数据库中是否已有该邮箱的注册记录
-        @return :JsonResponse:
-        :status:如果匹配(登录成功)返回'1',否则返回'0'       
+    建议邮箱是否已被注册
+
+    Parameters:  
+        request - 指向'/api/check-email'的POST请求或GET请求
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 未被注册'0', 已被注册'1'  
     '''
     email = request.GET['email']
     users = User.objects.filter(email=email)
@@ -239,12 +240,3 @@ def check_email(request):
         return JsonResponse({ 'status': '0' })
     else:
         return JsonResponse({ 'status': '1' })
-
-@csrf_exempt
-def test(request):
-    '''
-        用于测试新的api(GET)
-    '''
-    # 用于测试新的api
-    return HttpResponse('hello')
-
