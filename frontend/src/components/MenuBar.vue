@@ -13,7 +13,7 @@
                 <el-submenu index="4">
                     <template slot="title">用户名</template>
                     <el-menu-item index="user-info">我的信息</el-menu-item>
-                    <el-menu-item index="4-2">注销</el-menu-item>
+                    <el-menu-item index="4-2" @click="Signout">注销</el-menu-item>
                 </el-submenu>
             </div>
         </el-menu>
@@ -42,6 +42,9 @@ export default {
         },
         handleSelect (index) {
             this.$parent.$store.commit('changeView', index)
+        },
+        Signout () {
+            this.$parent.$store.commit('changeMenu', 'menu-bar1')
         }
     }
 }

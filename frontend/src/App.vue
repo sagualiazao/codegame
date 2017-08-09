@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <div id="navbar">
-        <menu-bar1 :currentView="currentView"></menu-bar1>
+        <component :currentView="currentView" :is="$store.state.currentMenbar"></component>
     </div>
     <component :is="$store.state.currentView"></component>
 </div>
@@ -11,6 +11,7 @@
 // 在这个位置引入单文件组件
 import MainPage from './components/MainPage'
 import MenuBar1 from './components/MenuBar1'
+import MenuBar from './components/MenuBar'
 import Game from './components/Game'
 import EditMap from './components/EditMap'
 import MapSquare from './components/MapSquare'
@@ -39,10 +40,17 @@ const store = new Vuex.Store({
 
         // 界面切换信息
         currentView: 'main-page',
+        currentMenbar: 'menu-bar1',
         textMainPage: 'mainPage',
         textGame: 'game',
         textMapEditor: 'mapEditor',
-        textAccountMessage: 'accountMessage'
+        textAccountMessage: 'accountMessage',
+
+        // 弹窗的弹出判断
+        Signin_dialog: false,
+        Signup_dialog: false,
+        findpass_dialog: false
+
     },
     // 更改vuex中的数据状态的方式
     mutations: {
@@ -54,6 +62,18 @@ const store = new Vuex.Store({
         },
         changeView (state, text) {
             state.currentView = text
+        },
+        SigninWindow (state, text) {
+            state.Signin_dialog = text
+        },
+        SignupWindow (state, text) {
+            state.Signup_dialog = text
+        },
+        FindpassWindow (state, text) {
+            state.findpass_dialog = text
+        },
+        changeMenu (state, text) {
+            state.currentMenbar = text
         }
     },
     // 异步逻辑方法,提交mutation
@@ -69,6 +89,7 @@ export default {
     components: {
         MainPage,
         MenuBar1,
+        MenuBar,
         Game,
         EditMap,
         MapSquare,
@@ -98,5 +119,6 @@ export default {
 }
 #navbar {
     margin-top: -60px;
+    width: 1250px;
 }
 </style>
