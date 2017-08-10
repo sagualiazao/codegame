@@ -142,14 +142,16 @@ export default {
             this.stage.removeChild(pindex)
         },
         submit () {
+            var string = ''
             for (var i = 0; i < this.mapWidth; i++) {
                 for (var j = 0; j < this.mapHeight; j++) {
                     if (this.maps[i][j] !== 0) {
                         this.maps[i][j] = this.maps[i][j].name
                     }
+                    string += this.maps[i][j]
                 }
             }
-            console.log(this.maps)
+            this.mapPost(string)
         },
         clean () {
             this.stage = null
@@ -168,7 +170,31 @@ export default {
             this.sx = 0
             this.sy = 0
             this.init()
-        }
+        },
+        mapPost: async function (string) {
+            let jsonObj = JSON.stringify({
+                'mapString': string
+            })
+            let fetchHead = {
+                'Content-Type': 'application/json, text/plain, */*',
+                'Accept': 'application/json'
+            }
+            let response = await fetch('api/save-map', {
+                method: 'post',
+                mode: 'cors',
+                credentials: 'include',
+                headers: fetchHead,
+                body: jsonObj
+            })
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                alert('保存成功!')
+            } else if (await obj.status === '0') {
+                alert('保存失败!')
+            } else {
+                alert('网络失败!')
+            }
+        },
     },
     mounted: function () {
         this.init()
