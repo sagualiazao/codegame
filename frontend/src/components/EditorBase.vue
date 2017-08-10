@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import 'yuki-createjs'
 export default {
     name: 'editor-base',
     data: function () {
@@ -204,8 +205,8 @@ export default {
                 break
             case 4:
                 for (i = 0; i < this.length; i++) {
-                    x = Math.floor((this.playerx - mapx) / this.divx)
-                    y = Math.floor((this.playery - this.divx - mapy) / this.divx)
+                    x = Math.floor((this.playerx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery - this.divx - this.mapy) / this.divx)
                     if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
