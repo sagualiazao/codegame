@@ -96,6 +96,8 @@ export default {
             if (await obj.status === '1') {
                 var string = obj.map
                 var k = 0
+                var i
+                var j
                 for (i = 0; i < this.mapWidth; i++) {
                     for (j = 0; j < this.mapHeight; j++) {
                         this.maps[i][j] = string[k]
@@ -203,8 +205,8 @@ export default {
                 break
             case 4:
                 for (i = 0; i < this.length; i++) {
-                    x = Math.floor((this.playerx - mapx) / this.divx)
-                    y = Math.floor((this.playery - this.divx - mapy) / this.divx)
+                    x = Math.floor((this.playerx - this.mapx) / this.divx)
+                    y = Math.floor((this.playery - this.divx - this.mapy) / this.divx)
                     if (y > this.mapHeight || y < 0 || this.maps[x][y] === 1) {
                         break
                     } else {
