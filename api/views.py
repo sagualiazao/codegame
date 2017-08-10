@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import simplejson
 from api.utils import *
 from django.core.mail import send_mail
-from api.models import User
+from api.models import User, DesignedMaps, GameLevels
 
 
 def get_captcha(request):
@@ -194,7 +194,7 @@ def login(request):
                         'nickname': user.nickname,
                         'id': user.id,
                         'gameProgress': user.game_progress,
-                        'hasPaied': user.has_paied
+                        'hasPaied': user.has_paied,
                         'createdAt': user.created_at
                         })
                 else:
@@ -216,7 +216,7 @@ def login(request):
                     'nickname': user.nickname,
                     'id': user.id,
                     'gameProgress': user.game_progress,
-                    'hasPaied': user.has_paied
+                    'hasPaied': user.has_paied,
                     'createdAt': user.created_at
                 })
     else:
@@ -254,7 +254,6 @@ def logout(request):
     # POST请求来自主动登录
     if request.method == 'GET':
         email = request.session.get('email', False)
-        print(email)
         if email == False:
             return JsonResponse({ 'status': '0' })
         else:
@@ -263,11 +262,69 @@ def logout(request):
         
 @csrf_exempt
 def save_map(request):
-    # 成功返回1，失败返回 0
-    return JsonResponse({ 'status': '1' })
+    '''
+    保存关卡地图
+
+    Parameters:  
+        request - 指向'/api/save-map'的POST请求
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 保存失败'0', 保存成功'1'  
+    '''
+    # TODO: 增加具体信息的设置
+    if request.method == 'POST':
+        req = simplejson.load(request)
+        map_str = req['mapString']
+        try:
+            newMap = GameLevels(
+                map=map_str,
+                level_three_steps=10,
+                level_two_steps=20,
+                tips='The Level!',
+                goal='I donnot know!'
+            )
+            newMap.save()
+        except BaseException:
+            return JsonResponse({ 'status': '0' })
+        else:
+            return JsonResponse({ 'status': '1' })
+    elif request.method == 'GET':
+        return HttpResponse('POST please!')
 
 @csrf_exempt
 def read_map(request):
-    # 成功返回1，失败返回 0
-    # mapid =？ 返回 { map：×××××× ; status : '' }
-    return JsonResponse({ 'status': '1' })
+    '''
+    读取关卡地图
+
+    Parameters:  
+        request - 指向'/api/read-map'的GET请求
+        mapid - 要读取的map的id
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 读取失败'0', 读取成功'1'  
+        'map' - 地图字符串  
+        'threeStar' - 三星评价条件  
+        'twoStar' - 两星评价条件  
+        'tips' - 关卡提示  
+        'goal' - 关卡目标
+    '''
+    # TODO: 增加具体信息的设置
+    if request.method == 'GET':
+        map_id = request.GET['mapid']
+        selected_map = GameLevels.objects.filter(map_id=map_id)
+        if len(selected_map) == 0:
+            return JsonResponse({ 'status': '0' })
+        else:
+            selected_map = selected_map[0]
+            return JsonResponse({
+                'status': '1',
+                'map': selected_map.map,
+                'threeStar': selected_map.level_three_steps,
+                'twoStar': selected_map.level_two_steps,
+                'tips': selected_map.tips,
+                'goal': selected_map.goal
+            })
+    else:
+        return HttpResponse('GET please!')
