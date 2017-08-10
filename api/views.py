@@ -195,6 +195,7 @@ def login(request):
                         'id': user.id,
                         'gameProgress': user.game_progress,
                         'hasPaied': user.has_paied
+                        'createdAt': user.created_at
                         })
                 else:
                     return JsonResponse({ 'status': '0'})
@@ -216,6 +217,7 @@ def login(request):
                     'id': user.id,
                     'gameProgress': user.game_progress,
                     'hasPaied': user.has_paied
+                    'createdAt': user.created_at
                 })
     else:
         return HttpResponse('POST or GET plesase!')

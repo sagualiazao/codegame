@@ -38,6 +38,7 @@ const store = new Vuex.Store({
         userNickName: null,
         userGameProgress: null,
         userHasPaied: null,
+        registerDate: null,
 
         // 界面切换信息
         currentView: 'main-page',
@@ -93,6 +94,10 @@ const store = new Vuex.Store({
         },
         changeMenu (state, status) {
             state.currentMenbar = status
+        },
+        changeRegisterDate (state, text) {
+            var date = new Date(text)
+            state.registerDate = date.toLocaleString()
         }
     },
     // 异步逻辑方法,提交mutation
@@ -105,6 +110,7 @@ const store = new Vuex.Store({
             context.commit('changeUserGameProgress', null)
             context.commit('changeUserHasPaied', null)
             context.commit('changeMenu', 'menu-bar-unlogged')
+            context.commit('changeRegisterDate', null)
             fetch('api/logout', {
                 method: 'get',
                 mode: 'cors',
@@ -149,6 +155,7 @@ export default {
             this.$store.commit('changeUserNickName', obj.nickname)
             this.$store.commit('changeUserGameProgress', obj.gameProgress)
             this.$store.commit('changeUserHasPaied', obj.hasPaied)
+            this.$store.commit('changeRegisterDate', obj.createdAt)
             this.$store.commit('changeMenu', 'menu-bar-logged')
         } else {}
     },

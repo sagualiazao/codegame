@@ -4,7 +4,7 @@
         <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="loginForm.email"></el-input>
-            </el-form-item>        
+            </el-form-item>
             <el-form-item label="密码" prop="password">
                 <el-input type="password" :maxlength="16" v-model="loginForm.password" auto-complete="off"></el-input>
             </el-form-item>
@@ -107,6 +107,7 @@ export default {
                 this.$parent.$parent.$store.commit('changeUserNickName', obj.nickname)
                 this.$parent.$parent.$store.commit('changeUserGameProgress', obj.gameProgress)
                 this.$parent.$parent.$store.commit('changeUserHasPaied', obj.hasPaied)
+                this.$parent.$parent.$store.commit('changeRegisterDate', obj.createdAt)
                 this.$parent.$parent.$store.commit('signinWindow', false)
                 this.$parent.$parent.$store.commit('changeMenu', 'menu-bar-logged')
             } else {
