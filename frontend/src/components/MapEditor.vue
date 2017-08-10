@@ -194,7 +194,7 @@ export default {
             } else {
                 alert('网络失败!')
             }
-        },
+        }
     },
     mounted: function () {
         this.init()
