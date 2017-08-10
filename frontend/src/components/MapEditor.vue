@@ -1,7 +1,7 @@
 <template>
     <div id="map-editor">
         <div>
-            <canvas id="map-editor">
+            <canvas id="MapEditor">
             </canvas>
         </div>
         <div>
@@ -18,16 +18,16 @@ export default {
     data: function () {
         return {
             stage: null,
-            map_container: null,
+            mapContainer: null,
             maps: [],
             randomColor: 0,
-            canvas_width: 900,
-            canvas_height: 640,
+            canvasWidth: 900,
+            canvasHeight: 640,
             div: 64,
             bias: 30,
             items: 3,
-            map_width: 10,
-            map_height: 10,
+            mapWidth: 10,
+            mapHeight: 10,
             fzmx: 0,
             fzmy: 0,
             sx: 0,
@@ -37,35 +37,35 @@ export default {
     methods: {
         init () {
             var canvas = document.getElementById('MapEditor')
-            canvas.width = this.canvas_width
-            canvas.height = this.canvas_height
+            canvas.width = this.canvasWidth
+            canvas.height = this.canvasHeight
             this.stage = new createjs.Stage(canvas)
             createjs.Touch.enable(this.stage)
-            this.map_container = new createjs.Container()
+            this.mapContainer = new createjs.Container()
             var background = new createjs.Bitmap('../../static/black.png')
-            this.map_container.x = this.stage.x
-            this.map_container.y = this.stage.y
-            this.map_container.addChild(background)
-            this.stage.addChild(this.map_container)
+            this.mapContainer.x = this.stage.x
+            this.mapContainer.y = this.stage.y
+            this.mapContainer.addChild(background)
+            this.stage.addChild(this.mapContainer)
             this.draw()
-            this.maps = new Array(this.map_width)
-            for (var ii = 0; ii < this.map_width; ii++) {
-                this.maps[ii] = new Array(this.map_height)
+            this.maps = new Array(this.mapWidth)
+            for (var ii = 0; ii < this.mapWidth; ii++) {
+                this.maps[ii] = new Array(this.mapHeight)
             }
-            for (var i = 0; i < this.map_width; i++) {
-                for (var j = 0; j < this.map_height; j++) {
+            for (var i = 0; i < this.mapWidth; i++) {
+                for (var j = 0; j < this.mapHeight; j++) {
                     this.maps[i][j] = 0
                 }
             }
-            createjs.Ticker.addEventListener('tick', this.stage);
+            createjs.Ticker.addEventListener('tick', this.stage)
         },
         draw () {
-            var ox = this.stage.x + this.canvas_width - this.div - this.bias
+            var ox = this.stage.x + this.canvasWidth - this.div - this.bias
             var oy = this.bias
             this.randomColor = Math.floor(Math.random() * 16777215).toString(16)
             for (var i = 1; i <= this.items; i++) {
                 var con = new createjs.Container()
-                var bitmap = new createjs.Bitmap('../../static/'+ i + '.png')
+                var bitmap = new createjs.Bitmap('../../static/' + i + '.png')
                 con.x = ox
                 con.y = oy
                 con.name = i
@@ -86,44 +86,40 @@ export default {
         },
         pressmove (event) {
             var self = event.target.parent
-            var map_w = this.div * this.map_width
-            var map_h = this.div * this.map_height
-            if (event.stageX - this.fzmx < this.map_container.x) {
-                self.x = this.map_container.x
+            var mapH = this.div * this.mapHeight
+            if (event.stageX - this.fzmx < this.mapContainer.x) {
+                self.x = this.mapContainer.x
             } else {
                 self.x = event.stageX - this.fzmx
             }
-            if (event.stageY - this.fzmy < this.map_container.y) {
-                self.y = this.map_container.y
-            } else if (event.stageY - this.fzmy + self.getBounds().height > (this.map_container.y + map_h)) {
-                self.y = this.map_container.y + map_h - self.getBounds().height
+            if (event.stageY - this.fzmy < this.mapContainer.y) {
+                self.y = this.mapContainer.y
+            } else if (event.stageY - this.fzmy + self.getBounds().height > (this.mapContainer.y + mapH)) {
+                self.y = this.mapContainer.y + mapH - self.getBounds().height
             } else {
                 self.y = event.stageY - this.fzmy
             }
         },
         pressup (event) {
             this.draw()
-            this.shadowur(false, event.target.parent);
-            var map_w = this.div * this.map_width
-            var map_h = this.div * this.map_height
+            this.shadowur(false, event.target.parent)
+            var mapW = this.div * this.mapWidth
+            var mapH = this.div * this.mapHeight
             var x
             var y
-            if(event.target.parent.x >= this.stage.x && event.target.parent.x <= this.stage.x + map_w - this.div / 2 ) {
-                if(event.target.parent.y >= this.stage.y && event.target.parent.y <  this.stage.y + map_h) {
-                    event.target.parent.x = event.target.parent.x - ( event.target.parent.x - this.stage.x) % this.div
-                        +  Math.round(( event.target.parent.x - this.stage.x) % this.div / this.div) * this.div
-                    event.target.parent.y = event.target.parent.y - ( event.target.parent.y - this.stage.y) % this.div
-                        +  Math.round(( event.target.parent.y - this.stage.y) % this.div / this.div) * this.div
-                    x = Math.floor((event.target.parent.x - this.map_container.x) / this.div)
-                    y = Math.floor((event.target.parent.y - this.map_container.y) / this.div)
-                    if(event.target.parent.name !== 1) {
-                        if(this.maps[x][y] !== 0) {
+            if (event.target.parent.x >= this.stage.x && event.target.parent.x <= this.stage.x + mapW - this.div / 2) {
+                if (event.target.parent.y >= this.stage.y && event.target.parent.y < this.stage.y + mapH) {
+                    event.target.parent.x = event.target.parent.x - (event.target.parent.x - this.stage.x) % this.div + Math.round((event.target.parent.x - this.stage.x) % this.div / this.div) * this.div
+                    event.target.parent.y = event.target.parent.y - (event.target.parent.y - this.stage.y) % this.div + Math.round((event.target.parent.y - this.stage.y) % this.div / this.div) * this.div
+                    x = Math.floor((event.target.parent.x - this.mapContainer.x) / this.div)
+                    y = Math.floor((event.target.parent.y - this.mapContainer.y) / this.div)
+                    if (event.target.parent.name !== 1) {
+                        if (this.maps[x][y] !== 0) {
                             this.remove(this.maps[x][y])
                         }
-                        this.maps[x][y] = this.stage.getChildIndex(event.target.parent)
+                        this.maps[x][y] = event.target.parent
                     } else {
-                        if(this.maps[x][y] !== 0) {
-                            console.log(x + "  "+ y + " "+this.maps[x][y])
+                        if (this.maps[x][y] !== 0) {
                             this.remove(this.maps[x][y])
                         }
                         this.maps[x][y] = 0
@@ -137,43 +133,67 @@ export default {
         },
         shadowur (bool, con) {
             if (bool) {
-                con.shadow = new createjs.Shadow("#" + this.randomColor, 0, 0, 10)
+                con.shadow = new createjs.Shadow('#' + this.randomColor, 0, 0, 10)
             } else {
-                con.shadow = null;
+                con.shadow = null
             }
         },
-        remove (index) {
-            console.log("remove")
-            var pindex = this.stage.getChildAt(index)
+        remove (pindex) {
             this.stage.removeChild(pindex)
         },
         submit () {
-            for (var i = 0; i < this.map_width; i++) {
-                for (var j = 0; j < this.map_height; j++) {
-                    if(this.maps[i][j] !== 0) {
-                        this.maps[i][j] = this.stage.getChildAt(this.maps[i][j]).name
+            var string = ''
+            for (var i = 0; i < this.mapWidth; i++) {
+                for (var j = 0; j < this.mapHeight; j++) {
+                    if (this.maps[i][j] !== 0) {
+                        this.maps[i][j] = this.maps[i][j].name
                     }
+                    string += this.maps[i][j]
                 }
             }
-            console.log(this.maps)
+            this.mapPost(string)
         },
         clean () {
             this.stage = null
-            this.map_container = null
+            this.mapContainer = null
             this.maps = []
             this.randomColor = 0
-            this.canvas_width = 900
-            this.canvas_height = 640
+            this.canvasWidth = 900
+            this.canvasHeight = 640
             this.div = 64
             this.bias = 30
             this.items = 3
-            this.map_width = 10
-            this.map_height = 10
+            this.mapWidth = 10
+            this.mapHeight = 10
             this.fzmx = 0
             this.fzmy = 0
             this.sx = 0
             this.sy = 0
             this.init()
+        },
+        mapPost: async function (string) {
+            let jsonObj = JSON.stringify({
+                'mapString': string
+            })
+            let fetchHead = {
+                'Content-Type': 'application/json, text/plain, */*',
+                'Accept': 'application/json'
+            }
+            let response = await fetch('api/save-map', {
+                method: 'post',
+                mode: 'cors',
+                credentials: 'include',
+                headers: fetchHead,
+                body: jsonObj
+            })
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                alert('保存成功!')
+            } else if (await obj.status === '0') {
+                alert('保存失败!')
+            } else {
+                alert('网络失败!')
+            }
         }
     },
     mounted: function () {

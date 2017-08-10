@@ -258,3 +258,14 @@ def logout(request):
         else:
             del request.session['email']
             return JsonResponse({ 'status': '1' })
+        
+@csrf_exempt
+def save_map(request):
+    # 成功返回1，失败返回 0
+    return JsonResponse({ 'status': '1' })
+
+@csrf_exempt
+def read_map(request):
+    # 成功返回1，失败返回 0
+    # mapid =？ 返回 { map：×××××× ; status : '' }
+    return JsonResponse({ 'status': '1' })
