@@ -36,6 +36,7 @@ export default {
         },
         signout: function () {
             this.$parent.$store.commit('changeMenu', 'menu-bar-unlogged')
+            this.$parent.$store.commit('changeView', 'main-page')
             this.$parent.$store.dispatch('signout')
         }
     }

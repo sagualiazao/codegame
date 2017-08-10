@@ -89,7 +89,7 @@ export default {
                     { required: true, validator: validateCheckPassword, trigger: 'blur' }
                 ],
                 captcha: [
-                    { required: true, validator: validateCaptcha, trigger: 'blur' }
+                    { required: true, validator: validateCaptcha, trigger: 'change' }
                 ]
             }
         }

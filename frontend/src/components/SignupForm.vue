@@ -85,8 +85,10 @@ export default {
         var validateCaptcha = (rule, captcha, callback) => {
             if (captcha === '') {
                 callback(new Error(' '))
-            } else if (captcha === this.captchaKey) {
+            } else if (captcha.toLowerCase() === this.captchaKey) {
                 callback()
+            } else if (captcha.length < 4) {
+                callback(new Error('验证码长度不足'))
             } else {
                 callback(new Error('验证码错误'))
             }
@@ -112,7 +114,7 @@ export default {
                     { required: true, validator: validateRepeatPassword, trigger: 'blur' }
                 ],
                 captcha: [
-                    { required: true, validator: validateCaptcha, trigger: 'blur' }
+                    { required: true, validator: validateCaptcha, trigger: 'change' }
                 ]
 
             }
