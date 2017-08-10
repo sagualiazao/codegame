@@ -1,13 +1,13 @@
 <template>
-    <div>
-    <div>
-        <canvas id = "MapEditor">
-        </canvas>
+    <div id="map-editor">
+        <div>
+            <canvas id="map-editor">
+            </canvas>
         </div>
         <div>
-        <button @click = "submit">提交</button>
-        <button @click = "clean">清除</button>
-        <button>返回</button>
+            <button @click="submit">提交</button>
+            <button @click="clean">清除</button>
+            <button>返回</button>
         </div>
     </div>
 </template>
