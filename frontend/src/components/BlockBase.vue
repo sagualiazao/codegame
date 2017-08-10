@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import 'yuki-createjs'
 export default {
     name: 'block-base',
     data: function () {

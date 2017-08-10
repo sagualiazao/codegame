@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import 'yuki-createjs'
 export default {
     name: 'map-editor',
     data: function () {
