@@ -80,6 +80,7 @@ export default {
         @return {List} 返回一个列表,每个元素为执行一次createjs需要的数字列表
         */
         codeListToDataList () {
+            /* eslint no-eval: 0 */
             let dataList = []
             let commandCodeList = this.getCommandCodeList()
             for (let i = 0; i < commandCodeList.length; i++) {
@@ -216,8 +217,11 @@ export default {
         }
     },
     mounted: function () {
+        let ace = require('brace')
+        require('brace/mode/javascript')
+        require('brace/theme/monokai')
         this.jsEditor = ace.edit('js-editor')
-        this.jsEditor.setTheme('ace/theme/twilight')
+        this.jsEditor.setTheme('ace/theme/monokai')
         this.jsEditor.getSession().setMode('ace/mode/javascript')
         this.jsEditor.setHighlightActiveLine(true)
         this.jsEditor.resize()
