@@ -72,7 +72,6 @@ export default {
             }
         },
         chooseRightGoFunction (step) {
-            this.tween = createjs.Tween.get(this.player)
             switch (this.direct) {
             case 1:
                 this.goUp(step)
@@ -92,6 +91,7 @@ export default {
         },
         blockRunCode () {
             let codeList = this.getCodeList()
+            this.tween = createjs.Tween.get(this.player)
             for (let i = 0; i < codeList.length - 1; i++) {
                 let typeOfCode = this.getTypeOfCode(codeList[i])
                 switch (typeOfCode) {
