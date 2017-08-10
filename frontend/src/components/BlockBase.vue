@@ -60,7 +60,7 @@ export default {
             return codeList
         },
         getTypeOfCode (code) {
-            alert(code)
+            // alert(code)
             if (code === 'turn(right)') {
                 return 1
             } else if (code === 'turn(left)') {
@@ -99,10 +99,10 @@ export default {
                     alert('Something wrong with the input.')
                     break
                 case 1:
-                    this.direct = (direct + 1) % 4
+                    this.direct = (this.direct + 1) % 4
                     break
                 case 2:
-                    this.direct = (direct - 1) % 4
+                    this.direct = (this.direct - 1) % 4
                     break
                 case 3:
                     let step = parseInt(codeList[i][3])
