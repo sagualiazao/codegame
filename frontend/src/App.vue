@@ -3,21 +3,14 @@
     <div id="navbar">
         <component :is="$store.state.currentMenbar"></component>
     </div>
-    <component :is="$store.state.currentView"></component>
+    <router-view></router-view>
 </div>
 </template>
 
 <script>
 // 在这个位置引入单文件组件
-import MainPage from './components/MainPage'
 import MenuBarUnlogged from './components/MenuBarUnlogged'
 import MenuBarLogged from './components/MenuBarLogged'
-import Game from './components/Game'
-import EditMap from './components/EditMap'
-import MapSquare from './components/MapSquare'
-import UserInfo from './components/UserInfo'
-import SelectLevel from './components/SelectLevel'
-import BlockBase from './components/BlockBase.vue'
 import EditorBase from './components/EditorBase.vue'
 
 // 这个部分定义使用vuex的整个应用层面的数据存储
@@ -41,7 +34,6 @@ const store = new Vuex.Store({
         registerDate: null,
 
         // 界面切换信息
-        currentView: 'main-page',
         currentMenbar: 'menu-bar-unlogged',
         textMainPage: 'mainPage',
         textGame: 'game',
@@ -61,9 +53,6 @@ const store = new Vuex.Store({
         showMessage (state, text) {
             alert(state.message)
             // alert(text)
-        },
-        changeView (state, text) {
-            state.currentView = text
         },
         changeLoginStatus (state, status) {
             state.loginStatus = status
@@ -129,15 +118,8 @@ export default {
     },
     // 在这里注册单文件组件
     components: {
-        MainPage,
         MenuBarUnlogged,
         MenuBarLogged,
-        Game,
-        EditMap,
-        MapSquare,
-        UserInfo,
-        SelectLevel,
-        BlockBase,
         EditorBase
     },
     mounted: async function () {

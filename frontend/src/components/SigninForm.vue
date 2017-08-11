@@ -67,6 +67,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.login()
+                    this.$parent.$parent$store.commit('changeMenu', 'menu-bar-logged')
                 } else {
                     alert('邮箱或密码输入不正确!')
                     return false
@@ -75,6 +76,8 @@ export default {
         },
         resetForm: function (formName) {
             this.$refs[formName].resetFields()
+            this.$parent.$parent.$store.commit('changeMenu', 'menu-bar-logged')
+            this.$router.push('/' + 'SelectLevel')
         },
         // 向后端发送登录的POST请求
         login: async function () {

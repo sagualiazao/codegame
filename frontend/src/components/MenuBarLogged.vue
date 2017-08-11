@@ -4,14 +4,14 @@
             <el-menu-item index="SelectLevel">开始游戏</el-menu-item>
             <el-submenu index="2">
                 <template slot="title">我的地图</template>
-                <el-menu-item index="edit-map">制作地图</el-menu-item>
-                <el-menu-item index="map-square">地图广场</el-menu-item>
+                <el-menu-item index="MapEditor">制作地图</el-menu-item>
+                <el-menu-item index="MapSquare">地图广场</el-menu-item>
             </el-submenu>
             <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">立即购买</a></el-menu-item>
             <div id="index4">
                 <el-submenu index="4">
                     <template slot="title">{{ $parent.$store.state.userEmail }}</template>
-                    <el-menu-item index="user-info">我的信息</el-menu-item>
+                    <el-menu-item index="UserInfo">我的信息</el-menu-item>
                     <el-menu-item index="4-2" @click="signout">注销</el-menu-item>
                 </el-submenu>
             </div>
@@ -32,11 +32,11 @@ export default {
             this.$parent.$store.commit('changeView', text)
         },
         handleSelect: function (index) {
-            this.$parent.$store.commit('changeView', index)
+            this.$router.push('/' + index)
         },
         signout: function () {
             this.$parent.$store.commit('changeMenu', 'menu-bar-unlogged')
-            this.$parent.$store.commit('changeView', 'main-page')
+            this.$router.push('/')
             this.$parent.$store.dispatch('signout')
         }
     }
