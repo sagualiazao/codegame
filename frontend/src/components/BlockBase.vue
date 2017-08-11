@@ -37,7 +37,6 @@ export default {
         }
     },
     methods: {
-
         editorClick (index) {
             this.$parent.$store.commit('changeView', index)
         },
