@@ -37,6 +37,14 @@ export default {
         }
     },
     methods: {
+        /**
+        *
+        组建的切换  点击editor 的 tab 之后切换到 EditorBase.vue
+        *
+        @method editorClick
+        *
+        @for BlockBase.vue
+        */
         editorClick (index) {
             this.$router.push('/' + index)
         },
@@ -58,6 +66,16 @@ export default {
             let codeList = codeString.split('#')
             return codeList
         },
+        /**
+        *
+        获取当前命令的类型 返回对应数字
+        *
+        @method getTypeOfCode
+        *
+        @for BlockBase.vue
+        *
+        @return {List} 返回一个数值 代表命令类型  1右转 2左转 3直走 0输入异常
+        */
         getTypeOfCode (code) {
             // alert(code)
             if (code === 'turn(right)') {
@@ -70,6 +88,14 @@ export default {
                 return 0
             }
         },
+        /**
+        *
+        根据当前方向选择对应的运动函数
+        *
+        @method chooseRightGoFunction
+        *
+        @for BlockBase.vue
+        */
         chooseRightGoFunction (step) {
             switch (this.direct) {
             case 1:
@@ -88,6 +114,14 @@ export default {
                 alert('something went wrong in chooseRightGoFunction!')
             }
         },
+        /**
+        *
+        解析当前积木块对应的代码, 执行相应的动画
+        *
+        @method blockRunCode
+        *
+        @for BlockBase.vue
+        */
         blockRunCode () {
             let codeList = this.getCodeList()
             this.tween = createjs.Tween.get(this.player)
@@ -116,9 +150,25 @@ export default {
             this.direct = 2
             this.tween.call(this.init)
         },
+        /**
+        *
+        当单击 clean 按钮,清空当前的工作区
+        *
+        @method cleanWorkspace
+        *
+        @for BlockBase.vue
+        */
         cleanWorkspace () {
             this.workspace.clear()
         },
+        /**
+        *
+        跟踪当前工作区积木块的变化,转换为代码,映射到一个textarea里面,用于调试,后期会删掉
+        *
+        @method myUpdateFunction
+        *
+        @for BlockBase.vue
+        */
         myUpdateFunction (event) {
             let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
             document.getElementById('code-area').value = code
@@ -299,6 +349,14 @@ export default {
             this.player.y = playery
         }
     },
+    /**
+    *
+    vue组件加载过程中进行初始化 包括初始化工作区 挂载积木块  初始化createjs游戏界面
+    *
+    @method mounted
+    *
+    @for BlockBase.vue
+    */
     mounted: function () {
         require('../../static/block_defined/blockly_defined.js')
         let toolBox = require('../../src/assets/js/blockly_const_list.js')
