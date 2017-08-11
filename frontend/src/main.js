@@ -13,6 +13,7 @@ import MapEditor from './components/MapEditor'
 import MapSquare from './components/MapSquare'
 import UserInfo from './components/UserInfo'
 import EditorBase from './components/EditorBase.vue'
+import EditMap from './components/EditMap'
 
 global.Blockly = Blockly
 Vue.config.productionTip = false
@@ -55,6 +56,11 @@ const router = new Router({
             path: '/EditorBase',
             name: 'EditorBase',
             component: EditorBase
+        },
+        {
+            path: '/EditMap',
+            name: 'EditMap',
+            component: EditMap
         }
     ]
 })
