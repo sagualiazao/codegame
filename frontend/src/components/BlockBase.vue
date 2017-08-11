@@ -187,11 +187,11 @@ export default {
                 var j
                 for (i = 0; i < this.mapWidth; i++) {
                     for (j = 0; j < this.mapHeight; j++) {
-                        if (string[k] != '!') {
+                        if (string[k] !== '!') {
                             this.maps[i][j] = string[k]
                             k += 1
                         } else {
-                            this.maps[i][j] = string[k + 1] + string [k + 2]
+                            this.maps[i][j] = string[k + 1] + string[k + 2]
                             k += 4
                         }
                     }
