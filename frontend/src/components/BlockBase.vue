@@ -5,7 +5,7 @@
     </div>
     <div class="tab-plugin">
         <a class="block-tab tab" id="block-tab">Block</a>
-        <a class="editor-tab tab" @click="editorClick('editor-base')" id="editor-tab">Editor</a>
+        <a class="editor-tab tab" @click="editorClick('EditorBase')" id="editor-tab">Editor</a>
         <div class="tab-container" id="block-area"></div>
         <input type="text" id="code-area" class="code-area">
         <button class="clean-button" @click="cleanWorkspace()">Clean</button>
@@ -38,7 +38,7 @@ export default {
     },
     methods: {
         editorClick (index) {
-            this.$parent.$store.commit('changeView', index)
+            this.$router.push('/' + index)
         },
         /**
         *

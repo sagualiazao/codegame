@@ -11,7 +11,6 @@
 // 在这个位置引入单文件组件
 import MenuBarUnlogged from './components/MenuBarUnlogged'
 import MenuBarLogged from './components/MenuBarLogged'
-import EditorBase from './components/EditorBase.vue'
 
 // 这个部分定义使用vuex的整个应用层面的数据存储
 import Vue from 'vue'
@@ -119,8 +118,7 @@ export default {
     // 在这里注册单文件组件
     components: {
         MenuBarUnlogged,
-        MenuBarLogged,
-        EditorBase
+        MenuBarLogged
     },
     mounted: async function () {
         let response = await fetch('api/login', {
