@@ -39,6 +39,14 @@ export default {
         }
     },
     methods: {
+        /**
+        *
+        组建的切换  点击block 的 tab 之后切换到 BlockBase.vue
+        *
+        @method blockClick
+        *
+        @for EditorBase.vue
+        */
         blockClick (index) {
             this.$router.push('/' + index)
         },
@@ -69,8 +77,17 @@ export default {
             }
             return commandCodeList
         },
+        /**
+        *
+        获取当前命令的类型 返回对应数字
+        *
+        @method getTypeOfCode
+        *
+        @for EditorBase.vue
+        *
+        @return {List} 返回一个数值 代表命令类型  1右转 2左转 3直走 0输入异常
+        */
         getTypeOfCode (code) {
-            // alert(code)
             if (code === 'turn(right)') {
                 return 1
             } else if (code === 'turn(left)') {
@@ -81,6 +98,14 @@ export default {
                 return 0
             }
         },
+        /**
+        *
+        根据当前方向选择对应的运动函数
+        *
+        @method chooseRightGoFunction
+        *
+        @for EditorBase.vue
+        */
         chooseRightGoFunction (step) {
             switch (this.direct) {
             case 1:
@@ -95,14 +120,11 @@ export default {
             case 4:
                 this.goLeft(step)
                 break
-            default:
-                alert('something went wrong in chooseRightGoFunction!')
             }
         },
         /**
         *
-        createjs 通过 codeListToDataList()获取需要的数组数据, 然后执行相应的动作函数,
-        完成人物的运动
+        分析当前输入的代码,执行动画
         *
         @method tinyEditorRun
         *
@@ -115,7 +137,7 @@ export default {
                 let typeOfCode = this.getTypeOfCode(codeList[i])
                 switch (typeOfCode) {
                 case 0:
-                    alert('Something wrong with the input.')
+                    alert('Please check your code.')
                     break
                 case 1:
                     this.direct = this.direct % 4 + 1
@@ -129,13 +151,19 @@ export default {
                     let step = parseInt(codeList[i][3])
                     this.chooseRightGoFunction(step)
                     break
-                default:
-                    alert('something went wrong in blockRunCode function!')
                 }
             }
             this.direct = 2
             this.tween.call(this.init)
         },
+        /**
+        *
+        当点击clean按钮清空editor
+        *
+        @method cleanWorkspace
+        *
+        @for EditorBase.vue
+        */
         cleanWorkspace () {
             this.jsEditor.setValue('')
         },
@@ -315,6 +343,14 @@ export default {
             this.player.y = playery
         }
     },
+    /**
+    *
+    vue组件加载过程中进行初始化 包括初始化ACE编辑器  初始化createjs游戏界面
+    *
+    @method mounted
+    *
+    @for EditorBase.vue
+    */
     mounted: function () {
         let ace = require('brace')
         require('brace/mode/javascript')
