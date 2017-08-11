@@ -99,10 +99,10 @@ export default {
                     alert('Something wrong with the input.')
                     break
                 case 1:
-                    this.direct = (this.direct + 1) % 4
+                    this.direct = this.direct % 4 + 1
                     break
                 case 2:
-                    this.direct = (this.direct - 1) % 4
+                    this.direct = (this.direct + 2) % 4 + 1
                     break
                 case 3:
                     let step = parseInt(codeList[i][3])
@@ -112,6 +112,8 @@ export default {
                     alert('something went wrong in blockRunCode function!')
                 }
             }
+            this.direct = 2
+            this.tween.call(this.init)
         },
         myUpdateFunction (event) {
             let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
@@ -304,12 +306,8 @@ export default {
         }
     },
     mounted: function () {
-        // require('../assets/block_defined/dg_go_up.js')
-        // require('../assets/block_defined/dg_go_down.js')
-        // require('../assets/block_defined/dg_go_left.js')
-        // require('../assets/block_defined/dg_go_right.js')
-        require('../assets/block_defined/dg_forward.js')
-        require('../assets/block_defined/dg_turn_direction.js')
+        require('../../static/block_defined/dg_forward.js')
+        require('../../static/block_defined/dg_turn_direction.js')
         let toolBox = require('../../src/assets/js/blockly_const_list.js')
         this.workspace = global.Blockly.inject('block-area', {
             toolbox: toolBox,

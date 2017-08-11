@@ -11,8 +11,8 @@ global.Blockly.Blocks['dg_turn_direction'] = {
     }
 }
 global.Blockly.JavaScript['dg_turn_direction'] = function (block) {
-    let dropdownDirection = block.getFieldValue('direction')
-    let code
+    var dropdownDirection = block.getFieldValue('direction')
+    var code
     if (dropdownDirection === 'Right') {
         code = 'turn(right)#'
     } else if (dropdownDirection === 'Left') {
