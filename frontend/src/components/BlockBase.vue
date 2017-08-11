@@ -203,18 +203,8 @@ export default {
             this.tween = createjs.Tween.get(this.player)
             createjs.Ticker.addEventListener('tick', this.stage)
         },
-        sleep (numberMillis) {
-            var now = new Date()
-            var exitTime = now.getTime() + numberMillis
-            while (true) {
-                now = new Date()
-                if (now.getTime() > exitTime) {
-                    return
-                }
-            }
-        },
         wait (seconds) {
-            this.tween.call(this.sleep, [seconds])
+            this.tween.wait(seconds)
         },
         getPlay (direct) {
             switch (direct) {
