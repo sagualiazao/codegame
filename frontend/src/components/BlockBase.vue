@@ -300,8 +300,7 @@ export default {
         }
     },
     mounted: function () {
-        require('../../static/block_defined/dg_forward.js')
-        require('../../static/block_defined/dg_turn_direction.js')
+        require('../../static/block_defined/blockly_defined.js')
         let toolBox = require('../../src/assets/js/blockly_const_list.js')
         this.workspace = global.Blockly.inject('block-area', {
             toolbox: toolBox,
