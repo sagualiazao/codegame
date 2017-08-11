@@ -19,8 +19,8 @@
     "element-ui": "^1.4.1",
     "node-blockly": "^1.0.24",
     "vue": "^2.3.3",
-    "yuki-createjs": "0.0.3",
-    "vue-router": "^2.7.0"
+    "vue-router": "^2.7.0",
+    "yuki-createjs": "0.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

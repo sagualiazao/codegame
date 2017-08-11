@@ -12,6 +12,7 @@ import BlockBase from './components/BlockBase'
 import MapEditor from './components/MapEditor'
 import MapSquare from './components/MapSquare'
 import UserInfo from './components/UserInfo'
+import EditorBase from './components/EditorBase.vue'
 
 global.Blockly = Blockly
 Vue.config.productionTip = false
@@ -49,6 +50,11 @@ const router = new Router({
             path: '/UserInfo',
             name: 'UserInfo',
             component: UserInfo
+        },
+        {
+            path: '/EditorBase',
+            name: 'EditorBase',
+            component: EditorBase
         }
     ]
 })

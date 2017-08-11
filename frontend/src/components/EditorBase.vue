@@ -8,7 +8,7 @@
             <pre id='js-editor' style="font-size: 25px;">
             </pre>
         </div>
-        <a class="block-tab tab" @click="blockClick('block-base')" id="block-tab">Block</a>
+        <a class="block-tab tab" @click="blockClick('BlockBase')" id="block-tab">Block</a>
         <a class="editor-tab tab" id="editor-tab">Editor</a>
         <button class="clean-button" @click="cleanWorkspace()">Clean</button>
         <button class="run-button" @click="tinyEditorRun()">Run</button>
@@ -40,7 +40,7 @@ export default {
     },
     methods: {
         blockClick (index) {
-            this.$parent.$store.commit('changeView', index)
+            this.$router.push('/' + index)
         },
         /**
         *
@@ -231,8 +231,6 @@ export default {
         this.jsEditor.resize()
         this.init()
         createjs.Ticker.addEventListener('tick', this.stage)
-        this.init()
-        createjs.Ticker.addEventListener('tick', this.handleTicker)
     }
 }
 </script>
