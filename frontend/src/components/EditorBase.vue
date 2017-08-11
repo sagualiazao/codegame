@@ -1,7 +1,7 @@
 <template>
 <div class="editor-base">
     <div class="game-area">
-        <canvas id="game-canval" height="360" width="360"></canvas>
+        <canvas id="game-canval" height="640" width="640"></canvas>
     </div>
     <div class="tab-plugin">
         <div class="tab-container">
@@ -27,15 +27,15 @@ export default {
             maps: null,
             player: null,
             stage: null,
-            map_width: 10,
-            map_height: 10,
+            mapId: 0,
+            mapWidth: 10,
+            mapHeight: 10,
             mapx: 0,
             mapy: 0,
-            playerx: 0,
-            playery: 0,
-            direct: 1,
-            length: 0,
-            divx: 36
+            divx: 64,
+            speed: 1000,
+            tween: null,
+            direct: 2
         }
     },
     methods: {
@@ -116,38 +116,60 @@ export default {
         cleanWorkspace () {
             this.jsEditor.setValue('')
         },
+        read: async function () {
+            let response = await fetch('api/read-map?mapid=' + this.mapId, {
+                method: 'get',
+                mode: 'cors',
+                credentials: 'include'
+            })
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                var string = obj.map
+                var k = 0
+                var i
+                var j
+                for (i = 0; i < this.mapWidth; i++) {
+                    for (j = 0; j < this.mapHeight; j++) {
+                        this.maps[i][j] = string[k]
+                        k += 1
+                    }
+                }
+            } else if (await obj.status === '0') {
+                alert('读取失败!')
+            }
+        },
         init () {
-            this.map_width = 10
-            this.map_height = 10
+            this.mapWidth = 10
+            this.mapHeight = 10
             this.mapx = 0
             this.mapy = 0
             this.playerx = 0
             this.playery = 0
-            this.direct = 1
+            this.direct = 2
             this.length = 0
-            this.divx = 36
+            this.divx = 64
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.pic = new createjs.Bitmap('../../static/black.png')
             this.pic.x = this.mapx
             this.pic.y = this.mapy
             this.stage.addChild(this.pic)
-            this.maps = new Array(this.map_width)
+            this.maps = new Array(this.mapWidth)
             var i
             var j
-            for (i = 0; i < this.map_width; i++) {
-                this.maps[i] = new Array(this.map_height)
+            for (i = 0; i < this.mapWidth; i++) {
+                this.maps[i] = new Array(this.mapHeight)
             }
-            for (i = 0; i < this.map_width; i++) {
-                for (j = 0; j < this.map_height; j++) {
+            for (i = 0; i < this.mapWidth; i++) {
+                for (j = 0; j < this.mapHeight; j++) {
                     this.maps[i][j] = j % 2
                 }
             }
-            for (j = 0; j < this.map_width; j++) {
+            for (j = 0; j < this.mapWidth; j++) {
                 this.maps[5][j] = 0
             }
-            for (i = 0; i < this.map_width; i++) {
-                for (j = 0; j < this.map_height; j++) {
+            for (i = 0; i < this.mapWidth; i++) {
+                for (j = 0; j < this.mapHeight; j++) {
                     if (this.maps[i][j] === 1) {
                         var stone = new createjs.Bitmap('../../static/stone.png')
                         stone.x = Math.floor(this.mapx + this.divx * i)
@@ -157,67 +179,117 @@ export default {
                 }
             }
             var spritesheet = new createjs.SpriteSheet({
-                'images': ['http://cdn.gbtags.com/gblibraryassets/libid108/charactor.png'],
-                'frames': {'height': 96, 'count': 10, 'width': 75},
-                'animations': {run: [0, 9]}
+                'images': ['../../static/player.png'],
+                'frames': {'height': 64, 'count': 16, 'width': 64},
+                'animations': {
+                    runRight: [8, 11],
+                    runLeft: [4, 7],
+                    runDown: [0, 3],
+                    runUp: [12, 15]
+                }
             })
             this.player = new createjs.Sprite(spritesheet)
             this.player.x = this.playerx
             this.player.y = this.playery
-            this.player.play()
+            this.player.gotoAndStop(8)
             this.stage.addChild(this.player)
+            this.tween = createjs.Tween.get(this.player)
             createjs.Ticker.addEventListener('tick', this.stage)
         },
-        move () {
-            var i
-            var x
-            var y
-            switch (this.direct) {
+        wait (seconds) {
+            this.tween.wait(seconds)
+        },
+        getPlay (direct) {
+            switch (direct) {
             case 1:
-                for (i = 0; i < this.length; i++) {
-                    x = Math.floor((this.playerx + this.divx - this.mapx) / this.divx)
-                    y = Math.floor((this.playery - this.mapy) / this.divx)
-                    if (x > this.map_width || x < 0 || this.maps[x][y] === 1) {
-                        break
-                    } else {
-                        this.playerx = this.playerx + this.divx
-                    }
-                }
-                break
-            case 2:
-                for (i = 0; i < this.length; i++) {
-                    x = Math.floor((this.playerx - this.divx - this.mapx) / this.divx)
-                    y = Math.floor((this.playery - this.mapy) / this.divx)
-                    if (x > this.map_width || x < 0 || this.maps[x][y] === 1) {
-                        break
-                    } else {
-                        this.playerx = this.playerx - this.divx
-                    }
-                }
+                this.player.gotoAndPlay('runUp')
                 break
             case 3:
-                for (i = 0; i < this.length; i++) {
-                    x = Math.floor((this.playerx - this.mapx) / this.divx)
-                    y = Math.floor((this.playery + this.divx - this.mapy) / this.divx)
-                    if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
-                        break
-                    } else {
-                        this.playery = this.playery + this.divx
-                    }
-                }
+                this.player.gotoAndPlay('runDown')
                 break
             case 4:
-                for (i = 0; i < this.length; i++) {
-                    x = Math.floor((this.playerx - this.mapx) / this.divx)
-                    y = Math.floor((this.playery - this.divx - this.mapy) / this.divx)
-                    if (y > this.map_height || y < 0 || this.maps[x][y] === 1) {
-                        break
-                    } else {
-                        this.playery = this.playery - this.divx
-                    }
-                }
+                this.player.gotoAndPlay('runLeft')
+                break
+            case 2:
+                this.player.gotoAndPlay('runRight')
                 break
             }
+        },
+        getStop (direct) {
+            switch (direct) {
+            case 1:
+                this.player.gotoAndStop(12)
+                break
+            case 3:
+                this.player.gotoAndStop(0)
+                break
+            case 4:
+                this.player.gotoAndStop(4)
+                break
+            case 2:
+                this.player.gotoAndStop(8)
+                break
+            }
+        },
+        goRight (step) {
+            var playerx = this.player.x
+            var playery = this.player.y
+            for (var i = 0; i < step; i++) {
+                var x = Math.floor((playerx + this.divx - this.mapx) / this.divx)
+                var y = Math.floor((playery - this.mapy) / this.divx)
+                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === 1) {
+                    break
+                } else {
+                    playerx = playerx + this.divx
+                }
+            }
+            this.tween.call(this.getPlay, [2]).to({x: playerx}, this.speed).call(this.getStop, [2])
+            this.player.x = playerx
+        },
+        goLeft (step) {
+            var playerx = this.player.x
+            var playery = this.player.y
+            for (var i = 0; i < step; i++) {
+                var x = Math.floor((playerx - this.divx - this.mapx) / this.divx)
+                var y = Math.floor((playery - this.mapy) / this.divx)
+                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === 1) {
+                    break
+                } else {
+                    playerx = playerx - this.divx
+                }
+            }
+            this.tween.call(this.getPlay, [4]).to({x: playerx}, this.speed).call(this.getStop, [4])
+            this.player.x = playerx
+        },
+        goUp (step) {
+            var playerx = this.player.x
+            var playery = this.player.y
+            for (var i = 0; i < step; i++) {
+                var x = Math.floor((playerx - this.mapx) / this.divx)
+                var y = Math.floor((playery - this.divx - this.mapy) / this.divx)
+                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === 1) {
+                    break
+                } else {
+                    playery = playery - this.divx
+                }
+            }
+            this.tween.call(this.getPlay, [1]).to({y: playery}, this.speed).call(this.getStop, [1])
+            this.player.y = playery
+        },
+        goDown (step) {
+            var playerx = this.player.x
+            var playery = this.player.y
+            for (var i = 0; i < step; i++) {
+                var x = Math.floor((playerx - this.mapx) / this.divx)
+                var y = Math.floor((playery + this.divx - this.mapy) / this.divx)
+                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === 1) {
+                    break
+                } else {
+                    playery = playery + this.divx
+                }
+            }
+            this.tween.call(this.getPlay, [3]).to({y: playery}, this.speed).call(this.getStop, [3])
+            this.player.y = playery
         }
     },
     mounted: function () {
@@ -230,7 +302,6 @@ export default {
         this.jsEditor.setHighlightActiveLine(true)
         this.jsEditor.resize()
         this.init()
-        createjs.Ticker.addEventListener('tick', this.stage)
     }
 }
 </script>
