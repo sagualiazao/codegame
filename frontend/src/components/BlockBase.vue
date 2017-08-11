@@ -187,8 +187,13 @@ export default {
                 var j
                 for (i = 0; i < this.mapWidth; i++) {
                     for (j = 0; j < this.mapHeight; j++) {
-                        this.maps[i][j] = string[k]
-                        k += 1
+                        if (string[k] != '!') {
+                            this.maps[i][j] = string[k]
+                            k += 1
+                        } else {
+                            this.maps[i][j] = string[k + 1] + string [k + 2]
+                            k += 4
+                        }
                     }
                 }
             } else if (await obj.status === '0') {
@@ -225,6 +230,8 @@ export default {
             for (j = 0; j < this.mapWidth; j++) {
                 this.maps[5][j] = 0
             }
+            this.maps[5][0] = 5 + '' + 3
+            this.maps[5][3] = 5 + '' + 0
             for (i = 0; i < this.mapWidth; i++) {
                 for (j = 0; j < this.mapHeight; j++) {
                     if (this.maps[i][j] === 1) {
@@ -232,6 +239,11 @@ export default {
                         stone.x = Math.floor(this.mapx + this.divx * i)
                         stone.y = Math.floor(this.mapy + this.divx * j)
                         this.stage.addChild(stone)
+                    } else if (this.maps[i][j] !== 0) {
+                        var ccc = new createjs.Bitmap('../../static/5.png')
+                        ccc.x = Math.floor(this.mapx + this.divx * i)
+                        ccc.y = Math.floor(this.mapy + this.divx * j)
+                        this.stage.addChild(ccc)
                     }
                 }
             }
@@ -253,8 +265,19 @@ export default {
             this.tween = createjs.Tween.get(this.player)
             createjs.Ticker.addEventListener('tick', this.stage)
         },
+        flyfz () {
+            var x = Math.floor((this.player.x - this.mapx) / this.divx)
+            var y = Math.floor((this.player.y - this.mapy) / this.divx)
+            if (this.maps[x][y] !== 1 && this.maps[x][y] !== 0) {
+                this.player.x = Math.floor(this.mapx + this.divx * this.maps[x][y][0])
+                this.player.y = Math.floor(this.mapy + this.divx * this.maps[x][y][1])
+            }
+        },
+        fly () {
+            this.tween.call(this.flyfz)
+        },
         wait (seconds) {
-            this.tween.wait(seconds)
+            this.tween.wait(seconds * 1000)
         },
         getPlay (direct) {
             switch (direct) {
