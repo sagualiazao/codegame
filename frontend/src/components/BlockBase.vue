@@ -99,9 +99,11 @@ export default {
                     break
                 case 1:
                     this.direct = this.direct % 4 + 1
+                    this.tween.call(this.getStop, [this.direct])
                     break
                 case 2:
                     this.direct = (this.direct + 2) % 4 + 1
+                    this.tween.call(this.getStop, [this.direct])
                     break
                 case 3:
                     let step = parseInt(codeList[i][3])
@@ -196,36 +198,26 @@ export default {
             this.player = new createjs.Sprite(spritesheet)
             this.player.x = this.playerx
             this.player.y = this.playery
-            this.player.gotoAndPlay('runRight')
+            this.player.gotoAndStop(8)
             this.stage.addChild(this.player)
             this.tween = createjs.Tween.get(this.player)
             createjs.Ticker.addEventListener('tick', this.stage)
         },
-        sleep (numberMillis) {
-            var now = new Date()
-            var exitTime = now.getTime() + numberMillis
-            while (true) {
-                now = new Date()
-                if (now.getTime() > exitTime) {
-                    return
-                }
-            }
-        },
         wait (seconds) {
-            this.tween.call(this.sleep, [seconds])
+            this.tween.wait(seconds)
         },
         getPlay (direct) {
             switch (direct) {
             case 1:
                 this.player.gotoAndPlay('runUp')
                 break
-            case 2:
+            case 3:
                 this.player.gotoAndPlay('runDown')
                 break
-            case 3:
+            case 4:
                 this.player.gotoAndPlay('runLeft')
                 break
-            case 4:
+            case 2:
                 this.player.gotoAndPlay('runRight')
                 break
             }
@@ -235,13 +227,13 @@ export default {
             case 1:
                 this.player.gotoAndStop(12)
                 break
-            case 2:
+            case 3:
                 this.player.gotoAndStop(0)
                 break
-            case 3:
+            case 4:
                 this.player.gotoAndStop(4)
                 break
-            case 4:
+            case 2:
                 this.player.gotoAndStop(8)
                 break
             }
@@ -258,7 +250,7 @@ export default {
                     playerx = playerx + this.divx
                 }
             }
-            this.tween.call(this.getPlay, [4]).to({x: playerx}, this.speed).call(this.getStop, [4])
+            this.tween.call(this.getPlay, [2]).to({x: playerx}, this.speed).call(this.getStop, [2])
             this.player.x = playerx
         },
         goLeft (step) {
@@ -273,7 +265,7 @@ export default {
                     playerx = playerx - this.divx
                 }
             }
-            this.tween.call(this.getPlay, [3]).to({x: playerx}, this.speed).call(this.getStop, [3])
+            this.tween.call(this.getPlay, [4]).to({x: playerx}, this.speed).call(this.getStop, [4])
             this.player.x = playerx
         },
         goUp (step) {
@@ -303,7 +295,7 @@ export default {
                     playery = playery + this.divx
                 }
             }
-            this.tween.call(this.getPlay, [2]).to({y: playery}, this.speed).call(this.getStop, [2])
+            this.tween.call(this.getPlay, [3]).to({y: playery}, this.speed).call(this.getStop, [3])
             this.player.y = playery
         }
     },
