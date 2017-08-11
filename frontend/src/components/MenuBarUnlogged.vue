@@ -40,16 +40,10 @@ export default {
     methods: {
         handleSelect: function (index) {
             if (index === 'main-page') {
-                this.$parent.$store.commit('changeView', index)
+                this.$router.push('/')
             }
             if (index === 'edit-map') {
                 alert('请先登录')
-            }
-            if (index === 'register') {
-              // 注册处理
-            }
-            if (index === 'login') {
-              // 登录处理
             }
         },
         signupChange: function () {

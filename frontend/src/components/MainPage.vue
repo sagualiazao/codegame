@@ -2,22 +2,22 @@
 <div>
     <div class="main-page">
         <div id="button-container">
-            <button id="start-game" @click="clickTest('block-base')">开始游戏</button>
+            <button id="start-game" @click="clickTest('BlockBase')">开始游戏</button>
         </div>
     </div>
     <div id="intro">
         <p id="game-wordintro">让孩子在游戏中走进编程世界，没有压力，开启头脑风暴</p>
         <div id="pic-intro">
-            <div id="intro1">
+            <div id="intro1" class="introduction">
                 <p>description1</p>
             </div>
-            <div id="intro2">
+            <div id="intro2" class="introduction">
                 <p>description2</p>
             </div>
-            <div id="intro3">
+            <div id="intro3" class="introduction">
                 <p>description3</p>
             </div>
-            <div id="intro4">
+            <div id="intro4" class="introduction">
                 <p>description4</p>
             </div>
         </div>
@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         clickTest (text) {
-            this.$parent.$store.commit('changeView', text)
+            this.$router.push('/' + text)
         },
         handleSelect (index) {
             this.$parent.$store.commit('changeView', index)
@@ -84,24 +84,20 @@ h1 {
     background-color: grey;
     display: inline-flex;
 }
-#intro1 {
+.introduction {
     width: 312.5px;
     height: 200px;
+}
+#intro1 {
     background: url(../assets/backg.jpg) no-repeat 0px center;
 }
 #intro2 {
-    width: 312.5px;
-    height: 200px;
     background: url(../assets/desp1.png) no-repeat 0px center;
 }
 #intro3 {
-    width: 312.5px;
-    height: 200px;
     background: url(../assets/desp2.jpg) no-repeat 0px center;
 }
 #intro4 {
-    width: 312.5px;
-    height: 200px;
     background: url(../assets/desp3.jpg) no-repeat 0px center;
 }
 </style>
