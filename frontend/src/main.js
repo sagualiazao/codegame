@@ -9,7 +9,7 @@ import Blockly from './blockly'
 import MainPage from './components/MainPage'
 import SelectLevel from './components/SelectLevel'
 import BlockBase from './components/BlockBase'
-import EditMap from './components/EditMap'
+import MapEditor from './components/MapEditor'
 import MapSquare from './components/MapSquare'
 import UserInfo from './components/UserInfo'
 
@@ -38,7 +38,7 @@ const router = new Router({
         {
             path: '/MapEditor',
             name: 'MapEditor',
-            component: EditMap
+            component: MapEditor
         },
         {
             path: '/MapSquare',
