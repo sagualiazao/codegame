@@ -8,7 +8,7 @@
         <a class="editor-tab tab" @click="editorClick('editor-base')" id="editor-tab">Editor</a>
         <div class="tab-container" id="block-area"></div>
         <input type="text" id="code-area" class="code-area">
-        <button class="clean-button">Clean</button>
+        <button class="clean-button" @click="cleanWorkspace()">Clean</button>
         <button class="run-button" @click="blockRunCode()">Run</button>
     </div>
 </div>
@@ -81,6 +81,9 @@ export default {
             let dataList = this.getDataList()
             // TODO: 未处理的run程序
             alert(dataList)
+        },
+        cleanWorkspace () {
+            this.workspace.clear()
         },
         myUpdateFunction (event) {
             let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
