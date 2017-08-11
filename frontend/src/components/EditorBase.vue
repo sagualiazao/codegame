@@ -69,35 +69,35 @@ export default {
             }
             return commandCodeList
         },
-        /**
-        *
-        eval() 执行 getCommandCodeList()函数获取的代码列表, 得到每个代码的返回值,存到
-        一个新的列表中
-        *
-        @method codeListToDataList
-        *
-        @for EditorBase.vue
-        *
-        @return {List} 返回一个列表,每个元素为执行一次createjs需要的数字列表
-        */
-        codeListToDataList () {
-            /* eslint no-eval: 0 */
-            let dataList = []
-            let commandCodeList = this.getCommandCodeList()
-            for (let i = 0; i < commandCodeList.length; i++) {
-                try {
-                    let tempString = eval('(' + commandCodeList[i] + ')')
-                    let tempStringList = tempString.split(',')
-                    let tempIntList = []
-                    for (let j = 0; j < tempStringList.length; j++) {
-                        tempIntList.push(parseInt(tempStringList[j]))
-                    }
-                    dataList.push(tempIntList)
-                } catch (e) {
-                    alert(e)
-                }
+        getTypeOfCode (code) {
+            // alert(code)
+            if (code === 'turn(right)') {
+                return 1
+            } else if (code === 'turn(left)') {
+                return 2
+            } else if (code.match(/go(\w*)/)) {
+                return 3
+            } else {
+                return 0
             }
-            return dataList
+        },
+        chooseRightGoFunction (step) {
+            switch (this.direct) {
+            case 1:
+                this.goUp(step)
+                break
+            case 2:
+                this.goRight(step)
+                break
+            case 3:
+                this.goDown(step)
+                break
+            case 4:
+                this.goLeft(step)
+                break
+            default:
+                alert('something went wrong in chooseRightGoFunction!')
+            }
         },
         /**
         *
@@ -109,9 +109,32 @@ export default {
         @for EditorBase.vue
         */
         tinyEditorRun () {
-            let dataList = this.codeListToDataList()
-            // TODO: 未处理的run程序
-            alert(dataList)
+            let codeList = this.getCommandCodeList()
+            this.tween = createjs.Tween.get(this.player)
+            for (let i = 0; i < codeList.length; i++) {
+                let typeOfCode = this.getTypeOfCode(codeList[i])
+                switch (typeOfCode) {
+                case 0:
+                    alert('Something wrong with the input.')
+                    break
+                case 1:
+                    this.direct = this.direct % 4 + 1
+                    this.tween.call(this.getStop, [this.direct])
+                    break
+                case 2:
+                    this.direct = (this.direct + 2) % 4 + 1
+                    this.tween.call(this.getStop, [this.direct])
+                    break
+                case 3:
+                    let step = parseInt(codeList[i][3])
+                    this.chooseRightGoFunction(step)
+                    break
+                default:
+                    alert('something went wrong in blockRunCode function!')
+                }
+            }
+            this.direct = 2
+            this.tween.call(this.init)
         },
         cleanWorkspace () {
             this.jsEditor.setValue('')
