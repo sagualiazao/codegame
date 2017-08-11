@@ -10,7 +10,7 @@
         </div>
         <a class="block-tab tab" @click="blockClick('block-base')" id="block-tab">Block</a>
         <a class="editor-tab tab" id="editor-tab">Editor</a>
-        <button class="clean-button">Clean</button>
+        <button class="clean-button" @click="cleanWorkspace()">Clean</button>
         <button class="run-button" @click="tinyEditorRun()">Run</button>
     </div>
 </div>
@@ -112,6 +112,9 @@ export default {
             let dataList = this.codeListToDataList()
             // TODO: 未处理的run程序
             alert(dataList)
+        },
+        cleanWorkspace () {
+            this.jsEditor.setValue('')
         },
         init () {
             this.map_width = 10
