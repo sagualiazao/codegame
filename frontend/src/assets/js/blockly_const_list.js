@@ -22,6 +22,7 @@ let toolBoxText = [
     '        <block type="dg_collect">',
     '            <field name="message">carrot</field>',
     '        </block>',
+    '        <block type="dg_fly"></block>',
     '    </category>',
     '    <category name="Control" colour="#5ba56d">',
     '        <block type="controls_repeat_ext">',
