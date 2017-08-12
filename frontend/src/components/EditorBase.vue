@@ -10,7 +10,7 @@
         </div>
         <a class="block-tab tab" @click="blockClick('BlockBase')" id="block-tab">Block</a>
         <a class="editor-tab tab" id="editor-tab">Editor</a>
-        <button class="clean-button" @click="cleanWorkspace()">Clean</button>
+        <button class="clean-button" @click="AnalyseCode()">Clean</button>
         <button class="run-button" @click="tinyEditorRun()">Run</button>
     </div>
 </div>

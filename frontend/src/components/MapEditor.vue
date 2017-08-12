@@ -201,16 +201,12 @@ export default {
                     string += this.maps[i][j]
                 }
             }
-<<<<<<< Updated upstream
-            console.log(string)
-=======
             if (this.mapName === '') {
                 callback(new Error('请输入地图名'))
             }
             if (this.mapTips === '') {
                 callback(new Error('请输入有关说明信息'))
             }
->>>>>>> Stashed changes
             this.mapPost(string)
         },
         clean () {
