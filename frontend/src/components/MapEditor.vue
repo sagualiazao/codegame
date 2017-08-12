@@ -18,6 +18,7 @@ export default {
     name: 'map-editor',
     data: function () {
         return {
+            transform: [],
             stage: null,
             mapContainer: null,
             maps: [],
@@ -26,7 +27,7 @@ export default {
             canvasHeight: 640,
             div: 64,
             bias: 30,
-            items: 7,
+            items: 5,
             mapWidth: 10,
             mapHeight: 10,
             fzmx: 0,
@@ -36,6 +37,12 @@ export default {
         }
     },
     methods: {
+        toMapX (screenX) {
+            return Math.floor((screenX - this.mapContainer.x) / this.div)
+        },
+        toMapY (screenY) {
+            return Math.floor((screenY - this.mapContainer.y) / this.div)
+        },
         init () {
             var canvas = document.getElementById('my-map')
             canvas.width = this.canvasWidth
@@ -114,17 +121,15 @@ export default {
                     event.target.parent.y = event.target.parent.y - (event.target.parent.y - this.stage.y) % this.div + Math.round((event.target.parent.y - this.stage.y) % this.div / this.div) * this.div
                     x = Math.floor((event.target.parent.x - this.mapContainer.x) / this.div)
                     y = Math.floor((event.target.parent.y - this.mapContainer.y) / this.div)
-                    if (event.target.parent.name !== 1) {
-                        if (this.maps[x][y] !== 0) {
-                            this.remove(this.maps[x][y])
-                        }
-                        this.maps[x][y] = event.target.parent
-                    } else {
-                        if (this.maps[x][y] !== 0) {
-                            this.remove(this.maps[x][y])
-                        }
-                        this.maps[x][y] = 0
+                    this.remove(x, y)
+                    if (event.target.parent.name === 1) {
                         this.stage.removeChild(event.target.parent)
+                    } else {
+                        if (event.target.parent.name === 5) {
+                            this.setTransform(event.target.parent, x, y)
+                        } else {
+                            this.maps[x][y] = event.target.parent
+                        }
                     }
                 }
             } else {
@@ -139,19 +144,54 @@ export default {
                 con.shadow = null
             }
         },
-        remove (pindex) {
-            this.stage.removeChild(pindex)
+        setTransform (target, x, y) {
+            if (this.transform.length === 0) {
+                this.maps[x][y] = target
+                this.transform.push(target)
+            } else {
+                this.maps[x][y] = this.transform[0]
+                this.maps[this.toMapX(this.transform[0].x)][this.toMapY(this.transform[0].y)] = target
+                this.transform.pop()
+            }
+        },
+        remove (x, y) {
+            if (this.maps[x][y] === 0) {
+                return
+            }
+            if (this.maps[x][y].name !== 5) {
+                this.stage.removeChild(this.maps[x][y])
+                this.maps[x][y] = 0
+                return
+            }
+            if (this.maps[x][y].name === 5) {
+                if (!((x === this.toMapX(this.maps[x][y].x)) && (y === this.toMapY(this.maps[x][y].y)))) {
+                    var temp = this.maps[x][y]
+                    var tempp = this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)]
+                    this.maps[x][y] = 0
+                    this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)] = 0
+                    this.stage.removeChild(temp)
+                    this.stage.removeChild(tempp)
+                } else {
+                    this.stage.removeChild(this.maps[x][y])
+                    this.maps[x][y] = 0
+                    this.transform.pop()
+                }
+            }
+            return
         },
         submit () {
             var string = ''
             for (var i = 0; i < this.mapWidth; i++) {
                 for (var j = 0; j < this.mapHeight; j++) {
-                    if (this.maps[i][j] !== 0) {
+                    if (this.maps[i][j].name === 5) {
+                        this.maps[i][j] = '!' + this.toMapX(this.maps[i][j].x) + '' + this.toMapY(this.maps[i][j].y) + '!'
+                    } else if (this.maps[i][j] !== 0) {
                         this.maps[i][j] = this.maps[i][j].name
                     }
                     string += this.maps[i][j]
                 }
             }
+            console.log(string)
             this.mapPost(string)
         },
         clean () {
@@ -163,7 +203,7 @@ export default {
             this.canvasHeight = 640
             this.div = 64
             this.bias = 30
-            this.items = 7
+            this.items = 5
             this.mapWidth = 10
             this.mapHeight = 10
             this.fzmx = 0

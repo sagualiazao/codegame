@@ -187,54 +187,70 @@ export default {
                 var j
                 for (i = 0; i < this.mapWidth; i++) {
                     for (j = 0; j < this.mapHeight; j++) {
-                        this.maps[i][j] = string[k]
-                        k += 1
+                        if (string[k] !== '!') {
+                            this.maps[i][j] = string[k]
+                            k += 1
+                        } else {
+                            this.maps[i][j] = string[k + 1] + string[k + 2]
+                            k += 4
+                        }
                     }
                 }
             } else if (await obj.status === '0') {
                 alert('读取失败!')
             }
         },
-        init () {
+        initNum () {
             this.mapWidth = 10
             this.mapHeight = 10
             this.mapx = 0
             this.mapy = 0
-            this.playerx = 0
-            this.playery = 0
             this.direct = 2
-            this.length = 0
             this.divx = 64
+        },
+        loadMap () {
+            var i
+            var j
+            this.maps = new Array(this.mapWidth)
+            for (i = 0; i < this.mapWidth; i++) {
+                this.maps[i] = new Array(this.mapHeight)
+            }
+            for (i = 0; i < this.mapWidth; i++) {
+                for (j = 0; j < this.mapHeight; j++) {
+                    this.maps[i][j] = j % 2 + ''
+                }
+            }
+            for (j = 0; j < this.mapWidth; j++) {
+                this.maps[5][j] = '0'
+            }
+            this.maps[5][0] = 5 + '' + 3
+            this.maps[5][3] = 5 + '' + 0
+            for (i = 0; i < this.mapWidth; i++) {
+                for (j = 0; j < this.mapHeight; j++) {
+                    if (this.maps[i][j].length === 1) {
+                        if (this.maps[i][j] !== '0') {
+                            var stone = new createjs.Bitmap('../../static/stone.png')
+                            stone.x = Math.floor(this.mapx + this.divx * i)
+                            stone.y = Math.floor(this.mapy + this.divx * j)
+                            this.stage.addChild(stone)
+                        }
+                    } else if (this.maps[i][j].length === 2) {
+                        var ccc = new createjs.Bitmap('../../static/5.png')
+                        ccc.x = Math.floor(this.mapx + this.divx * this.maps[i][j][0])
+                        ccc.y = Math.floor(this.mapy + this.divx * this.maps[i][j][1])
+                        this.stage.addChild(ccc)
+                    }
+                }
+            }
+        },
+        init () {
+            this.initNum()
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.pic = new createjs.Bitmap('../../static/black.png')
             this.pic.x = this.mapx
             this.pic.y = this.mapy
             this.stage.addChild(this.pic)
-            this.maps = new Array(this.mapWidth)
-            var i
-            var j
-            for (i = 0; i < this.mapWidth; i++) {
-                this.maps[i] = new Array(this.mapHeight)
-            }
-            for (i = 0; i < this.mapWidth; i++) {
-                for (j = 0; j < this.mapHeight; j++) {
-                    this.maps[i][j] = j % 2
-                }
-            }
-            for (j = 0; j < this.mapWidth; j++) {
-                this.maps[5][j] = 0
-            }
-            for (i = 0; i < this.mapWidth; i++) {
-                for (j = 0; j < this.mapHeight; j++) {
-                    if (this.maps[i][j] === 1) {
-                        var stone = new createjs.Bitmap('../../static/stone.png')
-                        stone.x = Math.floor(this.mapx + this.divx * i)
-                        stone.y = Math.floor(this.mapy + this.divx * j)
-                        this.stage.addChild(stone)
-                    }
-                }
-            }
             var spritesheet = new createjs.SpriteSheet({
                 'images': ['../../static/player.png'],
                 'frames': {'height': 64, 'count': 16, 'width': 64},
@@ -246,15 +262,27 @@ export default {
                 }
             })
             this.player = new createjs.Sprite(spritesheet)
-            this.player.x = this.playerx
-            this.player.y = this.playery
+            this.loadMap()
+            this.player.x = this.mapx
+            this.player.y = this.mapy
             this.player.gotoAndStop(8)
             this.stage.addChild(this.player)
             this.tween = createjs.Tween.get(this.player)
             createjs.Ticker.addEventListener('tick', this.stage)
         },
+        flyfz () {
+            var x = Math.floor((this.player.x - this.mapx) / this.divx)
+            var y = Math.floor((this.player.y - this.mapy) / this.divx)
+            if (this.maps[x][y] !== 1 && this.maps[x][y] !== 0) {
+                this.player.x = Math.floor(this.mapx + this.divx * this.maps[x][y][0])
+                this.player.y = Math.floor(this.mapy + this.divx * this.maps[x][y][1])
+            }
+        },
+        fly () {
+            this.tween.call(this.flyfz)
+        },
         wait (seconds) {
-            this.tween.wait(seconds)
+            this.tween.wait(seconds * 1000)
         },
         getPlay (direct) {
             switch (direct) {
