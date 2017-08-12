@@ -7,6 +7,7 @@ from io import BytesIO
 import base64
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
+import re
 
 
 class Captcha:
@@ -32,7 +33,8 @@ class Captcha:
         Returns:  
             返回一个长度为length的验证码字符串
         '''
-        return random.sample(Captcha.chars, length)
+        captcha_list =  random.sample(Captcha.chars, length)
+        return ''.join(captcha_list)
 
     def generate_captcha(width=80, height=35,
         background='#FFFFFF', foreground='#FF0000',
@@ -151,20 +153,24 @@ class CBC:
         Returns:  
             crypted_str - 加密后的数据的base64编码
         '''
-        # 生成秘钥的字符串,可以用验证码
-        key_md5 = MD5.new()
-        key_md5.update(bytes(key_str, 'utf-8'))
-        # 可以用于AES的key
-        key_str = key_md5.hexdigest()
-        # 可以用于AES的iv
-        iv_str = key_str[2:18]
-        # python需要使用'\0'来填充,否则加密得到的结果会和js加密结果不同
-        padding = '\0'
-        pad_it = lambda s: s + (16 - len(s) % 16) * padding
-        generator = AES.new(key_str, AES.MODE_CBC, iv_str)
-        crypted_bytes = generator.encrypt(pad_it(data))
-        crypted_str = base64.b64encode(crypted_bytes).decode()
-        return crypted_str
+        params_is_str = isinstance(key_str, str) and isinstance(data, str)
+        if params_is_str:
+            # 生成秘钥的字符串,可以用验证码
+            key_md5 = MD5.new()
+            key_md5.update(bytes(key_str, 'utf-8'))
+            # 可以用于AES的key
+            key_str = key_md5.hexdigest()
+            # 可以用于AES的iv
+            iv_str = key_str[2:18]
+            # python需要使用'\0'来填充,否则加密得到的结果会和js加密结果不同
+            padding = '\0'
+            pad_it = lambda s: s + (16 - len(bytes(s, 'utf-8')) % 16) * padding
+            generator = AES.new(key_str, AES.MODE_CBC, iv_str)
+            crypted_bytes = generator.encrypt(pad_it(data))
+            crypted_str = base64.b64encode(crypted_bytes).decode()
+            return crypted_str
+        else:
+            raise TypeError('加密仅接受字符串参数')
 
     def decrypt(key_str, data):
         '''
@@ -177,15 +183,25 @@ class CBC:
         Returns:  
             recovery_str - 解密后的字符串
         '''
-        key_md5 = MD5.new()
-        key_md5.update(bytes(key_str, 'utf-8'))
-        key_str = key_md5.hexdigest()
-        iv_str = key_str[2:18]
-        padding = '\0'
-        pad_it = lambda s: s + (16 - len(s) % 16) * padding
-        generator = AES.new(key_str, AES.MODE_CBC, iv_str)
-        data = base64.b64decode(data)
-        recovery = generator.decrypt(data)
-        recovery_str = recovery.decode().rstrip(padding)
-        return recovery_str
+        params_is_str = isinstance(key_str, str) and isinstance(data, str)
+        if params_is_str:
+            key_md5 = MD5.new()
+            key_md5.update(bytes(key_str, 'utf-8'))
+            key_str = key_md5.hexdigest()
+            iv_str = key_str[2:18]
+            padding = '\0'
+            generator = AES.new(key_str, AES.MODE_CBC, iv_str)
+            data = base64.b64decode(data)
+            recovery = generator.decrypt(data)
+            recovery_str = recovery.decode().rstrip(padding)
+            return recovery_str
+        else:
+            raise TypeError('加密仅接受字符串参数')
 
+
+def check_email_format(email):
+    pattern = re.compile(r'^[a-z0-9]+([._\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$')
+    if pattern.match(email) != None:
+        return True
+    else:
+        return False
