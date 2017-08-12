@@ -4,7 +4,7 @@
             <el-input v-model="resetPasswordForm.email" placeholder="请输入你的邮箱地址"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" class="send-ver" :disabled="sendEmailDisabled" @click="sendEmail()" icon="share">发送验证邮件</el-button>
+            <el-button type="primary" class="send-ver" :disabled="sendEmailDisabled" @click="sendEmail()" icon="share">{{ this.ButtonMessage }}</el-button>
         </el-form-item>
         <el-form-item label="密码" prop="password">
             <el-input type="password" v-model="resetPasswordForm.password" :disabled="cannotResetPassword" placeholder="请输入密码" auto-complete="off"></el-input>
@@ -69,9 +69,12 @@ export default {
             }
         }
         return {
+            ButtonMessage: '发送验证码邮件',
+            Seconds: 60,
             captchaKey: null,
             sendEmailDisabled: true,
             cannotResetPassword: true,
+            timer: null,
             resetPasswordForm: {
                 email: '',
                 password: '',
@@ -127,6 +130,17 @@ export default {
                 callback()
             }
         },
+        countTime () {
+            this.sendEmailDisabled = true
+            this.ButtonMessage = this.Seconds + 's后再次发送'
+            this.Seconds--
+            if (this.Seconds === 0) {
+                this.sendEmailDisabled = false
+                this.ButtonMessage = '发送验证码邮件'
+                this.Seconds = 60
+                clearInterval(this.timer)
+            }
+        },
         sendEmail: async function () {
             let jsonObj = JSON.stringify({
                 'email': this.resetPasswordForm.email
@@ -146,6 +160,7 @@ export default {
             if (await obj.status === '1') {
                 this.captchaKey = obj.captcha
                 this.cannotResetPassword = false
+                this.timer = setInterval(this.countTime, 1000)
             } else {
                 alert('邮件发送失败')
             }
