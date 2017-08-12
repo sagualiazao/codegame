@@ -26,6 +26,8 @@ export default {
             maps: null,
             player: null,
             stage: null,
+            key: null,
+            haveKey: false,
             indexCodeList: 0,
             mapId: 0,
             mapWidth: 10,
@@ -221,7 +223,7 @@ export default {
             this.divx = 64
             this.indexCodeList = 0
         },
-        loadMap () {
+        mapTest () {
             var i
             var j
             this.maps = new Array(this.mapWidth)
@@ -238,14 +240,31 @@ export default {
             }
             this.maps[5][0] = 5 + '' + 3
             this.maps[5][3] = 5 + '' + 0
+            this.maps[5][1] = '2'
+            this.maps[5][4] = '3'
+        },
+        loadMap () {
+            var i
+            var j
+            this.mapTest()
             for (i = 0; i < this.mapWidth; i++) {
                 for (j = 0; j < this.mapHeight; j++) {
                     if (this.maps[i][j].length === 1) {
-                        if (this.maps[i][j] !== '0') {
+                        if (this.maps[i][j] === '1') {
                             var stone = new createjs.Bitmap('../../static/stone.png')
                             stone.x = Math.floor(this.mapx + this.divx * i)
                             stone.y = Math.floor(this.mapy + this.divx * j)
                             this.stage.addChild(stone)
+                        } else if (this.maps[i][j] === '2') {
+                            this.key = new createjs.Bitmap('../../static/2.png')
+                            this.key.x = Math.floor(this.mapx + this.divx * i)
+                            this.key.y = Math.floor(this.mapy + this.divx * j)
+                            this.stage.addChild(this.key)
+                        } else if (this.maps[i][j] === '3') {
+                            var stoned = new createjs.Bitmap('../../static/3.png')
+                            stoned.x = Math.floor(this.mapx + this.divx * i)
+                            stoned.y = Math.floor(this.mapy + this.divx * j)
+                            this.stage.addChild(stoned)
                         }
                     } else if (this.maps[i][j].length === 2) {
                         var ccc = new createjs.Bitmap('../../static/5.png')
@@ -289,7 +308,7 @@ export default {
             this.tween.call(function () {
                 var x = Math.floor((that.player.x - that.mapx) / that.divx)
                 var y = Math.floor((that.player.y - that.mapy) / that.divx)
-                if (that.maps[x][y] !== 1 && that.maps[x][y] !== 0) {
+                if (that.maps[x][y] !== '1' && that.maps[x][y] !== '0') {
                     that.player.x = Math.floor(that.mapx + that.divx * that.maps[x][y][0])
                     that.player.y = Math.floor(that.mapy + that.divx * that.maps[x][y][1])
                 }
@@ -298,13 +317,43 @@ export default {
         wait (seconds) {
             this.tween.wait(seconds * 1000)
         },
-        collect () {
+        collect (str) {
+            var x = Math.floor((this.player.x - this.mapx) / this.divx)
+            var y = Math.floor((this.player.y - this.mapy) / this.divx)
+            if (this.maps[x][y] === '2' && str === 'key') {
+                console.log(22)
+                this.maps[x][y] === '0'
+                this.stage.removeChild(this.key)
+                this.haveKey = true
+            }
+            if (this.haveKey) {
+                this.say('Get it!')
+            }
         },
-        drop () {
+        drop (str) {
+            var x = Math.floor((this.player.x - this.mapx) / this.divx)
+            var y = Math.floor((this.player.y - this.mapy) / this.divx)
+            if (this.maps[x][y] !== '3' && this.haveKey && str === 'key') {
+                this.maps[x][y] === '2'
+                this.key.x = this.player.x
+                this.key.y = this.player.y
+                this.stage.addChild(this.key)
+                this.haveKey = true
+                this.say('Drop it!')
+            } else if (this.maps[x][y] === '3' && this.haveKey && str === 'key') {
+                this.maps[x][y] === '0'
+                this.key.x = this.player.x
+                this.key.y = this.player.y
+                this.stage.addChild(this.key)
+                this.haveKey = false
+                this.say('Open it!')
+            }
         },
         say (words) {
+            console.log(words)
             const these = this
-            this.tween.call(function (words) {
+            this.tween.call(function () {
+                console.log(222)
                 var text = new createjs.Text(words, '20px Arial', 'blue')
                 var sp = new createjs.Shape()
                 text.x = these.player.x
@@ -318,7 +367,7 @@ export default {
                     that.stage.removeChild(text)
                     that.stage.removeChild(sp)
                 }, 500)
-            }, [words])
+            })
             this.wait(0.5)
         },
         getPlay (direct) {
@@ -446,10 +495,6 @@ export default {
         })
         this.workspace.addChangeListener(this.myUpdateFunction)
         this.init()
-        this.goRight(5)
-        this.goDown(5)
-        this.say('222')
-        this.goDown(2)
     }
 }
 </script>
