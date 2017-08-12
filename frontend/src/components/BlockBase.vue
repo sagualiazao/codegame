@@ -284,19 +284,42 @@ export default {
             this.tween = createjs.Tween.get(this.player)
             createjs.Ticker.addEventListener('tick', this.stage)
         },
-        flyfz () {
-            var x = Math.floor((this.player.x - this.mapx) / this.divx)
-            var y = Math.floor((this.player.y - this.mapy) / this.divx)
-            if (this.maps[x][y] !== 1 && this.maps[x][y] !== 0) {
-                this.player.x = Math.floor(this.mapx + this.divx * this.maps[x][y][0])
-                this.player.y = Math.floor(this.mapy + this.divx * this.maps[x][y][1])
-            }
-        },
         fly () {
-            this.tween.call(this.flyfz)
+            const that = this
+            this.tween.call(function () {
+                var x = Math.floor((that.player.x - that.mapx) / that.divx)
+                var y = Math.floor((that.player.y - that.mapy) / that.divx)
+                if (that.maps[x][y] !== 1 && that.maps[x][y] !== 0) {
+                    that.player.x = Math.floor(that.mapx + that.divx * that.maps[x][y][0])
+                    that.player.y = Math.floor(that.mapy + that.divx * that.maps[x][y][1])
+                }
+            })
         },
         wait (seconds) {
             this.tween.wait(seconds * 1000)
+        },
+        collect () {
+        },
+        drop () {
+        },
+        say (words) {
+            const these = this
+            this.tween.call(function (words) {
+                var text = new createjs.Text(words, '20px Arial', 'blue')
+                var sp = new createjs.Shape()
+                text.x = these.player.x
+                text.y = these.player.y
+                sp.graphics.s('black').rr(text.x - 5, text.y - 5, text.getBounds().width + 10, text.getBounds().height + 10, 10)
+                // 圆角矩形
+                these.stage.addChild(text)
+                these.stage.addChild(sp)
+                const that = these
+                setTimeout(function () {
+                    that.stage.removeChild(text)
+                    that.stage.removeChild(sp)
+                }, 500)
+            }, [words])
+            this.wait(0.5)
         },
         getPlay (direct) {
             switch (direct) {
@@ -423,6 +446,10 @@ export default {
         })
         this.workspace.addChangeListener(this.myUpdateFunction)
         this.init()
+        this.goRight(5)
+        this.goDown(5)
+        this.say('222')
+        this.goDown(2)
     }
 }
 </script>
