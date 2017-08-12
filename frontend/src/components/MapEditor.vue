@@ -1,5 +1,6 @@
 <template>
     <div class="map-editor">
+        <h1>在这里创建你的地图</h1>
         <div>
             <canvas id="my-map">
             </canvas>
@@ -8,6 +9,13 @@
             <button @click="submit">提交</button>
             <button @click="clean">清除</button>
             <button>返回</button>
+        </div>
+        <div>
+            <label>地图名</label><br>
+            <input v-model="mapName" placeholder="请输入你的地图名字">
+            <br>
+            <label>说明信息</label><br>
+            <textarea v-model="mapTips" placeholder="请输入说明信息"></textarea>
         </div>
     </div>
 </template>
@@ -33,7 +41,9 @@ export default {
             fzmx: 0,
             fzmy: 0,
             sx: 0,
-            sy: 0
+            sy: 0,
+            mapName: '',
+            mapTips: ''
         }
     },
     methods: {
@@ -191,7 +201,16 @@ export default {
                     string += this.maps[i][j]
                 }
             }
+<<<<<<< Updated upstream
             console.log(string)
+=======
+            if (this.mapName === '') {
+                callback(new Error('请输入地图名'))
+            }
+            if (this.mapTips === '') {
+                callback(new Error('请输入有关说明信息'))
+            }
+>>>>>>> Stashed changes
             this.mapPost(string)
         },
         clean () {
@@ -210,11 +229,15 @@ export default {
             this.fzmy = 0
             this.sx = 0
             this.sy = 0
+            this.mapName = ''
+            this.mapTips = ''
             this.init()
         },
         mapPost: async function (string) {
             let jsonObj = JSON.stringify({
-                'mapString': string
+                'mapString': string,
+                'name': this.mapName,
+                'remarks': this.mapTips
             })
             let fetchHead = {
                 'Content-Type': 'application/json, text/plain, */*',
@@ -244,9 +267,21 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+    font-size: 30px;
+    color: #D8FA2A;
+}
 canvas {
-    float: left;
     border: ridge 2px #ADD8E6;
+}
+input, textarea {
+    border: ridge 2px #ADD8E6;
+    width: 200px;
+    vertical-align: middle;
+}
+label {
+    vertical-align: middle;
+    display: inline;
 }
 button {
     display: inline-block;
@@ -266,9 +301,11 @@ button {
 }
 button:hover {
     background-color: #FFE4B5;
+    color: black;
 }
 button:active {
     background-color: #D19275;
+    color: black;
     box-shadow: 3px 5px #333;
     transform: translateY(4px);
 }
