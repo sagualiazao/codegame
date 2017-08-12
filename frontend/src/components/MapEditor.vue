@@ -1,7 +1,7 @@
 <template>
-    <div id="map-editor">
+    <div class="map-editor">
         <div>
-            <canvas id="MapEditor">
+            <canvas id="my-map">
             </canvas>
         </div>
         <div>
@@ -44,13 +44,13 @@ export default {
             return Math.floor((screenY - this.mapContainer.y) / this.div)
         },
         init () {
-            var canvas = document.getElementById('MapEditor')
+            var canvas = document.getElementById('my-map')
             canvas.width = this.canvasWidth
             canvas.height = this.canvasHeight
             this.stage = new createjs.Stage(canvas)
             createjs.Touch.enable(this.stage)
             this.mapContainer = new createjs.Container()
-            var background = new createjs.Bitmap('../../static/black.png')
+            var background = new createjs.Bitmap('../../static/h5.png')
             this.mapContainer.x = this.stage.x
             this.mapContainer.y = this.stage.y
             this.mapContainer.addChild(background)
@@ -203,7 +203,7 @@ export default {
             this.canvasHeight = 640
             this.div = 64
             this.bias = 30
-            this.items = 3
+            this.items = 5
             this.mapWidth = 10
             this.mapHeight = 10
             this.fzmx = 0
@@ -242,3 +242,34 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+canvas {
+    float: left;
+    border: ridge 2px #ADD8E6;
+}
+button {
+    display: inline-block;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: white;
+    background-color: #8FBC8F;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px #333;
+}
+button:hover {
+    background-color: #FFE4B5;
+}
+button:active {
+    background-color: #D19275;
+    box-shadow: 3px 5px #333;
+    transform: translateY(4px);
+}
+</style>

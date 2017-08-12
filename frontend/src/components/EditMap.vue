@@ -2,23 +2,8 @@
 <div class="edit-map">
     <div id="map1">
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-            <el-tab-pane label="制作地图" name="first">
-                <div class="map-scene" @drop="drop($event)" @dragover="allowDrop($event)">地图</div>
-                <div class="materials" @drop="drop($event)" @dragover="allowDrop($event)">素材库
-                    <img src="../assets/logo.png" draggable="true" @dragstart="drag($event)" id="drag1">
-                    <img src="../assets/timg.jpeg" draggable="true" @dragstart="drag($event)" id="drag2">
-                    <img src="../assets/mat1.jpg" draggable="true" @dragstart="drag($event)" id="drag3">
-                    <img src="../assets/mat2.jpeg" draggable="true" @dragstart="drag($event)" id="drag4">
-                    <img src="../assets/mat3.jpg" draggable="true" @dragstart="drag($event)" id="drag5">
-                    <img src="../assets/mat4.jpg" draggable="true" @dragstart="drag($event)" id="drag6">
-                    <img src="../assets/mat5.jpg" draggable="true" @dragstart="drag($event)" id="drag7">
-                    <img src="../assets/mat6.jpg" draggable="true" @dragstart="drag($event)" id="drag8">
-                    <img src="../assets/mat7.jpg" draggable="true" @dragstart="drag($event)" id="drag9">
-                    <img src="../assets/mat8.jpg" draggable="true" @dragstart="drag($event)" id="drag10">
-                    <img src="../assets/mat9.jpg" draggable="true" @dragstart="drag($event)" id="drag11">
-                </div>
-                <button type="save-map" @click="saveClick">保存地图</button>
-                <h1>在这里创建地图</h1>
+            <el-tab-pane label="制作地图" name="map-editor">
+                <map-editor></map-editor>
             </el-tab-pane>
             <el-tab-pane label="我做的地图" name="second">
                 <div class="published">
@@ -43,30 +28,25 @@
 </div>
 </template>
 
+
 <script>
+import MapEditor from './MapEditor'
+
 export default {
     name: 'edit-map',
     data: function () {
         return {
-            activeName: 'first',
+            activeName: 'map-editor',
             activeIndex: 'published',
             msg: '看到这行字，说明它正常了'
         }
     },
+    components: {
+        MapEditor
+    },
     methods: {
         handleClick (tab, event) {
             console.log(tab, event)
-        },
-        allowDrop: function (event) {
-            event.preventDefault()
-        },
-        drag: function (event) {
-            event.dataTransfer.setData('Text', event.target.id)
-        },
-        drop: function (event) {
-            event.preventDefault()
-            var da = event.dataTransfer.getData('Text')
-            event.target.appendChild(document.getElementById(da))
         },
         saveClick () {
             // 这里保存地图
@@ -90,28 +70,7 @@ h2 {
     height: 300px;
 }
 #map1 {
-    margin-top: -25px;
-}
-.map-scene, .materials {
-    display: inline;
-}
-.map-scene img, .materials img {
-    width: 70px;
-    height: 60px;
-}
-.map-scene {
-    float: left;
-    width: 580px;
-    height: 500px;
-    background-color: #98FB98;
-    border:2px solid #ADD8E6;
-}
-.materials {
-    float: right;
-    width: 580px;
-    height: 500px;
-    background-color: #FFDEAD;
-    border: 2px solid #F0E68C;
+    margin-top: 20px;
 }
 button {
     display: inline-block;

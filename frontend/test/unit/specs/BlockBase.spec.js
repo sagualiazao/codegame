@@ -15,7 +15,7 @@ describe('BlockBase.vue', () => {
         expect(defaultData.tween).to.equal(null)
     })
     it('correctly sets the message when created', () => {
-    const vm = new Vue(BlockBase).$mount()
-    expect(vm.tween).toequal(null)
-  })
+        const vm = new Vue(BlockBase).$mount()
+        expect(vm.tween).toequal(null)
+    })
 })
