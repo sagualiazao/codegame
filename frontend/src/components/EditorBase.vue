@@ -47,13 +47,6 @@ export default {
         *
         @for EditorBase.vue
         */
-        AnalyseCode () {
-            var Code = 'go#5{#go5{go(5)#go(5)#3{go(4)#go(4)#}}}'
-            alert(Code.split('{')[0])
-        },
-        DeleRepeate (tmp) {
-
-        },
         blockClick (index) {
             this.$router.push('/' + index)
         },
