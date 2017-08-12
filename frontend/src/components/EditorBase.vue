@@ -40,122 +40,127 @@ export default {
     },
     methods: {
         /**
-        *
-        组建的切换  点击block 的 tab 之后切换到 BlockBase.vue
-        *
-        @method blockClick
-        *
-        @for EditorBase.vue
-        */
-        blockClick (index) {
-            this.$router.push('/' + index)
-        },
-        /**
-        *
-        解析当前ACE文本框中输入的内容,将内容分解成代码列表
-        *
-        @method getCommandCodeList
-        *
-        @for EditorBase.vue
-        *
-        @return {List} 返回一个列表 ,每个元素为一个独立的代码(没有分号)
-        */
-        getCommandCodeList () {
-            let commandCodeList = []
-            let lineCount = this.jsEditor.session.getLength()
-            for (let i = 0; i < lineCount; i++) {
-                let currentLine = this.jsEditor.session.getLine(i)
-                currentLine = currentLine.replace(/\s*/g, '')
-                if (currentLine !== '') {
-                    let codeListPerLine = currentLine.split(';')
-                    for (let j = 0; j < codeListPerLine.length; j++) {
-                        if (codeListPerLine[j] !== '') {
-                            commandCodeList.push(codeListPerLine[j])
-                        }
-                    }
-                }
-            }
-            return commandCodeList
-        },
-        /**
-        *
-        获取当前命令的类型 返回对应数字
-        *
-        @method getTypeOfCode
-        *
-        @for EditorBase.vue
-        *
-        @return {List} 返回一个数值 代表命令类型  1右转 2左转 3直走 0输入异常
-        */
-        getTypeOfCode (code) {
-            if (code === 'turn(right)') {
-                return 1
-            } else if (code === 'turn(left)') {
-                return 2
-            } else if (code.match(/go(\w*)/)) {
-                return 3
-            } else {
-                return 0
-            }
-        },
-        /**
-        *
-        根据当前方向选择对应的运动函数
-        *
-        @method chooseRightGoFunction
-        *
-        @for EditorBase.vue
-        */
-        chooseRightGoFunction (step) {
-            switch (this.direct) {
-            case 1:
-                this.goUp(step)
-                break
-            case 2:
-                this.goRight(step)
-                break
-            case 3:
-                this.goDown(step)
-                break
-            case 4:
-                this.goLeft(step)
-                break
-            }
-        },
-        /**
-        *
-        分析当前输入的代码,执行动画
-        *
-        @method tinyEditorRun
-        *
-        @for EditorBase.vue
-        */
-        tinyEditorRun () {
-            let codeList = this.getCommandCodeList()
-            this.tween = createjs.Tween.get(this.player)
-            for (let i = 0; i < codeList.length; i++) {
-                let typeOfCode = this.getTypeOfCode(codeList[i])
-                switch (typeOfCode) {
-                case 0:
-                    alert('Please check your code.')
-                    break
-                case 1:
-                    this.direct = this.direct % 4 + 1
-                    this.tween.call(this.getStop, [this.direct])
-                    break
-                case 2:
-                    this.direct = (this.direct + 2) % 4 + 1
-                    this.tween.call(this.getStop, [this.direct])
-                    break
-                case 3:
-                    let step = parseInt(codeList[i][3])
-                    this.chooseRightGoFunction(step)
-                    break
-                }
-            }
-            this.direct = 2
-            this.tween.call(this.init)
-        },
+       *
+       组建的切换  点击block 的 tab 之后切换到 BlockBase.vue
+       *
+       @method blockClick
+       *
+       @for EditorBase.vue
+       */
+       blockClick (index) {
+           this.$router.push('/' + index)
+       },
+       /**
+       *
+       解析当前ACE文本框中输入的内容,将内容分解成代码列表
+       *
+       @method getCommandCodeList
+       *
+       @for EditorBase.vue
+       *
+       @return {List} 返回一个列表 ,每个元素为一个独立的代码(没有分号)
+       */
+       getCommandCodeList () {
+           let commandCodeList = []
+           let lineCount = this.jsEditor.session.getLength()
+           for (let i = 0; i < lineCount; i++) {
+               let currentLine = this.jsEditor.session.getLine(i)
+               currentLine = currentLine.replace(/\s*/g, '')
+               if (currentLine !== '') {
+                   let codeListPerLine = currentLine.split(';')
+                   for (let j = 0; j < codeListPerLine.length; j++) {
+                       if (codeListPerLine[j] !== '') {
+                           commandCodeList.push(codeListPerLine[j])
+                       }
+                   }
+               }
+           }
+           return commandCodeList
+       },
+       /**
+       *
+       获取当前命令的类型 返回对应数字
+       *
+       @method getTypeOfCode
+       *
+       @for EditorBase.vue
+       *
+       @return {List} 返回一个数值 代表命令类型  1右转 2左转 3直走 0输入异常
+       */
+       getTypeOfCode (code) {
+           if (code === 'turn(right)') {
+               return 1
+           } else if (code === 'turn(left)') {
+               return 2
+           } else if (code.slice(0, 3) === 'go(' &&
+            code[code.length - 1] === ')') {
+               if (isNaN(parseInt(code.slice(3, code.length - 1)))) {
+                   return 0
+               } else {
+                   return 3
+               }
+           } else {
+               return 0
+           }
+       },
+       /**
+       *
+       根据当前方向选择对应的运动函数
+       *
+       @method chooseRightGoFunction
+       *
+       @for EditorBase.vue
+       */
+       chooseRightGoFunction (step) {
+           switch (this.direct) {
+           case 1:
+               this.goUp(step)
+               break
+           case 2:
+               this.goRight(step)
+               break
+           case 3:
+               this.goDown(step)
+               break
+           case 4:
+               this.goLeft(step)
+               break
+           }
+       },
+       /**
+       *
+       分析当前输入的代码,执行动画
+       *
+       @method tinyEditorRun
+       *
+       @for EditorBase.vue
+       */
+       tinyEditorRun () {
+           let codeList = this.getCommandCodeList()
+           this.tween = createjs.Tween.get(this.player)
+           for (let i = 0; i < codeList.length; i++) {
+               let typeOfCode = this.getTypeOfCode(codeList[i])
+               switch (typeOfCode) {
+               case 0:
+                   alert('Please check your code.')
+                   break
+               case 1:
+                   this.direct = this.direct % 4 + 1
+                   this.tween.call(this.getStop, [this.direct])
+                   break
+               case 2:
+                   this.direct = (this.direct + 2) % 4 + 1
+                   this.tween.call(this.getStop, [this.direct])
+                   break
+               case 3:
+                   let step = parseInt(codeList[i].slice(3, codeList[i].length - 1))
+                   this.chooseRightGoFunction(step)
+                   break
+               }
+           }
+           this.direct = 2
+           this.tween.call(this.init)
+       },
         /**
         *
         当点击clean按钮清空editor
@@ -359,6 +364,7 @@ export default {
         this.jsEditor.setTheme('ace/theme/monokai')
         this.jsEditor.getSession().setMode('ace/mode/javascript')
         this.jsEditor.setHighlightActiveLine(true)
+        this.jsEditor.setValue('go(5)')
         this.jsEditor.resize()
         this.init()
     }

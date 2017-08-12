@@ -1,21 +1,30 @@
-// The path is relative to the project root.
+import Vue from 'vue'
 import BlockBase from '@/components/BlockBase'
+import { createVue, destroyVM } from '../util'
 
 describe('BlockBase.vue', () => {
-    it('expect the direct to be 2', () => {
-        // Extend the component to get the constructor, which we can then initialize directly.
-        expect(typeof BlockBase.data).to.equal('function')
-        const defaultData = BlockBase.data()
-        expect(defaultData.direct).to.equal(2)
-    })
     it('expect the tween to be 2', () => {
-        // Extend the component to get the constructor, which we can then initialize directly.
         expect(typeof BlockBase.data).to.equal('function')
         const defaultData = BlockBase.data()
         expect(defaultData.tween).to.equal(null)
     })
+
     it('correctly sets the message when created', () => {
         const vm = new Vue(BlockBase).$mount()
-        expect(vm.tween).toequal(null)
+        const defaultData = BlockBase.data()
+        expect(defaultData.tween).to.equal(null)
+    })
+})
+
+describe('blockly', () => {
+    let vm
+    afterEach(() => {
+        destroyVM(vm)
+    })
+
+    it('blockly的mounted挂载成功', () => {
+        vm = createVue(BlockBase, true)
+        expect(vm.direct).to.equal(2)
+        expect(vm.workspace).to.exit
     })
 })
