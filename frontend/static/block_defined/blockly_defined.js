@@ -39,7 +39,6 @@ global.Blockly.Blocks['dg_say'] = {
 global.Blockly.Blocks['dg_collect'] = {
     init: function () {
         this.appendDummyInput().appendField('collect')
-        .appendField(new global.Blockly.FieldTextInput('carrot'), 'message')
         this.setPreviousStatement(true, null)
         this.setNextStatement(true, null)
         this.setColour(260)
@@ -85,6 +84,22 @@ global.Blockly.Blocks['dg_function'] = {
     }
 }
 
+global.Blockly.Blocks['dg_fly'] = {
+    init: function () {
+        this.appendDummyInput().setAlign(global.Blockly.ALIGN_CENTRE).appendField('gate    fly ')
+        this.setPreviousStatement(true, null)
+        this.setNextStatement(true, null)
+        this.setColour(260)
+        this.setTooltip('')
+        this.setHelpUrl('')
+    }
+}
+global.Blockly.JavaScript['dg_fly'] = function (block) {
+    // TODO: Assemble JavaScript into code variable.
+    var code = 'fly()#'
+    return code
+}
+
 global.Blockly.JavaScript['dg_forward'] = function (block) {
     var valueName = global.Blockly.JavaScript
     .valueToCode(block, 'NAME', global.Blockly.JavaScript.ORDER_ATOMIC)
@@ -111,7 +126,6 @@ global.Blockly.JavaScript['dg_say'] = function (block) {
 }
 
 global.Blockly.JavaScript['dg_collect'] = function (block) {
-    var textMessage = block.getFieldValue('message')
     // TODO: Assemble JavaScript into code variable.
     var code = '...\n'
     return code

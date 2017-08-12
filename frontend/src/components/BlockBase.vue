@@ -84,6 +84,8 @@ export default {
                 return 2
             } else if (code.match(/go(\w*)/)) {
                 return 3
+            } else if (code === 'fly()') {
+                return 4
             } else {
                 return 0
             }
@@ -142,6 +144,9 @@ export default {
                 case 3:
                     let step = parseInt(codeList[i][3])
                     this.chooseRightGoFunction(step)
+                    break
+                case 4:
+                    this.fly()
                     break
                 default:
                     alert('something went wrong in blockRunCode function!')
