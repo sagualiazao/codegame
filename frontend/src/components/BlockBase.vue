@@ -20,11 +20,13 @@ export default {
     name: 'block-base',
     data: function () {
         return {
+            interval: null,
             workspace: null,
             pic: null,
             maps: null,
             player: null,
             stage: null,
+            indexCodeList: 0,
             mapId: 0,
             mapWidth: 10,
             mapHeight: 10,
@@ -124,36 +126,41 @@ export default {
         *
         @for BlockBase.vue
         */
-        blockRunCode () {
-            let codeList = this.getCodeList()
+        blockRunCodeFz () {
             this.tween = createjs.Tween.get(this.player)
-            for (let i = 0; i < codeList.length - 1; i++) {
-                let typeOfCode = this.getTypeOfCode(codeList[i])
-                switch (typeOfCode) {
-                case 0:
-                    alert('Something wrong with the input.')
-                    break
-                case 1:
-                    this.direct = this.direct % 4 + 1
-                    this.tween.call(this.getStop, [this.direct])
-                    break
-                case 2:
-                    this.direct = (this.direct + 2) % 4 + 1
-                    this.tween.call(this.getStop, [this.direct])
-                    break
-                case 3:
-                    let step = parseInt(codeList[i][3])
-                    this.chooseRightGoFunction(step)
-                    break
-                case 4:
-                    this.fly()
-                    break
-                default:
-                    alert('something went wrong in blockRunCode function!')
-                }
+            let codeList = this.getCodeList()
+            if (this.indexCodeList >= codeList.length - 1) {
+                clearInterval(this.interval)
+                this.init()
+                return
             }
-            this.direct = 2
-            this.tween.call(this.init)
+            var typeOfCode = this.getTypeOfCode(codeList[this.indexCodeList])
+            switch (typeOfCode) {
+            case 0:
+                alert('Something wrong with the input.')
+                break
+            case 1:
+                this.direct = this.direct % 4 + 1
+                this.tween.call(this.getStop, [this.direct])
+                break
+            case 2:
+                this.direct = (this.direct + 2) % 4 + 1
+                this.tween.call(this.getStop, [this.direct])
+                break
+            case 3:
+                let step = parseInt(codeList[this.indexCodeList][3])
+                this.chooseRightGoFunction(step)
+                break
+            case 4:
+                this.fly()
+                break
+            default:
+                alert('something went wrong in blockRunCode function!')
+            }
+            this.indexCodeList += 1
+        },
+        blockRunCode () {
+            this.interval = setInterval(this.blockRunCodeFz, 1000)
         },
         /**
         *
@@ -212,6 +219,7 @@ export default {
             this.mapy = 0
             this.direct = 2
             this.divx = 64
+            this.indexCodeList = 0
         },
         loadMap () {
             var i
@@ -250,6 +258,7 @@ export default {
         },
         init () {
             this.initNum()
+            this.interval = null
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.pic = new createjs.Bitmap('../../static/black.png')

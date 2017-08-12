@@ -208,6 +208,7 @@ export default {
                 callback(new Error('请输入有关说明信息'))
             }
             this.mapPost(string)
+            this.clean()
         },
         clean () {
             this.stage = null
