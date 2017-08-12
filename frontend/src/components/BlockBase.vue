@@ -29,6 +29,7 @@ export default {
             key: null,
             haveKey: false,
             indexCodeList: 0,
+            boss: null,
             mapId: 0,
             mapWidth: 10,
             mapHeight: 10,
@@ -240,8 +241,8 @@ export default {
             }
             this.maps[5][0] = 5 + '' + 3
             this.maps[5][3] = 5 + '' + 0
-            this.maps[5][1] = '2'
-            this.maps[5][4] = '3'
+            this.maps[5][2] = '2'
+            this.maps[4][0] = '3'
         },
         loadMap () {
             var i
@@ -274,6 +275,11 @@ export default {
                     }
                 }
             }
+            this.maps[5][1] = '1'
+            this.boss = new createjs.Bitmap('../../static/stone.png')
+            this.boss.x = Math.floor(this.mapx + this.divx * 5)
+            this.boss.y = Math.floor(this.mapy + this.divx * 1)
+            this.stage.addChild(this.boss)
         },
         init () {
             this.initNum()
@@ -345,6 +351,10 @@ export default {
                 this.key.x = this.player.x
                 this.key.y = this.player.y
                 this.stage.addChild(this.key)
+                var xx = Math.floor((this.boss.x - this.mapx) / this.divx)
+                var yy = Math.floor((this.boss.y - this.mapy) / this.divx)
+                this.maps[xx][yy] = 0
+                this.stage.removeChild(this.boss)
                 this.haveKey = false
                 this.say('Open it!')
             }
