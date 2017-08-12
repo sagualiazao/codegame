@@ -193,6 +193,7 @@ export default {
             }
             console.log(string)
             this.mapPost(string)
+            this.clean()
         },
         clean () {
             this.stage = null
