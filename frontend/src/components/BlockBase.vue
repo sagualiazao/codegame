@@ -38,7 +38,8 @@ export default {
             divx: 64,
             speed: 1000,
             tween: null,
-            direct: 2
+            direct: 2,
+            functionSet: {}
         }
     },
     methods: {
@@ -47,6 +48,8 @@ export default {
         组建的切换  点击editor 的 tab 之后切换到 EditorBase.vue
         *
         @method editorClick
+        *
+        @param {index} 转换的page
         *
         @for BlockBase.vue
         */
@@ -63,47 +66,31 @@ export default {
         *
         @return {List} 返回一个列表,每个元素为一条命令
         */
-        getCodeList () {
+        blockRunCode () {
+            /* eslint no-eval: 0 */
             document.LoopTrap = 1000
             global.Blockly.JavaScript.INFINITE_LOOP_TRAP =
             'if (--window.LoopTrap === 0) throw "Infinite loop.";\n'
             let codeString = global.Blockly.JavaScript.workspaceToCode(this.workspace)
-            let codeList = codeString.split('#')
-            return codeList
-        },
-        /**
-        *
-        获取当前命令的类型 返回对应数字
-        *
-        @method getTypeOfCode
-        *
-        @for BlockBase.vue
-        *
-        @return {List} 返回一个数值 代表命令类型  1右转 2左转 3直走 0输入异常
-        */
-        getTypeOfCode (code) {
-            // alert(code)
-            if (code === 'turn(right)') {
-                return 1
-            } else if (code === 'turn(left)') {
-                return 2
-            } else if (code.match(/go(\w*)/)) {
-                return 3
-            } else if (code === 'fly()') {
-                return 4
-            } else {
-                return 0
+            this.tween = createjs.Tween.get(this.player)
+            try {
+                eval(codeString)
+            } catch (e) {
+                alert(e)
             }
+            this.tween.call(this.init)
         },
         /**
         *
-        根据当前方向选择对应的运动函数
+        封装走动函数, 根据direct决定当前的方向, 选择对应的执行函数
         *
-        @method chooseRightGoFunction
+        @method go
+        *
+        @param {step} 走的步数
         *
         @for BlockBase.vue
         */
-        chooseRightGoFunction (step) {
+        go (step) {
             switch (this.direct) {
             case 1:
                 this.goUp(step)
@@ -117,53 +104,26 @@ export default {
             case 4:
                 this.goLeft(step)
                 break
-            default:
-                alert('something went wrong in chooseRightGoFunction!')
             }
         },
         /**
         *
-        解析当前积木块对应的代码, 执行相应的动画
+        封装转向函数
         *
-        @method blockRunCode
+        @method turn
+        *
+        @param {direction} 方向 left right
         *
         @for BlockBase.vue
         */
-        blockRunCodeFz () {
-            this.tween = createjs.Tween.get(this.player)
-            let codeList = this.getCodeList()
-            if (this.indexCodeList >= codeList.length - 1) {
-                clearInterval(this.interval)
-                this.init()
-                return
-            }
-            var typeOfCode = this.getTypeOfCode(codeList[this.indexCodeList])
-            switch (typeOfCode) {
-            case 0:
-                alert('Something wrong with the input.')
-                break
-            case 1:
+        turn (direction) {
+            if (direction === 'right') {
                 this.direct = this.direct % 4 + 1
                 this.tween.call(this.getStop, [this.direct])
-                break
-            case 2:
+            } else {
                 this.direct = (this.direct + 2) % 4 + 1
                 this.tween.call(this.getStop, [this.direct])
-                break
-            case 3:
-                let step = parseInt(codeList[this.indexCodeList][3])
-                this.chooseRightGoFunction(step)
-                break
-            case 4:
-                this.fly()
-                break
-            default:
-                alert('something went wrong in blockRunCode function!')
             }
-            this.indexCodeList += 1
-        },
-        blockRunCode () {
-            this.interval = setInterval(this.blockRunCodeFz, 1000)
         },
         /**
         *
@@ -282,6 +242,7 @@ export default {
             this.stage.addChild(this.boss)
         },
         init () {
+            this.functionSet = {}
             this.initNum()
             this.interval = null
             var canvas = document.getElementById('game-canval')
