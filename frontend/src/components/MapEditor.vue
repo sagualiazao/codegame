@@ -35,7 +35,7 @@ export default {
             canvasHeight: 640,
             div: 64,
             bias: 30,
-            items: 5,
+            items: 4,
             mapWidth: 10,
             mapHeight: 10,
             fzmx: 0,
@@ -83,10 +83,10 @@ export default {
             this.randomColor = Math.floor(Math.random() * 16777215).toString(16)
             for (var i = 1; i <= this.items; i++) {
                 var con = new createjs.Container()
-                var bitmap = new createjs.Bitmap('../../static/' + i + '.png')
+                var bitmap = new createjs.Bitmap('../../static/' + (i * i) + '.png')
                 con.x = ox
                 con.y = oy
-                con.name = i
+                con.name = (i * i)
                 oy += this.div
                 con.addChild(bitmap)
                 con.addEventListener('mousedown', this.mousedown)
@@ -132,10 +132,10 @@ export default {
                     x = Math.floor((event.target.parent.x - this.mapContainer.x) / this.div)
                     y = Math.floor((event.target.parent.y - this.mapContainer.y) / this.div)
                     this.remove(x, y)
-                    if (event.target.parent.name === 1) {
+                    if (event.target.parent.name === 16) {
                         this.stage.removeChild(event.target.parent)
                     } else {
-                        if (event.target.parent.name === 5) {
+                        if (event.target.parent.name === 9) {
                             this.setTransform(event.target.parent, x, y)
                         } else {
                             this.maps[x][y] = event.target.parent
@@ -168,12 +168,12 @@ export default {
             if (this.maps[x][y] === 0) {
                 return
             }
-            if (this.maps[x][y].name !== 5) {
+            if (this.maps[x][y].name !== 9) {
                 this.stage.removeChild(this.maps[x][y])
                 this.maps[x][y] = 0
                 return
             }
-            if (this.maps[x][y].name === 5) {
+            if (this.maps[x][y].name === 9) {
                 if (!((x === this.toMapX(this.maps[x][y].x)) && (y === this.toMapY(this.maps[x][y].y)))) {
                     var temp = this.maps[x][y]
                     var tempp = this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)]
@@ -193,7 +193,7 @@ export default {
             var string = ''
             for (var i = 0; i < this.mapWidth; i++) {
                 for (var j = 0; j < this.mapHeight; j++) {
-                    if (this.maps[i][j].name === 5) {
+                    if (this.maps[i][j].name === 9) {
                         this.maps[i][j] = '!' + this.toMapX(this.maps[i][j].x) + '' + this.toMapY(this.maps[i][j].y) + '!'
                     } else if (this.maps[i][j] !== 0) {
                         this.maps[i][j] = this.maps[i][j].name
@@ -202,10 +202,10 @@ export default {
                 }
             }
             if (this.mapName === '') {
-                callback(new Error('请输入地图名'))
+                alert('请输入地图名')
             }
             if (this.mapTips === '') {
-                callback(new Error('请输入有关说明信息'))
+                alert('请输入有关说明信息')
             }
             this.mapPost(string)
             this.clean()
@@ -219,7 +219,7 @@ export default {
             this.canvasHeight = 640
             this.div = 64
             this.bias = 30
-            this.items = 5
+            this.items = 4
             this.mapWidth = 10
             this.mapHeight = 10
             this.fzmx = 0

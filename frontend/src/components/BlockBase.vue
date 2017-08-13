@@ -258,6 +258,7 @@ export default {
             obj.gotoAndStop(8)
             this.player = obj
             this.stage.addChild(this.player)
+            this.stage.setChildIndex(this.player, this.stage.numChildren - 1)
         },
         loadMap () {
             var i
@@ -305,15 +306,14 @@ export default {
             const that = this
             var condition = 0
             if (this.maps[x][y] === '2' && str === 'key') {
+                this.maps[x][y] = '0'
+                this.haveKey = true
                 this.tween.call(function () {
-                    that.maps[x][y] = '0'
                     that.stage.removeChild(that.key)
-                    that.haveKey = true
                     that.saywords('Get it!')
                 })
                 condition = 1
             }
-            console.log(condition)
             if (condition === 1) {
                 this.wait(0.5)
             }
@@ -325,25 +325,25 @@ export default {
             var condition = 0
             if (this.maps[x][y] !== '3' && this.haveKey && str === 'key') {
                 condition = 1
+                this.maps[x][y] = '2'
+                this.haveKey = false
                 this.tween.call(function () {
-                    that.maps[x][y] = '2'
                     that.key.x = that.player.x
                     that.key.y = that.player.y
                     that.stage.addChild(that.key)
-                    that.haveKey = false
                     that.saywords('Drop it!')
                 })
             } else if (this.maps[x][y] === '3' && this.haveKey && str === 'key') {
+                this.maps[x][y] = '0'
+                var xx = Math.floor((this.treeSp.x - this.mapx) / this.div)
+                var yy = Math.floor((this.treeSp.y - this.mapy) / this.div)
+                this.maps[xx][yy] = 0
+                this.haveKey = false
                 this.tween.call(function () {
-                    that.maps[x][y] = '0'
                     that.key.x = that.player.x
                     that.key.y = that.player.y
                     that.stage.addChild(that.key)
-                    var xx = Math.floor((that.treeSp.x - that.mapx) / that.div)
-                    var yy = Math.floor((that.treeSp.y - that.mapy) / that.div)
-                    that.maps[xx][yy] = 0
                     that.stage.removeChild(that.treeSp)
-                    that.haveKey = false
                     that.saywords('Open it!')
                 })
             }
