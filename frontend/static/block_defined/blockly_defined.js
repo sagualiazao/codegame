@@ -1,3 +1,8 @@
+global.Blockly.WorkspaceSvg.prototype.preloadAudio_=function(){
+    console.log("Sounds : ", JSON.stringify(this.SOUNDS_));
+};
+
+
 global.Blockly.Blocks['dg_forward'] = {
     init: function () {
         this.appendDummyInput().appendField('move forward')
@@ -132,11 +137,9 @@ global.Blockly.Blocks['dg_function_call'] = {
     }
 }
 
-
 global.Blockly.JavaScript['dg_for'] = function (block) {
     var timesNumber = block.getFieldValue('times')
     var statementsName = global.Blockly.JavaScript.statementToCode(block, 'statementsName')
-    // TODO: Assemble JavaScript into code variable.
     var code = ''
     for(var i = 0; i < parseInt(timesNumber); i++ ) {
         code = code + statementsName
@@ -145,7 +148,6 @@ global.Blockly.JavaScript['dg_for'] = function (block) {
 }
 
 global.Blockly.JavaScript['dg_fly'] = function (block) {
-    // TODO: Assemble JavaScript into code variable.
     var code = 'this.fly();'
     return code
 }
@@ -196,14 +198,6 @@ global.Blockly.JavaScript['dg_wait'] = function (block) {
     return code
 }
 
-global.Blockly.JavaScript['dg_object'] = function (block) {
-    var characterName = block.getFieldValue('characterName')
-    var statementsName = global.Blockly.JavaScript.statementToCode(block, 'functionName')
-    // TODO: Assemble JavaScript into code variable.
-    var code = characterName + '(' + statementsName + ')\n'
-    return code
-}
-
 global.Blockly.JavaScript['dg_function'] = function (block) {
     var functionName = block.getFieldValue('functionName')
     var statementsName = global.Blockly.JavaScript.statementToCode(block, 'NAME')
@@ -213,10 +207,17 @@ global.Blockly.JavaScript['dg_function'] = function (block) {
 
 global.Blockly.JavaScript['dg_function_call'] = function (block) {
     var textFunctonName = block.getFieldValue('functonName')
-    // TODO: Assemble JavaScript into code variable.
     code = [
         'let m = this.functionSet[\'' + textFunctonName + '\'];',
         'eval(m);'
     ].join('\n')
+    return code
+}
+
+global.Blockly.JavaScript['dg_object'] = function (block) {
+    var characterName = block.getFieldValue('characterName')
+    var statementsName = global.Blockly.JavaScript.statementToCode(block, 'functionName')
+    // TODO: Assemble JavaScript into code variable.
+    var code = characterName + '(' + statementsName + ')\n'
     return code
 }
