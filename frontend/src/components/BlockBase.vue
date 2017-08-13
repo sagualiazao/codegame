@@ -20,26 +20,24 @@ export default {
     name: 'block-base',
     data: function () {
         return {
-            interval: null,
             workspace: null,
             pic: null,
             maps: null,
             player: null,
+            friend: null,
             stage: null,
             key: null,
+            treeSp: null,
+            tween: null,
             haveKey: false,
-            indexCodeList: 0,
-            boss: null,
             mapId: 0,
             mapWidth: 10,
             mapHeight: 10,
             mapx: 0,
             mapy: 0,
-            divx: 64,
+            div: 64,
             speed: 1000,
-            tween: null,
-            direct: 2,
-            functionSet: {}
+            direct: 2
         }
     },
     methods: {
@@ -175,85 +173,78 @@ export default {
                 alert('读取失败!')
             }
         },
+        toScreenX (mapX) {
+            return Math.floor(this.mapx + this.div * mapX)
+        },
+        toScreenY (mapY) {
+            return Math.floor(this.mapy + this.div * mapY)
+        },
         initNum () {
             this.mapWidth = 10
             this.mapHeight = 10
-            this.mapx = 0
-            this.mapy = 0
             this.direct = 2
-            this.divx = 64
-            this.indexCodeList = 0
+            this.div = 64
+            this.speed = 1000
+            this.haveKey = false
         },
         mapTest () {
-            var i
-            var j
-            this.maps = new Array(this.mapWidth)
-            for (i = 0; i < this.mapWidth; i++) {
-                this.maps[i] = new Array(this.mapHeight)
-            }
-            for (i = 0; i < this.mapWidth; i++) {
-                for (j = 0; j < this.mapHeight; j++) {
-                    this.maps[i][j] = j % 2 + ''
-                }
-            }
-            for (j = 0; j < this.mapWidth; j++) {
-                this.maps[5][j] = '0'
-            }
-            this.maps[5][0] = 5 + '' + 3
-            this.maps[5][3] = 5 + '' + 0
-            this.maps[5][2] = '2'
-            this.maps[4][0] = '3'
+            this.maps = [
+                ['5', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['2', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['3', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['7', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1']
+            ]
         },
-        loadMap () {
-            var i
-            var j
-            this.mapTest()
-            for (i = 0; i < this.mapWidth; i++) {
-                for (j = 0; j < this.mapHeight; j++) {
-                    if (this.maps[i][j].length === 1) {
-                        if (this.maps[i][j] === '1') {
-                            var stone = new createjs.Bitmap('../../static/stone.png')
-                            stone.x = Math.floor(this.mapx + this.divx * i)
-                            stone.y = Math.floor(this.mapy + this.divx * j)
-                            this.stage.addChild(stone)
-                        } else if (this.maps[i][j] === '2') {
-                            this.key = new createjs.Bitmap('../../static/2.png')
-                            this.key.x = Math.floor(this.mapx + this.divx * i)
-                            this.key.y = Math.floor(this.mapy + this.divx * j)
-                            this.stage.addChild(this.key)
-                        } else if (this.maps[i][j] === '3') {
-                            var stoned = new createjs.Bitmap('../../static/3.png')
-                            stoned.x = Math.floor(this.mapx + this.divx * i)
-                            stoned.y = Math.floor(this.mapy + this.divx * j)
-                            this.stage.addChild(stoned)
-                        }
-                    } else if (this.maps[i][j].length === 2) {
-                        var ccc = new createjs.Bitmap('../../static/5.png')
-                        ccc.x = Math.floor(this.mapx + this.divx * this.maps[i][j][0])
-                        ccc.y = Math.floor(this.mapy + this.divx * this.maps[i][j][1])
-                        this.stage.addChild(ccc)
-                    }
-                }
+        loadObj (index, i, j) {
+            var stone
+            if (index.length === 2) {
+                stone = new createjs.Bitmap('../../static/9.png')
+                stone.x = this.toScreenX(index[0])
+                stone.y = this.toScreenY(index[1])
+                this.stage.addChild(stone)
+                return
             }
-            this.maps[5][1] = '1'
-            this.boss = new createjs.Bitmap('../../static/stone.png')
-            this.boss.x = Math.floor(this.mapx + this.divx * 5)
-            this.boss.y = Math.floor(this.mapy + this.divx * 1)
-            this.stage.addChild(this.boss)
+            if (index === '2') {
+                this.key = new createjs.Bitmap('../../static/2.png')
+                this.key.x = this.toScreenX(i)
+                this.key.y = this.toScreenY(j)
+                this.stage.addChild(this.key)
+                return
+            }
+            if (index === '5') {
+                this.loadCharactor(this.player, '../../static/player.png', i, j)
+                return
+            }
+            if (index === '6') {
+                this.loadCharactor(this.friend, '../../static/friend.png', i, j)
+                return
+            }
+            if (index === '7') {
+                this.treeSp = new createjs.Bitmap('../../static/7.png')
+                this.treeSp.x = this.toScreenX(i)
+                this.treeSp.y = this.toScreenY(j)
+                this.maps[i][j] = '1'
+                this.stage.addChild(this.treeSp)
+                return
+            }
+            if (index !== '0') {
+                stone = new createjs.Bitmap('../../static/' + index + '.png')
+                stone.x = this.toScreenX(i)
+                stone.y = this.toScreenY(j)
+                this.stage.addChild(stone)
+            }
+            return
         },
-        init () {
-            this.functionSet = {}
-            this.initNum()
-            this.interval = null
-            var canvas = document.getElementById('game-canval')
-            this.stage = new createjs.Stage(canvas)
-            this.pic = new createjs.Bitmap('../../static/black.png')
-            this.pic.x = this.mapx
-            this.pic.y = this.mapy
-            this.stage.addChild(this.pic)
+        loadCharactor (obj, path, x, y) {
             var spritesheet = new createjs.SpriteSheet({
-                'images': ['../../static/player.png'],
-                'frames': {'height': 64, 'count': 16, 'width': 64},
+                'images': [path],
+                'frames': {'height': this.div, 'count': 16, 'width': this.div},
                 'animations': {
                     runRight: [8, 11],
                     runLeft: [4, 7],
@@ -261,84 +252,122 @@ export default {
                     runUp: [12, 15]
                 }
             })
-            this.player = new createjs.Sprite(spritesheet)
-            this.loadMap()
-            this.player.x = this.mapx
-            this.player.y = this.mapy
-            this.player.gotoAndStop(8)
+            obj = new createjs.Sprite(spritesheet)
+            obj.x = this.toScreenX(x)
+            obj.y = this.toScreenY(y)
+            obj.gotoAndStop(8)
+            this.player = obj
             this.stage.addChild(this.player)
+        },
+        loadMap () {
+            var i
+            var j
+            this.mapTest()
+            for (i = 0; i < this.mapWidth; i++) {
+                for (j = 0; j < this.mapHeight; j++) {
+                    this.loadObj(this.maps[i][j], i, j)
+                }
+            }
+        },
+        init () {
+            this.initNum()
+            var canvas = document.getElementById('game-canval')
+            this.stage = new createjs.Stage(canvas)
+            this.mapx = this.stage.x
+            this.mapy = this.stage.y
+            this.pic = new createjs.Bitmap('../../static/black.png')
+            this.pic.x = this.mapx
+            this.pic.y = this.mapy
+            this.stage.addChild(this.pic)
+            this.loadMap()
             this.tween = createjs.Tween.get(this.player)
             createjs.Ticker.addEventListener('tick', this.stage)
         },
         fly () {
-            const that = this
-            this.tween.call(function () {
-                var x = Math.floor((that.player.x - that.mapx) / that.divx)
-                var y = Math.floor((that.player.y - that.mapy) / that.divx)
-                if (that.maps[x][y] !== '1' && that.maps[x][y] !== '0') {
-                    that.player.x = Math.floor(that.mapx + that.divx * that.maps[x][y][0])
-                    that.player.y = Math.floor(that.mapy + that.divx * that.maps[x][y][1])
-                }
-            })
+            var x = Math.floor((this.player.x - this.mapx) / this.div)
+            var y = Math.floor((this.player.y - this.mapy) / this.div)
+            var playerx = this.player.x
+            var playery = this.player.y
+            if (this.maps[x][y].length === 2) {
+                playerx = Math.floor(this.mapx + this.div * this.maps[x][y][0])
+                playery = Math.floor(this.mapy + this.div * this.maps[x][y][1])
+            }
+            this.tween.to({x: playerx, y: playery}, 0)
+            this.player.x = playerx
+            this.player.y = playery
         },
         wait (seconds) {
             this.tween.wait(seconds * 1000)
         },
         collect (str) {
-            var x = Math.floor((this.player.x - this.mapx) / this.divx)
-            var y = Math.floor((this.player.y - this.mapy) / this.divx)
+            var x = Math.floor((this.player.x - this.mapx) / this.div)
+            var y = Math.floor((this.player.y - this.mapy) / this.div)
+            const that = this
+            var condition = 0
             if (this.maps[x][y] === '2' && str === 'key') {
-                console.log(22)
-                this.maps[x][y] === '0'
-                this.stage.removeChild(this.key)
-                this.haveKey = true
+                this.tween.call(function () {
+                    that.maps[x][y] = '0'
+                    that.stage.removeChild(that.key)
+                    that.haveKey = true
+                    that.saywords('Get it!')
+                })
+                condition = 1
             }
-            if (this.haveKey) {
-                this.say('Get it!')
+            console.log(condition)
+            if (condition === 1) {
+                this.wait(0.5)
             }
         },
         drop (str) {
-            var x = Math.floor((this.player.x - this.mapx) / this.divx)
-            var y = Math.floor((this.player.y - this.mapy) / this.divx)
+            var x = Math.floor((this.player.x - this.mapx) / this.div)
+            var y = Math.floor((this.player.y - this.mapy) / this.div)
+            const that = this
+            var condition = 0
             if (this.maps[x][y] !== '3' && this.haveKey && str === 'key') {
-                this.maps[x][y] === '2'
-                this.key.x = this.player.x
-                this.key.y = this.player.y
-                this.stage.addChild(this.key)
-                this.haveKey = true
-                this.say('Drop it!')
+                condition = 1
+                this.tween.call(function () {
+                    that.maps[x][y] = '2'
+                    that.key.x = that.player.x
+                    that.key.y = that.player.y
+                    that.stage.addChild(that.key)
+                    that.haveKey = false
+                    that.saywords('Drop it!')
+                })
             } else if (this.maps[x][y] === '3' && this.haveKey && str === 'key') {
-                this.maps[x][y] === '0'
-                this.key.x = this.player.x
-                this.key.y = this.player.y
-                this.stage.addChild(this.key)
-                var xx = Math.floor((this.boss.x - this.mapx) / this.divx)
-                var yy = Math.floor((this.boss.y - this.mapy) / this.divx)
-                this.maps[xx][yy] = 0
-                this.stage.removeChild(this.boss)
-                this.haveKey = false
-                this.say('Open it!')
+                this.tween.call(function () {
+                    that.maps[x][y] = '0'
+                    that.key.x = that.player.x
+                    that.key.y = that.player.y
+                    that.stage.addChild(that.key)
+                    var xx = Math.floor((that.treeSp.x - that.mapx) / that.div)
+                    var yy = Math.floor((that.treeSp.y - that.mapy) / that.div)
+                    that.maps[xx][yy] = 0
+                    that.stage.removeChild(that.treeSp)
+                    that.haveKey = false
+                    that.saywords('Open it!')
+                })
+            }
+            if (condition === 1) {
+                this.wait(0.5)
             }
         },
+        saywords (words) {
+            var text = new createjs.Text(words, '20px Arial', 'blue')
+            var sp = new createjs.Shape()
+            text.x = this.player.x
+            text.y = this.player.y
+            sp.graphics.s('black').rr(text.x - 5, text.y - 5, text.getBounds().width + 10, text.getBounds().height + 10, 10)
+            // 圆角矩形
+            this.stage.addChild(text)
+            this.stage.addChild(sp)
+            const that = this
+            setTimeout(function () {
+                that.stage.removeChild(text)
+                that.stage.removeChild(sp)
+            }, 500)
+        },
         say (words) {
-            console.log(words)
-            const these = this
-            this.tween.call(function () {
-                console.log(222)
-                var text = new createjs.Text(words, '20px Arial', 'blue')
-                var sp = new createjs.Shape()
-                text.x = these.player.x
-                text.y = these.player.y
-                sp.graphics.s('black').rr(text.x - 5, text.y - 5, text.getBounds().width + 10, text.getBounds().height + 10, 10)
-                // 圆角矩形
-                these.stage.addChild(text)
-                these.stage.addChild(sp)
-                const that = these
-                setTimeout(function () {
-                    that.stage.removeChild(text)
-                    that.stage.removeChild(sp)
-                }, 500)
-            })
+            this.tween.call(this.saywords)
             this.wait(0.5)
         },
         getPlay (direct) {
@@ -377,12 +406,14 @@ export default {
             var playerx = this.player.x
             var playery = this.player.y
             for (var i = 0; i < step; i++) {
-                var x = Math.floor((playerx + this.divx - this.mapx) / this.divx)
-                var y = Math.floor((playery - this.mapy) / this.divx)
-                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === 1) {
+                var x = Math.floor((playerx + this.div - this.mapx) / this.div)
+                var y = Math.floor((playery - this.mapy) / this.div)
+                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '4') {
+                    alert('GameOver')
                 } else {
-                    playerx = playerx + this.divx
+                    playerx = playerx + this.div
                 }
             }
             this.tween.call(this.getPlay, [2]).to({x: playerx}, this.speed).call(this.getStop, [2])
@@ -392,12 +423,14 @@ export default {
             var playerx = this.player.x
             var playery = this.player.y
             for (var i = 0; i < step; i++) {
-                var x = Math.floor((playerx - this.divx - this.mapx) / this.divx)
-                var y = Math.floor((playery - this.mapy) / this.divx)
-                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === 1) {
+                var x = Math.floor((playerx - this.div - this.mapx) / this.div)
+                var y = Math.floor((playery - this.mapy) / this.div)
+                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '4') {
+                    alert('GameOver')
                 } else {
-                    playerx = playerx - this.divx
+                    playerx = playerx - this.div
                 }
             }
             this.tween.call(this.getPlay, [4]).to({x: playerx}, this.speed).call(this.getStop, [4])
@@ -407,12 +440,14 @@ export default {
             var playerx = this.player.x
             var playery = this.player.y
             for (var i = 0; i < step; i++) {
-                var x = Math.floor((playerx - this.mapx) / this.divx)
-                var y = Math.floor((playery - this.divx - this.mapy) / this.divx)
-                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === 1) {
+                var x = Math.floor((playerx - this.mapx) / this.div)
+                var y = Math.floor((playery - this.div - this.mapy) / this.div)
+                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '4') {
+                    alert('GameOver')
                 } else {
-                    playery = playery - this.divx
+                    playery = playery - this.div
                 }
             }
             this.tween.call(this.getPlay, [1]).to({y: playery}, this.speed).call(this.getStop, [1])
@@ -422,12 +457,14 @@ export default {
             var playerx = this.player.x
             var playery = this.player.y
             for (var i = 0; i < step; i++) {
-                var x = Math.floor((playerx - this.mapx) / this.divx)
-                var y = Math.floor((playery + this.divx - this.mapy) / this.divx)
-                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === 1) {
+                var x = Math.floor((playerx - this.mapx) / this.div)
+                var y = Math.floor((playery + this.div - this.mapy) / this.div)
+                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '4') {
+                    alert('GameOver')
                 } else {
-                    playery = playery + this.divx
+                    playery = playery + this.div
                 }
             }
             this.tween.call(this.getPlay, [3]).to({y: playery}, this.speed).call(this.getStop, [3])
