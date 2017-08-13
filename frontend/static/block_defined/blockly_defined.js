@@ -1,18 +1,3 @@
-global.Blockly.WorkspaceSvg.prototype.preloadAudio_=function(){
-    console.log("Sounds : ", JSON.stringify(this.SOUNDS_));
-    /*
-   for(var a in this.SOUNDS_){
-       var b=this.SOUNDS_[a];
-       b.volume=.01;
-       b.play();
-       b.pause();
-       if(goog.userAgent.IPAD||goog.userAgent.IPHONE)
-           break;
-   }
-   */
-};
-
-
 global.Blockly.Blocks['dg_forward'] = {
     init: function () {
         this.appendDummyInput().appendField('move forward')

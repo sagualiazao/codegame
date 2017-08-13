@@ -93,7 +93,7 @@ export default {
             } else if (code === 'turn(left)') {
                 return 2
             } else if (code.slice(0, 3) === 'go(' &&
-             code[code.length - 1] === ')') {
+            code[code.length - 1] === ')') {
                 if (isNaN(parseInt(code.slice(3, code.length - 1)))) {
                     return 0
                 } else {
