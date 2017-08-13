@@ -16,18 +16,24 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '../assets/js/store'
+
 export default {
     name: 'select-level',
+    store: store,
     data: function () {
         return {
         }
     },
     methods: {
         clickTest (text) {
-            this.$parent.$store.commit('changeView', text)
+            this.$store.commit('changeView', text)
         },
         handleSelect (index) {
-            this.$parent.$store.commit('changeView', index)
+            this.$store.commit('changeView', index)
         }
     }
 }

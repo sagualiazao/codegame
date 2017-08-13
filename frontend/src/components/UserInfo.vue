@@ -55,24 +55,30 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '../assets/js/store'
+
 export default {
     name: 'user-info',
+    store: store,
     data: function () {
         return {
             finishedLevel: '',
             remainedLevel: '',
             activeName: 'base-tab',
             nickname: '',
-            userNickName: this.$parent.$store.state.userNickName,
-            userEmail: this.$parent.$store.state.userEmail,
-            registerDate: this.$parent.$store.state.registerDate
+            userNickName: this.$store.state.userNickName,
+            userEmail: this.$store.state.userEmail,
+            registerDate: this.$store.state.registerDate
         }
     },
     methods: {
         handleClick (tab, event) {
         },
         nameSubmit: function () {
-            this.$parent.$store.commit('changeUserNickName', this.nickname)
+            this.$store.commit('changeUserNickName', this.nickname)
         }
     }
 }

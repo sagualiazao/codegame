@@ -10,7 +10,7 @@
             <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">立即购买</a></el-menu-item>
             <div id="index4">
                 <el-submenu index="4">
-                    <template slot="title">{{ $parent.$store.state.userNickName }}</template>
+                    <template slot="title">{{ $store.state.userNickName }}</template>
                     <el-menu-item index="UserInfo">我的信息</el-menu-item>
                     <el-menu-item index="4-2" @click="signout">注销</el-menu-item>
                 </el-submenu>
@@ -20,8 +20,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '../assets/js/store'
+
 export default {
     name: 'menu-bar-logged',
+    store: store,
     data: function () {
         return {
             activeIndex: 'main-page'
@@ -29,15 +35,15 @@ export default {
     },
     methods: {
         clickTest: function (text) {
-            this.$parent.$store.commit('changeView', text)
+            this.$store.commit('changeView', text)
         },
         handleSelect: function (index) {
             this.$router.push('/' + index)
         },
         signout: function () {
-            this.$parent.$store.commit('changeMenu', 'menu-bar-unlogged')
+            this.$store.commit('changeMenu', 'menu-bar-unlogged')
             this.$router.push('/')
-            this.$parent.$store.dispatch('signout')
+            this.$store.dispatch('signout')
         }
     }
 }
