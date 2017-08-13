@@ -19,10 +19,15 @@
     </div>
 </template>
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '../assets/js/store'
 import { cbcEncrypt } from '@/assets/js/util.js'
 
 export default {
     name: 'signin-form',
+    store: store,
     data: function () {
         // 用于检测邮箱格式的正则表达式
         var rEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
@@ -67,7 +72,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.login()
-                    this.$parent.$parent$store.commit('changeMenu', 'menu-bar-logged')
+                    this.$store.commit('changeMenu', 'menu-bar-logged')
                     this.$router.push('/' + 'SelectLevel')
                 } else {
                     alert('邮箱或密码输入不正确!')
@@ -103,22 +108,22 @@ export default {
             if (await obj.status === '1') {
                 alert('登录成功')
                 // TODO: 登录成功,传递信息,关闭窗口
-                this.$parent.$parent.$store.commit('changeLoginStatus', true)
-                this.$parent.$parent.$store.commit('changeUserEmail', obj.email)
-                this.$parent.$parent.$store.commit('changeUserId', obj.id)
-                this.$parent.$parent.$store.commit('changeUserNickName', obj.nickname)
-                this.$parent.$parent.$store.commit('changeUserGameProgress', obj.gameProgress)
-                this.$parent.$parent.$store.commit('changeUserHasPaied', obj.hasPaied)
-                this.$parent.$parent.$store.commit('changeRegisterDate', obj.createdAt)
-                this.$parent.$parent.$store.commit('signinWindow', false)
-                this.$parent.$parent.$store.commit('changeMenu', 'menu-bar-logged')
+                this.$store.commit('changeLoginStatus', true)
+                this.$store.commit('changeUserEmail', obj.email)
+                this.$store.commit('changeUserId', obj.id)
+                this.$store.commit('changeUserNickName', obj.nickname)
+                this.$store.commit('changeUserGameProgress', obj.gameProgress)
+                this.$store.commit('changeUserHasPaied', obj.hasPaied)
+                this.$store.commit('changeRegisterDate', obj.createdAt)
+                this.$store.commit('signinWindow', false)
+                this.$store.commit('changeMenu', 'menu-bar-logged')
             } else {
                 alert('邮箱或密码错误')
             }
         },
         resetPasswordChange: function () {
-            this.$parent.$parent.$store.commit('resetPasswordWindow', true)
-            this.$parent.$parent.$store.commit('signinWindow', false)
+            this.$store.commit('resetPasswordWindow', true)
+            this.$store.commit('signinWindow', false)
         }
     }
 }

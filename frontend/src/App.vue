@@ -8,107 +8,14 @@
 </template>
 
 <script>
-// 在这个位置引入单文件组件
 import MenuBarUnlogged from './components/MenuBarUnlogged'
 import MenuBarLogged from './components/MenuBarLogged'
 
-// 这个部分定义使用vuex的整个应用层面的数据存储
 import Vue from 'vue'
 import Vuex from 'vuex'
-
 Vue.use(Vuex)
+import store from './assets/js/store'
 
-const store = new Vuex.Store({
-    // 驱动应用的数据源,整个应用层面上的共享数据
-    state: {
-
-        message: '这是一条整个应用上的信息',
-        // 账户登录状态
-        loginStatus: false,
-        userEmail: null,
-        userId: null,
-        userNickName: null,
-        userGameProgress: null,
-        userHasPaied: null,
-        registerDate: null,
-
-        // 界面切换信息
-        currentMenbar: 'menu-bar-unlogged',
-        textMainPage: 'mainPage',
-        textGame: 'game',
-        textMapEditor: 'mapEditor',
-        textAccountMessage: 'accountMessage',
-
-        // 弹窗的弹出判断
-        signinDialog: false,
-        signupDialog: false,
-        resetPasswordDialog: false
-
-    },
-    // 更改vuex中的数据状态的方式
-    mutations: {
-        // 第一个参数一定是state,用来读取全局的属性
-        // 之后可以有多个参数
-        showMessage (state, text) {
-            alert(state.message)
-            // alert(text)
-        },
-        changeLoginStatus (state, status) {
-            state.loginStatus = status
-        },
-        changeUserEmail (state, text) {
-            state.userEmail = text
-        },
-        changeUserId (state, text) {
-            state.userId = text
-        },
-        changeUserNickName (state, text) {
-            state.userNickName = text
-        },
-        changeUserGameProgress (state, text) {
-            state.userGameProgress = text
-        },
-        changeUserHasPaied (state, status) {
-            state.userHasPaied = status
-        },
-        signinWindow (state, status) {
-            state.signinDialog = status
-        },
-        signupWindow (state, status) {
-            state.signupDialog = status
-        },
-        resetPasswordWindow (state, status) {
-            state.resetPasswordDialog = status
-        },
-        changeMenu (state, status) {
-            state.currentMenbar = status
-        },
-        changeRegisterDate (state, text) {
-            var date = new Date(text)
-            state.registerDate = date.toLocaleString()
-        }
-    },
-    // 异步逻辑方法,提交mutation
-    actions: {
-        signout: function (context) {
-            context.commit('changeLoginStatus', false)
-            context.commit('changeUserEmail', null)
-            context.commit('changeUserId', null)
-            context.commit('changeUserNickName', null)
-            context.commit('changeUserGameProgress', null)
-            context.commit('changeUserHasPaied', null)
-            context.commit('changeMenu', 'menu-bar-unlogged')
-            context.commit('changeRegisterDate', null)
-            fetch('api/logout', {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
-        }
-    }
-})
-
-// App组件的属性
 export default {
     name: 'app',
     store: store,

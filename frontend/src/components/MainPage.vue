@@ -26,8 +26,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '../assets/js/store'
+
 export default {
     name: 'main-page',
+    store: store,
     data: function () {
         return {
             msg: '看到这行字，说明它正常了'
@@ -38,7 +44,7 @@ export default {
             this.$router.push('/' + text)
         },
         handleSelect (index) {
-            this.$parent.$store.commit('changeView', index)
+            this.$store.commit('changeView', index)
         }
     }
 }

@@ -30,9 +30,15 @@
     </div>
 </template>
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '../assets/js/store'
 import { cbcEncrypt } from '@/assets/js/util.js'
 
 export default {
+    name: 'signup-form',
+    store: store,
     data: function () {
         // 用于检测邮箱格式的正则表达式
         var rEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
@@ -161,7 +167,7 @@ export default {
             let obj = await response.json()
             if (await obj.status === '1') {
                 alert('注册成功!')
-                this.$parent.$parent.$parent.$store.commit('signupWindow', false)
+                this.$store.commit('signupWindow', false)
             } else if (await obj.status === '2') {
                 alert('该邮箱已被注册!')
             } else {

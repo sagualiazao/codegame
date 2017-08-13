@@ -23,10 +23,15 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '../assets/js/store'
 import { cbcEncrypt } from '@/assets/js/util.js'
 
 export default {
     name: 'reset-password-form',
+    store: store,
     data: function () {
         var rEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
         // 检测邮箱格式是否正确
@@ -102,7 +107,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.resetPassword()
-                    this.$parent.$parent.$parent.$store.commit('resetPasswordWindow', false)
+                    this.$store.commit('resetPasswordWindow', false)
                 } else {
                     alert('error submit!!')
                     return false
@@ -192,7 +197,7 @@ export default {
         }
     },
     mounted () {
-        this.$parent.$parent.$store.dispatch('signout')
+        this.$store.dispatch('signout')
     }
 }
 </script>
