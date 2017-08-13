@@ -20,11 +20,16 @@ export default {
     name: 'block-base',
     data: function () {
         return {
+            interval: null,
             workspace: null,
             pic: null,
             maps: null,
             player: null,
             stage: null,
+            key: null,
+            haveKey: false,
+            indexCodeList: 0,
+            boss: null,
             mapId: 0,
             mapWidth: 10,
             mapHeight: 10,
@@ -33,7 +38,8 @@ export default {
             divx: 64,
             speed: 1000,
             tween: null,
-            direct: 2
+            direct: 2,
+            functionSet: {}
         }
     },
     methods: {
@@ -42,6 +48,8 @@ export default {
         组建的切换  点击editor 的 tab 之后切换到 EditorBase.vue
         *
         @method editorClick
+        *
+        @param {index} 转换的page
         *
         @for BlockBase.vue
         */
@@ -58,45 +66,31 @@ export default {
         *
         @return {List} 返回一个列表,每个元素为一条命令
         */
-        getCodeList () {
+        blockRunCode () {
+            /* eslint no-eval: 0 */
             document.LoopTrap = 1000
             global.Blockly.JavaScript.INFINITE_LOOP_TRAP =
             'if (--window.LoopTrap === 0) throw "Infinite loop.";\n'
             let codeString = global.Blockly.JavaScript.workspaceToCode(this.workspace)
-            let codeList = codeString.split('#')
-            return codeList
-        },
-        /**
-        *
-        获取当前命令的类型 返回对应数字
-        *
-        @method getTypeOfCode
-        *
-        @for BlockBase.vue
-        *
-        @return {List} 返回一个数值 代表命令类型  1右转 2左转 3直走 0输入异常
-        */
-        getTypeOfCode (code) {
-            // alert(code)
-            if (code === 'turn(right)') {
-                return 1
-            } else if (code === 'turn(left)') {
-                return 2
-            } else if (code.match(/go(\w*)/)) {
-                return 3
-            } else {
-                return 0
+            this.tween = createjs.Tween.get(this.player)
+            try {
+                eval(codeString)
+            } catch (e) {
+                alert(e)
             }
+            this.tween.call(this.init)
         },
         /**
         *
-        根据当前方向选择对应的运动函数
+        封装走动函数, 根据direct决定当前的方向, 选择对应的执行函数
         *
-        @method chooseRightGoFunction
+        @method go
+        *
+        @param {step} 走的步数
         *
         @for BlockBase.vue
         */
-        chooseRightGoFunction (step) {
+        go (step) {
             switch (this.direct) {
             case 1:
                 this.goUp(step)
@@ -110,45 +104,26 @@ export default {
             case 4:
                 this.goLeft(step)
                 break
-            default:
-                alert('something went wrong in chooseRightGoFunction!')
             }
         },
         /**
         *
-        解析当前积木块对应的代码, 执行相应的动画
+        封装转向函数
         *
-        @method blockRunCode
+        @method turn
+        *
+        @param {direction} 方向 left right
         *
         @for BlockBase.vue
         */
-        blockRunCode () {
-            let codeList = this.getCodeList()
-            this.tween = createjs.Tween.get(this.player)
-            for (let i = 0; i < codeList.length - 1; i++) {
-                let typeOfCode = this.getTypeOfCode(codeList[i])
-                switch (typeOfCode) {
-                case 0:
-                    alert('Something wrong with the input.')
-                    break
-                case 1:
-                    this.direct = this.direct % 4 + 1
-                    this.tween.call(this.getStop, [this.direct])
-                    break
-                case 2:
-                    this.direct = (this.direct + 2) % 4 + 1
-                    this.tween.call(this.getStop, [this.direct])
-                    break
-                case 3:
-                    let step = parseInt(codeList[i][3])
-                    this.chooseRightGoFunction(step)
-                    break
-                default:
-                    alert('something went wrong in blockRunCode function!')
-                }
+        turn (direction) {
+            if (direction === 'right') {
+                this.direct = this.direct % 4 + 1
+                this.tween.call(this.getStop, [this.direct])
+            } else {
+                this.direct = (this.direct + 2) % 4 + 1
+                this.tween.call(this.getStop, [this.direct])
             }
-            this.direct = 2
-            this.tween.call(this.init)
         },
         /**
         *
@@ -207,8 +182,9 @@ export default {
             this.mapy = 0
             this.direct = 2
             this.divx = 64
+            this.indexCodeList = 0
         },
-        loadMap () {
+        mapTest () {
             var i
             var j
             this.maps = new Array(this.mapWidth)
@@ -225,14 +201,31 @@ export default {
             }
             this.maps[5][0] = 5 + '' + 3
             this.maps[5][3] = 5 + '' + 0
+            this.maps[5][2] = '2'
+            this.maps[4][0] = '3'
+        },
+        loadMap () {
+            var i
+            var j
+            this.mapTest()
             for (i = 0; i < this.mapWidth; i++) {
                 for (j = 0; j < this.mapHeight; j++) {
                     if (this.maps[i][j].length === 1) {
-                        if (this.maps[i][j] !== '0') {
+                        if (this.maps[i][j] === '1') {
                             var stone = new createjs.Bitmap('../../static/stone.png')
                             stone.x = Math.floor(this.mapx + this.divx * i)
                             stone.y = Math.floor(this.mapy + this.divx * j)
                             this.stage.addChild(stone)
+                        } else if (this.maps[i][j] === '2') {
+                            this.key = new createjs.Bitmap('../../static/2.png')
+                            this.key.x = Math.floor(this.mapx + this.divx * i)
+                            this.key.y = Math.floor(this.mapy + this.divx * j)
+                            this.stage.addChild(this.key)
+                        } else if (this.maps[i][j] === '3') {
+                            var stoned = new createjs.Bitmap('../../static/3.png')
+                            stoned.x = Math.floor(this.mapx + this.divx * i)
+                            stoned.y = Math.floor(this.mapy + this.divx * j)
+                            this.stage.addChild(stoned)
                         }
                     } else if (this.maps[i][j].length === 2) {
                         var ccc = new createjs.Bitmap('../../static/5.png')
@@ -242,9 +235,16 @@ export default {
                     }
                 }
             }
+            this.maps[5][1] = '1'
+            this.boss = new createjs.Bitmap('../../static/stone.png')
+            this.boss.x = Math.floor(this.mapx + this.divx * 5)
+            this.boss.y = Math.floor(this.mapy + this.divx * 1)
+            this.stage.addChild(this.boss)
         },
         init () {
+            this.functionSet = {}
             this.initNum()
+            this.interval = null
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.pic = new createjs.Bitmap('../../static/black.png')
@@ -270,19 +270,76 @@ export default {
             this.tween = createjs.Tween.get(this.player)
             createjs.Ticker.addEventListener('tick', this.stage)
         },
-        flyfz () {
-            var x = Math.floor((this.player.x - this.mapx) / this.divx)
-            var y = Math.floor((this.player.y - this.mapy) / this.divx)
-            if (this.maps[x][y] !== 1 && this.maps[x][y] !== 0) {
-                this.player.x = Math.floor(this.mapx + this.divx * this.maps[x][y][0])
-                this.player.y = Math.floor(this.mapy + this.divx * this.maps[x][y][1])
-            }
-        },
         fly () {
-            this.tween.call(this.flyfz)
+            const that = this
+            this.tween.call(function () {
+                var x = Math.floor((that.player.x - that.mapx) / that.divx)
+                var y = Math.floor((that.player.y - that.mapy) / that.divx)
+                if (that.maps[x][y] !== '1' && that.maps[x][y] !== '0') {
+                    that.player.x = Math.floor(that.mapx + that.divx * that.maps[x][y][0])
+                    that.player.y = Math.floor(that.mapy + that.divx * that.maps[x][y][1])
+                }
+            })
         },
         wait (seconds) {
             this.tween.wait(seconds * 1000)
+        },
+        collect (str) {
+            var x = Math.floor((this.player.x - this.mapx) / this.divx)
+            var y = Math.floor((this.player.y - this.mapy) / this.divx)
+            if (this.maps[x][y] === '2' && str === 'key') {
+                console.log(22)
+                this.maps[x][y] === '0'
+                this.stage.removeChild(this.key)
+                this.haveKey = true
+            }
+            if (this.haveKey) {
+                this.say('Get it!')
+            }
+        },
+        drop (str) {
+            var x = Math.floor((this.player.x - this.mapx) / this.divx)
+            var y = Math.floor((this.player.y - this.mapy) / this.divx)
+            if (this.maps[x][y] !== '3' && this.haveKey && str === 'key') {
+                this.maps[x][y] === '2'
+                this.key.x = this.player.x
+                this.key.y = this.player.y
+                this.stage.addChild(this.key)
+                this.haveKey = true
+                this.say('Drop it!')
+            } else if (this.maps[x][y] === '3' && this.haveKey && str === 'key') {
+                this.maps[x][y] === '0'
+                this.key.x = this.player.x
+                this.key.y = this.player.y
+                this.stage.addChild(this.key)
+                var xx = Math.floor((this.boss.x - this.mapx) / this.divx)
+                var yy = Math.floor((this.boss.y - this.mapy) / this.divx)
+                this.maps[xx][yy] = 0
+                this.stage.removeChild(this.boss)
+                this.haveKey = false
+                this.say('Open it!')
+            }
+        },
+        say (words) {
+            console.log(words)
+            const these = this
+            this.tween.call(function () {
+                console.log(222)
+                var text = new createjs.Text(words, '20px Arial', 'blue')
+                var sp = new createjs.Shape()
+                text.x = these.player.x
+                text.y = these.player.y
+                sp.graphics.s('black').rr(text.x - 5, text.y - 5, text.getBounds().width + 10, text.getBounds().height + 10, 10)
+                // 圆角矩形
+                these.stage.addChild(text)
+                these.stage.addChild(sp)
+                const that = these
+                setTimeout(function () {
+                    that.stage.removeChild(text)
+                    that.stage.removeChild(sp)
+                }, 500)
+            })
+            this.wait(0.5)
         },
         getPlay (direct) {
             switch (direct) {

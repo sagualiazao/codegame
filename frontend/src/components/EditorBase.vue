@@ -92,8 +92,13 @@ export default {
                 return 1
             } else if (code === 'turn(left)') {
                 return 2
-            } else if (code.match(/go(\w*)/)) {
-                return 3
+            } else if (code.slice(0, 3) === 'go(' &&
+            code[code.length - 1] === ')') {
+                if (isNaN(parseInt(code.slice(3, code.length - 1)))) {
+                    return 0
+                } else {
+                    return 3
+                }
             } else {
                 return 0
             }
@@ -148,7 +153,7 @@ export default {
                     this.tween.call(this.getStop, [this.direct])
                     break
                 case 3:
-                    let step = parseInt(codeList[i][3])
+                    let step = parseInt(codeList[i].slice(3, codeList[i].length - 1))
                     this.chooseRightGoFunction(step)
                     break
                 }
@@ -359,6 +364,7 @@ export default {
         this.jsEditor.setTheme('ace/theme/monokai')
         this.jsEditor.getSession().setMode('ace/mode/javascript')
         this.jsEditor.setHighlightActiveLine(true)
+        this.jsEditor.setValue('go(5)')
         this.jsEditor.resize()
         this.init()
     }
