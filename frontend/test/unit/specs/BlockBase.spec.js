@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import BlockBase from '@/components/BlockBase'
 import { createVue, destroyVM } from '../util'
 
@@ -10,7 +9,6 @@ describe('BlockBase.vue', () => {
     })
 
     it('correctly sets the message when created', () => {
-        const vm = new Vue(BlockBase).$mount()
         const defaultData = BlockBase.data()
         expect(defaultData.tween).to.equal(null)
     })
