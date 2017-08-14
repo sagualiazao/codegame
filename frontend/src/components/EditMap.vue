@@ -1,11 +1,11 @@
 <template>
 <div class="edit-map">
     <div id="map1">
-        <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tabs ref="tabs" v-model="activeName" type="card" @tab-click="handleClick">
             <el-tab-pane label="制作地图" name="map-editor">
                 <map-editor></map-editor>
             </el-tab-pane>
-            <el-tab-pane label="我做的地图" name="second">
+            <el-tab-pane label="我做的地图" name="my-map">
                 <div class="published">
                     <h2>已发布</h2>
                     <img src="../assets/pc5.jpg">
