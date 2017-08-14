@@ -2,18 +2,18 @@
 <!-- 用于登录的弹出窗口 -->
     <div class="signin-form">
         <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="邮箱" prop="email">
+            <el-form-item label="邮箱" prop="email" class="form-email-item">
                 <el-input v-model="loginForm.email"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="password">
+            <el-form-item label="密码" prop="password" class="form-password-item">
                 <el-input type="password" :maxlength="16" v-model="loginForm.password" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item>
-                <el-button class="forget-password" type="text" @click="resetPasswordChange">找回密码</el-button>
+            <el-form-item class="form-forget-password-item">
+                <el-button class="forget-password" type="text" @click="resetPasswordChange" id="reset-password-button">忘记密码</el-button>
             </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
-                <el-button @click="resetForm('loginForm')">重置</el-button>
+            <el-form-item class="form-commit-item">
+                <el-button type="primary" @click="submitForm('loginForm')" id="commit-button">提交</el-button>
+                <el-button @click="resetForm('loginForm')" id="reset-button">重置</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -72,7 +72,6 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.login()
-                    this.$store.commit('changeMenu', 'menu-bar-logged')
                     this.$router.push('/' + 'SelectLevel')
                 } else {
                     alert('邮箱或密码输入不正确!')

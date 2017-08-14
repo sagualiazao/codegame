@@ -25,10 +25,6 @@ const state = {
 }
 
 const mutations = {
-    showMessage: function (state, text) {
-        alert(state.message)
-        // alert(text)
-    },
     changeLoginStatus: function (state, status) {
         state.loginStatus = status
     },
