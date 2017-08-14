@@ -135,7 +135,7 @@ export default {
                 if (valid) {
                     this.register()
                 } else {
-                    alert('error submit!!')
+                    alert('注册失败!!')
                     return false
                 }
             })
@@ -171,7 +171,7 @@ export default {
             } else if (await obj.status === '2') {
                 alert('该邮箱已被注册!')
             } else {
-                alert('注册成功!')
+                alert('注册失败!')
             }
         },
         refreshCaptcha: async function () {
