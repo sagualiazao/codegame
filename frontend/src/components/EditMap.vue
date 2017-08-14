@@ -46,7 +46,6 @@ export default {
     },
     methods: {
         handleClick (tab, event) {
-            console.log(tab, event)
         },
         saveClick () {
             // 这里保存地图
