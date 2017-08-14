@@ -64,7 +64,7 @@ class RegisterTestCase(TestCase):
 
     def test_register_without_captcha(self):
         data = {
-            'email': 'aa@@tom.com',
+            'email': 'aa@tom.com',
             'password': 'mXvXMG2g0YkE4GzyLVn/dg==',
             'nickname': 'aa'
         }
@@ -76,7 +76,7 @@ class RegisterTestCase(TestCase):
 
     def test_register_without_nickname(self):
         data = {
-            'email': 'aa@@tom.com',
+            'email': 'aa@tom.com',
             'password': 'mXvXMG2g0YkE4GzyLVn/dg==',
             'captcha': 'abcd'
         }
@@ -88,7 +88,7 @@ class RegisterTestCase(TestCase):
 
     def test_register_without_password(self):
         data = {
-            'email': 'aa@@tom.com',
+            'email': 'aa@tom.com',
             'nickname': 'aa',
             'captcha': 'abcd'
         }
@@ -112,7 +112,7 @@ class RegisterTestCase(TestCase):
 
     def test_register_with_wrong_crypted_password(self):
         data = {
-            'email': 'aa@@tom.com',
+            'email': 'aa@tom.com',
             'password': 'mXvXMG2g0YkE4GzyLVdg==',
             'nickname': 'aa',
             'captcha': 'abcd'
@@ -122,6 +122,24 @@ class RegisterTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '0')
+
+    def test_register_repeated_email(self):
+        data = {
+            'email': 'tom@123.com',
+            'password': 'mXvXMG2g0YkE4GzyLVn/dg==',
+            'nickname': 'Tom',
+            'captcha': 'abcd'
+        }
+        data = simplejson.dumps(data)
+        response = self.client.post('/api/register', data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '1')
+        response = self.client.post('/api/register', data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '0')
+
 
 class ResetPasswordEmailTestCase(TestCase):
 
@@ -152,6 +170,7 @@ class ResetPasswordEmailTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '0')
+
 
 class ResetPasswordTestCase(TestCase):
 
@@ -333,10 +352,15 @@ class ReadMapTestCase(TestCase):
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '0')
 
+
 class LoginTestCase(TestCase):
 
     def setUp(self):
         user = api.models.User.objects.create_user(email='tom@123.com', nickname='Tom', password='123456')
+
+    def test_login_other_method(self):
+        response = self.client.delete('/api/login')
+        self.assertEqual(response.status_code, 404)
 
     def test_login_post_without_body(self):
         response = self.client.post('/api/login')
@@ -370,7 +394,6 @@ class LoginTestCase(TestCase):
 
     def test_login_not_without_email(self):
         data = {
-            'email': 'jerry@123.com',
             'password': 'mXvXMG2g0YkE4GzyLVn/dg==',
             'captcha': 'abcd'
         }
@@ -382,7 +405,7 @@ class LoginTestCase(TestCase):
 
     def test_login_not_without_password(self):
         data = {
-            'email': 'jerry@123.com',
+            'email': 'tom@123.com',
             'captcha': 'abcd'
         }
         data = simplejson.dumps(data)
@@ -393,7 +416,7 @@ class LoginTestCase(TestCase):
 
     def test_login_not_without_captcha(self):
         data = {
-            'email': 'jerry@123.com',
+            'email': 'tom@123.com',
             'password': 'mXvXMG2g0YkE4GzyLVn/dg=='
         }
         data = simplejson.dumps(data)
@@ -404,7 +427,7 @@ class LoginTestCase(TestCase):
 
     def test_login_not_with_wrong_crypted_password(self):
         data = {
-            'email': 'jerry@123.com',
+            'email': 'tom@123.com',
             'password': 'mXvXMG2g0Y4GzyLVn/dg==',
             'captcha': 'abcd'
         }
@@ -416,8 +439,8 @@ class LoginTestCase(TestCase):
 
     def test_login_not_with_wrong_password(self):
         data = {
-            'email': 'jerry@123.com',
-            'password': 'mXvXMG2g0YkE4GzyLVn/dg==',
+            'email': 'tom@123.com',
+            'password': 'WTyloDf7UBkSNcmBeD3zvw==',
             'captcha': 'aaaa'
         }
         data = simplejson.dumps(data)
