@@ -2,7 +2,7 @@
 <div class="user-info">
     <h1>个人主页</h1>
     <div>
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs ref="tabs" v-model="activeName" @tab-click="handleClick" class="user-tabs">
             <el-tab-pane label="基本信息" name="base-tab" class="base-info">
                 <img src="../assets/h1.jpg" id="img-id">
                 <i class="el-icon-date"></i>
@@ -28,13 +28,13 @@
                 <img src="../assets/pc4.jpg">
             </el-tab-pane>
             <el-tab-pane label="账号设置" name="set-account-tab" class="set-account">
-                <form id="change-name-form" method="post">
+                <form class="change-name-form" method="post">
                     <p><h2>修改昵称</h2><br>
                         <input type="text" placeholder="请输入昵称" maxlength="16" v-model="nickname">
                         <input type="button" @click="nameSubmit()" value="确认">
                     </p>
                 </form>
-                <form id="change-password-form" method="post">
+                <form class="change-password-form" method="post">
                     <p><h2>修改密码</h2><br>
                         <label>现在的密码</label><br>
                         <input type="password" v-model="verifyPassword">
