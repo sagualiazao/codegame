@@ -72,7 +72,7 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.login()
-                    this.$router.push('/' + 'SelectLevel')
+                    // this.$router.push('/' + 'SelectLevel')
                 } else {
                     alert('邮箱或密码输入不正确!')
                     return false
