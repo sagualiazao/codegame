@@ -29,12 +29,6 @@ export default {
         }
     },
     methods: {
-        clickTest (text) {
-            this.$store.commit('changeView', text)
-        },
-        handleSelect (index) {
-            this.$store.commit('changeView', index)
-        }
     }
 }
 </script>
