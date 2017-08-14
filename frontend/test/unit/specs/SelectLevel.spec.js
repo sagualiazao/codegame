@@ -1,7 +1,5 @@
 import SelectLevel from '@/components/SelectLevel'
 import { createVue, destroyVM } from '../util'
-import ElementUI from 'element-ui'
-Vue.use(ElementUI)
 
 describe('SelectLevel.vue', () => {
     let vm
@@ -13,8 +11,8 @@ describe('SelectLevel.vue', () => {
         destroyVM(vm)
     })
 
-    it('点击继续游戏按钮', () => {
-        // TODO 点击继续游戏按钮切换到游戏界面
+    it('按钮内容渲染成功', () => {
+        expect(vm.$el.querySelector('#continue-play').textContent).to.equal('继续游戏')
     })
 
 })
