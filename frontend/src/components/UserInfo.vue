@@ -7,13 +7,13 @@
                 <img src="../assets/h1.jpg" id="img-id">
                 <i class="el-icon-date"></i>
                 <span>昵称</span>
-                <p>{{ userNickName }}</p>
+                <p>{{ this.$store.state.userNickName }}</p>
                 <i class="el-icon-message"></i>
                 <span>邮箱地址</span>
-                <p>{{ userEmail }}</p>
+                <p>{{ this.$store.state.userEmail }}</p>
                 <i class="el-icon-date"></i>
                 <span>注册日期</span>
-                <p>{{ registerDate }}</p>
+                <p>{{ this.$store.state.registerDate }}</p>
             </el-tab-pane>
             <el-tab-pane label="游戏信息" name="game-tab" class="game-info">
                 <span>已完成的关卡数</span>
@@ -68,10 +68,7 @@ export default {
             finishedLevel: '',
             remainedLevel: '',
             activeName: 'base-tab',
-            nickname: '',
-            userNickName: this.$store.state.userNickName,
-            userEmail: this.$store.state.userEmail,
-            registerDate: this.$store.state.registerDate
+            nickname: ''
         }
     },
     methods: {

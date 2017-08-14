@@ -26,29 +26,24 @@ describe('UserInfo', () => {
     })
 
     it('should render correct contents', () => {
-        vm = createVue(UserInfo, true)
         expect(vm.$el.querySelector('.user-info h1').textContent).to.equal('个人主页')
         expect(vm.$el.querySelector('.base-info span').textContent).to.equal('昵称')
         expect(vm.$el.querySelector('.game-info span').textContent).to.equal('已完成的关卡数')
         expect(vm.$el.querySelector('.change-name-form h2').textContent).to.equal('修改昵称')
         expect(vm.$el.querySelector('.change-password-form h2').textContent).to.equal('修改密码')
         expect(vm.activeName === 'base-tab')
-        // expect(vm.$el.classList.contains('set-account')).to.be.true
     })
 
     it('should set correct data', () => {
-        vm = createVue(UserInfo, true)
-        expect(vm.userNickName).to.equal('Hello')
-        expect(vm.userEmail).to.equal('123@qq.com')
-        expect(vm.registerDate).to.equal('2017-08-06')
+        expect(vm.$store.state.userNickName).to.equal('Hello')
+        expect(vm.$store.state.userEmail).to.equal('123@qq.com')
+        expect(vm.$store.state.registerDate).to.equal('2017-08-06')
         expect(vm.finishedLevel).to.equal('')
         expect(vm.remainedLevel).to.equal('')
         expect(vm.nickname).to.equal('')
-
     })
 
     it('active-name,#handleClick', done => {
-        vm = createVue(UserInfo, true)
         setTimeout(_ => {
             const paneList = vm.$el.querySelector('.el-tabs__content').children
             const tabList = vm.$refs.tabs.$refs.nav.$refs.tabs
