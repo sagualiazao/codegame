@@ -1,7 +1,7 @@
 <template>
 <div class="map-square">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="地图广场" name="first">
+    <el-tabs ref="tabs" v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="地图广场" name="first" class="map-square-tab">
             <img src="../assets/pc7.jpg">
             <img src="../assets/pc8.jpg">
             <img src="../assets/pc9.jpg">
@@ -17,13 +17,13 @@
             <button type="playMap" @click="playClick">试玩</button>
             <h1>这是地图广场</h1>
         </el-tab-pane>
-        <el-tab-pane label="我发布的地图" name="second">
+        <el-tab-pane label="我发布的地图" name="second" class="published-map-tab">
             <img src="../assets/pc5.jpg">
             <img src="../assets/pc8.jpg">
             <img src="../assets/pc10.jpg">
             <h1>这是我发布的地图</h1>
         </el-tab-pane>
-        <el-tab-pane label="我收藏的地图" name="third">
+        <el-tab-pane label="我收藏的地图" name="third" class="favorite-map-tab">
             <img src="../assets/pc1.jpg">
             <img src="../assets/pc2.jpg">
             <img src="../assets/pc3.jpg">
