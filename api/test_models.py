@@ -18,6 +18,15 @@ class UserTestCase(TestCase):
         self.assertEqual(tom[0].nickname, 'Tom')
         self.assertEqual(jerry[0].nickname, '杰瑞')
 
+    def test_user_get_name(self):
+        tom = User.objects.filter(email='tom@123.com')
+        self.assertEqual(tom[0].get_full_name(), 'tom@123.com')
+        self.assertEqual(tom[0].get_short_name(), 'tom@123.com')
+
+    def test_create_user_without_email(self):
+        with self.assertRaises(ValueError):
+            User.objects.create_user(email=False, password='123456', nickname='Tom')
+
     def test_user_default_values(self):
         tom = User.objects.get(email='tom@123.com')
         jerry = User.objects.get(email='jerry@123.com')

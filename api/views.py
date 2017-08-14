@@ -213,19 +213,16 @@ def login(request):
             return JsonResponse({'status': '0'})
         else:
             users = User.objects.filter(email=email)
-            if len(users) == 0:
-                return JsonResponse({'status': '0'})
-            else:
-                user = users[0]
-                return JsonResponse({
-                    'status': '1',
-                    'email': user.email,
-                    'nickname': user.nickname,
-                    'id': user.id,
-                    'gameProgress': user.game_progress,
-                    'hasPaied': user.has_paied,
-                    'createdAt': user.created_at
-                })
+            user = users[0]
+            return JsonResponse({
+                'status': '1',
+                'email': user.email,
+                'nickname': user.nickname,
+                'id': user.id,
+                'gameProgress': user.game_progress,
+                'hasPaied': user.has_paied,
+                'createdAt': user.created_at
+            })
     else:
         return HttpResponseNotFound()
 
