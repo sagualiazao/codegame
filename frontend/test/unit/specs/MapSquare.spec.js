@@ -48,5 +48,4 @@ describe('MapSquare.vue', () => {
             })
         }, 100)
     })
-
 })
