@@ -1,7 +1,7 @@
 import EditorBase from '@/components/EditorBase'
 import { createVue, destroyVM } from '../util'
 
-describe('editor', () => {
+describe('EditorBase.vue', () => {
     let vm
     afterEach(() => {
         destroyVM(vm)
@@ -56,11 +56,13 @@ describe('editor', () => {
         // TODO 编写测试程序
     })
 
-    it('点击run按钮正常运行', () => {
-        // TODO 编写测试程序
+    it('EditorBase点击run按钮运行后方向初始化,函数列表初始化', () => {
+
     })
 
-    it('点击clean按钮正常清空', () => {
-        // TODO 编写测试程序
+    it('EditorBase点击clean按钮正常清空', () => {
+        let buttonElm = vm.$el.querySelector('.clean-button')
+        buttonElm.click()
+        expect(vm.jsEditor.getValue()).to.equal('')
     })
 })
