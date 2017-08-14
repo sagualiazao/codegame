@@ -203,7 +203,7 @@ global.Blockly.JavaScript['dg_function'] = function (block) {
 global.Blockly.JavaScript['dg_function_call'] = function (block) {
     var textFunctonName = block.getFieldValue('functonName')
     code = [
-        'let m = this.functionSet[\'' + textFunctonName + '\'];',
+        'var m = this.functionSet[\'' + textFunctonName + '\'];',
         'eval(m);'
     ].join('\n')
     return code

@@ -37,7 +37,8 @@ export default {
             mapy: 0,
             div: 64,
             speed: 1000,
-            direct: 2
+            direct: 2,
+            functionSet: {}
         }
     },
     methods: {
@@ -186,6 +187,7 @@ export default {
             this.div = 64
             this.speed = 1000
             this.haveKey = false
+            this.functionSet = {}
         },
         mapTest () {
             this.maps = [
@@ -484,21 +486,21 @@ export default {
         let toolBox = require('../../src/assets/js/blockly_const_list.js')
         this.workspace = global.Blockly.inject('block-area', {
             toolbox: toolBox,
+            sounds: false,
+            trashcan: false,
             grid: {
                 spacing: 20,
                 length: 3,
                 colour: '#ccc',
-                snap: true,
-                trashcan: true
+                snap: true
             },
             zoom: {
-                controls: true,
+                controls: false,
                 wheel: true,
                 startScale: 1.0,
                 maxScale: 3,
                 minScale: 0.3,
-                scaleSpeed: 1.2,
-                trashcan: true
+                scaleSpeed: 1.2
             }
         })
         this.workspace.addChangeListener(this.myUpdateFunction)
