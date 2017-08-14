@@ -5,7 +5,7 @@ global.Blockly = Blockly
 
 describe ('BlockBase.vue', () => {
     let vm
-    
+
     beforeEach(() => {
         vm = createVue(BlockBase, true)
     })
@@ -42,7 +42,7 @@ describe ('BlockBase.vue', () => {
             expect(vm.direct).to.equal(2)
             expect(vm.functionSet).to.deep.equal({})
             done()
-        }, 1000)
+        }, 100)
     })
 
     it('点击editor正常切换', () => {
