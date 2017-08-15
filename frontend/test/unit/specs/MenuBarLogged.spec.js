@@ -7,7 +7,7 @@ Vue.use(ElementUI)
 // 引入util的封装
 import { createVue, destroyVM } from '../util'
 
-describe('menubar-unlogged', () => {
+describe('MenuBarLogged.vue', () => {
     let vm
 
     beforeEach(() => {
@@ -15,6 +15,21 @@ describe('menubar-unlogged', () => {
     })
 
     afterEach(() => {
+        vm.$store.state.loginStatus = false
+        vm.$store.state.userEmail = null
+        vm.$store.state.userId = null
+        vm.$store.state.userNickName = null
+        vm.$store.state.userGameProgress = null
+        vm.$store.state.userHasPaied = null
+        vm.$store.state.registerDate = null
+        vm.$store.state.currentMenbar = 'menu-bar-unlogged'
+        vm.$store.state.textMainPage = 'mainPage'
+        vm.$store.state.textGame = 'game'
+        vm.$store.state.textMapEditor = 'mapEditor'
+        vm.$store.state.textAccountMessage = 'accountMessage'
+        vm.$store.state.signinDialog = false
+        vm.$store.state.signupDialog = false
+        vm.$store.state.resetPasswordDialog = false
         destroyVM(vm)
     })
 
