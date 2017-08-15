@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import MainPage from '@/components/MainPage'
 import { createVue, destroyVM } from '../util'
 

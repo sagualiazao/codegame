@@ -26,21 +26,18 @@ describe('EditMap', () => {
         expect(vm.$el.querySelector('.unpublished button').textContent).to.equal('发布地图')
     })
 
-    it('active-name,#handleClick', done => {
-        setTimeout(_ => {
-            const paneList = vm.$el.querySelector('.el-tabs__content').children
-            const tabList = vm.$refs.tabs.$refs.nav.$refs.tabs
+    // it('active-name,#handleClick', async () => {
+    //     const paneList = vm.$el.querySelector('.el-tabs__content').children
+    //     const tabList = vm.$refs.tabs.$refs.nav.$refs.tabs
 
-            expect(tabList[0].classList.contains('is-active')).to.be.true
-            expect(paneList[0].style.display).to.not.ok
+    //     expect(tabList[0].classList.contains('is-active')).to.be.true
+    //     expect(paneList[0].style.display).to.not.ok
 
-            tabList[1].click()
-            vm.$nextTick(_ => {
-                expect(tabList[1].classList.contains('is-active')).to.be.true
-                expect(paneList[1].style.display).to.not.ok
-                expect(vm.activeName === 'my-map')
-                done()
-            })
-        }, 100)
-    })
+    //     tabList[1].click()
+    //     await vm.$nextTick(_ => {
+    //         expect(tabList[1].classList.contains('is-active')).to.be.true
+    //         expect(paneList[1].style.display).to.not.ok
+    //         expect(vm.activeName === 'my-map')
+    //     })
+    // })
 })

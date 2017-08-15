@@ -3,7 +3,7 @@ import { createVue, destroyVM } from '../util'
 import Blockly from '@/blockly'
 global.Blockly = Blockly
 
-describe ('BlockBase.vue', () => {
+describe('BlockBase.vue', () => {
     let vm
 
     beforeEach(() => {
