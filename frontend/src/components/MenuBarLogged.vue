@@ -12,7 +12,7 @@
                 <el-submenu index="4">
                     <template slot="title">{{ $store.state.userNickName }}</template>
                     <el-menu-item index="UserInfo">我的信息</el-menu-item>
-                    <el-menu-item index="4-2" @click="signout">注销</el-menu-item>
+                    <el-menu-item index="4-2" @click="signout" class="signout-button">注销</el-menu-item>
                 </el-submenu>
             </div>
         </el-menu>
@@ -34,9 +34,6 @@ export default {
         }
     },
     methods: {
-        clickTest: function (text) {
-            this.$store.commit('changeView', text)
-        },
         handleSelect: function (index) {
             this.$router.push('/' + index)
         },
