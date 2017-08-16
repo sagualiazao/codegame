@@ -13,21 +13,18 @@ import { createVue, destroyVM } from '../util'
 // 一个大的测试单元
 describe('menubar-unlogged', () => {
     let vm
-    // 在每个测试之前执行的
+
     beforeEach(() => {
-        // 创建组件实例
         vm = createVue(MenuBarUnlogged, true)
     })
 
     afterEach(() => {
-        // 清理组件
+        vm.$store.dispatch('init')
         destroyVM(vm)
     })
 
     it('mounted挂载成功', () => {
-        // 使用vm.xxx访问xxx属性
         expect(vm.activeIndex).to.equal('main-page')
-        // 使用vm.$store访问vuex
         expect(vm.$store.state.signinDialog).to.equal(false)
     })
 })

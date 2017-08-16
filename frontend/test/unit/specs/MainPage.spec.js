@@ -3,14 +3,13 @@ import { createVue, destroyVM } from '../util'
 
 describe('MainPage.vue', () => {
     let vm
-    // 在每个测试之前执行的
+
     beforeEach(() => {
-        // 创建组件实例
         vm = createVue(MainPage, true)
     })
 
     afterEach(() => {
-        // 清理组件
+        vm.$store.dispatch('init')
         destroyVM(vm)
     })
 
