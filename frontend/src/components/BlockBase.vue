@@ -23,12 +23,12 @@ export default {
             workspace: null,
             pic: null,
             maps: null,
-            player: null,
+            player: [],
             friend: null,
             stage: null,
             key: null,
             treeSp: null,
-            tween: null,
+            tween: [],
             haveKey: false,
             mapId: 0,
             mapWidth: 10,
@@ -116,10 +116,8 @@ export default {
         getSafeCommandString () {
             let safeCommandString = ''
             let commandList = this.getCommandCodeList()
-            console.log(commandList)
             for (let i = 0; i < commandList.length; i++) {
                 let safeCode = this.getSafeCode(commandList[i])
-                console.log(safeCode)
                 if (safeCode === false) {
                     safeCommandString = ''
                     alert('wrong input!')
@@ -128,11 +126,11 @@ export default {
                     safeCommandString += safeCode
                 }
             }
-            console.log(safeCommandString)
             return safeCommandString
         },
         blockRunCode () {
             /* eslint no-eval: 0 */
+            this.init()
             this.tween = createjs.Tween.get(this.player)
             let safeCommandString = this.getSafeCommandString()
             try {
@@ -140,31 +138,30 @@ export default {
             } catch (e) {
                 alert(e)
             }
-            this.tween.call(this.init)
         },
-        go (step) {
-            switch (this.direct) {
+        go (index, step) {
+            switch (this.direct[index]) {
             case 1:
-                this.goUp(step)
+                this.goUp(index, step)
                 break
             case 2:
-                this.goRight(step)
+                this.goRight(index, step)
                 break
             case 3:
-                this.goDown(step)
+                this.goDown(index, step)
                 break
             case 4:
-                this.goLeft(step)
+                this.goLeft(index, step)
                 break
             }
         },
-        turn (direction) {
+        turn (index, direction) {
             if (direction === 'right') {
-                this.direct = this.direct % 4 + 1
-                this.tween.call(this.getStop, [this.direct])
+                this.direct[index] = this.direct[index] % 4 + 1
+                this.tween[index].call(this.getStop, [index, this.direct[index]])
             } else {
-                this.direct = (this.direct + 2) % 4 + 1
-                this.tween.call(this.getStop, [this.direct])
+                this.direct[index] = (this.direct[index] + 2) % 4 + 1
+                this.tween[index].call(this.getStop, [index, this.direct[index]])
             }
         },
         cleanWorkspace () {
@@ -218,9 +215,9 @@ export default {
         },
         mapTest () {
             this.maps = [
-                ['5', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['6', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
                 ['2', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['3', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['3', '1', '0', '1', '0', '1', '5', '1', '0', '1'],
                 ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
                 ['7', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
                 ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
@@ -247,11 +244,11 @@ export default {
                 return
             }
             if (index === '5') {
-                this.loadCharactor(this.player, '../../static/player.png', i, j)
+                this.loadCharactor(0, '../../static/player.png', i, j)
                 return
             }
             if (index === '6') {
-                this.loadCharactor(this.friend, '../../static/friend.png', i, j)
+                this.loadCharactor(1, '../../static/friend.png', i, j)
                 return
             }
             if (index === '7') {
@@ -270,7 +267,7 @@ export default {
             }
             return
         },
-        loadCharactor (obj, path, x, y) {
+        loadCharactor (index, path, x, y) {
             var spritesheet = new createjs.SpriteSheet({
                 'images': [path],
                 'frames': {'height': this.div, 'count': 16, 'width': this.div},
@@ -281,13 +278,11 @@ export default {
                     runUp: [12, 15]
                 }
             })
-            obj = new createjs.Sprite(spritesheet)
-            obj.x = this.toScreenX(x)
-            obj.y = this.toScreenY(y)
-            obj.gotoAndStop(8)
-            this.player = obj
-            this.stage.addChild(this.player)
-            this.stage.setChildIndex(this.player, this.stage.numChildren - 1)
+            this.player[index] = new createjs.Sprite(spritesheet)
+            this.player[index].x = this.toScreenX(x)
+            this.player[index].y = this.toScreenY(y)
+            this.player[index].gotoAndStop(8)
+            this.stage.addChild(this.player[index])
         },
         loadMap () {
             var i
@@ -310,57 +305,59 @@ export default {
             this.pic.y = this.mapy
             this.stage.addChild(this.pic)
             this.loadMap()
-            this.tween = createjs.Tween.get(this.player)
+            for (var i = 0; i < this.player.length; i++) {
+                this.tween[i] = createjs.Tween.get(this.player[i])
+            }
             createjs.Ticker.addEventListener('tick', this.stage)
         },
-        fly () {
-            var x = Math.floor((this.player.x - this.mapx) / this.div)
-            var y = Math.floor((this.player.y - this.mapy) / this.div)
-            var playerx = this.player.x
-            var playery = this.player.y
+        fly (index) {
+            var x = Math.floor((this.player[index].x - this.mapx) / this.div)
+            var y = Math.floor((this.player[index].y - this.mapy) / this.div)
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             if (this.maps[x][y].length === 2) {
                 playerx = Math.floor(this.mapx + this.div * this.maps[x][y][0])
                 playery = Math.floor(this.mapy + this.div * this.maps[x][y][1])
             }
-            this.tween.to({x: playerx, y: playery}, 0)
-            this.player.x = playerx
-            this.player.y = playery
+            this.tween[index].to({x: playerx, y: playery}, 0)
+            this.player[index].x = playerx
+            this.player[index].y = playery
         },
-        wait (seconds) {
-            this.tween.wait(seconds * 1000)
+        wait (index, seconds) {
+            this.tween[index].wait(seconds * 1000)
         },
-        collect (str) {
-            var x = Math.floor((this.player.x - this.mapx) / this.div)
-            var y = Math.floor((this.player.y - this.mapy) / this.div)
+        collect (index, str) {
+            var x = Math.floor((this.player[index].x - this.mapx) / this.div)
+            var y = Math.floor((this.player[index].y - this.mapy) / this.div)
             const that = this
             var condition = 0
             if (this.maps[x][y] === '2' && str === 'key') {
                 this.maps[x][y] = '0'
                 this.haveKey = true
-                this.tween.call(function () {
+                this.tween[index].call(function () {
                     that.stage.removeChild(that.key)
-                    that.saywords('Get it!')
+                    that.saywords(index, 'Get it!')
                 })
                 condition = 1
             }
             if (condition === 1) {
-                this.wait(0.5)
+                this.wait(index, 0.5)
             }
         },
-        drop (str) {
-            var x = Math.floor((this.player.x - this.mapx) / this.div)
-            var y = Math.floor((this.player.y - this.mapy) / this.div)
+        drop (index, str) {
+            var x = Math.floor((this.player[index].x - this.mapx) / this.div)
+            var y = Math.floor((this.player[index].y - this.mapy) / this.div)
             const that = this
             var condition = 0
             if (this.maps[x][y] !== '3' && this.haveKey && str === 'key') {
                 condition = 1
                 this.maps[x][y] = '2'
                 this.haveKey = false
-                this.tween.call(function () {
-                    that.key.x = that.player.x
-                    that.key.y = that.player.y
+                this.tween[index].call(function () {
+                    that.key.x = that.player[index].x
+                    that.key.y = that.player[index].y
                     that.stage.addChild(that.key)
-                    that.saywords('Drop it!')
+                    that.saywords(index, 'Drop it!')
                 })
             } else if (this.maps[x][y] === '3' && this.haveKey && str === 'key') {
                 this.maps[x][y] = '0'
@@ -368,23 +365,23 @@ export default {
                 var yy = Math.floor((this.treeSp.y - this.mapy) / this.div)
                 this.maps[xx][yy] = 0
                 this.haveKey = false
-                this.tween.call(function () {
-                    that.key.x = that.player.x
-                    that.key.y = that.player.y
+                this.tween[index].call(function () {
+                    that.key.x = that.player[index].x
+                    that.key.y = that.player[index].y
                     that.stage.addChild(that.key)
                     that.stage.removeChild(that.treeSp)
-                    that.saywords('Open it!')
+                    that.saywords(index, 'Open it!')
                 })
             }
             if (condition === 1) {
-                this.wait(0.5)
+                this.wait(index, 0.5)
             }
         },
-        saywords (words) {
+        saywords (index, words) {
             var text = new createjs.Text(words, '20px Arial', 'blue')
             var sp = new createjs.Shape()
-            text.x = this.player.x
-            text.y = this.player.y
+            text.x = this.player[index].x
+            text.y = this.player[index].y
             sp.graphics.s('black').rr(text.x - 5, text.y - 5, text.getBounds().width + 10, text.getBounds().height + 10, 10)
             // 圆角矩形
             this.stage.addChild(text)
@@ -395,45 +392,45 @@ export default {
                 that.stage.removeChild(sp)
             }, 500)
         },
-        say (words) {
-            this.tween.call(this.saywords)
-            this.wait(0.5)
+        say (index, words) {
+            this.tween[index].call(this.saywords, [index, words])
+            this.wait(index, 0.5)
         },
-        getPlay (direct) {
+        getPlay (index, direct) {
             switch (direct) {
             case 1:
-                this.player.gotoAndPlay('runUp')
+                this.player[index].gotoAndPlay('runUp')
                 break
             case 3:
-                this.player.gotoAndPlay('runDown')
+                this.player[index].gotoAndPlay('runDown')
                 break
             case 4:
-                this.player.gotoAndPlay('runLeft')
+                this.player[index].gotoAndPlay('runLeft')
                 break
             case 2:
-                this.player.gotoAndPlay('runRight')
+                this.player[index].gotoAndPlay('runRight')
                 break
             }
         },
-        getStop (direct) {
+        getStop (index, direct) {
             switch (direct) {
             case 1:
-                this.player.gotoAndStop(12)
+                this.player[index].gotoAndStop(12)
                 break
             case 3:
-                this.player.gotoAndStop(0)
+                this.player[index].gotoAndStop(0)
                 break
             case 4:
-                this.player.gotoAndStop(4)
+                this.player[index].gotoAndStop(4)
                 break
             case 2:
-                this.player.gotoAndStop(8)
+                this.player[index].gotoAndStop(8)
                 break
             }
         },
-        goRight (step) {
-            var playerx = this.player.x
-            var playery = this.player.y
+        goRight (index, step) {
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             for (var i = 0; i < step; i++) {
                 var x = Math.floor((playerx + this.div - this.mapx) / this.div)
                 var y = Math.floor((playery - this.mapy) / this.div)
@@ -445,12 +442,12 @@ export default {
                     playerx = playerx + this.div
                 }
             }
-            this.tween.call(this.getPlay, [2]).to({x: playerx}, this.speed).call(this.getStop, [2])
-            this.player.x = playerx
+            this.tween[index].call(this.getPlay, [index, 2]).to({x: playerx}, this.speed).call(this.getStop, [index, 2])
+            this.player[index].x = playerx
         },
-        goLeft (step) {
-            var playerx = this.player.x
-            var playery = this.player.y
+        goLeft (index, step) {
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             for (var i = 0; i < step; i++) {
                 var x = Math.floor((playerx - this.div - this.mapx) / this.div)
                 var y = Math.floor((playery - this.mapy) / this.div)
@@ -462,12 +459,12 @@ export default {
                     playerx = playerx - this.div
                 }
             }
-            this.tween.call(this.getPlay, [4]).to({x: playerx}, this.speed).call(this.getStop, [4])
-            this.player.x = playerx
+            this.tween[index].call(this.getPlay, [index, 4]).to({x: playerx}, this.speed).call(this.getStop, [index, 4])
+            this.player[index].x = playerx
         },
-        goUp (step) {
-            var playerx = this.player.x
-            var playery = this.player.y
+        goUp (index, step) {
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             for (var i = 0; i < step; i++) {
                 var x = Math.floor((playerx - this.mapx) / this.div)
                 var y = Math.floor((playery - this.div - this.mapy) / this.div)
@@ -479,12 +476,12 @@ export default {
                     playery = playery - this.div
                 }
             }
-            this.tween.call(this.getPlay, [1]).to({y: playery}, this.speed).call(this.getStop, [1])
-            this.player.y = playery
+            this.tween[index].call(this.getPlay, [index, 1]).to({y: playery}, this.speed).call(this.getStop, [index, 1])
+            this.player[index].y = playery
         },
-        goDown (step) {
-            var playerx = this.player.x
-            var playery = this.player.y
+        goDown (index, step) {
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             for (var i = 0; i < step; i++) {
                 var x = Math.floor((playerx - this.mapx) / this.div)
                 var y = Math.floor((playery + this.div - this.mapy) / this.div)
@@ -496,8 +493,8 @@ export default {
                     playery = playery + this.div
                 }
             }
-            this.tween.call(this.getPlay, [3]).to({y: playery}, this.speed).call(this.getStop, [3])
-            this.player.y = playery
+            this.tween[index].call(this.getPlay, [index, 3]).to({y: playery}, this.speed).call(this.getStop, [index, 3])
+            this.player[index].y = playery
         }
     },
     mounted: function () {
@@ -524,6 +521,17 @@ export default {
         })
         this.workspace.addChangeListener(this.myUpdateFunction)
         this.init()
+        this.goRight(0, 3)
+        this.goDown(0, 3)
+        this.goRight(1, 1)
+        this.collect(1, 'key')
+        this.goRight(1, 1)
+        this.drop(1, 'key')
+        this.goRight(1, 3)
+        this.fly(1)
+        this.goUp(1, 3)
+        this.goRight(1, 3)
+        this.say(1, '22')
     }
 }
 </script>
