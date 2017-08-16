@@ -1,9 +1,22 @@
 # coding=utf-8
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.http import HttpResponse, JsonResponse, HttpRequest
+from importlib import import_module
 import api.views
 import simplejson
 import api.models
+import doublegame.settings
+
+
+class ModifySessionMixin(object):
+
+    client = Client()
+
+    def create_session(self):   
+        session_engine = import_module(doublegame.settings.SESSION_ENGINE)        
+        store = session_engine.SessionStore()                          
+        store.save()
+        self.client.cookies[doublegame.settings.SESSION_COOKIE_NAME] = store.session_key
 
 
 class GetCaptchaTestCase(TestCase):
@@ -161,7 +174,7 @@ class ResetPasswordEmailTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '1')
-        self.assertEqual(len(json['captcha']), 6)
+        self.assertEqual(len(self.client.session['captcha']), 6)
 
     def test_reset_password_email_not_exist_user(self):
         data = {'email': '123@qwe.com'}
@@ -171,6 +184,51 @@ class ResetPasswordEmailTestCase(TestCase):
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '0')
 
+
+class CheckEmailCaptchaTestCase(ModifySessionMixin, TestCase):
+
+    def setUp(self):
+        self.create_session()
+
+    def test_check_email_captcha_post_method(self):
+        response = self.client.post('/api/check-email-captcha')
+        self.assertEqual(response.status_code, 404)
+
+    def test_check_email_captcha_true(self):
+        api.models.User.objects.create_user(email='tom@qq.com', nickname='tom', password='123456')
+        data = {'email': 'tom@qq.com'}
+        data = simplejson.dumps(data)
+        response = self.client.post('/api/reset-password-email', data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '1')
+        self.assertEqual(len(self.client.session['captcha']), 6)
+        captcha = self.client.session['captcha']
+        response = self.client.get('/api/check-email-captcha?captcha='+ captcha)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '1')
+
+    def test_check_email_captcha_false(self):
+        api.models.User.objects.create_user(email='tom@qq.com', nickname='tom', password='123456')
+        data = {'email': 'tom@qq.com'}
+        data = simplejson.dumps(data)
+        response = self.client.post('/api/reset-password-email', data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '1')
+        self.assertEqual(len(self.client.session['captcha']), 6)
+        captcha = self.client.session['captcha']
+        response = self.client.get('/api/check-email-captcha?captcha='+ '000000')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '0')
+
+    def test_check_email_captcha_without_sesion(self):
+        response = self.client.get('/api/check-email-captcha?captcha='+ '000000')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '0')
 
 class ResetPasswordTestCase(TestCase):
 
