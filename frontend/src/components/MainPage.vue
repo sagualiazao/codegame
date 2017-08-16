@@ -56,13 +56,13 @@ h1 {
     font-weight: normal;
 }
 .main-page {
-    width: 1250px;
+    width: 100%;
     height: 600px;
     margin-top: -22px;
     background: url(../assets/backg.jpg) no-repeat 0px center;
 }
 #intro {
-    width: 1250px;
+    width: 100%;
     height: 400px;
     margin-top: -22px;
     background-color: #F0FFFF;
@@ -85,13 +85,13 @@ h1 {
     padding-top: 50px;
 }
 #pic-intro {
-    width: 1250px;
-    height: 300px;
+    width: 100%;
+    height: 200px;
     background-color: grey;
     display: inline-flex;
 }
 .introduction {
-    width: 312.5px;
+    width: 25%;
     height: 200px;
 }
 #intro1 {
