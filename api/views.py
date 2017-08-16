@@ -110,9 +110,34 @@ def reset_password_email(request):
                 [email],
                 fail_silently=False
             )
+            request.session['captcha'] = captcha
         except BaseException:
             return JsonResponse({'status': '0'})
-        return JsonResponse({'status': '%s'%mail_status, 'captcha': captcha})
+        return JsonResponse({'status': '1'})
+    else:
+        return HttpResponseNotFound()
+
+
+def check_email_captcha(request):
+    """
+    建议输入的邮件验证码是否正确
+
+    Parameters:  
+        request - 指向'/api/check-email'的POST请求或GET请求
+    
+    Returns:  
+        JsonResponse:  
+        'status' - 未被注册'0', 已被注册'1'  
+    """
+    if request.method == 'GET':
+        try:
+            captcha = request.GET['captcha']
+            if captcha != request.session['captcha']:
+                return JsonResponse({'status': '0'})
+            else:
+                return JsonResponse({'status': '1'})
+        except BaseException:
+            return JsonResponse({'status': '0'})
     else:
         return HttpResponseNotFound()
 
@@ -229,7 +254,7 @@ def login(request):
 
 def check_email(request):
     """
-    建议邮箱是否已被注册
+    检验邮箱是否已被注册
 
     Parameters:  
         request - 指向'/api/check-email'的POST请求或GET请求

@@ -67,10 +67,8 @@ export default {
                 callback(new Error('请输入验证码'))
             } else if (captcha.length < 6) {
                 callback(new Error('验证码长度不足'))
-            } else if (this.captchaKey === captcha) {
-                callback()
             } else {
-                callback(new Error('验证码错误'))
+                this.checkCaptcha(captcha, callback)
             }
         }
         return {
@@ -108,6 +106,7 @@ export default {
                 if (valid) {
                     this.resetPassword()
                     this.$store.commit('resetPasswordWindow', false)
+                    return true
                 } else {
                     alert('error submit!!')
                     return false
@@ -168,6 +167,19 @@ export default {
                 this.cannotResetPassword = false
             } else {
                 alert('邮件发送失败')
+            }
+        },
+        checkCaptcha: async function (captcha, callback) {
+            let response = await fetch('api/check-email-captcha?captcha=' + captcha, {
+                method: 'get',
+                mode: 'cors',
+                credentials: 'include'
+            })
+            let obj = await response.json()
+            if (await obj.status === '0') {
+                callback(new Error('验证码错误'))
+            } else {
+                callback()
             }
         },
         resetPassword: async function () {
