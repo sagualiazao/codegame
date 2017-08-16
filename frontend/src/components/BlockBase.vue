@@ -64,7 +64,6 @@ export default {
                     }
                 }
             }
-            console.log(commandCodeList)
             return commandCodeList
         },
         isSameFormat (target, current) {
@@ -75,7 +74,7 @@ export default {
             let ascii = code.replace(/\s*/g, '')[0].charCodeAt()
             let index = Math.ceil((ascii - 96) / 7) - 1
             let exit = false
-            if (ascii >= 0 && index < 4) {
+            if (index >= 0 && index < 4) {
                 for (let i = 0; i < commandCodeLibrary[index].length; i++) {
                     if (this.isSameFormat(commandCodeLibrary[index][i], code)) {
                         exit = '' + index + i
@@ -86,7 +85,7 @@ export default {
             if (exit === false) {
                 for (let i = 0; i < commandCodeLibrary[4].length; i++) {
                     if (this.isSameFormat(commandCodeLibrary[4][i], code)) {
-                        exit = '' + 4 + i
+                        exit = '' + 4
                         break
                     }
                 }
@@ -94,7 +93,7 @@ export default {
             if (exit === false) {
                 for (let i = 0; i < commandCodeLibrary[5].length; i++) {
                     if (this.isSameFormat(commandCodeLibrary[5][i], code)) {
-                        exit = '' + 5 + i
+                        exit = '' + 5
                         break
                     }
                 }
@@ -108,10 +107,6 @@ export default {
             if (indexString !== false) {
                 if (parseInt(indexString[0]) <= 3) {
                     let expression = 'this.whiteListConstData.formatFunction' + indexString +
-                    '(\'' + code + '\')'
-                    safeCode = eval('(' + expression + ')')
-                } else if (parseInt(indexString[0]) === 4 || parseInt(indexString[0]) === 5) {
-                    let expression = 'this.whiteListConstData.formatFunction' + indexString[0] +
                     '(\'' + code + '\')'
                     safeCode = eval('(' + expression + ')')
                 }
