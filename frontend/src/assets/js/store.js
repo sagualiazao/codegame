@@ -14,10 +14,6 @@ const state = {
     registerDate: null,
     // 界面切换信息
     currentMenbar: 'menu-bar-unlogged',
-    textMainPage: 'mainPage',
-    textGame: 'game',
-    textMapEditor: 'mapEditor',
-    textAccountMessage: 'accountMessage',
     // 弹窗的弹出判断
     signinDialog: false,
     signupDialog: false,
@@ -76,6 +72,19 @@ const actions = {
             mode: 'cors',
             credentials: 'include'
         })
+    },
+    init: function (context) {
+        context.commit('changeLoginStatus', false)
+        context.commit('changeUserEmail', null)
+        context.commit('changeUserId', null)
+        context.commit('changeUserNickName', null)
+        context.commit('changeUserGameProgress', null)
+        context.commit('changeUserHasPaied', null)
+        context.commit('signinWindow', false)
+        context.commit('signupWindow', false)
+        context.commit('resetPasswordWindow', false)
+        context.commit('changeMenu', 'menu-bar-unlogged')
+        context.commit('changeRegisterDate', null)
     }
 }
 
