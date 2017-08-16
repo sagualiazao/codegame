@@ -7,7 +7,7 @@
         <a class="block-tab tab" id="block-tab">Block</a>
         <a class="editor-tab tab" @click="editorClick('EditorBase')" id="editor-tab">Editor</a>
         <div class="tab-container" id="block-area"></div>
-        <input type="text" id="code-area" class="code-area">
+        <textarea id="code-area" class="code-area" rows="3" cols="20"></textarea>
         <button class="clean-button" @click="cleanWorkspace()">Clean</button>
         <button class="run-button" @click="blockRunCode()">Run</button>
     </div>
@@ -38,57 +38,110 @@ export default {
             div: 64,
             speed: 1000,
             direct: 2,
-            functionSet: {}
+            functionSet: {},
+            whiteListConstData: require('../assets/js/white_list.js')
         }
     },
     methods: {
-        /**
-        *
-        组建的切换  点击editor 的 tab 之后切换到 EditorBase.vue
-        *
-        @method editorClick
-        *
-        @param {index} 转换的page
-        *
-        @for BlockBase.vue
-        */
         editorClick (index) {
             this.$router.push('/' + index)
         },
-        /**
-        *
-        根据当前workspace中的返回值, 通过该函数分解为一个命令列表
-        *
-        @method getCodeList
-        *
-        @for BlockBase.vue
-        *
-        @return {List} 返回一个列表,每个元素为一条命令
-        */
-        blockRunCode () {
-            /* eslint no-eval: 0 */
+        getCommandCodeList () {
+            let commandCodeList = []
             document.LoopTrap = 1000
             global.Blockly.JavaScript.INFINITE_LOOP_TRAP =
             'if (--window.LoopTrap === 0) throw "Infinite loop.";\n'
             let codeString = global.Blockly.JavaScript.workspaceToCode(this.workspace)
+            let codePerLineList = codeString.split('\n')
+            for (let i = 0; i < codePerLineList.length; i++) {
+                let currentLine = codePerLineList[i]
+                if (currentLine.replace(/\s*/g, '') !== '') {
+                    let codeListPerLine = currentLine.split(/[;:]/)
+                    for (let j = 0; j < codeListPerLine.length; j++) {
+                        if (codeListPerLine[j] !== '') {
+                            commandCodeList.push(codeListPerLine[j])
+                        }
+                    }
+                }
+            }
+            return commandCodeList
+        },
+        isSameFormat (target, current) {
+            return current.replace(target, '') === ''
+        },
+        indexInCommandLibrary (code) {
+            let commandCodeLibrary = this.whiteListConstData.commandCodeLibrary
+            let ascii = code.replace(/\s*/g, '')[0].charCodeAt()
+            let index = Math.ceil((ascii - 96) / 7) - 1
+            let exit = false
+            if (index >= 0 && index < 4) {
+                for (let i = 0; i < commandCodeLibrary[index].length; i++) {
+                    if (this.isSameFormat(commandCodeLibrary[index][i], code)) {
+                        exit = '' + index + i
+                        break
+                    }
+                }
+            }
+            if (exit === false) {
+                for (let i = 0; i < commandCodeLibrary[4].length; i++) {
+                    if (this.isSameFormat(commandCodeLibrary[4][i], code)) {
+                        exit = '' + 4
+                        break
+                    }
+                }
+            }
+            if (exit === false) {
+                for (let i = 0; i < commandCodeLibrary[5].length; i++) {
+                    if (this.isSameFormat(commandCodeLibrary[5][i], code)) {
+                        exit = '' + 5
+                        break
+                    }
+                }
+            }
+            return exit
+        },
+        getSafeCode (code) {
+            /* eslint no-eval: 0 */
+            let safeCode = false
+            let indexString = this.indexInCommandLibrary(code)
+            if (indexString !== false) {
+                if (parseInt(indexString[0]) <= 3) {
+                    let expression = 'this.whiteListConstData.formatFunction' + indexString +
+                    '(\'' + code + '\')'
+                    safeCode = eval('(' + expression + ')')
+                }
+            }
+            return safeCode
+        },
+        getSafeCommandString () {
+            let safeCommandString = ''
+            let commandList = this.getCommandCodeList()
+            console.log(commandList)
+            for (let i = 0; i < commandList.length; i++) {
+                let safeCode = this.getSafeCode(commandList[i])
+                console.log(safeCode)
+                if (safeCode === false) {
+                    safeCommandString = ''
+                    alert('wrong input!')
+                    break
+                } else {
+                    safeCommandString += safeCode
+                }
+            }
+            console.log(safeCommandString)
+            return safeCommandString
+        },
+        blockRunCode () {
+            /* eslint no-eval: 0 */
             this.tween = createjs.Tween.get(this.player)
+            let safeCommandString = this.getSafeCommandString()
             try {
-                eval(codeString)
+                eval(safeCommandString)
             } catch (e) {
                 alert(e)
             }
             this.tween.call(this.init)
         },
-        /**
-        *
-        封装走动函数, 根据direct决定当前的方向, 选择对应的执行函数
-        *
-        @method go
-        *
-        @param {step} 走的步数
-        *
-        @for BlockBase.vue
-        */
         go (step) {
             switch (this.direct) {
             case 1:
@@ -105,16 +158,6 @@ export default {
                 break
             }
         },
-        /**
-        *
-        封装转向函数
-        *
-        @method turn
-        *
-        @param {direction} 方向 left right
-        *
-        @for BlockBase.vue
-        */
         turn (direction) {
             if (direction === 'right') {
                 this.direct = this.direct % 4 + 1
@@ -124,25 +167,9 @@ export default {
                 this.tween.call(this.getStop, [this.direct])
             }
         },
-        /**
-        *
-        当单击 clean 按钮,清空当前的工作区
-        *
-        @method cleanWorkspace
-        *
-        @for BlockBase.vue
-        */
         cleanWorkspace () {
             this.workspace.clear()
         },
-        /**
-        *
-        跟踪当前工作区积木块的变化,转换为代码,映射到一个textarea里面,用于调试,后期会删掉
-        *
-        @method myUpdateFunction
-        *
-        @for BlockBase.vue
-        */
         myUpdateFunction (event) {
             let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
             document.getElementById('code-area').value = code
@@ -473,14 +500,6 @@ export default {
             this.player.y = playery
         }
     },
-    /**
-    *
-    vue组件加载过程中进行初始化 包括初始化工作区 挂载积木块  初始化createjs游戏界面
-    *
-    @method mounted
-    *
-    @for BlockBase.vue
-    */
     mounted: function () {
         require('../../static/block_defined/blockly_defined.js')
         let toolBox = require('../../src/assets/js/blockly_const_list.js')
