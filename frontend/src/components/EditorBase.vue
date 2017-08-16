@@ -42,14 +42,6 @@ export default {
         }
     },
     methods: {
-        /**
-        *
-        组建的切换  点击block 的 tab 之后切换到 BlockBase.vue
-        *
-        @method blockClick
-        *
-        @for EditorBase.vue
-        */
         blockClick (index) {
             this.$router.push('/' + index)
         },
@@ -120,10 +112,8 @@ export default {
         getSafeCommandString () {
             let safeCommandString = ''
             let commandList = this.getCommandCodeList()
-            console.log(commandList)
             for (let i = 0; i < commandList.length; i++) {
                 let safeCode = this.getSafeCode(commandList[i])
-                console.log(safeCode)
                 if (safeCode === false) {
                     safeCommandString = ''
                     alert('wrong input!')
@@ -132,20 +122,10 @@ export default {
                     safeCommandString += safeCode
                 }
             }
-            console.log(safeCommandString)
             return safeCommandString
         },
-        /**
-        *
-        分析当前输入的代码,执行动画
-        *
-        @method tinyEditorRun
-        *
-        @for EditorBase.vue
-        */
         tinyEditorRun () {
             let safeCommandString = this.getSafeCommandString()
-            console.log(safeCommandString)
             this.tween = createjs.Tween.get(this.player)
             try {
                 eval(safeCommandString)
@@ -179,14 +159,6 @@ export default {
                 this.tween.call(this.getStop, [this.direct])
             }
         },
-        /**
-        *
-        当点击clean按钮清空editor
-        *
-        @method cleanWorkspace
-        *
-        @for EditorBase.vue
-        */
         cleanWorkspace () {
             this.jsEditor.setValue('')
         },
@@ -532,7 +504,7 @@ export default {
         this.jsEditor.setTheme('ace/theme/monokai')
         this.jsEditor.getSession().setMode('ace/mode/javascript')
         this.jsEditor.setHighlightActiveLine(true)
-        this.jsEditor.setValue(this.editorConstData.initialValue)
+        this.jsEditor.setValue('go(3)')
         this.jsEditor.resize()
         this.init()
     }
