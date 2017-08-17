@@ -35,7 +35,7 @@ export default {
         var validateEmail = (rule, email, callback) => {
             if (email === '') {
                 callback(new Error('请输入邮箱'))
-            } else if (rEmail.test(email)) {
+            } else if (rEmail.test(email.toLowerCase())) {
                 callback()
             } else {
                 callback(new Error('邮箱格式错误'))
@@ -88,7 +88,7 @@ export default {
             captcha = captcha.toString()
             let password = cbcEncrypt(captcha, this.loginForm.password)
             let jsonObj = JSON.stringify({
-                'email': this.loginForm.email,
+                'email': this.loginForm.email.toLowerCase(),
                 'password': password,
                 'captcha': captcha
             })
