@@ -105,11 +105,9 @@ export default {
             let safeCode = false
             let indexString = this.indexInCommandLibrary(code)
             if (indexString !== false) {
-                if (parseInt(indexString[0]) <= 3) {
-                    let expression = 'this.whiteListConstData.formatFunction' + indexString +
-                    '(\'' + code + '\')'
-                    safeCode = eval('(' + expression + ')')
-                }
+                let expression = 'this.whiteListConstData.formatFunction' + indexString +
+                '(\'' + code + '\')'
+                safeCode = eval('(' + expression + ')')
             }
             return safeCode
         },
@@ -130,6 +128,7 @@ export default {
         },
         tinyEditorRun () {
             this.init()
+            this.whiteListConstData.init()
             let safeCommandString = this.getSafeCommandString()
             for (var i = 0; i < this.player.length; i++) {
                 this.tween[i] = createjs.Tween.get(this.player[i])
@@ -292,6 +291,9 @@ export default {
         },
         init () {
             this.initNum()
+            if (this.stage !== null) {
+                this.stage.removeAllChildren()
+            }
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.mapx = this.stage.x
@@ -510,7 +512,7 @@ export default {
         this.jsEditor.setTheme('ace/theme/monokai')
         this.jsEditor.getSession().setMode('ace/mode/javascript')
         this.jsEditor.setHighlightActiveLine(true)
-        this.jsEditor.setValue('Nancy.go(3)')
+        this.jsEditor.setValue('function run:')
         this.jsEditor.resize()
         this.init()
     }

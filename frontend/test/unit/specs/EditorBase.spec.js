@@ -53,6 +53,8 @@ describe('EditorBase.vue', () => {
         expect(vm.isSameFormat( /^\s*repeat-end\s*$/,' ss repeat -end ')).to.equal(false)
         expect(vm.isSameFormat(/^\s*var\s+\w*\s*=\s*\d*\s*$/,'var xx=33')).to.equal(true)
         expect(vm.isSameFormat(/^\s*var\s+\w*\s*=\s*\d*\s*$/,'var xx=3d')).to.equal(false)
+        expect(vm.isSameFormat(/^\s*function \w+$/,'   function run')).to.equal(true)
+        expect(vm.isSameFormat(/^\s*function \w+$/,'function   run')).to.equal(false)
     })
 
     it('indexInCommandLibrary', () => {
@@ -86,12 +88,13 @@ describe('EditorBase.vue', () => {
     it('getSafeCode', () => {
         expect(vm.getSafeCode('Nancy.collect("key")')).to.equal('this.collect(0, "key");')
         expect(vm.getSafeCode('Carla.collect("key")')).to.equal('this.collect(1, "key");')
-        expect(vm.getSafeCode('collect("key")')).to.equal(false)
+        // expect(vm.getSafeCode('collect("key")')).to.equal(false)
         expect(vm.getSafeCode('Nancy.drop("key")')).to.equal('this.drop(0, "key");')
         expect(vm.getSafeCode('Nancy.fly()')).to.equal('this.fly(0);')
         expect(vm.getSafeCode('Nancy.go(55)')).to.equal('this.go(0, 55);')
         expect(vm.getSafeCode('function-end')).to.equal('\';')
         expect(vm.getSafeCode('function run')).to.equal('this.functionSet[\'run\']=\'')
+        expect(vm.getSafeCode('run()')).to.deep.equal('eval(this.functionSet["run"]);')
         expect(vm.getSafeCode('repeat 3 times')).to.equal('for(let i = 0; i < 3; i++) {')
         expect(vm.getSafeCode('repeat-end')).to.equal('}')
         expect(vm.getSafeCode('var x=3')).to.equal('var x=3;')
