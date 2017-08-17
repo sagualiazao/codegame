@@ -9,7 +9,7 @@ let commandCodeLibrary = [
     [/^\s*var\s+\w*\s*=\s*\d*\s*$/, /^\s*var\s+\w*\s*/, /^\s*\w*\.wait\(\w*\)\s*$/],
     // 定义的变量  放进来一个带等于号的 一个不带等于号的
     [],
-    // 定义的函数  放进带（）的函数 不处理含参的函数
+    // 定义的函数  放进带（）的正则表达式和相应的字符串（不处理含参的函数）
     []
     // 面向对象的放进正常的里面  手动处理 不受用户支配
 ]
@@ -72,13 +72,17 @@ let whiteListConstData = {
         return code + ';'
     },
     formatFunction05: function (code) {
-        // TODO 处理重复的情况
         let functionName = code.replace('function', '') + '\\(\\)'
         functionName = functionName.replace(/\s*/g, '')
         let regExpString = '^\\s*' + functionName + '\\s*$'
+        // 处理重复定义函数的情况
+        if (this.commandCodeLibrary[5].indexOf(regExpString) !== -1) {
+            return false
+        }
         this.commandCodeLibrary[5].push(new RegExp(regExpString))
-        code = code.replace('function ', 'this.functionSet[\'')
-        return code + '\']=\''
+        this.commandCodeLibrary[5].push(regExpString)
+        code = code.replace('function ', 'this.functionSet[\'') + '\']=\''
+        return code
     },
     formatFunction20: function (code) {
         code = code.replace('repeat ', 'for(let i = 0; i < ')
