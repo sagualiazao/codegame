@@ -12,22 +12,13 @@ Mock.mock(
 )
 
 describe('vuex store', function () {
+
+    beforeEach(function () {
+        store.dispatch('init')
+    })
+
     afterEach(function () {
-        store.state.loginStatus = false
-        store.state.userEmail = null
-        store.state.userId = null
-        store.state.userNickName = null
-        store.state.userGameProgress = null
-        store.state.userHasPaied = null
-        store.state.registerDate = null
-        store.state.currentMenbar = 'menu-bar-unlogged'
-        store.state.textMainPage = 'mainPage'
-        store.state.textGame = 'game'
-        store.state.textMapEditor = 'mapEditor'
-        store.state.textAccountMessage = 'accountMessage'
-        store.state.signinDialog = false
-        store.state.signupDialog = false
-        store.state.resetPasswordDialog = false
+        store.dispatch('init')
     })
 
     it('初始化', function () {
@@ -37,12 +28,10 @@ describe('vuex store', function () {
         expect(store.state.userNickName).to.equal(null)
         expect(store.state.userGameProgress).to.equal(null)
         expect(store.state.userHasPaied).to.equal(null)
-        expect(store.state.registerDate).to.equal(null)
+        let date = new Date(null)
+        date = date.toLocaleString()
+        expect(store.state.registerDate).to.equal(date)
         expect(store.state.currentMenbar).to.equal('menu-bar-unlogged')
-        expect(store.state.textMainPage).to.equal('mainPage')
-        expect(store.state.textGame).to.equal('game')
-        expect(store.state.textMapEditor).to.equal('mapEditor')
-        expect(store.state.textAccountMessage).to.equal('accountMessage')
         expect(store.state.signinDialog).to.equal(false)
         expect(store.state.signupDialog).to.equal(false)
         expect(store.state.resetPasswordDialog).to.equal(false)

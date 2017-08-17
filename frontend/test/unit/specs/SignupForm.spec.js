@@ -3,8 +3,6 @@ import SignupForm from '@/components/SignupForm'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 Vue.use(ElementUI)
-// import Router from 'vue-router'
-// Vue.use(Router)
 
 import { createVue, destroyVM } from '../util'
 
@@ -71,21 +69,7 @@ describe('signup-form', function () {
     })
 
     afterEach(function () {
-        vm.$store.state.loginStatus = false
-        vm.$store.state.userEmail = null
-        vm.$store.state.userId = null
-        vm.$store.state.userNickName = null
-        vm.$store.state.userGameProgress = null
-        vm.$store.state.userHasPaied = null
-        vm.$store.state.registerDate = null
-        vm.$store.state.currentMenbar = 'menu-bar-unlogged'
-        vm.$store.state.textMainPage = 'mainPage'
-        vm.$store.state.textGame = 'game'
-        vm.$store.state.textMapEditor = 'mapEditor'
-        vm.$store.state.textAccountMessage = 'accountMessage'
-        vm.$store.state.signinDialog = false
-        vm.$store.state.signupDialog = false
-        vm.$store.state.resetPasswordDialog = false
+        vm.$store.dispatch('init')
         destroyVM(vm)
     })
 
@@ -96,12 +80,10 @@ describe('signup-form', function () {
         expect(vm.$store.state.userNickName).to.equal(null)
         expect(vm.$store.state.userGameProgress).to.equal(null)
         expect(vm.$store.state.userHasPaied).to.equal(null)
-        expect(vm.$store.state.registerDate).to.equal(null)
+        let date = new Date(null)
+        date = date.toLocaleString()
+        expect(vm.$store.state.registerDate).to.equal(date)
         expect(vm.$store.state.currentMenbar).to.equal('menu-bar-unlogged')
-        expect(vm.$store.state.textMainPage).to.equal('mainPage')
-        expect(vm.$store.state.textGame).to.equal('game')
-        expect(vm.$store.state.textMapEditor).to.equal('mapEditor')
-        expect(vm.$store.state.textAccountMessage).to.equal('accountMessage')
         expect(vm.$store.state.signinDialog).to.equal(false)
         expect(vm.$store.state.signupDialog).to.equal(true)
         expect(vm.$store.state.resetPasswordDialog).to.equal(false)

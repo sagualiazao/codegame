@@ -18,10 +18,7 @@ describe('UserInfo', () => {
     })
 
     afterEach(() => {
-        // 清理组件
-        vm.$store.state.userNickName = null
-        vm.$store.state.userEmail = null
-        vm.$store.state.registerDate = null
+        vm.$store.dispatch('init')
         destroyVM(vm)
     })
 

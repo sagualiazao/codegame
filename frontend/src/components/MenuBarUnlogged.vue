@@ -7,7 +7,7 @@
         <el-dialog title="注册" :visible.sync="$store.state.signupDialog" size="tiny">
             <signup-form></signup-form>
         </el-dialog>
-        <el-dialog title="找回密码" :visible.sync="$store.state.resetPasswordDialog" size="tiny">
+        <el-dialog title="忘记密码" :visible.sync="$store.state.resetPasswordDialog" size="tiny">
             <reset-password-form></reset-password-form>
         </el-dialog>
         <el-menu-item index="login" @click="signinChange">登录</el-menu-item>

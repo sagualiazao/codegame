@@ -25,49 +25,37 @@ export default {
             jsEditor: null,
             pic: null,
             maps: null,
-            player: null,
+            player: [],
+            friend: null,
             stage: null,
+            key: null,
+            treeSp: null,
+            tween: [],
+            haveKey: false,
             mapId: 0,
             mapWidth: 10,
             mapHeight: 10,
             mapx: 0,
             mapy: 0,
-            divx: 64,
+            div: 64,
             speed: 1000,
-            tween: null,
-            direct: 2
+            direct: [],
+            functionSet: {},
+            editorConstData: require('../assets/js/editor_const_list.js'),
+            whiteListConstData: require('../assets/js/white_list.js')
         }
     },
     methods: {
-        /**
-        *
-        组建的切换  点击block 的 tab 之后切换到 BlockBase.vue
-        *
-        @method blockClick
-        *
-        @for EditorBase.vue
-        */
         blockClick (index) {
             this.$router.push('/' + index)
         },
-        /**
-        *
-        解析当前ACE文本框中输入的内容,将内容分解成代码列表
-        *
-        @method getCommandCodeList
-        *
-        @for EditorBase.vue
-        *
-        @return {List} 返回一个列表 ,每个元素为一个独立的代码(没有分号)
-        */
         getCommandCodeList () {
             let commandCodeList = []
             let lineCount = this.jsEditor.session.getLength()
             for (let i = 0; i < lineCount; i++) {
                 let currentLine = this.jsEditor.session.getLine(i)
-                currentLine = currentLine.replace(/\s*/g, '')
-                if (currentLine !== '') {
-                    let codeListPerLine = currentLine.split(';')
+                if (currentLine.replace(/\s*/g, '') !== '') {
+                    let codeListPerLine = currentLine.split(/[;:]/)
                     for (let j = 0; j < codeListPerLine.length; j++) {
                         if (codeListPerLine[j] !== '') {
                             commandCodeList.push(codeListPerLine[j])
@@ -77,99 +65,106 @@ export default {
             }
             return commandCodeList
         },
-        /**
-        *
-        获取当前命令的类型 返回对应数字
-        *
-        @method getTypeOfCode
-        *
-        @for EditorBase.vue
-        *
-        @return {List} 返回一个数值 代表命令类型  1右转 2左转 3直走 0输入异常
-        */
-        getTypeOfCode (code) {
-            if (code === 'turn(right)') {
-                return 1
-            } else if (code === 'turn(left)') {
-                return 2
-            } else if (code.slice(0, 3) === 'go(' &&
-            code[code.length - 1] === ')') {
-                if (isNaN(parseInt(code.slice(3, code.length - 1)))) {
-                    return 0
-                } else {
-                    return 3
+        isSameFormat (target, current) {
+            return current.replace(target, '') === ''
+        },
+        indexInCommandLibrary (code) {
+            let commandCodeLibrary = this.whiteListConstData.commandCodeLibrary
+            let indexOfDot = code.replace(/\s*/g, '').indexOf('.')
+            let ascii = code.replace(/\s*/g, '')[indexOfDot + 1].charCodeAt()
+            let index = Math.ceil((ascii - 96) / 7) - 1
+            let exit = false
+            if (index >= 0 && index < 4) {
+                for (let i = 0; i < commandCodeLibrary[index].length; i++) {
+                    if (this.isSameFormat(commandCodeLibrary[index][i], code)) {
+                        exit = '' + index + i
+                        break
+                    }
                 }
-            } else {
-                return 0
+            }
+            if (exit === false) {
+                for (let i = 0; i < commandCodeLibrary[4].length; i++) {
+                    if (this.isSameFormat(commandCodeLibrary[4][i], code)) {
+                        exit = '' + 4
+                        break
+                    }
+                }
+            }
+            if (exit === false) {
+                for (let i = 0; i < commandCodeLibrary[5].length; i++) {
+                    if (this.isSameFormat(commandCodeLibrary[5][i], code)) {
+                        exit = '' + 5
+                        break
+                    }
+                }
+            }
+            return exit
+        },
+        getSafeCode (code) {
+            /* eslint no-eval: 0 */
+            let safeCode = false
+            let indexString = this.indexInCommandLibrary(code)
+            if (indexString !== false) {
+                if (parseInt(indexString[0]) <= 3) {
+                    let expression = 'this.whiteListConstData.formatFunction' + indexString +
+                    '(\'' + code + '\')'
+                    safeCode = eval('(' + expression + ')')
+                }
+            }
+            return safeCode
+        },
+        getSafeCommandString () {
+            let safeCommandString = ''
+            let commandList = this.getCommandCodeList()
+            for (let i = 0; i < commandList.length; i++) {
+                let safeCode = this.getSafeCode(commandList[i])
+                if (safeCode === false) {
+                    safeCommandString = ''
+                    alert('wrong input!')
+                    break
+                } else {
+                    safeCommandString += safeCode
+                }
+            }
+            return safeCommandString
+        },
+        tinyEditorRun () {
+            this.init()
+            let safeCommandString = this.getSafeCommandString()
+            for (var i = 0; i < this.player.length; i++) {
+                this.tween[i] = createjs.Tween.get(this.player[i])
+            }
+            try {
+                eval(safeCommandString)
+            } catch (e) {
+                alert(e)
             }
         },
-        /**
-        *
-        根据当前方向选择对应的运动函数
-        *
-        @method chooseRightGoFunction
-        *
-        @for EditorBase.vue
-        */
-        chooseRightGoFunction (step) {
-            switch (this.direct) {
+        go (index, step) {
+            switch (this.direct[index]) {
             case 1:
-                this.goUp(step)
+                this.goUp(index, step)
                 break
             case 2:
-                this.goRight(step)
+                this.goRight(index, step)
                 break
             case 3:
-                this.goDown(step)
+                this.goDown(index, step)
                 break
             case 4:
-                this.goLeft(step)
+                this.goLeft(index, step)
                 break
             }
         },
-        /**
-        *
-        分析当前输入的代码,执行动画
-        *
-        @method tinyEditorRun
-        *
-        @for EditorBase.vue
-        */
-        tinyEditorRun () {
-            let codeList = this.getCommandCodeList()
-            this.tween = createjs.Tween.get(this.player)
-            for (let i = 0; i < codeList.length; i++) {
-                let typeOfCode = this.getTypeOfCode(codeList[i])
-                switch (typeOfCode) {
-                case 0:
-                    alert('Please check your code.')
-                    break
-                case 1:
-                    this.direct = this.direct % 4 + 1
-                    this.tween.call(this.getStop, [this.direct])
-                    break
-                case 2:
-                    this.direct = (this.direct + 2) % 4 + 1
-                    this.tween.call(this.getStop, [this.direct])
-                    break
-                case 3:
-                    let step = parseInt(codeList[i].slice(3, codeList[i].length - 1))
-                    this.chooseRightGoFunction(step)
-                    break
-                }
+        turn (index, direction) {
+            if (direction === 'right') {
+                this.direct[index] = this.direct[index] % 4 + 1
+                this.tween[index].call(this.getStop, [index, this.direct[index]])
+            } else {
+                this.direct[index] = (this.direct[index] + 2) % 4 + 1
+                this.tween[index].call(this.getStop, [index, this.direct[index]])
             }
-            this.direct = 2
-            this.functionSet = {}
-            this.tween.call(this.init)
         },
-        /**
-        *
-        当点击clean按钮清空editor
-        *
-        @method cleanWorkspace
-        *
-        @for EditorBase.vue
-        */
         cleanWorkspace () {
             this.jsEditor.setValue('')
         },
@@ -187,57 +182,91 @@ export default {
                 var j
                 for (i = 0; i < this.mapWidth; i++) {
                     for (j = 0; j < this.mapHeight; j++) {
-                        this.maps[i][j] = string[k]
-                        k += 1
+                        if (string[k] !== '!') {
+                            this.maps[i][j] = string[k]
+                            k += 1
+                        } else {
+                            this.maps[i][j] = string[k + 1] + string[k + 2]
+                            k += 4
+                        }
                     }
                 }
             } else if (await obj.status === '0') {
                 alert('读取失败!')
             }
         },
-        init () {
+        toScreenX (mapX) {
+            return Math.floor(this.mapx + this.div * mapX)
+        },
+        toScreenY (mapY) {
+            return Math.floor(this.mapy + this.div * mapY)
+        },
+        initNum () {
             this.mapWidth = 10
             this.mapHeight = 10
-            this.mapx = 0
-            this.mapy = 0
-            this.playerx = 0
-            this.playery = 0
-            this.direct = 2
-            this.length = 0
-            this.divx = 64
-            var canvas = document.getElementById('game-canval')
-            this.stage = new createjs.Stage(canvas)
-            this.pic = new createjs.Bitmap('../../static/black.png')
-            this.pic.x = this.mapx
-            this.pic.y = this.mapy
-            this.stage.addChild(this.pic)
-            this.maps = new Array(this.mapWidth)
-            var i
-            var j
-            for (i = 0; i < this.mapWidth; i++) {
-                this.maps[i] = new Array(this.mapHeight)
+            this.div = 64
+            this.speed = 1000
+            this.haveKey = false
+            this.functionSet = {}
+        },
+        mapTest () {
+            this.maps = [
+                ['6', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['2', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['3', '1', '0', '1', '0', '1', '5', '1', '0', '1'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['7', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1']
+            ]
+        },
+        loadObj (index, i, j) {
+            var stone
+            if (index.length === 2) {
+                stone = new createjs.Bitmap('../../static/9.png')
+                stone.x = this.toScreenX(index[0])
+                stone.y = this.toScreenY(index[1])
+                this.stage.addChild(stone)
+                return
             }
-            for (i = 0; i < this.mapWidth; i++) {
-                for (j = 0; j < this.mapHeight; j++) {
-                    this.maps[i][j] = j % 2
-                }
+            if (index === '2') {
+                this.key = new createjs.Bitmap('../../static/2.png')
+                this.key.x = this.toScreenX(i)
+                this.key.y = this.toScreenY(j)
+                this.stage.addChild(this.key)
+                return
             }
-            for (j = 0; j < this.mapWidth; j++) {
-                this.maps[5][j] = 0
+            if (index === '5') {
+                this.loadCharactor(0, '../../static/player.png', i, j)
+                return
             }
-            for (i = 0; i < this.mapWidth; i++) {
-                for (j = 0; j < this.mapHeight; j++) {
-                    if (this.maps[i][j] === 1) {
-                        var stone = new createjs.Bitmap('../../static/stone.png')
-                        stone.x = Math.floor(this.mapx + this.divx * i)
-                        stone.y = Math.floor(this.mapy + this.divx * j)
-                        this.stage.addChild(stone)
-                    }
-                }
+            if (index === '6') {
+                this.loadCharactor(1, '../../static/friend.png', i, j)
+                return
             }
+            if (index === '7') {
+                this.treeSp = new createjs.Bitmap('../../static/7.png')
+                this.treeSp.x = this.toScreenX(i)
+                this.treeSp.y = this.toScreenY(j)
+                this.maps[i][j] = '1'
+                this.stage.addChild(this.treeSp)
+                return
+            }
+            if (index !== '0') {
+                stone = new createjs.Bitmap('../../static/' + index + '.png')
+                stone.x = this.toScreenX(i)
+                stone.y = this.toScreenY(j)
+                this.stage.addChild(stone)
+            }
+            return
+        },
+        loadCharactor (index, path, x, y) {
             var spritesheet = new createjs.SpriteSheet({
-                'images': ['../../static/player.png'],
-                'frames': {'height': 64, 'count': 16, 'width': 64},
+                'images': [path],
+                'frames': {'height': this.div, 'count': 16, 'width': this.div},
                 'animations': {
                     runRight: [8, 11],
                     runLeft: [4, 7],
@@ -245,108 +274,224 @@ export default {
                     runUp: [12, 15]
                 }
             })
-            this.player = new createjs.Sprite(spritesheet)
-            this.player.x = this.playerx
-            this.player.y = this.playery
-            this.player.gotoAndStop(8)
-            this.stage.addChild(this.player)
-            this.tween = createjs.Tween.get(this.player)
+            this.player[index] = new createjs.Sprite(spritesheet)
+            this.player[index].x = this.toScreenX(x)
+            this.player[index].y = this.toScreenY(y)
+            this.player[index].gotoAndStop(8)
+            this.stage.addChild(this.player[index])
+        },
+        loadMap () {
+            var i
+            var j
+            this.mapTest()
+            for (i = 0; i < this.mapWidth; i++) {
+                for (j = 0; j < this.mapHeight; j++) {
+                    this.loadObj(this.maps[i][j], i, j)
+                }
+            }
+        },
+        init () {
+            this.initNum()
+            var canvas = document.getElementById('game-canval')
+            this.stage = new createjs.Stage(canvas)
+            this.mapx = this.stage.x
+            this.mapy = this.stage.y
+            this.pic = new createjs.Bitmap('../../static/black.png')
+            this.pic.x = this.mapx
+            this.pic.y = this.mapy
+            this.stage.addChild(this.pic)
+            this.loadMap()
+            for (var i = 0; i < this.player.length; i++) {
+                this.tween[i] = createjs.Tween.get(this.player[i])
+                this.direct[i] = 2
+            }
             createjs.Ticker.addEventListener('tick', this.stage)
         },
-        wait (seconds) {
-            this.tween.wait(seconds)
+        fly (index) {
+            var x = Math.floor((this.player[index].x - this.mapx) / this.div)
+            var y = Math.floor((this.player[index].y - this.mapy) / this.div)
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
+            if (this.maps[x][y].length === 2) {
+                playerx = Math.floor(this.mapx + this.div * this.maps[x][y][0])
+                playery = Math.floor(this.mapy + this.div * this.maps[x][y][1])
+            }
+            this.tween[index].to({x: playerx, y: playery}, 0)
+            this.player[index].x = playerx
+            this.player[index].y = playery
         },
-        getPlay (direct) {
+        wait (index, seconds) {
+            this.tween[index].wait(seconds * 1000)
+        },
+        collect (index, str) {
+            var x = Math.floor((this.player[index].x - this.mapx) / this.div)
+            var y = Math.floor((this.player[index].y - this.mapy) / this.div)
+            const that = this
+            var condition = 0
+            if (this.maps[x][y] === '2' && str === 'key') {
+                this.maps[x][y] = '0'
+                this.haveKey = true
+                this.tween[index].call(function () {
+                    that.stage.removeChild(that.key)
+                    that.saywords(index, 'Get it!')
+                })
+                condition = 1
+            }
+            if (condition === 1) {
+                this.wait(index, 0.5)
+            }
+        },
+        drop (index, str) {
+            var x = Math.floor((this.player[index].x - this.mapx) / this.div)
+            var y = Math.floor((this.player[index].y - this.mapy) / this.div)
+            const that = this
+            var condition = 0
+            if (this.maps[x][y] !== '3' && this.haveKey && str === 'key') {
+                condition = 1
+                this.maps[x][y] = '2'
+                this.haveKey = false
+                this.tween[index].call(function () {
+                    that.key.x = that.player[index].x
+                    that.key.y = that.player[index].y
+                    that.stage.addChild(that.key)
+                    that.saywords(index, 'Drop it!')
+                })
+            } else if (this.maps[x][y] === '3' && this.haveKey && str === 'key') {
+                this.maps[x][y] = '0'
+                var xx = Math.floor((this.treeSp.x - this.mapx) / this.div)
+                var yy = Math.floor((this.treeSp.y - this.mapy) / this.div)
+                this.maps[xx][yy] = 0
+                this.haveKey = false
+                this.tween[index].call(function () {
+                    that.key.x = that.player[index].x
+                    that.key.y = that.player[index].y
+                    that.stage.addChild(that.key)
+                    that.stage.removeChild(that.treeSp)
+                    that.saywords(index, 'Open it!')
+                })
+            }
+            if (condition === 1) {
+                this.wait(index, 0.5)
+            }
+        },
+        saywords (index, words) {
+            var text = new createjs.Text(words, '20px Arial', 'blue')
+            var sp = new createjs.Shape()
+            text.x = this.player[index].x
+            text.y = this.player[index].y
+            sp.graphics.s('black').rr(text.x - 5, text.y - 5, text.getBounds().width + 10, text.getBounds().height + 10, 10)
+            // 圆角矩形
+            this.stage.addChild(text)
+            this.stage.addChild(sp)
+            const that = this
+            setTimeout(function () {
+                that.stage.removeChild(text)
+                that.stage.removeChild(sp)
+            }, 500)
+        },
+        say (index, words) {
+            this.tween[index].call(this.saywords, [index, words])
+            this.wait(index, 0.5)
+        },
+        getPlay (index, direct) {
             switch (direct) {
             case 1:
-                this.player.gotoAndPlay('runUp')
+                this.player[index].gotoAndPlay('runUp')
                 break
             case 3:
-                this.player.gotoAndPlay('runDown')
+                this.player[index].gotoAndPlay('runDown')
                 break
             case 4:
-                this.player.gotoAndPlay('runLeft')
+                this.player[index].gotoAndPlay('runLeft')
                 break
             case 2:
-                this.player.gotoAndPlay('runRight')
+                this.player[index].gotoAndPlay('runRight')
                 break
             }
         },
-        getStop (direct) {
+        getStop (index, direct) {
             switch (direct) {
             case 1:
-                this.player.gotoAndStop(12)
+                this.player[index].gotoAndStop(12)
                 break
             case 3:
-                this.player.gotoAndStop(0)
+                this.player[index].gotoAndStop(0)
                 break
             case 4:
-                this.player.gotoAndStop(4)
+                this.player[index].gotoAndStop(4)
                 break
             case 2:
-                this.player.gotoAndStop(8)
+                this.player[index].gotoAndStop(8)
                 break
             }
         },
-        goRight (step) {
-            var playerx = this.player.x
-            var playery = this.player.y
+        goRight (index, step) {
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             for (var i = 0; i < step; i++) {
-                var x = Math.floor((playerx + this.divx - this.mapx) / this.divx)
-                var y = Math.floor((playery - this.mapy) / this.divx)
-                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === 1) {
+                var x = Math.floor((playerx + this.div - this.mapx) / this.div)
+                var y = Math.floor((playery - this.mapy) / this.div)
+                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '4') {
+                    alert('GameOver')
                 } else {
-                    playerx = playerx + this.divx
+                    playerx = playerx + this.div
                 }
             }
-            this.tween.call(this.getPlay, [2]).to({x: playerx}, this.speed).call(this.getStop, [2])
-            this.player.x = playerx
+            this.tween[index].call(this.getPlay, [index, 2]).to({x: playerx}, this.speed).call(this.getStop, [index, 2])
+            this.player[index].x = playerx
         },
-        goLeft (step) {
-            var playerx = this.player.x
-            var playery = this.player.y
+        goLeft (index, step) {
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             for (var i = 0; i < step; i++) {
-                var x = Math.floor((playerx - this.divx - this.mapx) / this.divx)
-                var y = Math.floor((playery - this.mapy) / this.divx)
-                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === 1) {
+                var x = Math.floor((playerx - this.div - this.mapx) / this.div)
+                var y = Math.floor((playery - this.mapy) / this.div)
+                if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '4') {
+                    alert('GameOver')
                 } else {
-                    playerx = playerx - this.divx
+                    playerx = playerx - this.div
                 }
             }
-            this.tween.call(this.getPlay, [4]).to({x: playerx}, this.speed).call(this.getStop, [4])
-            this.player.x = playerx
+            this.tween[index].call(this.getPlay, [index, 4]).to({x: playerx}, this.speed).call(this.getStop, [index, 4])
+            this.player[index].x = playerx
         },
-        goUp (step) {
-            var playerx = this.player.x
-            var playery = this.player.y
+        goUp (index, step) {
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             for (var i = 0; i < step; i++) {
-                var x = Math.floor((playerx - this.mapx) / this.divx)
-                var y = Math.floor((playery - this.divx - this.mapy) / this.divx)
-                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === 1) {
+                var x = Math.floor((playerx - this.mapx) / this.div)
+                var y = Math.floor((playery - this.div - this.mapy) / this.div)
+                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '4') {
+                    alert('GameOver')
                 } else {
-                    playery = playery - this.divx
+                    playery = playery - this.div
                 }
             }
-            this.tween.call(this.getPlay, [1]).to({y: playery}, this.speed).call(this.getStop, [1])
-            this.player.y = playery
+            this.tween[index].call(this.getPlay, [index, 1]).to({y: playery}, this.speed).call(this.getStop, [index, 1])
+            this.player[index].y = playery
         },
-        goDown (step) {
-            var playerx = this.player.x
-            var playery = this.player.y
+        goDown (index, step) {
+            var playerx = this.player[index].x
+            var playery = this.player[index].y
             for (var i = 0; i < step; i++) {
-                var x = Math.floor((playerx - this.mapx) / this.divx)
-                var y = Math.floor((playery + this.divx - this.mapy) / this.divx)
-                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === 1) {
+                var x = Math.floor((playerx - this.mapx) / this.div)
+                var y = Math.floor((playery + this.div - this.mapy) / this.div)
+                if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '4') {
+                    alert('GameOver')
                 } else {
-                    playery = playery + this.divx
+                    playery = playery + this.div
                 }
             }
-            this.tween.call(this.getPlay, [3]).to({y: playery}, this.speed).call(this.getStop, [3])
-            this.player.y = playery
+            this.tween[index].call(this.getPlay, [index, 3]).to({y: playery}, this.speed).call(this.getStop, [index, 3])
+            this.player[index].y = playery
         }
     },
     /**
@@ -365,7 +510,7 @@ export default {
         this.jsEditor.setTheme('ace/theme/monokai')
         this.jsEditor.getSession().setMode('ace/mode/javascript')
         this.jsEditor.setHighlightActiveLine(true)
-        this.jsEditor.setValue('go(5)')
+        this.jsEditor.setValue('Nancy.go(3)')
         this.jsEditor.resize()
         this.init()
     }

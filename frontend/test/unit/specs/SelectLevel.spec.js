@@ -8,11 +8,11 @@ describe('SelectLevel.vue', () => {
     })
 
     afterEach(() => {
+        vm.$store.dispatch('init')
         destroyVM(vm)
     })
 
     it('按钮内容渲染成功', () => {
         expect(vm.$el.querySelector('#continue-play').textContent).to.equal('继续游戏')
     })
-
 })
