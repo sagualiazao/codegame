@@ -302,10 +302,13 @@ def logout(request):
 @csrf_exempt
 def save_map(request):
     """
-    保存关卡地图
+    保存用户编辑的地图
 
     Parameters:  
         request - 指向'/api/save-map'的POST请求
+        mapString - 要存储的地图信息  
+        name - 地图的名称  
+        remarks - 地图的说明  
     
     Returns:  
         JsonResponse:  
@@ -317,15 +320,20 @@ def save_map(request):
             # 捕获json为空错误
             req = simplejson.load(request)
             # 捕获参数错误
+            email = request.session['email']
+            author = User.objects.get(email=email)
             map_str = req['mapString']
-            newMap = GameLevels(
+            name = req['name']
+            remarks = req['remarks']
+            newMap = DesignedMaps(
                 map=map_str,
-                level_three_steps=10,
-                level_two_steps=20,
-                tips='The Level!',
-                goal='I donnot know!'
+                name=name,
+                remarks=remarks,
+                author=author,
+                is_published=False
             )
             newMap.save()
+            status = MapImage.generate_map_image(newMap.map_id, map_str)
         except BaseException:
             return JsonResponse({'status': '0'})
         else:
@@ -337,7 +345,7 @@ def save_map(request):
 @csrf_exempt
 def read_map(request):
     """
-    读取关卡地图
+    读取用户编辑的地图
 
     Parameters:  
         request - 指向'/api/read-map'的GET请求
@@ -347,16 +355,16 @@ def read_map(request):
         JsonResponse:  
         'status' - 读取失败'0', 读取成功'1'  
         'map' - 地图字符串  
-        'threeStar' - 三星评价条件  
-        'twoStar' - 两星评价条件  
-        'tips' - 关卡提示  
-        'goal' - 关卡目标
+        'name' - 地图名  
+        'remarks' - 地图说明  
+        'author' - 地图作者  
+        'is_published' - 地图发布状态
     """
     # TODO: 增加具体信息的设置
     if request.method == 'GET':
         try:
-            map_id = request.GET['mapid']
-            selected_map = GameLevels.objects.filter(map_id=map_id)
+            map_id = int(request.GET['mapid'])
+            selected_map = DesignedMaps.objects.filter(map_id=map_id)
             if len(selected_map) == 0:
                 return JsonResponse({'status': '0'})
             else:
@@ -364,12 +372,11 @@ def read_map(request):
                 return JsonResponse({
                     'status': '1',
                     'map': selected_map.map,
-                    'threeStar': selected_map.level_three_steps,
-                    'twoStar': selected_map.level_two_steps,
-                    'tips': selected_map.tips,
-                    'goal': selected_map.goal
+                    'name': selected_map.name,
+                    'remarks': selected_map.remarks,
+                    'author': str(selected_map.author)
                 })
-        except BaseException:
+        except BaseException as e:
             return JsonResponse({'status': '0'})
     else:
         return HttpResponseNotFound()

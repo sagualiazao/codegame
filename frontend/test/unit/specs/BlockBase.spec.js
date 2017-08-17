@@ -15,7 +15,6 @@ describe('BlockBase.vue', () => {
     })
 
     it('mounted挂载成功', () => {
-        expect(vm.direct).to.equal([])
         expect(vm.functionSet).to.deep.equal({})
         let workspace = vm.workspace.getAllBlocks()
         expect(workspace).to.deep.equal([])

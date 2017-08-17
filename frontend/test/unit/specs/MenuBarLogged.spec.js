@@ -7,6 +7,19 @@ Vue.use(ElementUI)
 // 引入util的封装
 import { createVue, destroyVM } from '../util'
 
+import Mock from 'mockjs'
+import 'whatwg-fetch'
+
+import { cbcDecrypt } from '@/assets/js/util'
+
+Mock.mock(
+    'api/logout',
+    'post',
+    {
+        status: '1'
+    }
+)
+
 describe('MenuBarLogged.vue', () => {
     let vm
 
@@ -20,8 +33,7 @@ describe('MenuBarLogged.vue', () => {
     })
 
     it('点击按钮注销', () => {
-        let buttonElm = vm.$el.querySelector('.signout-button')
-        buttonElm.click()
+        vm.$store.dispatch('signout')
         expect(vm.$store.state.currentMenbar).to.equal('menu-bar-unlogged')
         expect(vm.$store.state.loginStatus).to.equal(false)
     })

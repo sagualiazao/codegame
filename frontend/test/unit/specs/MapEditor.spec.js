@@ -19,8 +19,8 @@ describe('MapEditor.vue', () => {
         expect(vm.stage).to.not.equal(null)
         expect(vm.mapContainer).to.not.equal(null)
         expect(vm.maps).to.not.equal([])
-        expect(vm.items).to.equal(4)
-        expect(vm.stage.numChildren).to.equal(5)
+        expect(vm.items).to.equal(5)
+        expect(vm.stage.numChildren).to.equal(7)
         expect(vm.randomColor).to.not.equal(0)
     })
 
@@ -30,7 +30,7 @@ describe('MapEditor.vue', () => {
     })
 
     it('mousedown事件监听成功', () => {
-        
+
         // TODO 动画执行成功的测试 争取对各个运行函数更高的覆盖率
 
     })
