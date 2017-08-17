@@ -70,7 +70,7 @@ export default {
         },
         indexInCommandLibrary (code) {
             let commandCodeLibrary = this.whiteListConstData.commandCodeLibrary
-            let indexOfDot = code.indexOf('.')
+            let indexOfDot = code.replace(/\s*/g, '').indexOf('.')
             let ascii = code.replace(/\s*/g, '')[indexOfDot + 1].charCodeAt()
             let index = Math.ceil((ascii - 96) / 7) - 1
             let exit = false
@@ -131,7 +131,6 @@ export default {
         tinyEditorRun () {
             this.init()
             let safeCommandString = this.getSafeCommandString()
-            console.log(safeCommandString)
             for (var i = 0; i < this.player.length; i++) {
                 this.tween[i] = createjs.Tween.get(this.player[i])
             }
@@ -440,7 +439,6 @@ export default {
                     playerx = playerx + this.div
                 }
             }
-            console.log(22)
             this.tween[index].call(this.getPlay, [index, 2]).to({x: playerx}, this.speed).call(this.getStop, [index, 2])
             this.player[index].x = playerx
         },
@@ -512,7 +510,7 @@ export default {
         this.jsEditor.setTheme('ace/theme/monokai')
         this.jsEditor.getSession().setMode('ace/mode/javascript')
         this.jsEditor.setHighlightActiveLine(true)
-        this.jsEditor.setValue('go(3)')
+        this.jsEditor.setValue('Nancy.go(3)')
         this.jsEditor.resize()
         this.init()
     }

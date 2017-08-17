@@ -30,6 +30,7 @@ let whiteListConstData = {
     },
     formateTheName: function (code) {
         let codeList = code.split('.')
+        codeList[0] = codeList[0].replace(/\s*/g, '')
         let typeOfCharacter = this.indexOfCharacter(codeList[0])
         if (typeOfCharacter === 2) {
             return false
