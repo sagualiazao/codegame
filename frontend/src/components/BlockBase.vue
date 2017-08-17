@@ -129,6 +129,7 @@ export default {
         blockRunCode () {
             /* eslint no-eval: 0 */
             this.init()
+            this.whiteListConstData.init()
             let safeCommandString = this.getSafeCommandString()
             for (var i = 0; i < this.player.length; i++) {
                 this.tween[i] = createjs.Tween.get(this.player[i])

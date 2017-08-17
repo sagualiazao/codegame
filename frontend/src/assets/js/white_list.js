@@ -6,8 +6,8 @@ let commandCodeLibrary = [
     // opqrstu
     [/^\s*repeat \w+ times\s*$/, /^\s*repeat-end\s*$/, /^\s*\w*\.?say\("\w*"\)\s*$/, /^\s*\w*\.?turn\("left"\)\s*$/, /^\s*\w*\.?turn\("right"\)\s*$/],
     // vwxyz
-    [/^\s*var\s+\w*\s*=\s*\d*\s*$/, /^\s*var\s+\w*\s*/, /^\s*\w*\.?wait\(\w*\)\s*$/],
-    // 定义的变量  放进来一个带等于号的 一个不带等于号的
+    [/^\s*var\s+[A-Za-z]\w*\s*=\s*(\d+|[A-Za-z]\w*)\s*$/, /^\s*var\s+[A-Za-z]\w*\s*/, /^\s*\w*\.?wait\(\w*\)\s*$/],
+    // 定义的变量  放进来一个带等于号的 一个不带等于号的 和一个对应的正则表达式字符串
     [],
     // 定义的函数  放进带（）的正则表达式和相应的字符串（不处理含参的函数）
     []
@@ -121,28 +121,35 @@ let whiteListConstData = {
         return code
     },
     formatFunction30: function (code) {
-        // TODO 处理重复的情况
         'var x = 3'
         let temp = code.replace('var', '')
-        temp = temp.replace(/=\s*\d*\s*/, '')
+        temp = temp.replace(/=\s*(\d+|[A-Za-z]\w*)\s*/, '')
         let variable = temp.replace(/\s*/g, '')
         let regExpString = '^\\s*' + variable + '\\s*$'
-        let regExp = new RegExp(regExpString)
-        this.commandCodeLibrary[4].push(regExp)
-        regExpString = '^\\s*' + variable + '\\s*=\\d+\\s*$'
-        regExp = new RegExp(regExpString)
-        this.commandCodeLibrary[4].push(regExp)
+        // 处理重复定义变量的情况
+        if (this.commandCodeLibrary[4].indexOf(regExpString) === -1) {
+            this.commandCodeLibrary[4].push(regExpString)
+            let regExp = new RegExp(regExpString)
+            this.commandCodeLibrary[4].push(regExp)
+            regExpString = '^\\s*' + variable + '\\s*=\\s*(\\d+|[A-Za-z]\\w*)\\s*$'
+            regExp = new RegExp(regExpString)
+            this.commandCodeLibrary[4].push(regExp)
+        }
         return code + ';'
     },
     formatFunction31: function (code) {
         let temp = code.replace('var', '')
         let variable = temp.replace(/\s*/g, '')
         let regExpString = '^\\s*' + variable + '\\s*$'
-        let regExp = new RegExp(regExpString)
-        this.commandCodeLibrary[4].push(regExp)
-        regExpString = '^\\s*' + variable + '\\s*=\\d+\\s*$'
-        regExp = new RegExp(regExpString)
-        this.commandCodeLibrary[4].push(regExp)
+        // 处理重复定义变量的情况
+        if (this.commandCodeLibrary[4].indexOf(regExpString) === -1) {
+            this.commandCodeLibrary[4].push(regExpString)
+            let regExp = new RegExp(regExpString)
+            this.commandCodeLibrary[4].push(regExp)
+            regExpString = '^\\s*' + variable + '\\s*=\\s*(\\d+|[A-Za-z]\\w*)\\s*$'
+            regExp = new RegExp(regExpString)
+            this.commandCodeLibrary[4].push(regExp)
+        }
         return code + ';'
     },
     formatFunction32: function (code) {
