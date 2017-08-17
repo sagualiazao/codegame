@@ -347,7 +347,21 @@ class CheckEmailTestCase(TestCase):
         self.assertEqual(json['status'], '0')
 
 
-class SaveMapTestCase(TestCase):
+class SaveMapTestCase(ModifySessionMixin, TestCase):
+
+    def setUp(self):
+        self.create_session()
+        api.models.User.objects.create_user(email='tom@123.com', nickname='tom', password='123456')
+        data = {
+            'email': 'tom@123.com',
+            'password': 'mXvXMG2g0YkE4GzyLVn/dg==',
+            'captcha': 'abcd'
+        }
+        data = simplejson.dumps(data)
+        response = self.client.post('/api/login', data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '1')
 
     def test_save_map_get_method(self):
         response = self.client.get('/api/save-map')
@@ -360,14 +374,19 @@ class SaveMapTestCase(TestCase):
         self.assertEqual(json['status'], '0')
 
     def test_save_map_success(self):
-        data = {'mapString': '111111'}
+        map_str = '1000000000010000000010000000000000000000000000000000000000000000000000000000000000000000000000000000'
+        data = {
+            'mapString': map_str,
+            'name': 'new map',
+            'remarks': 'the remark'
+        }
         data = simplejson.dumps(data)
         response = self.client.post('/api/save-map', data=data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '1')
-        map_one = api.models.GameLevels.objects.all()[0]
-        self.assertEqual(map_one.map, '111111')
+        map_one = api.models.DesignedMaps.objects.all()[0]
+        self.assertEqual(map_one.map, map_str)
 
     def test_save_map_without_map_string(self):
         data = {}
@@ -378,25 +397,45 @@ class SaveMapTestCase(TestCase):
         self.assertEqual(json['status'], '0')
 
 
-class ReadMapTestCase(TestCase):
+class ReadMapTestCase(ModifySessionMixin, TestCase):
     
+    def setUp(self):
+        self.create_session()
+        api.models.User.objects.create_user(email='tom@123.com', nickname='tom', password='123456')
+        data = {
+            'email': 'tom@123.com',
+            'password': 'mXvXMG2g0YkE4GzyLVn/dg==',
+            'captcha': 'abcd'
+        }
+        data = simplejson.dumps(data)
+        response = self.client.post('/api/login', data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '1')
+
     def test_read_map_post_method(self):
         response = self.client.post('/api/read-map')
         self.assertEqual(response.status_code, 404)
 
     def test_get_map_success(self):
-        data = {'mapString': '111111'}
+        map_str = '1000000000010000000010000000000000000000000000000000000000000000000000000000000000000000000000000000'
+        data = {
+            'mapString': map_str,
+            'name': 'new map',
+            'remarks': 'the remark'
+        }
         data = simplejson.dumps(data)
         response = self.client.post('/api/save-map', data=data, content_type='application/json')
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '1')
-        map_one = api.models.GameLevels.objects.all()[0]
+        map_one = api.models.DesignedMaps.objects.all()[0]
+        self.assertEqual(map_one.map, map_str)
         response = self.client.get(('/api/read-map?mapid=' + str(map_one.map_id)))
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '1')
-        self.assertEqual(json['map'], '111111')
+        self.assertEqual(json['map'], map_str)
 
     def test_get_map_not_exist(self):
         response = self.client.get('/api/read-map?mapid=1')

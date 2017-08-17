@@ -225,12 +225,10 @@ export default {
             }
             if (this.mapName === '') {
                 alert('请输入地图名')
+            } else {
+                this.mapPost(string)
+                this.clean()
             }
-            if (this.mapTips === '') {
-                alert('请输入有关说明信息')
-            }
-            this.mapPost(string)
-            this.clean()
         },
         clean () {
             this.stage.removeAllChildren()

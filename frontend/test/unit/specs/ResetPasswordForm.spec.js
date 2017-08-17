@@ -71,6 +71,30 @@ Mock.mock(
     }
 )
 
+Mock.mock(
+    'api/logout',
+    'get',
+    {
+        status: '1'
+    }
+)
+
+Mock.mock(
+    'api/check-email-captcha?captcha=abcdef',
+    'get',
+    {
+        status: '1'
+    }
+)
+
+Mock.mock(
+    'api/check-email-captcha?captcha=abcccc',
+    'get',
+    {
+        status: '0'
+    }
+)
+
 describe('ResetPasswordForm.vue', function () {
     let vm
     beforeEach(() => {
