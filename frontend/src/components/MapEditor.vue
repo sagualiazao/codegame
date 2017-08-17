@@ -229,15 +229,12 @@ export default {
                 this.mapPost(string)
                 this.clean()
             }
-<<<<<<< Updated upstream
-=======
             if (this.mapTips === '') {
                 alert('请输入有关说明信息')
             }
             console.log(string)
             this.mapPost(string)
             this.clean()
->>>>>>> Stashed changes
         },
         clean () {
             this.stage.removeAllChildren()
