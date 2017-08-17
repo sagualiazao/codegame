@@ -70,7 +70,8 @@ export default {
         },
         indexInCommandLibrary (code) {
             let commandCodeLibrary = this.whiteListConstData.commandCodeLibrary
-            let ascii = code.replace(/\s*/g, '')[0].charCodeAt()
+            let indexOfDot = code.replace(/\s*/g, '').indexOf('.')
+            let ascii = code.replace(/\s*/g, '')[indexOfDot + 1].charCodeAt()
             let index = Math.ceil((ascii - 96) / 7) - 1
             let exit = false
             if (index >= 0 && index < 4) {
@@ -104,11 +105,9 @@ export default {
             let safeCode = false
             let indexString = this.indexInCommandLibrary(code)
             if (indexString !== false) {
-                if (parseInt(indexString[0]) <= 3) {
-                    let expression = 'this.whiteListConstData.formatFunction' + indexString +
-                    '(\'' + code + '\')'
-                    safeCode = eval('(' + expression + ')')
-                }
+                let expression = 'this.whiteListConstData.formatFunction' + indexString +
+                '(\'' + code + '\')'
+                safeCode = eval('(' + expression + ')')
             }
             return safeCode
         },
@@ -130,8 +129,10 @@ export default {
         blockRunCode () {
             /* eslint no-eval: 0 */
             this.init()
-            this.tween = createjs.Tween.get(this.player)
             let safeCommandString = this.getSafeCommandString()
+            for (var i = 0; i < this.player.length; i++) {
+                this.tween[i] = createjs.Tween.get(this.player[i])
+            }
             try {
                 eval(safeCommandString)
             } catch (e) {
@@ -528,18 +529,6 @@ export default {
         })
         this.workspace.addChangeListener(this.myUpdateFunction)
         this.init()
-        this.goRight(0, 3)
-        this.goDown(0, 3)
-        this.goRight(1, 1)
-        this.collect(1, 'key')
-        this.goRight(1, 1)
-        this.drop(1, 'key')
-        this.goRight(1, 3)
-        this.fly(1)
-        this.goUp(1, 3)
-        this.goLeft(1, 3)
-        this.goDown(1, 3)
-        this.say(1, '22')
     }
 }
 </script>
