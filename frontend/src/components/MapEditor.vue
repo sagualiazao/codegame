@@ -258,7 +258,12 @@ export default {
         }
     },
     mounted: function () {
-        this.init()
+        if (this.$store.state.loginStatus === false) {
+            alert('请先登录噢!')
+            this.$router.push('/')
+        } else {
+            this.init()
+        }
     }
 }
 </script>

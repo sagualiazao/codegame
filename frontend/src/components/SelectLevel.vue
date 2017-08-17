@@ -28,6 +28,12 @@ export default {
         return {
         }
     },
+    mounted () {
+        if (this.$store.state.loginStatus === false) {
+            alert('请先登录噢!')
+            this.$router.push('/')
+        }
+    },
     methods: {
     }
 }
