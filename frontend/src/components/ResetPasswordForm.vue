@@ -38,8 +38,8 @@ export default {
         var validateEmail = (rule, email, callback) => {
             if (email === '') {
                 callback(new Error(' '))
-            } else if (rEmail.test(email)) {
-                this.checkEmail(email, callback)
+            } else if (rEmail.test(email.toLowerCase())) {
+                this.checkEmail(email.toLowerCase(), callback)
             } else {
                 callback(new Error('邮箱格式错误'))
             }
@@ -147,7 +147,7 @@ export default {
         },
         sendEmail: async function () {
             let jsonObj = JSON.stringify({
-                'email': this.resetPasswordForm.email
+                'email': this.resetPasswordForm.email.toLowerCase()
             })
             let fetchHead = {
                 'Content-Type': 'application/json, text/plain, */*',
@@ -185,7 +185,7 @@ export default {
         resetPassword: async function () {
             let password = cbcEncrypt(this.resetPasswordForm.captcha, this.resetPasswordForm.password)
             let jsonObj = JSON.stringify({
-                'email': this.resetPasswordForm.email,
+                'email': this.resetPasswordForm.email.toLowerCase(),
                 'password': password,
                 'captcha': this.resetPasswordForm.captcha
             })

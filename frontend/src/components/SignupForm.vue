@@ -47,8 +47,8 @@ export default {
             if (email === '') {
                 // 错误消息交给placeholder,利用error进行逻辑判断
                 callback(new Error(' '))
-            } else if (rEmail.test(email)) {
-                fetch('api/check-email?email=' + email, {
+            } else if (rEmail.test(email.toLowerCase())) {
+                fetch('api/check-email?email=' + email.toLowerCase(), {
                     method: 'get',
                     mode: 'cors',
                     credentials: 'include'
@@ -148,7 +148,7 @@ export default {
             // 对密码执行一次CBC加密算法
             let password = cbcEncrypt(this.registerForm.captcha, this.registerForm.password)
             let jsonObj = JSON.stringify({
-                'email': this.registerForm.email,
+                'email': this.registerForm.email.toLowerCase(),
                 'password': password,
                 'nickname': this.registerForm.nickname,
                 'captcha': this.registerForm.captcha
