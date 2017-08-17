@@ -229,6 +229,15 @@ export default {
                 this.mapPost(string)
                 this.clean()
             }
+<<<<<<< Updated upstream
+=======
+            if (this.mapTips === '') {
+                alert('请输入有关说明信息')
+            }
+            console.log(string)
+            this.mapPost(string)
+            this.clean()
+>>>>>>> Stashed changes
         },
         clean () {
             this.stage.removeAllChildren()
@@ -240,7 +249,7 @@ export default {
             this.canvasHeight = 640
             this.div = 64
             this.bias = 30
-            this.items = 4
+            this.items = 5
             this.mapWidth = 10
             this.mapHeight = 10
             this.fzmx = 0
