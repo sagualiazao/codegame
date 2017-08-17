@@ -1,13 +1,10 @@
-import BlockBase from '@/components/BlockBase'
+import MapEditor from '@/components/MapEditor'
 import { createVue, destroyVM } from '../util'
-import Blockly from '@/blockly'
-global.Blockly = Blockly
-
-describe('BlockBase.vue', () => {
+describe('MapEditor.vue', () => {
     let vm
 
     beforeEach(() => {
-        vm = createVue(BlockBase, true)
+        vm = createVue(MapEditor, true)
     })
 
     afterEach(() => {
@@ -15,20 +12,25 @@ describe('BlockBase.vue', () => {
     })
 
     it('mounted挂载成功', () => {
-        expect(vm.direct).to.equal([])
-        expect(vm.functionSet).to.deep.equal({})
-        let workspace = vm.workspace.getAllBlocks()
-        expect(workspace).to.deep.equal([])
         expect(vm.mapWidth).to.equal(10)
         expect(vm.mapHeight).to.equal(10)
-        expect(vm.speed).to.equal(1000)
-        expect(vm.haveKey).to.equal(false)
-        expect(vm.pic.x).to.equal(vm.mapx)
-        expect(vm.pic.y).to.equal(vm.mapy)
-        expect(vm.tween).to.not.equal([])
+        expect(vm.div).to.equal(64)
+        expect(vm.bias).to.equal(30)
+        expect(vm.stage).to.not.equal(null)
+        expect(vm.mapContainer).to.not.equal(null)
+        expect(vm.maps).to.not.equal([])
+        expect(vm.items).to.equal(4)
+        expect(vm.stage.numChildren).to.equal(5)
+        expect(vm.randomColor).to.not.equal(0)
     })
 
-    it('点击运行按钮正常执行动画', () => {
+    it('坐标函数执行成功', () => {
+        expect(vm.toMapX(200)).to.equal(3)
+        expect(vm.toMapY(200)).to.equal(3)
+    })
+
+    it('mousedown事件监听成功', () => {
+        
         // TODO 动画执行成功的测试 争取对各个运行函数更高的覆盖率
 
     })
