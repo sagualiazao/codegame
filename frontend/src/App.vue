@@ -61,6 +61,6 @@ export default {
 }
 #navbar {
     margin-top: -60px;
-    width: 1250px;
+    width: 100%;
 }
 </style>

@@ -524,7 +524,7 @@ export default {
 <style scoped>
 .editor-base {
     margin: 0 auto;
-    width: 1300px;
+    width: 100%;
     height: 600px;
     background-color: #FFEC8B;
 }
@@ -533,8 +533,8 @@ export default {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     position: absolute;
-    left: 30px;
-    width: 650px;
+    left: 1%;
+    width: 48%;
     height: 600px;
     padding: 10px;
     border: solid 1px;
@@ -544,8 +544,8 @@ export default {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     position: absolute;
-    right: 30px;
-    width: 650px;
+    right: 1%;
+    width: 50%;
     height: 600px;
 }
 .tab-plugin .tab-container {
