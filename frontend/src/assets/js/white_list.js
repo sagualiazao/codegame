@@ -1,12 +1,12 @@
 let commandCodeLibrary = [
     // abcdefg
-    [/^\s*\w*\.collect\("\w*"\)\s*$/, /^\s*\w*\.drop\("\w*"\)\s*$/, /^\s*\w*\.go\(\w*\)\s*$/, /^\s*\w*\.fly\(\)\s*$/, /^\s*function-end\s*$/, /^\s*function \w+$/],
+    [/^\s*\w*\.?collect\("\w*"\)\s*$/, /^\s*\w*\.?drop\("\w*"\)\s*$/, /^\s*\w*\.?go\(\w*\)\s*$/, /^\s*\w*\.?fly\(\)\s*$/, /^\s*function-end\s*$/, /^\s*function \w+$/],
     // hijklmn
     [],
     // opqrstu
-    [/^\s*repeat \w+ times\s*$/, /^\s*repeat-end\s*$/, /^\s*\w*\.say\("\w*"\)\s*$/, /^\s*\w*\.turn\("left"\)\s*$/, /^\s*\w*\.turn\("right"\)\s*$/],
+    [/^\s*repeat \w+ times\s*$/, /^\s*repeat-end\s*$/, /^\s*\w*\.?say\("\w*"\)\s*$/, /^\s*\w*\.?turn\("left"\)\s*$/, /^\s*\w*\.?turn\("right"\)\s*$/],
     // vwxyz
-    [/^\s*var\s+\w*\s*=\s*\d*\s*$/, /^\s*var\s+\w*\s*/, /^\s*\w*\.wait\(\w*\)\s*$/],
+    [/^\s*var\s+\w*\s*=\s*\d*\s*$/, /^\s*var\s+\w*\s*/, /^\s*\w*\.?wait\(\w*\)\s*$/],
     // 定义的变量  放进来一个带等于号的 一个不带等于号的
     [],
     // 定义的函数  放进带（）的正则表达式和相应的字符串（不处理含参的函数）
@@ -29,13 +29,19 @@ let whiteListConstData = {
         }
     },
     formateTheName: function (code) {
-        let codeList = code.split('.')
-        codeList[0] = codeList[0].replace(/\s*/g, '')
-        let typeOfCharacter = this.indexOfCharacter(codeList[0])
-        if (typeOfCharacter === 2) {
-            return false
+        let typeOfCharacter = 0
+        let indexOfDot = code.indexOf('.')
+        if (indexOfDot !== -1) {
+            let codeList = code.split('.')
+            codeList[0] = codeList[0].replace(/\s*/g, '')
+            let typeOfCharacter = this.indexOfCharacter(codeList[0])
+            if (typeOfCharacter === 2) {
+                return false
+            }
+            code = codeList[1].replace('(', '(' + typeOfCharacter + ', ')
+        } else {
+            code = code.replace('(', '(' + typeOfCharacter + ', ')
         }
-        code = codeList[1].replace('(', '(' + typeOfCharacter + ', ')
         return code
     },
     formatFunction00: function (code) {
