@@ -35,13 +35,15 @@ export default {
             canvasHeight: 640,
             div: 64,
             bias: 30,
-            items: 4,
+            items: 5,
             mapWidth: 10,
             mapHeight: 10,
             fzmx: 0,
             fzmy: 0,
             sx: 0,
             sy: 0,
+            havePlayer: false,
+            haveFlag: false,
             mapName: '',
             mapTips: ''
         }
@@ -60,7 +62,7 @@ export default {
             this.stage = new createjs.Stage(canvas)
             createjs.Touch.enable(this.stage)
             this.mapContainer = new createjs.Container()
-            var background = new createjs.Bitmap('../../static/h5.png')
+            var background = new createjs.Bitmap('../../static/map/background.png')
             this.mapContainer.x = this.stage.x
             this.mapContainer.y = this.stage.y
             this.mapContainer.addChild(background)
@@ -77,21 +79,27 @@ export default {
             }
             createjs.Ticker.addEventListener('tick', this.stage)
         },
+        addPic (i, ox, oy) {
+            if (i === 3 && this.havePlayer) {
+                return
+            } else if (i === 4 && this.haveFlag) {
+                return
+            }
+            var con = new createjs.Container()
+            var bitmap = new createjs.Bitmap('../../static/map/' + i + '.png')
+            con.x = ox
+            con.y = oy
+            con.name = i
+            con.addChild(bitmap)
+            con.addEventListener('mousedown', this.mousedown)
+            con.addEventListener('pressup', this.pressup)
+            this.stage.addChild(con)
+        },
         draw () {
             var ox = this.stage.x + this.canvasWidth - this.div - this.bias
-            var oy = this.bias
             this.randomColor = Math.floor(Math.random() * 16777215).toString(16)
-            for (var i = 1; i <= this.items; i++) {
-                var con = new createjs.Container()
-                var bitmap = new createjs.Bitmap('../../static/' + (i * i) + '.png')
-                con.x = ox
-                con.y = oy
-                con.name = (i * i)
-                oy += this.div
-                con.addChild(bitmap)
-                con.addEventListener('mousedown', this.mousedown)
-                con.addEventListener('pressup', this.pressup)
-                this.stage.addChild(con)
+            for (var i = 0; i <= this.items; i++) {
+                this.addPic(i, ox, this.bias + this.div * i)
             }
         },
         mousedown (event) {
@@ -119,7 +127,7 @@ export default {
             }
         },
         pressup (event) {
-            this.draw()
+            var ox = this.stage.x + this.canvasWidth - this.div - this.bias
             this.shadowur(false, event.target.parent)
             var mapW = this.div * this.mapWidth
             var mapH = this.div * this.mapHeight
@@ -132,10 +140,15 @@ export default {
                     x = Math.floor((event.target.parent.x - this.mapContainer.x) / this.div)
                     y = Math.floor((event.target.parent.y - this.mapContainer.y) / this.div)
                     this.remove(x, y)
-                    if (event.target.parent.name === 16) {
+                    if (event.target.parent.name === 3) {
+                        this.havePlayer = true
+                    } else if (event.target.parent.name === 4) {
+                        this.haveFlag = true
+                    }
+                    if (event.target.parent.name === 0) {
                         this.stage.removeChild(event.target.parent)
                     } else {
-                        if (event.target.parent.name === 9) {
+                        if (event.target.parent.name === 5) {
                             this.setTransform(event.target.parent, x, y)
                         } else {
                             this.maps[x][y] = event.target.parent
@@ -146,6 +159,7 @@ export default {
                 this.stage.removeChild(event.target.parent)
             }
             event.target.parent.removeAllEventListeners()
+            this.addPic(event.target.parent.name, ox, this.bias + this.div * event.target.parent.name)
         },
         shadowur (bool, con) {
             if (bool) {
@@ -165,15 +179,23 @@ export default {
             }
         },
         remove (x, y) {
+            var ox = this.stage.x + this.canvasWidth - this.div - this.bias
+            if (this.maps[x][y].name === 3) {
+                this.havePlayer = false
+                this.addPic(3, ox, this.bias + this.div * 3)
+            } else if (this.maps[x][y].name === 4) {
+                this.haveFlag = false
+                this.addPic(4, ox, this.bias + this.div * 4)
+            }
             if (this.maps[x][y] === 0) {
                 return
             }
-            if (this.maps[x][y].name !== 9) {
+            if (this.maps[x][y].name !== 5) {
                 this.stage.removeChild(this.maps[x][y])
                 this.maps[x][y] = 0
                 return
             }
-            if (this.maps[x][y].name === 9) {
+            if (this.maps[x][y].name === 5) {
                 if (!((x === this.toMapX(this.maps[x][y].x)) && (y === this.toMapY(this.maps[x][y].y)))) {
                     var temp = this.maps[x][y]
                     var tempp = this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)]
@@ -193,7 +215,7 @@ export default {
             var string = ''
             for (var i = 0; i < this.mapWidth; i++) {
                 for (var j = 0; j < this.mapHeight; j++) {
-                    if (this.maps[i][j].name === 9) {
+                    if (this.maps[i][j].name === 5) {
                         this.maps[i][j] = '!' + this.toMapX(this.maps[i][j].x) + '' + this.toMapY(this.maps[i][j].y) + '!'
                     } else if (this.maps[i][j] !== 0) {
                         this.maps[i][j] = this.maps[i][j].name
@@ -211,6 +233,7 @@ export default {
             this.clean()
         },
         clean () {
+            this.stage.removeAllChildren()
             this.stage = null
             this.mapContainer = null
             this.maps = []
@@ -226,6 +249,8 @@ export default {
             this.fzmy = 0
             this.sx = 0
             this.sy = 0
+            this.haveFlag = false
+            this.havePlayer = false
             this.mapName = ''
             this.mapTips = ''
             this.init()

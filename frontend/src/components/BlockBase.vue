@@ -24,7 +24,6 @@ export default {
             pic: null,
             maps: null,
             player: [],
-            friend: null,
             stage: null,
             key: null,
             treeSp: null,
@@ -37,7 +36,7 @@ export default {
             mapy: 0,
             div: 64,
             speed: 1000,
-            direct: 2,
+            direct: [],
             functionSet: {},
             whiteListConstData: require('../assets/js/white_list.js')
         }
@@ -207,7 +206,6 @@ export default {
         initNum () {
             this.mapWidth = 10
             this.mapHeight = 10
-            this.direct = 2
             this.div = 64
             this.speed = 1000
             this.haveKey = false
@@ -215,11 +213,11 @@ export default {
         },
         mapTest () {
             this.maps = [
-                ['6', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['2', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['3', '1', '0', '1', '0', '1', '5', '1', '0', '1'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['7', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['6', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+                ['7', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+                ['8', '1', '0', '2', '0', '1', '3', '1', '0', '1'],
+                ['0', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+                ['9', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
                 ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
                 ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
                 ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
@@ -230,29 +228,29 @@ export default {
         loadObj (index, i, j) {
             var stone
             if (index.length === 2) {
-                stone = new createjs.Bitmap('../../static/9.png')
+                stone = new createjs.Bitmap('../../static/map/5.png')
                 stone.x = this.toScreenX(index[0])
                 stone.y = this.toScreenY(index[1])
                 this.stage.addChild(stone)
                 return
             }
-            if (index === '2') {
-                this.key = new createjs.Bitmap('../../static/2.png')
+            if (index === '7') {
+                this.key = new createjs.Bitmap('../../static/map/7.png')
                 this.key.x = this.toScreenX(i)
                 this.key.y = this.toScreenY(j)
                 this.stage.addChild(this.key)
                 return
             }
-            if (index === '5') {
-                this.loadCharactor(0, '../../static/player.png', i, j)
+            if (index === '3') {
+                this.loadCharactor(0, '../../static/map/player1.png', i, j)
                 return
             }
             if (index === '6') {
-                this.loadCharactor(1, '../../static/friend.png', i, j)
+                this.loadCharactor(1, '../../static/map/player2.png', i, j)
                 return
             }
-            if (index === '7') {
-                this.treeSp = new createjs.Bitmap('../../static/7.png')
+            if (index === '9') {
+                this.treeSp = new createjs.Bitmap('../../static/map/9.png')
                 this.treeSp.x = this.toScreenX(i)
                 this.treeSp.y = this.toScreenY(j)
                 this.maps[i][j] = '1'
@@ -260,7 +258,7 @@ export default {
                 return
             }
             if (index !== '0') {
-                stone = new createjs.Bitmap('../../static/' + index + '.png')
+                stone = new createjs.Bitmap('../../static/map/' + index + '.png')
                 stone.x = this.toScreenX(i)
                 stone.y = this.toScreenY(j)
                 this.stage.addChild(stone)
@@ -300,13 +298,14 @@ export default {
             this.stage = new createjs.Stage(canvas)
             this.mapx = this.stage.x
             this.mapy = this.stage.y
-            this.pic = new createjs.Bitmap('../../static/black.png')
+            this.pic = new createjs.Bitmap('../../static/map/background.png')
             this.pic.x = this.mapx
             this.pic.y = this.mapy
             this.stage.addChild(this.pic)
             this.loadMap()
             for (var i = 0; i < this.player.length; i++) {
                 this.tween[i] = createjs.Tween.get(this.player[i])
+                this.direct[i] = 2
             }
             createjs.Ticker.addEventListener('tick', this.stage)
         },
@@ -331,7 +330,7 @@ export default {
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
             const that = this
             var condition = 0
-            if (this.maps[x][y] === '2' && str === 'key') {
+            if (this.maps[x][y] === '7' && str === 'key') {
                 this.maps[x][y] = '0'
                 this.haveKey = true
                 this.tween[index].call(function () {
@@ -349,9 +348,9 @@ export default {
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
             const that = this
             var condition = 0
-            if (this.maps[x][y] !== '3' && this.haveKey && str === 'key') {
+            if (this.maps[x][y] !== '8' && this.haveKey && str === 'key') {
                 condition = 1
-                this.maps[x][y] = '2'
+                this.maps[x][y] = '7'
                 this.haveKey = false
                 this.tween[index].call(function () {
                     that.key.x = that.player[index].x
@@ -359,7 +358,7 @@ export default {
                     that.stage.addChild(that.key)
                     that.saywords(index, 'Drop it!')
                 })
-            } else if (this.maps[x][y] === '3' && this.haveKey && str === 'key') {
+            } else if (this.maps[x][y] === '8' && this.haveKey && str === 'key') {
                 this.maps[x][y] = '0'
                 var xx = Math.floor((this.treeSp.x - this.mapx) / this.div)
                 var yy = Math.floor((this.treeSp.y - this.mapy) / this.div)
@@ -436,8 +435,10 @@ export default {
                 var y = Math.floor((playery - this.mapy) / this.div)
                 if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '2') {
+                    console.log('GameOver')
                 } else if (this.maps[x][y] === '4') {
-                    alert('GameOver')
+                    console.log('Victory')
                 } else {
                     playerx = playerx + this.div
                 }
@@ -453,8 +454,10 @@ export default {
                 var y = Math.floor((playery - this.mapy) / this.div)
                 if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '2') {
+                    console.log('GameOver')
                 } else if (this.maps[x][y] === '4') {
-                    alert('GameOver')
+                    console.log('Victory')
                 } else {
                     playerx = playerx - this.div
                 }
@@ -470,8 +473,10 @@ export default {
                 var y = Math.floor((playery - this.div - this.mapy) / this.div)
                 if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '2') {
+                    console.log('GameOver')
                 } else if (this.maps[x][y] === '4') {
-                    alert('GameOver')
+                    console.log('Victory')
                 } else {
                     playery = playery - this.div
                 }
@@ -487,8 +492,10 @@ export default {
                 var y = Math.floor((playery + this.div - this.mapy) / this.div)
                 if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '2') {
+                    console.log('GameOver')
                 } else if (this.maps[x][y] === '4') {
-                    alert('GameOver')
+                    console.log('Victory')
                 } else {
                     playery = playery + this.div
                 }
@@ -530,7 +537,8 @@ export default {
         this.goRight(1, 3)
         this.fly(1)
         this.goUp(1, 3)
-        this.goRight(1, 3)
+        this.goLeft(1, 3)
+        this.goDown(1, 3)
         this.say(1, '22')
     }
 }
