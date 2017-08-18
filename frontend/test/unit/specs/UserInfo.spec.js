@@ -26,9 +26,7 @@ describe('UserInfo', () => {
         expect(vm.$el.querySelector('.user-info h1').textContent).to.equal('个人主页')
         expect(vm.$el.querySelector('.base-info span').textContent).to.equal('昵称')
         expect(vm.$el.querySelector('.game-info span').textContent).to.equal('已完成的关卡数')
-        expect(vm.$el.querySelector('.change-name-form h2').textContent).to.equal('修改昵称')
-        expect(vm.$el.querySelector('.change-password-form h2').textContent).to.equal('修改密码')
-        expect(vm.activeName === 'base-tab')
+        expect(vm.$el.querySelector('.user-info a').textContent).to.equal('修改密码')
     })
 
     it('should set correct data', () => {
@@ -40,27 +38,14 @@ describe('UserInfo', () => {
         expect(vm.nickname).to.equal('')
     })
 
-    it('active-name,#handleClick', done => {
-        setTimeout(_ => {
-            const paneList = vm.$el.querySelector('.el-tabs__content').children
-            const tabList = vm.$refs.tabs.$refs.nav.$refs.tabs
-
-            expect(tabList[0].classList.contains('is-active')).to.be.true
-            expect(paneList[0].style.display).to.not.ok
-
-            tabList[3].click()
-            vm.$nextTick(_ => {
-                expect(tabList[3].classList.contains('is-active')).to.be.true
-                expect(paneList[3].style.display).to.not.ok
-                expect(vm.activeName === 'set-account-tab')
-                done()
-            })
-        }, 100)
-    })
-
     it('change nickname', async function () {
         vm.nickname = 'xy'
         await vm.nameSubmit()
         await expect(vm.$store.state.userNickName).to.equal('xy')
+    })
+
+    it('click change password', async function () {
+        vm.$el.querySelector('.user-info a').click()
+        await expect(vm.$store.state.changePasswordDialog).to.equal(true)
     })
 })

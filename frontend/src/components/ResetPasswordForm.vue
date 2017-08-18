@@ -207,10 +207,10 @@ export default {
                 alert('密码修改失败')
             }
         }
-    },
-    mounted () {
-        this.$store.dispatch('signout')
     }
+    // mounted () {
+    //     this.$store.dispatch('signout')
+    // }
 }
 </script>
 <style scoped>

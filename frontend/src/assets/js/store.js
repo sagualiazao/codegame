@@ -17,7 +17,8 @@ const state = {
     // 弹窗的弹出判断
     signinDialog: false,
     signupDialog: false,
-    resetPasswordDialog: false
+    resetPasswordDialog: false,
+    changePasswordDialog: false
 }
 
 const mutations = {
@@ -47,6 +48,9 @@ const mutations = {
     },
     resetPasswordWindow: function (state, status) {
         state.resetPasswordDialog = status
+    },
+    changePasswordWindow: function (state, status) {
+        state.changePasswordDialog = status
     },
     changeMenu: function (state, status) {
         state.currentMenbar = status

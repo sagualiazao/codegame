@@ -2,53 +2,32 @@
 <div class="user-info">
     <h1>个人主页</h1>
     <div>
-        <el-tabs ref="tabs" v-model="activeName" @tab-click="handleClick" class="user-tabs">
-            <el-tab-pane label="基本信息" name="base-tab" class="base-info">
-                <img src="../assets/h1.jpg" id="img-id">
-                <i class="el-icon-date"></i>
-                <span>昵称</span>
-                <p>{{ this.$store.state.userNickName }}</p>
-                <i class="el-icon-message"></i>
-                <span>邮箱地址</span>
-                <p>{{ this.$store.state.userEmail }}</p>
-                <i class="el-icon-date"></i>
-                <span>注册日期</span>
-                <p>{{ this.$store.state.registerDate }}</p>
-            </el-tab-pane>
-            <el-tab-pane label="游戏信息" name="game-tab" class="game-info">
-                <span>已完成的关卡数</span>
-                <p>{{ finishedLevel }}</p>
-                <span>剩下的关卡数</span>
-                <p>{{ remainedLevel }}</p>
-            </el-tab-pane>
-            <el-tab-pane label="收藏的地图" name="map-tab" class="map-info">
-                <img src="../assets/pc1.jpg">
-                <img src="../assets/pc2.jpg">
-                <img src="../assets/pc3.jpg">
-                <img src="../assets/pc4.jpg">
-            </el-tab-pane>
-            <el-tab-pane label="账号设置" name="set-account-tab" class="set-account">
-                <form class="change-name-form" method="post">
-                    <p><h2>修改昵称</h2><br>
-                        <input type="text" placeholder="请输入昵称" maxlength="16" v-model="nickname">
-                        <input type="button" @click="nameSubmit()" value="确认">
-                    </p>
-                </form>
-                <form class="change-password-form" method="post">
-                    <p><h2>修改密码</h2><br>
-                        <label>现在的密码</label><br>
-                        <input type="password" v-model="verifyPassword">
-                        <br>
-                        <label>新密码</label><br>
-                        <input type="password" placeholder="请输入新密码，可使用数字\字母\下划线" maxlength="16" v-model="userPassword">
-                        <br>
-                        <label>确认密码</label><br>
-                        <input type="password" placeholder="请再次输入新密码" maxlength="16" v-model="checkPassword">
-                        <input type="button" @click="passwordSubmit()" value="确认">
-                    </p>
-                </form>
-            </el-tab-pane>
-        </el-tabs>
+        <div class="base-info">
+            <img src="../assets/h1.jpg" id="img-id">
+            <i class="el-icon-date"></i>
+            <span>昵称</span>
+            <p>{{ this.$store.state.userNickName }}</p>
+            <i class="el-icon-message"></i>
+            <span>邮箱地址</span>
+            <p>{{ this.$store.state.userEmail }}</p>
+            <i class="el-icon-date"></i>
+            <span>注册日期</span>
+            <p>{{ this.$store.state.registerDate }}</p>
+        </div>
+        <div class="game-info">
+            <span>已完成的关卡数</span>
+            <p>{{ finishedLevel }}</p>
+            <span>剩下的关卡数</span>
+            <p>{{ remainedLevel }}</p>
+        </div>
+        <p><h2>修改昵称</h2><br>
+            <input type="text" placeholder="请输入昵称" maxlength="16" v-model="nickname">
+            <input type="button" @click="nameSubmit()" value="确认" id="btn">
+        </p>
+        <a href="#UserInfo" @click="resetPasswordChange()">修改密码</a>
+        <el-dialog title="修改密码" :visible.sync="$store.state.changePasswordDialog" size="tiny">
+            <reset-password-form></reset-password-form>
+        </el-dialog>
     </div>
     <h2>这是用户信息!</h2>
 </div>
@@ -59,10 +38,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '../assets/js/store'
+import ResetPasswordForm from './ResetPasswordForm'
 
 export default {
     name: 'user-info',
     store: store,
+    components: {
+        ResetPasswordForm
+    },
     data: function () {
         return {
             finishedLevel: '',
@@ -78,10 +61,11 @@ export default {
         }
     },
     methods: {
-        handleClick (tab, event) {
-        },
         nameSubmit: function () {
             this.$store.commit('changeUserNickName', this.nickname)
+        },
+        resetPasswordChange: function () {
+            this.$store.commit('changePasswordWindow', true)
         }
     }
 }
@@ -95,35 +79,57 @@ h1 {
     color: #A0522D;
 }
 div {
-    width: 1250px;
-    height: 800px;
+    width: 1500px;
     left: 100px;
     margin-top: 80px;
     text-align: justify;
 }
 .user-info {
-    margin-top: -30px;
-    background-color: #F0E6BC;
-    animation: myfirst 3s;
+    margin-top: -20px;
+    /*background-color: #b4e2f4;*/
+    background: url(../assets/infobackgro1.png) no-repeat 0px center;
+    background-size: contain;
+    /*animation: myfirst 3s;*/
 }
-h1, p, span, i, form {
+#btn {
+    background-image: url(../assets/border3.jpg);
+}
+h1, h2, p, span, i, a, input {
     position: relative;
-    left: 100px;
+    left: 160px;
+}
+a:hover {
+    color: #FF00FF;
+    text-decoration: underline;
+}
+span {
+    font-size: 20px;
+    color: #FA2D6A;
+}
+p {
+    font-size: 20px;
+    color: black;
 }
 h2 {
     margin-bottom: -8px;
+    font-size: 18px;
+    color: #FA8072;
 }
 img {
     width: 200px;
     height: 200px;
 }
 .base-info p, .game-info p{
+    border-radius: 30px;
+    /*border: 8px solid black;
+    border-image: url(../assets/border8.png) repeat;*/
     border: 2px solid #708090;
     margin-right: 600px;
+    width: 500px;
 }
 #img-id {
     float: right;
-    margin-right: 80px;
+    margin-right: 200px;
     transition: width 2s,height 2s,transform 2s;
     border: 1px solid #BFBFBF;
     box-shadow: 2px 2px 3px #aaaaaa;
