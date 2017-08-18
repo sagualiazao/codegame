@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^api/logout$', views.logout),
     url(r'^api/check-email', views.check_email),
     url(r'^api/save-map', views.save_map),
-    url(r'^api/read-map', views.read_map)
+    url(r'^api/read-map', views.read_map),
+    url(r'^api/pay', views.pay)
 ]
