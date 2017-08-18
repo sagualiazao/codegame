@@ -311,6 +311,10 @@ export default {
             }
             createjs.Ticker.addEventListener('tick', this.stage)
         },
+        gameover () {
+        },
+        victory () {
+        },
         fly (index) {
             var x = Math.floor((this.player[index].x - this.mapx) / this.div)
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
@@ -343,6 +347,11 @@ export default {
             }
             if (condition === 1) {
                 this.wait(index, 0.5)
+                for (var i = 0; i < this.player.length; i++) {
+                    if (i !== index) {
+                        this.tween[i].wait(500)
+                    }
+                }
             }
         },
         drop (index, str) {
@@ -376,6 +385,11 @@ export default {
             }
             if (condition === 1) {
                 this.wait(index, 0.5)
+                for (var i = 0; i < this.player.length; i++) {
+                    if (i !== index) {
+                        this.tween[i].wait(500)
+                    }
+                }
             }
         },
         saywords (index, words) {
@@ -396,6 +410,11 @@ export default {
         say (index, words) {
             this.tween[index].call(this.saywords, [index, words])
             this.wait(index, 0.5)
+            for (var i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(500)
+                }
+            }
         },
         getPlay (index, direct) {
             switch (direct) {
@@ -439,13 +458,20 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playerx = playerx + this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 2]).to({x: playerx}, this.speed).call(this.getStop, [index, 2])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].x = playerx
         },
         goLeft (index, step) {
@@ -458,13 +484,20 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playerx = playerx - this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 4]).to({x: playerx}, this.speed).call(this.getStop, [index, 4])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].x = playerx
         },
         goUp (index, step) {
@@ -477,13 +510,20 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playery = playery - this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 1]).to({y: playery}, this.speed).call(this.getStop, [index, 1])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].y = playery
         },
         goDown (index, step) {
@@ -496,13 +536,20 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playery = playery + this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 3]).to({y: playery}, this.speed).call(this.getStop, [index, 3])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].y = playery
         }
     },
