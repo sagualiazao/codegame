@@ -2,7 +2,7 @@
     <div class="map-editor">
         <h1>在这里创建你的地图</h1>
         <div>
-            <canvas id="my-map">
+            <canvas id="my-map" width="900" height="640">
             </canvas>
         </div>
         <div>
@@ -57,9 +57,11 @@ export default {
         },
         init () {
             var canvas = document.getElementById('my-map')
-            canvas.width = this.canvasWidth
-            canvas.height = this.canvasHeight
+            this.canvasWidth = canvas.width
+            this.canvasHeight = canvas.height
             this.stage = new createjs.Stage(canvas)
+            this.stage.scaleX = this.canvasWidth / 900
+            this.stage.scaleY = this.canvasHeight / 640
             createjs.Touch.enable(this.stage)
             this.mapContainer = new createjs.Container()
             var background = new createjs.Bitmap('../../static/map/background.png')
@@ -287,12 +289,13 @@ export default {
         }
     },
     mounted: function () {
-        if (this.$store.state.loginStatus === false) {
-            alert('请先登录噢!')
-            this.$router.push('/')
-        } else {
-            this.init()
-        }
+        // if (this.$store.state.loginStatus === false) {
+        //     alert('请先登录噢!')
+        //     this.$router.push('/')
+        // } else {
+        //     this.init()
+        // }
+        this.init()
     }
 }
 </script>
