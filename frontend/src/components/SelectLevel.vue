@@ -4,12 +4,14 @@
         <button id="continue-play">继续游戏</button>
         <el-progress  id="progress" type="circle" :percentage="50"></el-progress>
     </div>
-    <div id="select-win">
-        <div id="lop">
-            <a id="level1" href="http://www.4399.com">
-                <img src="http://b332.photo.store.qq.com/psb?/V12lqt504ZeKzf/L1ol2Liih898Ws.iFbyGdSjrYJxQirhC2w*7uxMFwlY!/m/dNhO5sXPAgAAnull&bo=IAPFAQAAAAABB8c!&rf=photolist&t=5"/>
-                <label>level1</label>
-            </a>
+    <div id="select-level-container">
+        <div class="level-container">
+            <img src="https://d2j5eocv5gptnv.cloudfront.net/assets/avatars/small/07.png"/>
+            <a class="level" href="http://www.4399.com">level1</a>
+        </div>
+        <div class="level-container">
+            <img src="https://d2j5eocv5gptnv.cloudfront.net/assets/avatars/small/07.png"/>
+            <a class="level" href="http://www.4399.com">level2</a>
         </div>
     </div>
 </div>
@@ -45,32 +47,35 @@ h1 {
     font-weight: normal;
 }
 #select-level {
-    width: 1250px;
+    width: 100%;
     height: 700px;
     margin-top: -38px;
-    background: url(../assets/backg.jpg) no-repeat 0px center;
+    background: url(../assets/backg.jpg) center center no-repeat;
+    background-size: cover;
 }
 #continue-win {
-    width: 500px;
-    height: 300px;color: black;
-    background: url(../assets/desp2.jpg) no-repeat 0px center;
+    width: 40%;
+    height: 300px;
+    color: black;
+    background: url(../assets/desp2.jpg) center center no-repeat;
+    background-size: cover;
     border-radius: 1em;
     position: absolute;
-    left: 420px;
-    top: 200px;
+    left: 32%;
+    top: 30%;
 }
-#select-win {
-    width: 1250px;
+#select-level-container {
+    width: 100%;
     height: 150px;
-    background-color: none;
+    background-color: grey;
     position: absolute;
-    left: 8px;
-    top: 585px;
+    left: 0.6%;
+    top: 83%;
     display: inline-flex;
 }
 #continue-play {
-    width: 80px;
-    height: 80px;
+    width: 15%;
+    height: 26%;
     margin-top: 100px;
     border-radius: 10em;
     border-width: 5px;
@@ -78,13 +83,17 @@ h1 {
     border-color: #AFEEEE;
 }
 #progress {
-    padding-top: 50px;
+    padding-top: 15%;
 }
-#lop {
-    width: 200px;
+.level-container {
+    width: 15%;
+    background-color: black;
+    display: inline;
 }
-#level1 {
+.level {
     font-size: 1.5em;
     color: pink;
+    position: absolute;
+    bottom: 0%;
 }
 </style>
