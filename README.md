@@ -3,6 +3,15 @@
 > Group SaGuaLiaZao 仨瓜俩枣小组
 > 盛晓颖,左婧,肖飞,禚晨晨,樊文杰
 
+# 后端文档构建
+``` bash
+Group1> source ~/venv/bin/activate
+Group1> pip install -r requirements.txt
+Group1/docs/django> sphinx-build -b html source build && make html
+Group1/docs/django> xdg-open ./build/html/index.html
+```
+
+
 # 环境配置添加:  
 1.安装yarn(全局)
 ``` bash

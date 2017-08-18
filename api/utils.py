@@ -1,5 +1,5 @@
 """
-    api的工具包
+    API工具包,定义了一些在服务器API中使用的函数
 """
 import random, os
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -8,20 +8,80 @@ import base64
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
 import re
+from django.http import JsonResponse
+import api.models
+
+class SimpleResponse:
+    """
+    用于简化创建json回应消息的代码
+    """
+    failure_json_response = JsonResponse({'status': '0'})
+    """ 一个表明失败状态的json响应 """
+    success_json_response = JsonResponse({'status': '1'})
+    """ 一个表明成功状态的json响应 """
+
+    @staticmethod
+    def user_json_response(user):
+        """
+        返回指定用户对象信息的JsonResponse
+
+        Parameters:
+            :user: 用户对象\n
+        
+        Returns:
+            JsonResponse:\n
+            :'status': 登录失败'0', 登录成功'1'\n
+            :'email': 用户的电子邮件\n
+            :'nickname': 用户的昵称\n
+            :'id': - 用户的id\n
+            :'gameProgress': 用户的游戏进度\n
+            :'hasPaied': 用户是否已经付费\n
+        """
+        return JsonResponse({
+            'status': '1',
+            'email': user.email,
+            'nickname': user.nickname,
+            'id': user.id,
+            'gameProgress': user.game_progress,
+            'hasPaied': user.has_paied,
+            'createdAt': user.created_at
+        })
+
+    @staticmethod
+    def designed_map_json_response(selected_map):
+        """
+        返回指定地图对象信息的JsonResponse
+
+        Parameters:
+            :user: 用户对象\n
+        
+        Returns:
+            JsonResponse:\n
+            :'status': 读取失败'0', 读取成功'1'\n
+            :'map': 地图字符串\n
+            :'name': 地图名\n
+            :'remarks': 地图说明\n
+            :'author': 地图作者\n
+            :'is_published': 地图发布状态\n
+        """
+        return JsonResponse({
+            'status': '1',
+            'map': selected_map.map,
+            'name': selected_map.name,
+            'remarks': selected_map.remarks,
+            'author': str(selected_map.author)
+        })
 
 
 class Captcha:
     """
-    生成验证码  
-    原代码位于 http://www.cnblogs.com/skiler/p/6652848.html
+    生成验证码
 
-    Functions:  
-        string_captcha() - 生成一个随机验证码字符串
-        generate_captcha() - 生成一个随机字符的图片验证码
-        base64_captcha() - 生成用于发送到web前端格式的验证码
+    原代码位于 http://www.cnblogs.com/skiler/p/6652848.html
     """
-    # 删除了易混淆的'O'(大写字母)
-    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789'
+
+    CHAR_SETS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789'
+    """ 用于生成验证码的字符集 """
 
     @staticmethod
     def string_captcha(length=6):
@@ -29,13 +89,14 @@ class Captcha:
         生成一个随机验证码字符串
 
         Parameters:  
-            length - 验证码的长度  
+            :length: 验证码的长度\n
         
         Returns:  
-            返回一个长度为length的验证码字符串
+            :captcha: 长度为length的验证码字符串\n
         """
-        captcha_list =  random.sample(Captcha.chars, length)
-        return ''.join(captcha_list)
+        captcha_list =  random.sample(Captcha.CHAR_SETS, length)
+        captcha = ''.join(captcha_list)
+        return captcha
 
     @staticmethod
     def generate_captcha(width=80, height=35,
@@ -47,42 +108,43 @@ class Captcha:
         生成验证码图片和字符串
         
         Parameters:  
-            width - 图片宽度  
-            height - 图片高度  
-            background - 背景色  
-            foreground - 前景色  
-            font_size - 字体大小  
-            length - 验证码长度  
-            deform - 图片扭曲  
-            draw_lines - 绘制干扰线  
-            n_line - 干扰线条数范围  
-            draw_points - 绘制干扰点  
-            point_chance - 干扰点比率
-        
+            :width: 图片宽度\n
+            :height: 图片高度\n
+            :background: 背景色\n
+            :foreground: 前景色\n
+            :font_size: 字体大小\n
+            :length: 验证码长度\n
+            :deform: 图片扭曲\n
+            :draw_lines: 绘制干扰线\n
+            :n_line: 干扰线条数范围\n            
+            :draw_points: 绘制干扰点\n
+            :point_chance: 干扰点比率\n
+
         Returns:  
-            img - 图片验证码  
-            code - 验证码字符串
+            :img: 图片验证码\n
+            :strs: 验证码字符串\n
         """
 
-        # 初始化
         BASE_DIR = os.path.dirname(__file__)
         file_path = os.path.join(BASE_DIR, 'static/font/MONACO.TTF')
         font = ImageFont.truetype(file_path, font_size)
-
-        # 创建图形
         img = Image.new('RGB', (width, height), background)
         draw = ImageDraw.Draw(img)
 
-        # 绘制干扰线
         def create_lines():
+            """
+            绘制干扰线
+            """
             line_num = random.randint(*n_line)
             for i in range(line_num):
                 begin = (random.randint(0, width), random.randint(0, height))
                 end = (random.randint(0, width), random.randint(0, height))
                 draw.line([begin, end], fill=foreground)
 
-        # 绘制干扰点
         def create_points():
+            """
+            绘制干扰点
+            """
             chance = min(100, max(0, int(point_chance)))
 
             for w in range(width):
@@ -91,12 +153,17 @@ class Captcha:
                     if tmp > 100 - chance:
                         draw.point((w, h), fill=foreground)
 
-        # 生成给定长度的字符串，返回列表格式
+        
         def get_chars():
-            return random.sample(Captcha.chars, length)
+            """
+            生成给定长度的字符串列表
+            """
+            return random.sample(Captcha.CHAR_SETS, length)
 
-        # 绘制验证码字符
         def create_strs():
+            """
+            绘制验证码字符
+            """
             c_chars = get_chars()
             strs = ' %s ' % ' '.join(c_chars)
             font_width, font_height = font.getsize(strs)
@@ -115,20 +182,19 @@ class Captcha:
                     1 - float(random.randint(1, 10)) / 100, float(random.randint(1, 2)) / 500, 0.001,float(random.randint(1, 2)) / 500]
             img = img.transform((width, height), Image.PERSPECTIVE, params)
 
-        # 返回图片和对应的字符串
         return img, strs
 
     @staticmethod
     def base64_captcha():
         """
-        生成用于发送到web前端格式的验证码
+        生成base64编码的验证码图片,返回web前端
         
         Parameters:  
             无
         
         Returns:  
-            img - 图片验证码的base64编码  
-            code - 验证码字符串的小写字母格式
+            :img: 图片验证码的base64编码\n
+            :code: 验证码字符串的小写字母格式\n
         """
         f = BytesIO()
         img, code = Captcha.generate_captcha()
@@ -140,10 +206,6 @@ class Captcha:
 class CBC:
     """
     给出一种CBC加密和解密方法
-
-    Functions:  
-        crypt() - 将给定字符串加密后转换为base64编码  
-        decrypt() - 将给定base64编码解密为字符串  
     """
     @staticmethod
     def crypt(key_str, data):
@@ -151,22 +213,18 @@ class CBC:
         将给定字符串加密
 
         Parameters:  
-            key_str - 用于加密的密钥  
-            data - 要被加密的字符串  
+            :key_str: 用于加密的密钥\n
+            :data: 要被加密的字符串\n
         
         Returns:  
-            crypted_str - 加密后的数据的base64编码
+            :crypted_str: 加密后的数据的base64编码\n
         """
         params_is_str = isinstance(key_str, str) and isinstance(data, str)
         if params_is_str:
-            # 生成秘钥的字符串,可以用验证码
             key_md5 = MD5.new()
             key_md5.update(bytes(key_str, 'utf-8'))
-            # 可以用于AES的key
             key_str = key_md5.hexdigest()
-            # 可以用于AES的iv
             iv_str = key_str[2:18]
-            # python需要使用'\0'来填充,否则加密得到的结果会和js加密结果不同
             padding = '\0'
             pad_it = lambda s: s + (16 - len(bytes(s, 'utf-8')) % 16) * padding
             generator = AES.new(key_str, AES.MODE_CBC, iv_str)
@@ -182,11 +240,11 @@ class CBC:
         将给定加密后的字符串解密
 
         Parameters:  
-            key_str - 用于解密的密钥  
-            data - 加密后的base64字符串  
+            :key_str: 用于解密的密钥\n
+            :data: 加密后的base64字符串\n
 
         Returns:  
-            recovery_str - 解密后的字符串
+            :recovery_str: 解密后的字符串\n
         """
         params_is_str = isinstance(key_str, str) and isinstance(data, str)
         if params_is_str:
@@ -207,9 +265,15 @@ class CBC:
 def check_email_format(email):
     """
     检查邮箱格式
+
+    Parameters:
+        :email: 给定的email\n
+
+    Returns:
+        :True/False: email符合规范返回True,否则返回False\n
     """
     pattern = re.compile(r'^[a-z0-9]+([._\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$')
-    if pattern.match(email) != None:
+    if pattern.match(email.lower()) != None:
         return True
     else:
         return False
@@ -219,14 +283,18 @@ class MapImage:
     """
     生成地图缩略图
     """
-    # 需要保证当前工作目录在Group1
     RESOURCE_DIR = './api/static/map/'
+    """ 地图资源目录 """
     MAP_DIR = './api/static/img/saved_maps/'
+    """ 地图存储目录 """
     RESOURCE_WIDTH = 64
+    """ 资源宽度 """
     RESOURCE_HEIGHT = 64
+    """ 资源高度 """
     GRIDS_PER_ROW = 10
+    """ 每行方格数 """
     GRIDS_PER_COLUMN = 10
-    # BACKGROUND = (0, 255, 0)
+    """ 每列方格数 """
     SOURCE_LIST = [
         RESOURCE_DIR + 'background.png',  # 0: background
         RESOURCE_DIR + '1.png',  # 1: tree
@@ -235,7 +303,9 @@ class MapImage:
         RESOURCE_DIR + '4.png',  # 4: flag
         RESOURCE_DIR + '5.png',  # 5: transform
     ]
+    """ 地图资源列表 """
     MAP_SIZE = GRIDS_PER_COLUMN * GRIDS_PER_ROW
+    """ 地图大小 """
 
     @staticmethod
     def generate_map_image(map_id, map_str, scale=0.25):
