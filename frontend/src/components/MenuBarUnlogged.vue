@@ -4,7 +4,7 @@
         <el-menu-item index="main-page">首页</el-menu-item>
         <el-menu-item index="edit-map" @click="mapWindow = true">我的地图</el-menu-item>
         <el-menu-item index="register" @click="signupChange">注册</el-menu-item>
-        <el-dialog title="注册" :visible.sync="$store.state.signupDialog" size="tiny">
+        <el-dialog title="注册" :visible.sync="$store.state.signupDialog" size="window.innerWidth > " id="sigup-dialog">
             <signup-form></signup-form>
         </el-dialog>
         <el-dialog title="忘记密码" :visible.sync="$store.state.resetPasswordDialog" size="tiny">
@@ -62,5 +62,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.el-dialog--tiny {
+    width: 400px;
+}
 </style>
