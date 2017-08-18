@@ -513,13 +513,14 @@ export default {
     */
     mounted: function () {
         let ace = require('brace')
-        require('brace/mode/javascript')
-        require('brace/theme/monokai')
+        require('brace/mode/cirru')
+        require('brace/theme/xcode')
         this.jsEditor = ace.edit('js-editor')
-        this.jsEditor.setTheme('ace/theme/monokai')
-        this.jsEditor.getSession().setMode('ace/mode/javascript')
+        this.jsEditor.$blockScrolling = Infinity
+        this.jsEditor.setTheme('ace/theme/xcode')
+        this.jsEditor.getSession().setMode('ace/mode/cirru')
         this.jsEditor.setHighlightActiveLine(true)
-        this.jsEditor.setValue('function run:')
+        this.jsEditor.setValue('go(3)')
         this.jsEditor.resize()
         this.init()
     }
