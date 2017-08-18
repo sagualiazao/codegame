@@ -20,12 +20,10 @@
             <span>剩下的关卡数</span>
             <p>{{ remainedLevel }}</p>
         </div>
-        <!-- <form class="change-name-form" method="post"> -->
         <p><h2>修改昵称</h2><br>
             <input type="text" placeholder="请输入昵称" maxlength="16" v-model="nickname">
             <input type="button" @click="nameSubmit()" value="确认" id="btn">
         </p>
-        </form>
         <a href="#UserInfo" @click="resetPasswordChange()">修改密码</a>
         <el-dialog title="修改密码" :visible.sync="$store.state.changePasswordDialog" size="tiny">
             <reset-password-form></reset-password-form>
@@ -63,8 +61,6 @@ export default {
         }
     },
     methods: {
-        handleClick (tab, event) {
-        },
         nameSubmit: function () {
             this.$store.commit('changeUserNickName', this.nickname)
         },
