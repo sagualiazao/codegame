@@ -311,6 +311,10 @@ export default {
             }
             createjs.Ticker.addEventListener('tick', this.stage)
         },
+        gameover () {
+        },
+        victory () {
+        },
         fly (index) {
             var x = Math.floor((this.player[index].x - this.mapx) / this.div)
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
@@ -454,8 +458,10 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playerx = playerx + this.div
                 }
@@ -478,8 +484,10 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playerx = playerx - this.div
                 }
@@ -502,8 +510,10 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playery = playery - this.div
                 }
@@ -526,8 +536,10 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playery = playery + this.div
                 }
