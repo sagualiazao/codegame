@@ -560,8 +560,9 @@ export default {
         let toolBox = require('../../src/assets/js/blockly_const_list.js')
         this.workspace = global.Blockly.inject('block-area', {
             toolbox: toolBox,
+            media: '../static/media/',
             sounds: false,
-            trashcan: false,
+            trashcan: true,
             grid: {
                 spacing: 20,
                 length: 3,
@@ -569,7 +570,7 @@ export default {
                 snap: true
             },
             zoom: {
-                controls: false,
+                controls: true,
                 wheel: true,
                 startScale: 1.0,
                 maxScale: 3,
