@@ -373,7 +373,7 @@ export default {
                 this.maps[x][y] = '0'
                 var xx = Math.floor((this.treeSp.x - this.mapx) / this.div)
                 var yy = Math.floor((this.treeSp.y - this.mapy) / this.div)
-                this.maps[xx][yy] = 0
+                this.maps[xx][yy] = '0'
                 this.haveKey = false
                 this.tween[index].call(function () {
                     that.key.x = that.player[index].x
