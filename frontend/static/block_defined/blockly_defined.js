@@ -261,7 +261,7 @@ global.Blockly.JavaScript['dg_wait'] = function (block) {
     var valueName = global.Blockly.JavaScript
     .valueToCode(block, 'NAME', global.Blockly.JavaScript.ORDER_ATOMIC)
     // TODO: Assemble JavaScript into code variable.
-    var code = 'wait("' + valueName + '");\n'
+    var code = 'wait(' + valueName + ');\n'
     return code
 }
 
