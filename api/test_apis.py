@@ -9,10 +9,15 @@ import doublegame.settings
 
 
 class ModifySessionMixin(object):
-
+    """
+    支持test模拟session功能的基类
+    """
     client = Client()
 
-    def create_session(self):   
+    def create_session(self):
+        """
+        为当前类创建模拟session功能
+        """
         session_engine = import_module(doublegame.settings.SESSION_ENGINE)        
         store = session_engine.SessionStore()                          
         store.save()
@@ -20,8 +25,11 @@ class ModifySessionMixin(object):
 
 
 class GetCaptchaTestCase(TestCase):
-
+    
     def test_get_captcha_post_request(self):
+        """
+        测试user对象是否能正确被创建
+        """
         response = self.client.post('/api/captcha')
         self.assertEqual(response.status_code, 404)
 

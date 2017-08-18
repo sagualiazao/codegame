@@ -2,6 +2,7 @@
 import unittest
 import api.utils
 import re
+from django.test import TestCase
 
 
 class CaptchaTestCase(unittest.TestCase):
@@ -19,12 +20,6 @@ class CaptchaTestCase(unittest.TestCase):
     def test_captcha_can_set_length(self):
         captcha = api.utils.Captcha.string_captcha(10)
         self.assertEqual(len(captcha), 10)
-    
-    def test_captcha_image_deform(self):
-        captcha_str = api.utils.Captcha.string_captcha()
-        img, captcha_img = api.utils.Captcha.generate_captcha(deform=True)
-        self.assertEqual(len(captcha_str), 6)
-        self.assertEqual(len(captcha_img), 4)
 
 
 class CbcTestCase(unittest.TestCase):
