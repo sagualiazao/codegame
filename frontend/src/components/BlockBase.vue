@@ -300,6 +300,8 @@ export default {
             this.stage = new createjs.Stage(canvas)
             this.mapx = this.stage.x
             this.mapy = this.stage.y
+            this.stage.scaleX = canvas.width / 640
+            this.stage.scaleY = canvas.height / 640
             this.pic = new createjs.Bitmap('../../static/map/background.png')
             this.pic.x = this.mapx
             this.pic.y = this.mapy
