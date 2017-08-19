@@ -1,15 +1,14 @@
 """
     API工具包,定义了一些在服务器API中使用的函数
 """
-import random, os
+import random, os, base64, re, pingpp, string
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from io import BytesIO
-import base64
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
-import re
 from django.http import JsonResponse
 import api.models
+
 
 class SimpleResponse:
     """
@@ -370,3 +369,66 @@ class MapImage:
                 os.makedirs(MapImage.MAP_DIR)
             the_map.save(MapImage.MAP_DIR + file_name, 'PNG')
             return True
+
+
+class Pingpp:
+    """
+    Ping++ 实现的支付接口\n
+    因为没有营业执照只能使用test模式\n
+    """
+    @staticmethod
+    def pay():
+        """
+        模拟一个支付请求
+
+        Paramters:
+            无
+
+        Returns:
+            :str: 模拟支付请求返回的url
+        """
+        api_key = 'sk_test_uDWrjHf5aznDjL8mrDWLK4m9'
+        app_id = 'app_4Si9mDSOGmv90Wjf'
+        pingpp.api_key = api_key
+        pingpp.private_key = '''-----BEGIN RSA PRIVATE KEY-----
+        MIIEowIBAAKCAQEAx2MktxcKBEqdYRi2IgYcupPQIN5cxgiBL5udCCBJBNBbXPaq
+        uOE1qspfhB1KUzHXATnCONiSzubLcBTnwi2tz0ErRCeJZSERRCpbKx4eu6b1neUT
+        Wkga7xpZxWONEvkmZo5Nlhf4fXRPUYnO/bdGCNGpQ/HSJfWLtzmhCqO1aJwVhcDm
+        DMYz4bTkZavhFBdVyXf/8n7UKylk03eymlKJ1swQpeFcxaKfzsk1mJU7mc93mCWj
+        aR+VWkNbw4AQHDyHgbzH+zYARzCluiy5hXdixGEP+iO4ZBk48rEs1hKTvGz1k+jh
+        LCdkdpBRjq0pK/htjA3Ce8pF2AJs+fgN6ZUumQIDAQABAoIBAFa4MEfRpXGoYjrQ
+        3KZ/sg8UKvmgvQkEuetS60GViSym0pXkUuyGRyk5S8HSW3lDvBe0X10KFRAYIXNm
+        JEa4R1hVJ9REveVWNIRJR83BE+zZ+QnrkDc8FTrZYyIO4lTWOHVyfxxA4Lrv02/L
+        WFPRWoyLY+tBSf1ohpPyZLCT81rDglT1Z4svX020y8tXvnQqQiOjl4q7Zu4b26HU
+        TQ463ntMEhM5u7y9MFcxGRaOpF/gARlMGqDu6T8h/oYMiOSLoXOuTR7B80yaX/Mj
+        RZfUBoZMb5thX9qBLQ7dYnTkwaxwerYPrYvQrW9vtsswZ5NeIbEmCZyorUe8DOmQ
+        hT1+HmECgYEA/iQERHhZKHXnP0gvhl/uEOGOvLjD5H1D6zClzOHMmOcIF5OuEQb0
+        VcSMV+8emN7SCp/b/LVgKa27Mla9eXm+EXABRFcI7qGYsYXfbCD7EYX3TaJSp/30
+        jyLBy+MsHCTEiLeylSh7kHqgTR8tKND8UIzXo9aM7JqwFqleeXGyh7MCgYEAyNiU
+        EUzyBAv9sui3ZgVYRiVvTilk2HVTY6u61/mMOLsTrX3eYQaqb4GRJJShJO9mmsxX
+        RHBEZQJvUqqF9PapOsyv8HKuF5+UP6svHnJo7sn9gCvV/h1HTHqzFcYSvUaXnrym
+        D/0Tthf8CDeuGp5UFWMoFZF14HTr1oQROGAASoMCgYA0bZmzxmAeSLR8CZhEUGX8
+        dYvMwxEmgfERA+gwbCSZJpA0zPKL8LNXPkT1nw7g2pbaOkBX0dMUxhJoQBy2grcD
+        QegBATOGhy/I76U32VXyN4DdMy96GJnrLXBtb2AaLjudOMhOnRtgouuO/W+DjBmB
+        RIz377sC1KafBjHHO/1ooQKBgDQqfJrZv2ppquVTKH9pF/pwMq68daL7JkOXERqT
+        iGYbwQqozJ+q2Y3Iu2gi6o/rVl0SggAWoM0TitKP0+dCQcYx7+imAK3GFv1KexyP
+        Xs3WzO8Dc7ti42fr3qPjJG7g7PSfzwoME5iSNjX0MFZdlT1Q2dJwS4uXEsJO3yIj
+        XS/9AoGBALRApgtUA7Odw4tjCLGvxXuLFnyRkg6hFqoXAP2j8H9bJDOlSSVwQTFd
+        ahbcIDtQJS57vXUGK2uspbFKLm1WCFzPVyuxDIW6oue/kO+YxxU3NA58zk8oaORq
+        eA3YvHc7ZmRjVnVkxnXjKofrL6jF5A+lXSXnXchrv2ZYI+1pOsIV
+        -----END RSA PRIVATE KEY-----'''
+        orderno = ''.join(random.sample(string.ascii_letters + string.digits, 8))
+        try:
+            ch = pingpp.Charge.create(
+                subject='Your Subject',
+                body='Your Body',
+                amount=100,
+                order_no=orderno,
+                currency='cny',
+                channel='alipay_qr',
+                client_ip='127.0.0.1',
+                app=dict(id=app_id)
+            )
+            return ch.credential.alipay_qr
+        except Exception as e:
+            print(e.message)

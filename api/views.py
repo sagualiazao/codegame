@@ -346,3 +346,34 @@ def read_map(request):
             return SimpleResponse.failure_json_response
     else:
         return HttpResponseNotFound()
+
+@csrf_exempt
+def pay(request):
+    """
+    发送支付请求
+
+    Parameters:
+        :request: 指向'/api/pay'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 发送支付请求失败'0',发送成功'1'\n
+        :'url': 成功发送支付请求打开的页面\n
+    """
+    if request.method == 'GET':
+        email = request.session.get('email', False)
+        if email == False:
+            return HttpResponseNotFound()
+        else:
+            try:
+                users = User.objects.filter(email=email)
+                user = users[0]
+                alipay_pr = Pingpp.pay()
+                return JsonResponse({
+                    'status': '1',
+                    'url': alipay_pr
+                })
+            except BaseException:
+                return SimpleResponse.failure_json_response
+    else:
+        return SimpleResponse.failure_json_response
