@@ -44,10 +44,13 @@ export default {
     components: {
         MapEditor
     },
-    mounted () {
+    mounted: async function () {
         if (this.$store.state.loginStatus === false) {
-            alert('请先登录噢!')
-            this.$router.push('/')
+            await this.$store.dispatch('signin')
+            if (await this.$store.state.loginStatus === false) {
+                alert('请先登录噢!')
+                this.$router.push('/')
+            }
         }
     },
     methods: {

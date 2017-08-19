@@ -147,5 +147,5 @@ EMAIL_FROM = "仨瓜俩枣小组"
 # 设置服务器session
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 SESSION_COOKIE_NAME = 'sagualiazao'
-# SESSION_COOKIE_AGE = 1209600
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 1209600
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
