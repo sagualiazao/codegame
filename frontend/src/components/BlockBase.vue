@@ -63,7 +63,7 @@ export default {
             * @property blockConstData
             * @type {Object}
             */
-            blockConstData: require('../../src/assets/js/blockly_const_list.js')
+            blockConstData: require('../../src/assets/js/blockly_const_list.js'),
             /**
             *获取当前白名单中的 代码库和执行函数
             *
