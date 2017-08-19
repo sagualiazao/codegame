@@ -58,11 +58,17 @@ export default {
             */
             functionSet: {},
             /**
+            *blocly常量表资源
+            *
+            * @property blockConstData
+            * @type {Object}
+            */
+            blockConstData: require('../../src/assets/js/blockly_const_list.js')
+            /**
             *获取当前白名单中的 代码库和执行函数
             *
             * @property whiteListConstData
             * @type {Object}
-            * @default {}
             */
             whiteListConstData: require('../assets/js/white_list.js')
         }
@@ -659,7 +665,7 @@ export default {
     */
     mounted: function () {
         require('../../static/block_defined/blockly_defined.js')
-        let toolBox = require('../../src/assets/js/blockly_const_list.js')
+        let toolBox = this.blockConstData.toolBoxText
         this.workspace = global.Blockly.inject('block-area', {
             toolbox: toolBox,
             media: '../static/media/',

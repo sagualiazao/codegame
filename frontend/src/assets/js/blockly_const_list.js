@@ -83,4 +83,19 @@ let toolBoxText = [
     '</xml>'
 ].join('\n')
 
-module.exports = toolBoxText
+/**
+* Block需要的字符串常量
+*
+* @class blockConstData
+*/
+let blockConstData = {
+    /**
+    *用于初始化blocly工具栏的字符串
+    *
+    * @property toolBoxText
+    * @type {String}
+    */
+    toolBoxText
+}
+
+module.exports = blockConstData
