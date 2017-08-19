@@ -50,6 +50,7 @@ export default {
             }
             if (index === 'edit-map') {
                 alert('请先登录')
+                this.$store.commit('changeMenu', 'menu-bar-logged')
             }
         },
         signupChange: function () {

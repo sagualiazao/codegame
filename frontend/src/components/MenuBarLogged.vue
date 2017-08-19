@@ -35,7 +35,15 @@ export default {
     },
     methods: {
         handleSelect: function (index) {
-            this.$router.push('/' + index)
+            if (index === 'SelectLevel') {
+                this.$router.push('/' + index)
+            } else if (index === 'EditMap') {
+                this.$router.push('/' + index)
+            } else if (index === 'MapSquare') {
+                this.$router.push('/' + index)
+            } else if (index === 'UserInfo') {
+                this.$router.push('/' + index)
+            }
         },
         signout: function () {
             this.$store.commit('changeMenu', 'menu-bar-unlogged')

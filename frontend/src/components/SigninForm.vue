@@ -72,7 +72,6 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.login()
-                    // this.$router.push('/' + 'SelectLevel')
                 } else {
                     alert('邮箱或密码输入不正确!')
                     return false
@@ -116,6 +115,7 @@ export default {
                 this.$store.commit('changeRegisterDate', obj.createdAt)
                 this.$store.commit('signinWindow', false)
                 this.$store.commit('changeMenu', 'menu-bar-logged')
+                this.$router.push('/' + 'SelectLevel')
             } else {
                 alert('邮箱或密码错误')
             }
