@@ -284,17 +284,13 @@ class MapImage:
     生成地图缩略图
     """
     RESOURCE_DIR = './api/static/map/'
-    """ 地图资源目录 """
-    MAP_DIR = './api/store/img/saved_maps/'
-    """ 地图存储目录 """
+    MAP_DIR = './frontend/static/img/saved_maps/'
+    MAP_DIR_DEV = './api/static/img/saved_maps/'
+    HREF_DIR = '/static/img/saved_maps/'
     RESOURCE_WIDTH = 64
-    """ 资源宽度 """
     RESOURCE_HEIGHT = 64
-    """ 资源高度 """
     GRIDS_PER_ROW = 10
-    """ 每行方格数 """
     GRIDS_PER_COLUMN = 10
-    """ 每列方格数 """
     SOURCE_LIST = [
         RESOURCE_DIR + 'background.png',  # 0: background
         RESOURCE_DIR + '1.png',  # 1: tree
@@ -369,17 +365,13 @@ class MapImage:
             if not os.path.exists(MapImage.MAP_DIR):
                 os.makedirs(MapImage.MAP_DIR)
             the_map.save(MapImage.MAP_DIR + file_name, 'PNG')
+            the_map.save(MapImage.MAP_DIR_DEV + file_name, 'PNG')
             return True
 
     @staticmethod
-    def getBase64Image(map_id):
-        f = BytesIO()
-        file_name = MapImage.MAP_DIR + str(map_id) + '.png'
-        img = Image.open(file_name)
-        img.save(f, 'PNG')
-        img = base64.b64encode(f.getvalue()).decode()
-        img = 'data:image/png;base64,' + img
-        return img
+    def getImageLink(map_id):
+        file_link = MapImage.HREF_DIR + str(map_id) + '.png'
+        return file_link
 
 class Pingpp:
     """

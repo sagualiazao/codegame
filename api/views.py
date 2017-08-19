@@ -399,6 +399,11 @@ def read_map_list(request):
             try:
                 user = User.objects.get(email=email)
                 maps = DesignedMaps.objects.filter(is_published=False)
+                if len(maps) == 0:
+                    return JsonResponse({
+                        'status': '1',
+                        'data': ''
+                    })
                 map_list = list()
                 for i in maps:
                     is_favorite_map = FavoriteMaps.objects.filter(user=user, map=i)
@@ -406,7 +411,7 @@ def read_map_list(request):
                         i.map_id,
                         i.name,
                         str(i.author),
-                        MapImage.getBase64Image(i.map_id),
+                        MapImage.getImageLink(i.map_id),
                         i.remarks,
                         bool(len(is_favorite_map))
                     ))
@@ -439,9 +444,7 @@ def change_favorite_map(request):
             try:
                 user = User.objects.get(email=email)
                 map_id = int(request.GET['mapid'])
-                print(map_id)
                 status = bool(int(request.GET['status']))
-                print(status)
                 the_map = DesignedMaps.objects.get(map_id=map_id)
                 if status:
                     new_favorite = FavoriteMaps(user=user, map=the_map)
@@ -476,12 +479,18 @@ def read_published_map_list(request):
             try:
                 user = User.objects.get(email=email)
                 maps = DesignedMaps.objects.filter(author=user, is_published=True)
+                # print(len(maps))
+                if len(maps) == 0:
+                    return JsonResponse({
+                        'status': '1',
+                        'data': ''
+                    })
                 map_list = list()
                 for i in maps:
                     map_list.append((
                         i.map_id,
                         i.name,
-                        MapImage.getBase64Image(i.map_id),
+                        MapImage.getImageLink(i.map_id),
                         i.remarks
                     ))
                 json = simplejson.dumps(map_list)
@@ -513,20 +522,23 @@ def read_favorite_map_list(request):
         else:
             try:
                 user = User.objects.get(email=email)
-                print(user)
                 favorites = FavoriteMaps.objects.filter(user=user)
-                print(favorites)
+                # print(len(favorites))
+                if len(favorites) == 0:
+                    return JsonResponse({
+                        'status': '1',
+                        'data': ''
+                    })
                 map_list = list()
                 for i in favorites:
                     map_list.append((
                         i.map.map_id,
                         i.map.name,
                         str(i.map.author),
-                        MapImage.getBase64Image(i.map.map_id),
+                        MapImage.getImageLink(i.map.map_id),
                         i.map.remarks                        
                     ))
                 json = simplejson.dumps(map_list)
-                print(json)
                 return JsonResponse({
                     'status': '1',
                     'data': json
