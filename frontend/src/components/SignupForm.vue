@@ -182,7 +182,7 @@ export default {
             })
             let obj = await response.json()
             // src可以直接设置为base64，需要增加data:image/png;前缀，如果是jpg图片需要改为data:image/jpg;
-            let src = await 'data:image/png;base64,' + obj.img
+            let src = await obj.img
             this.captchaImage = await src
             this.captchaKey = await obj.captcha
         }

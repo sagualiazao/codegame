@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import simplejson
 from api.utils import *
 from django.core.mail import send_mail
-from api.models import User, DesignedMaps, GameLevels
+from api.models import User, DesignedMaps, GameLevels, FavoriteMaps
 
 
 def get_captcha(request):
@@ -296,15 +296,15 @@ def save_map(request):
             map_str = req['mapString']
             name = req['name']
             remarks = req['remarks']
-            newMap = DesignedMaps(
+            new_map = DesignedMaps(
                 map=map_str,
                 name=name,
                 remarks=remarks,
                 author=author,
                 is_published=False
             )
-            newMap.save()
-            status = MapImage.generate_map_image(newMap.map_id, map_str)
+            new_map.save()
+            status = MapImage.generate_map_image(new_map.map_id, map_str)
         except BaseException:
             return SimpleResponse.failure_json_response
         else:
@@ -372,6 +372,164 @@ def pay(request):
                 return JsonResponse({
                     'status': '1',
                     'url': alipay_pr
+                })
+            except BaseException:
+                return SimpleResponse.failure_json_response
+    else:
+        return SimpleResponse.failure_json_response
+
+
+def read_map_list(request):
+    """
+    读取地图广场
+
+    Parameters:
+        :request: 指向'/api/read-map-list'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 读取失败'0',读取成功'1'\n
+        :'data': 读取的地图信息列表\n
+    """
+    if request.method == 'GET':
+        email = request.session.get('email', False)
+        if email == False:
+            return HttpResponseNotFound()
+        else:
+            try:
+                user = User.objects.get(email=email)
+                maps = DesignedMaps.objects.filter(is_published=False)
+                map_list = list()
+                for i in maps:
+                    is_favorite_map = FavoriteMaps.objects.filter(user=user, map=i)
+                    map_list.append((
+                        i.map_id,
+                        i.name,
+                        str(i.author),
+                        MapImage.getBase64Image(i.map_id),
+                        i.remarks,
+                        bool(len(is_favorite_map))
+                    ))
+                json = simplejson.dumps(map_list)
+                return JsonResponse({
+                    'status': '1',
+                    'data': json
+                })
+            except BaseException:
+                return SimpleResponse.failure_json_response
+    else:
+        return SimpleResponse.failure_json_response
+
+def change_favorite_map(request):
+    """
+    修改地图收藏状态
+
+    Parameters:
+        :request: 指向'/api/change-favorite-map'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 修改失败'0',修改成功'1'\n
+    """
+    if request.method == 'GET':
+        email = request.session.get('email', False)
+        if email == False:
+            return HttpResponseNotFound()
+        else:
+            try:
+                user = User.objects.get(email=email)
+                map_id = int(request.GET['mapid'])
+                print(map_id)
+                status = bool(int(request.GET['status']))
+                print(status)
+                the_map = DesignedMaps.objects.get(map_id=map_id)
+                if status:
+                    new_favorite = FavoriteMaps(user=user, map=the_map)
+                    new_favorite.save()
+                else:
+                    remove_favorite = FavoriteMaps.objects.get(user=user, map=the_map)
+                    remove_favorite.delete()
+                json = simplejson.dumps(map_list)
+                return SimpleResponse.success_json_response
+            except BaseException:
+                return SimpleResponse.failure_json_response
+    else:
+        return SimpleResponse.failure_json_response
+
+def read_published_map_list(request):
+    """
+    读取用户制作的地图列表
+
+    Parameters:
+        :request: 指向'/api/read-published-map-list'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 读取失败'0',读取成功'1'\n
+        :'data': 读取的地图信息列表\n
+    """
+    if request.method == 'GET':
+        email = request.session.get('email', False)
+        if email == False:
+            return HttpResponseNotFound()
+        else:
+            try:
+                user = User.objects.get(email=email)
+                maps = DesignedMaps.objects.filter(author=user, is_published=True)
+                map_list = list()
+                for i in maps:
+                    map_list.append((
+                        i.map_id,
+                        i.name,
+                        MapImage.getBase64Image(i.map_id),
+                        i.remarks
+                    ))
+                json = simplejson.dumps(map_list)
+                return JsonResponse({
+                    'status': '1',
+                    'data': json
+                })
+            except BaseException:
+                return SimpleResponse.failure_json_response
+    else:
+        return SimpleResponse.failure_json_response
+
+def read_favorite_map_list(request):
+    """
+    读取用户收藏的地图列表
+
+    Parameters:
+        :request: 指向'/api/read-favorite-map-list'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 读取失败'0',读取成功'1'\n
+        :'data': 读取的地图信息列表\n
+    """
+    if request.method == 'GET':
+        email = request.session.get('email', False)
+        if email == False:
+            return HttpResponseNotFound()
+        else:
+            try:
+                user = User.objects.get(email=email)
+                print(user)
+                favorites = FavoriteMaps.objects.filter(user=user)
+                print(favorites)
+                map_list = list()
+                for i in favorites:
+                    map_list.append((
+                        i.map.map_id,
+                        i.map.name,
+                        str(i.map.author),
+                        MapImage.getBase64Image(i.map.map_id),
+                        i.map.remarks                        
+                    ))
+                json = simplejson.dumps(map_list)
+                print(json)
+                return JsonResponse({
+                    'status': '1',
+                    'data': json
                 })
             except BaseException:
                 return SimpleResponse.failure_json_response

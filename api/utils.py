@@ -14,10 +14,10 @@ class SimpleResponse:
     """
     用于简化创建json回应消息的代码
     """
-    failure_json_response = JsonResponse({'status': '0'})
     """ 一个表明失败状态的json响应 """
-    success_json_response = JsonResponse({'status': '1'})
+    failure_json_response = JsonResponse({'status': '0'})
     """ 一个表明成功状态的json响应 """
+    success_json_response = JsonResponse({'status': '1'})
 
     @staticmethod
     def user_json_response(user):
@@ -199,6 +199,7 @@ class Captcha:
         img, code = Captcha.generate_captcha()
         img.save(f, 'PNG')
         img = base64.b64encode(f.getvalue()).decode()
+        img = 'data:image/png;base64,' + img
         code = str.lower(code)
         return img, code
 
@@ -284,7 +285,7 @@ class MapImage:
     """
     RESOURCE_DIR = './api/static/map/'
     """ 地图资源目录 """
-    MAP_DIR = './api/static/img/saved_maps/'
+    MAP_DIR = './api/store/img/saved_maps/'
     """ 地图存储目录 """
     RESOURCE_WIDTH = 64
     """ 资源宽度 """
@@ -370,6 +371,15 @@ class MapImage:
             the_map.save(MapImage.MAP_DIR + file_name, 'PNG')
             return True
 
+    @staticmethod
+    def getBase64Image(map_id):
+        f = BytesIO()
+        file_name = MapImage.MAP_DIR + str(map_id) + '.png'
+        img = Image.open(file_name)
+        img.save(f, 'PNG')
+        img = base64.b64encode(f.getvalue()).decode()
+        img = 'data:image/png;base64,' + img
+        return img
 
 class Pingpp:
     """

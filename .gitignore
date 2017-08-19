@@ -129,3 +129,6 @@ yarn.lock
 
 #ace-build
 /frontend/static/ace-builds
+
+#saved map image
+/api/store

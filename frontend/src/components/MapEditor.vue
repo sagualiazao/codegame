@@ -231,11 +231,6 @@ export default {
                 this.mapPost(string)
                 this.clean()
             }
-            if (this.mapTips === '') {
-                alert('请输入有关说明信息')
-            }
-            console.log(string)
-            this.mapPost(string)
             this.clean()
         },
         clean () {
