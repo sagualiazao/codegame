@@ -19,7 +19,18 @@ let initialValue = [
     'nancy.go(x)'
 ].join('\n')
 
+/**
+* Editor需要的字符串常量
+*
+* @class editorConstData
+*/
 let editorConstData = {
+    /**
+    *用于测试的editor初始值
+    *
+    * @property initialValue
+    * @type {String}
+    */
     initialValue
 }
 

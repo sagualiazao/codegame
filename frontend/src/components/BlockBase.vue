@@ -15,11 +15,23 @@
 </template>
 
 <script>
+/**
+* BlockBase 组件中完成blockly积木块内容的识别转换, 以及动画的执行
+*
+* @class BlockBase
+*/
 import 'yuki-createjs'
 export default {
     name: 'block-base',
     data: function () {
         return {
+            /**
+            *用来存放生成的blockly工作区
+            *
+            * @property workspace
+            * @type {Object}
+            * @default null
+            */
             workspace: null,
             pic: null,
             maps: null,
@@ -37,14 +49,45 @@ export default {
             div: 64,
             speed: 1000,
             direct: [],
+            /**
+            *用来存放用户动态创建的函数名及内容
+            *
+            * @property functionSet
+            * @type {Dictionary}
+            * @default {}
+            */
             functionSet: {},
+            /**
+            *blocly常量表资源
+            *
+            * @property blockConstData
+            * @type {Object}
+            */
+            blockConstData: require('../../src/assets/js/blockly_const_list.js'),
+            /**
+            *获取当前白名单中的 代码库和执行函数
+            *
+            * @property whiteListConstData
+            * @type {Object}
+            */
             whiteListConstData: require('../assets/js/white_list.js')
         }
     },
     methods: {
+        /**
+        *界面切换函数, 点击 Editor Tab 切换到 editor 游戏界面
+        *
+        * @method editorClick
+        */
         editorClick (index) {
             this.$router.push('/' + index)
         },
+        /**
+        *获取当前积木块对应的中的所有代码, 转换为由单个代码组成的列表
+        *
+        * @method getCommandCodeList
+        * @return {List} 返回一个由单个代码组成的列表
+        */
         getCommandCodeList () {
             let commandCodeList = []
             document.LoopTrap = 1000
@@ -65,9 +108,24 @@ export default {
             }
             return commandCodeList
         },
+        /**
+        *判断字符串current是否满足正则表达式target的格式
+        *
+        * @method isSameFormat
+        * @param {RegExp}  target 正则表达式
+        * @param {String} current 要判断的字符串
+        * @return {Boolean} 如果匹配, 返回true; 否则, 返回false;
+        */
         isSameFormat (target, current) {
             return current.replace(target, '') === ''
         },
+        /**
+        *判断代码code是否在白名单中
+        *
+        * @method indexInCommandLibrary
+        * @param {String} code 要判断的字符串
+        * @return {Boolean|String} 如果在白名单中, 返回坐标位置； 如果不在白名单中, 返回false
+        */
         indexInCommandLibrary (code) {
             let commandCodeLibrary = this.whiteListConstData.commandCodeLibrary
             let indexOfDot = code.replace(/\s*/g, '').indexOf('.')
@@ -100,6 +158,13 @@ export default {
             }
             return exit
         },
+        /**
+        *获取对应的安全代码（单条命令）
+        *
+        * @method getSafeCode
+        * @param {String} code 需要转换的代码
+        * @return {Boolean|String} 如果可以转换为安全代码, 返回对应安全代码； 否则, 返回false
+        */
         getSafeCode (code) {
             /* eslint no-eval: 0 */
             let safeCode = false
@@ -111,6 +176,12 @@ export default {
             }
             return safeCode
         },
+        /**
+        *获取当前工作区积木块对应的可以直接eval执行的安全代码串
+        *
+        * @method getSafeCommandString
+        * @return {String} 如果当前输入可以转换为安全代码串, 返回对应安全代码串； 否则, 返回空字符串
+        */
         getSafeCommandString () {
             let safeCommandString = ''
             let commandList = this.getCommandCodeList()
@@ -126,6 +197,11 @@ export default {
             }
             return safeCommandString
         },
+        /**
+        *run 按钮的相应函数, 解析执行安全代码, 执行对应的动画
+        *
+        * @method blockRunCode
+        */
         blockRunCode () {
             /* eslint no-eval: 0 */
             this.init()
@@ -140,6 +216,13 @@ export default {
                 alert(e)
             }
         },
+        /**
+        *根据当前方向, 选择合适的goxxx函数
+        *
+        * @method go
+        * @param {Number} index 选择的角色对应的数字
+        * @param {Number} step 行走的步数
+        */
         go (index, step) {
             switch (this.direct[index]) {
             case 1:
@@ -156,6 +239,13 @@ export default {
                 break
             }
         },
+        /**
+        *控制人物转向函数
+        *
+        * @method turn
+        * @param {Number} index 选择的角色对应的数字
+        * @param {Stirn} direction 转动的方向
+        */
         turn (index, direction) {
             if (direction === 'right') {
                 this.direct[index] = this.direct[index] % 4 + 1
@@ -165,10 +255,20 @@ export default {
                 this.tween[index].call(this.getStop, [index, this.direct[index]])
             }
         },
+        /**
+        *clean 按钮的相应函数, 清空当前的工作区域
+        *
+        * @method cleanWorkspace
+        */
         cleanWorkspace () {
             this.workspace.clear()
         },
-        myUpdateFunction (event) {
+        /**
+        *根据当前工作区的积木块动态生成可以直接复制到代码编辑器中执行的代码
+        *
+        * @method updateFunction
+        */
+        updateFunction (event) {
             let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
             document.getElementById('code-area').value = code
         },
@@ -555,9 +655,17 @@ export default {
             this.player[index].y = playery
         }
     },
+    /**
+    *
+    vue组件加载过程中进行初始化 包括初始化google-blocklu  初始化createjs游戏界面
+    *
+    @method mounted
+    *
+    @for BlockBase
+    */
     mounted: function () {
         require('../../static/block_defined/blockly_defined.js')
-        let toolBox = require('../../src/assets/js/blockly_const_list.js')
+        let toolBox = this.blockConstData.toolBoxText
         this.workspace = global.Blockly.inject('block-area', {
             toolbox: toolBox,
             media: '../static/media/',
@@ -578,7 +686,7 @@ export default {
                 scaleSpeed: 1.2
             }
         })
-        this.workspace.addChangeListener(this.myUpdateFunction)
+        this.workspace.addChangeListener(this.updateFunction)
         this.init()
     }
 }

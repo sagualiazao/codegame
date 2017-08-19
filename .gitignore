@@ -124,8 +124,5 @@ yarn.lock
 /api/static
 /api/templates
 
-#google-blockly
-/frontend/static/google-blockly
-
-#ace-build
-/frontend/static/ace-builds
+#frontend-doc
+/frontend/out
