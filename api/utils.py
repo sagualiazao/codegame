@@ -79,6 +79,32 @@ class SimpleResponse:
         })
 
     @staticmethod
+    def game_level_json_response(selected_map):
+        """
+        返回指定关卡信息的JsonResponse
+
+        Parameters:
+            :user: 用户对象\n
+        
+        Returns:
+            JsonResponse:\n
+            :'status': 读取失败'0', 读取成功'1'\n
+            :'map': 地图字符串\n
+            :'name': 地图名\n
+            :'remarks': 地图说明\n
+            :'author': 地图作者\n
+            :'is_published': 地图发布状态\n
+        """
+        return JsonResponse({
+            'status': '1',
+            'map': selected_map.map,
+            'name': selected_map.name,
+            'tips': selected_map.tips,
+            'codes': selected_map.codes,
+            'mode': selected_map.mode
+        })
+
+    @staticmethod
     def getMethodOnly(
         request,
         func,

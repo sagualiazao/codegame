@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { simpleGet, simplePost } from '@/assets/js/util.js'
+import { simpleGet, simplePost, readMap } from '@/assets/js/util.js'
 
 export default {
     name: 'map-square',
@@ -76,6 +76,16 @@ export default {
         this.readMapList()
         this.readFavoriteMapList()
         this.readPublishedMapList()
+        // 第一个参数为true读取游戏关卡, 为false读取用户自定义地图
+        let response = await readMap(true, 1)
+        let obj = await response.json()
+        if (await obj.status === '1') {
+            // obj.map
+            // obj.name
+            // obj.tips
+            // obj.codes
+            let list = JSON.parse(obj.mode)
+        }
     },
     methods: {
         handleClick (tab, event) {
@@ -92,15 +102,17 @@ export default {
             let response = await simpleGet('api/read-map-list')
             let obj = await response.json()
             if (await obj.status === '1') {
-                let list = JSON.parse(obj.data)
-                this.mapList = list
-                // 返回一个数组对象, for map in mapList
-                // map[0]: id 地图id
-                // map[1]: name 地图名称
-                // map[2]: author 地图作者
-                // map[3]: img 地图缩略图
-                // map[4]: remarks 地图说明
-                // map[5]: favorite 收藏状态
+                if (obj.number > 0) {
+                    let list = JSON.parse(obj.data)
+                    this.mapList = list
+                    // 返回一个数组对象, for map in mapList
+                    // map[0]: id 地图id
+                    // map[1]: name 地图名称
+                    // map[2]: author 地图作者
+                    // map[3]: img 地图缩略图
+                    // map[4]: remarks 地图说明
+                    // map[5]: favorite 收藏状态
+                }
             } else if (await obj.status === '0') {
                 alert('读取失败!')
             }
@@ -109,14 +121,16 @@ export default {
             let response = await simpleGet('api/read-published-map-list')
             let obj = await response.json()
             if (await obj.status === '1') {
-                let list = JSON.parse(obj.data)
-                this.publishedMapList = list
-                // 返回一个数组对象, for map in mapList
-                // map[0]: id 地图id
-                // map[1]: name 地图名称
-                // map[2]: img 地图缩略图
-                // map[3]: remarks 地图说明
-                // map[4]: published 发布状态
+                if (obj.number > 0) {
+                    let list = JSON.parse(obj.data)
+                    this.publishedMapList = list
+                    // 返回一个数组对象, for map in mapList
+                    // map[0]: id 地图id
+                    // map[1]: name 地图名称
+                    // map[2]: img 地图缩略图
+                    // map[3]: remarks 地图说明
+                    // map[4]: published 发布状态
+                }
             } else if (await obj.status === '0') {
                 alert('读取失败!')
             }
@@ -125,14 +139,16 @@ export default {
             let response = await simpleGet('api/read-favorite-map-list')
             let obj = await response.json()
             if (await obj.status === '1') {
-                let list = JSON.parse(obj.data)
-                this.favoriteMapList = list
-                // 返回一个数组对象, for map in mapList
-                // map[0]: id 地图id
-                // map[1]: name 地图名称
-                // map[2]: author 地图作者
-                // map[3]: img 地图缩略图
-                // map[4]: remarks 地图说明
+                if (obj.number > 0) {
+                    let list = JSON.parse(obj.data)
+                    this.favoriteMapList = list
+                    // 返回一个数组对象, for map in mapList
+                    // map[0]: id 地图id
+                    // map[1]: name 地图名称
+                    // map[2]: author 地图作者
+                    // map[3]: img 地图缩略图
+                    // map[4]: remarks 地图说明
+                }
             } else if (await obj.status === '0') {
                 alert('读取失败!')
             }
