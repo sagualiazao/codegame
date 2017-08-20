@@ -122,7 +122,6 @@ export default {
         },
         resetPasswordChange: function () {
             this.$store.commit('resetPasswordWindow', true)
-            this.$store.commit('signinWindow', false)
         }
     }
 }
