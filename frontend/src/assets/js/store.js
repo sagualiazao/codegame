@@ -4,7 +4,6 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
-    // 账户登录状态
     loginStatus: false,
     userEmail: null,
     userId: null,
@@ -12,9 +11,9 @@ const state = {
     userGameProgress: null,
     userHasPaied: null,
     registerDate: null,
-    // 界面切换信息
     currentMenbar: 'menu-bar-unlogged',
-    // 弹窗的弹出判断
+    levelMode: true,
+    mapId: null,
     signinDialog: false,
     signupDialog: false,
     resetPasswordDialog: false,
@@ -58,6 +57,12 @@ const mutations = {
     changeRegisterDate: function (state, text) {
         var date = new Date(text)
         state.registerDate = date.toLocaleString()
+    },
+    changeLevelMode: function (state, mode) {
+        state.levelMode = mode
+    },
+    changeGameID: function (state, id) {
+        state.gameId = id
     }
 }
 
@@ -71,6 +76,8 @@ const actions = {
         context.commit('changeUserHasPaied', null)
         context.commit('changeMenu', 'menu-bar-unlogged')
         context.commit('changeRegisterDate', null)
+        context.commit('changeLevelMode', true)
+        context.commit('changeGameID', null)
         fetch('api/logout', {
             method: 'get',
             mode: 'cors',
@@ -89,6 +96,8 @@ const actions = {
         context.commit('resetPasswordWindow', false)
         context.commit('changeMenu', 'menu-bar-unlogged')
         context.commit('changeRegisterDate', null)
+        context.commit('changeLevelMode', true)
+        context.commit('changeGameID', null)
     },
     signin: async function (context) {
         let response = await fetch('api/login', {
@@ -107,6 +116,8 @@ const actions = {
             context.commit('changeUserHasPaied', obj.hasPaied)
             context.commit('changeRegisterDate', obj.createdAt)
             context.commit('changeMenu', 'menu-bar-logged')
+            context.commit('changeLevelMode', true)
+            context.commit('changeGameID', null)
         } else {}
     }
 }

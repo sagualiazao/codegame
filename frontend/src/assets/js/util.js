@@ -50,3 +50,11 @@ export async function simplePost (url, obj) {
     })
     return response
 }
+
+export async function readMap (levelMode, id) {
+    if (levelMode === true) {
+        return simpleGet('api/read-level?mapid=' + id)
+    } else if (levelMode === false) {
+        return simpleGet('api/read-map?mapid=' + id)
+    }
+}

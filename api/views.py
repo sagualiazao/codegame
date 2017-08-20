@@ -284,7 +284,7 @@ def save_map(request):
     
     return SimpleResponse.postMethodOnly(request, save_map_function)
 
-@csrf_exempt
+
 def read_map(request):
     """
     读取用户编辑的地图
@@ -316,7 +316,37 @@ def read_map(request):
     return SimpleResponse.getMethodOnly(request, read_map_function)
 
 
-@csrf_exempt
+def read_level(request):
+    """
+    读取系统关卡
+
+    Parameters:
+        :request: 指向'/api/read-level'的GET请求\n
+        :mapid: 要读取的level的id\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 读取失败'0', 读取成功'1'\n
+        :'map': 地图字符串\n
+        :'name': 地图名\n
+        :'remarks': 地图说明\n
+        :'author': 地图作者\n
+        :'is_published': 地图发布状态\n
+
+        HttpResponseNotFound(): 如果request不是一个GET请求\n
+    """
+    def read_level_function(request):
+        map_id = int(request.GET['mapid'])
+        selected_map = GameLevels.objects.filter(map_id=map_id)
+        if len(selected_map) == 0:
+            return SimpleResponse.failure_json_response
+        else:
+            selected_map = selected_map[0]
+            return SimpleResponse.game_level_json_response(selected_map)
+
+    return SimpleResponse.getMethodOnly(request, read_level_function)
+
+
 def pay(request):
     """
     发送支付请求
@@ -375,6 +405,7 @@ def read_map_list(request):
         json = simplejson.dumps(map_list)
         return JsonResponse({
             'status': '1',
+            'number': len(map_list),
             'data': json
         })
 
@@ -413,6 +444,7 @@ def read_my_map_list(request):
         json = simplejson.dumps(map_list)
         return JsonResponse({
             'status': '1',
+            'number': len(map_list),
             'data': json
         })
 
@@ -481,6 +513,7 @@ def read_published_map_list(request):
         json = simplejson.dumps(map_list)
         return JsonResponse({
             'status': '1',
+            'number': len(map_list),
             'data': json
         })
 
@@ -519,6 +552,7 @@ def read_favorite_map_list(request):
         json = simplejson.dumps(map_list)
         return JsonResponse({
             'status': '1',
+            'number': len(map_list),
             'data': json
         })
 

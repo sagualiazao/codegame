@@ -57,14 +57,16 @@ export default {
             let response = await simpleGet('api/read-my-map-list')
             let obj = await response.json()
             if (await obj.status === '1') {
-                let list = JSON.parse(obj.data)
-                this.myMapList = list
-                // 返回一个数组对象, for map in mapList
-                // map[0]: id 地图id
-                // map[1]: name 地图名称
-                // map[2]: img 地图缩略图
-                // map[3]: remarks 地图说明
-                // map[4]: favorite 收藏发布状态
+                if (obj.number > 0) {
+                    let list = JSON.parse(obj.data)
+                    this.myMapList = list
+                    // 返回一个数组对象, for map in mapList
+                    // map[0]: id 地图id
+                    // map[1]: name 地图名称
+                    // map[2]: img 地图缩略图
+                    // map[3]: remarks 地图说明
+                    // map[4]: favorite 收藏发布状态
+                }
             } else if (await obj.status === '0') {
                 alert('读取失败!')
             }

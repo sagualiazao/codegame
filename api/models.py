@@ -37,20 +37,21 @@ class User(AbstractBaseUser):
     """
     继承django抽象用户模型的用户数据模型
     """
-    email = models.EmailField(max_length=255, unique=True)
+    
     """ 用户电子邮件地址,作为区别用户的凭据,不可重复,最大长度为255 """
-    nickname = models.CharField(max_length=32)
+    email = models.EmailField(max_length=255, unique=True)
     """ 用户昵称,可重复,最大长度为32位 """
-    created_at = models.DateTimeField(auto_now_add=True)
+    nickname = models.CharField(max_length=32)
     """ 用户创建时间,注册用户对象时自动生成 """
-    has_paied = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     """ 用户付费状态 """
-    game_progress = models.IntegerField(default=0)
+    has_paied = models.BooleanField(default=False)
     """ 用户游戏进程,保存当前已经通过的关卡数量 """
-    objects = UserManager()
+    game_progress = models.IntegerField(default=0)
     """ 指定用户管理器 """
-    USERNAME_FIELD = 'email'
+    objects = UserManager()
     """ 指定用户身份标识字段 """
+    USERNAME_FIELD = 'email'
 
     class Meta:
         ordering = ('-created_at',)
@@ -66,36 +67,38 @@ class GameLevels(models.Model):
     """
     存储系统游戏关卡
     """
-    map_id = models.AutoField(primary_key=True)
+
     """ 地图id,作为区别关卡的标识字段 """
-    map = models.CharField(max_length=1000)
+    map_id = models.SmallIntegerField(primary_key=True)
     """ 存储地图内容的字符串,最大长度1000 """
-    level_three_steps = models.SmallIntegerField()
-    """ 关卡达到三星评价的条件,执行的语句数 """
-    level_two_steps = models.SmallIntegerField()
-    """ 关卡达到两星评价的条件,执行的语句数 """
-    tips = models.CharField(max_length=1000)
-    """ 关卡提示信息 """
-    goal = models.CharField(max_length=1000)
-    """ 关卡目标信息 """
+    map = models.CharField(max_length=1000, default=None)
+    """ 关卡名称 """
+    name = models.CharField(max_length=100, default=None)
+    """ 关卡提示 """
+    tips = models.CharField(max_length=1000, default=None)
+    """ 初始代码 """
+    codes = models.CharField(max_length=1000, default=None)
+    """ 权限控制 """
+    mode = models.CharField(max_length=1000, default=None)
 
 
 class DesignedMaps(models.Model):
     """
     存储用户编辑的地图
     """
-    map_id = models.AutoField(primary_key=True)
+
     """ 地图id,作为区别地图的标识字段 """
-    map = models.CharField(max_length=1000)
+    map_id = models.AutoField(primary_key=True)
     """ 存储地图内容的字符串,最大长度1000 """
-    name = models.CharField(max_length=32)
+    map = models.CharField(max_length=1000)
     """ 地图名称 """
-    remarks = models.CharField(max_length=1000)
+    name = models.CharField(max_length=32)
     """ 地图说明 """
-    author = models.ForeignKey(User)
+    remarks = models.CharField(max_length=1000)
     """ 地图作者 """
-    is_published = models.BooleanField(default=False)
+    author = models.ForeignKey(User)
     """ 地图发布状态 """
+    is_published = models.BooleanField(default=False)
 
     def publish(self):
         """
@@ -116,7 +119,9 @@ class FavoriteMaps(models.Model):
     """
     存储用户收藏的地图列表
     """
-    user = models.ForeignKey(User)
+
     """ 用户身份,使用User模型中的对象作为外键 """
-    map = models.ForeignKey(DesignedMaps)
+    user = models.ForeignKey(User)
     """ 地图,使用DesignedMaps模型中的对象作为外键 """
+    map = models.ForeignKey(DesignedMaps)
+

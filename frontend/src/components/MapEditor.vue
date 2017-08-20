@@ -233,14 +233,11 @@ export default {
                 this.mapPost(string)
                 this.clean()
             }
-<<<<<<< HEAD
-=======
             if (this.mapTips === '') {
                 alert('请输入有关说明信息')
             }
             this.mapPost(string)
             this.clean()
->>>>>>> xiao/add_flexible_map_editor
         },
         clean () {
             this.stage.removeAllChildren()
