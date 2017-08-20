@@ -131,7 +131,6 @@ export default {
             }
         },
         countTime () {
-            this.sendEmailDisabled = true
             this.buttonMessage = this.seconds + 's后再次发送'
             this.seconds--
             if (this.seconds === 0) {
@@ -142,6 +141,7 @@ export default {
             }
         },
         sendEmail: async function () {
+            this.sendEmailDisabled = true
             let jsonObj = {
                 'email': this.resetPasswordForm.email.toLowerCase()
             }
