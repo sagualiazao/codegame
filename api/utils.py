@@ -6,18 +6,25 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from io import BytesIO
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotFound
 import api.models
+
+
+def blank_func():
+    """
+    一个空函数
+    """
+    pass
 
 
 class SimpleResponse:
     """
     用于简化创建json回应消息的代码
     """
-    failure_json_response = JsonResponse({'status': '0'})
     """ 一个表明失败状态的json响应 """
-    success_json_response = JsonResponse({'status': '1'})
+    failure_json_response = JsonResponse({'status': '0'})
     """ 一个表明成功状态的json响应 """
+    success_json_response = JsonResponse({'status': '1'})
 
     @staticmethod
     def user_json_response(user):
@@ -71,6 +78,85 @@ class SimpleResponse:
             'author': str(selected_map.author)
         })
 
+    @staticmethod
+    def getMethodOnly(
+        request,
+        func,
+        session_needed=False,
+        handle_exception=False,
+        func_handle=blank_func
+        ):
+        if request.method == 'GET':
+            try:
+                if session_needed:
+                    email = request.session.get('email', False)
+                    if email == False:
+                        return HttpResponseNotFound()
+                    response = func(request, email)
+                else:
+                    response = func(request)
+                return response
+            except BaseException:
+                if handle_exception:
+                    func_handle(request)
+                return SimpleResponse.failure_json_response
+        else:
+            return HttpResponseNotFound()
+
+    @staticmethod
+    def postMethodOnly(
+        request,
+        func,
+        session_needed=False,
+        handle_exception=False,
+        func_handle=blank_func
+        ):
+        if request.method == 'POST':
+            try:
+                if session_needed:
+                    email = request.session.get('email', False)
+                    if email == False:
+                        return HttpResponseNotFound()
+                    response = func(request, email)
+                else:
+                    response = func(request)
+                return response
+            except BaseException:
+                if handle_exception:
+                    func_handle(request)
+                return SimpleResponse.failure_json_response
+        else:
+            return HttpResponseNotFound()
+    
+
+    @staticmethod
+    def getOrPost(
+        request,
+        func_get,
+        func_post,
+        session_needed=False,
+        handle_exception=False,
+        func_handle=blank_func
+        ):
+        if request.method in ['GET', 'POST']:
+            func = dict()
+            func['GET'] = func_get
+            func['POST'] = func_post
+            try:
+                if session_needed:
+                    email = request.session.get('email', False)
+                    if email == False:
+                        return HttpResponseNotFound()
+                    response = func[request.method](request, email)
+                else:
+                    response = func[request.method](request)
+                return response
+            except BaseException:
+                if handle_exception:
+                    func_handle(request)
+                return SimpleResponse.failure_json_response
+        else:
+            return HttpResponseNotFound()
 
 class Captcha:
     """
@@ -199,6 +285,7 @@ class Captcha:
         img, code = Captcha.generate_captcha()
         img.save(f, 'PNG')
         img = base64.b64encode(f.getvalue()).decode()
+        img = 'data:image/png;base64,' + img
         code = str.lower(code)
         return img, code
 
@@ -283,17 +370,13 @@ class MapImage:
     生成地图缩略图
     """
     RESOURCE_DIR = './api/static/map/'
-    """ 地图资源目录 """
-    MAP_DIR = './api/static/img/saved_maps/'
-    """ 地图存储目录 """
+    MAP_DIR = './frontend/static/img/saved_maps/'
+    MAP_DIR_DEV = './api/static/img/saved_maps/'
+    HREF_DIR = '/static/img/saved_maps/'
     RESOURCE_WIDTH = 64
-    """ 资源宽度 """
     RESOURCE_HEIGHT = 64
-    """ 资源高度 """
     GRIDS_PER_ROW = 10
-    """ 每行方格数 """
     GRIDS_PER_COLUMN = 10
-    """ 每列方格数 """
     SOURCE_LIST = [
         RESOURCE_DIR + 'background.png',  # 0: background
         RESOURCE_DIR + '1.png',  # 1: tree
@@ -367,9 +450,25 @@ class MapImage:
 
             if not os.path.exists(MapImage.MAP_DIR):
                 os.makedirs(MapImage.MAP_DIR)
+            if not os.path.exists(MapImage.MAP_DIR_DEV):
+                os.makedirs(MapImage.MAP_DIR_DEV)
             the_map.save(MapImage.MAP_DIR + file_name, 'PNG')
+            the_map.save(MapImage.MAP_DIR_DEV + file_name, 'PNG')
             return True
 
+    @staticmethod
+    def getImageLink(map_id):
+        file_link = MapImage.HREF_DIR + str(map_id) + '.png'
+        return file_link
+
+    @staticmethod
+    def deleteMapImages(map_id):
+        file_name = MapImage.MAP_DIR + str(map_id) + '.png'
+        if os.path.isfile(file_name):
+            os.remove(file_name)
+        file_name = MapImage.MAP_DIR_DEV + str(map_id) + '.png'
+        if os.path.isfile(file_name):
+            os.remove(file_name)
 
 class Pingpp:
     """

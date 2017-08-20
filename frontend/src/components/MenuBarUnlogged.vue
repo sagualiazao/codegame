@@ -22,7 +22,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from '../assets/js/store'
+import store from '@/assets/js/store.js'
 
 import SigninForm from './SigninForm'
 import SignupForm from './SignupForm'

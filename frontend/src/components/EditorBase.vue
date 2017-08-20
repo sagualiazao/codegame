@@ -23,6 +23,8 @@
 * @class EditorBase
 */
 import 'yuki-createjs'
+import { simpleGet } from '@/assets/js/util.js'
+
 export default {
     name: 'editor-base',
     data: function () {
@@ -255,11 +257,7 @@ export default {
             this.jsEditor.setValue('')
         },
         read: async function () {
-            let response = await fetch('api/read-map?mapid=' + this.mapId, {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            let response = await simpleGet('api/read-map?mapid=' + this.mapId)
             let obj = await response.json()
             if (await obj.status === '1') {
                 var string = obj.map

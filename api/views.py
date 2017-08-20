@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 import simplejson
 from api.utils import *
 from django.core.mail import send_mail
-from api.models import User, DesignedMaps, GameLevels
+from api.models import User, DesignedMaps, GameLevels, FavoriteMaps
 
 
 def get_captcha(request):
@@ -21,14 +21,14 @@ def get_captcha(request):
 
         HttpResponseNotFound(): 如果request不是一个GET请求\n
     """
-    if request.method == 'GET':
+    def get_captcha_function(request):
         img, code = Captcha.base64_captcha()
         return JsonResponse({
             'img': img,
             'captcha': code,
         })
-    else:
-        return HttpResponseNotFound()
+
+    return SimpleResponse.getMethodOnly(request, get_captcha_function)
 
 
 @csrf_exempt
@@ -46,25 +46,21 @@ def register(request):
 
         HttpResponseNotFound(): 如果request不是一个POST请求\n
     """
-    if request.method == 'POST':
-        try:
-            req = simplejson.load(request)
-            email = req['email']
-            if check_email_format(email) == False:
-                return SimpleResponse.failure_json_response
-            if len(User.objects.filter(email=email)) > 0:
-                return SimpleResponse.failure_json_response
-            password_ace = req['password']
-            nickname = req['nickname']
-            captcha = req['captcha']
-            password = CBC.decrypt(captcha, password_ace)
-            User.objects.create_user(email=email, nickname=nickname, password=password)
-        except BaseException:
+    def register_fuction(request):
+        req = simplejson.load(request)
+        email = req['email']
+        if check_email_format(email) == False:
             return SimpleResponse.failure_json_response
-        else:
-            return SimpleResponse.success_json_response
-    else:
-        return HttpResponseNotFound()
+        if len(User.objects.filter(email=email)) > 0:
+            return SimpleResponse.failure_json_response
+        password_ace = req['password']
+        nickname = req['nickname']
+        captcha = req['captcha']
+        password = CBC.decrypt(captcha, password_ace)
+        User.objects.create_user(email=email, nickname=nickname, password=password)
+        return SimpleResponse.success_json_response
+
+    return SimpleResponse.postMethodOnly(request, register_fuction)
 
 
 @csrf_exempt
@@ -82,28 +78,25 @@ def reset_password_email(request):
 
         HttpResponseNotFound(): 如果request不是一个POST请求\n
     """
-    if request.method == 'POST':
-        try:
-            req = simplejson.load(request)
-            email = req['email']
-            users = User.objects.filter(email=email)
-            if len(users) == 0:
-                return SimpleResponse.failure_json_response
-            captcha = Captcha.string_captcha()
-            msg = '您重置账户: [' + email + '] 密码的验证码是: ' + captcha
-            mail_status = send_mail(
-                r'[验证码]仨瓜俩枣小组的编程游戏-密码重置',
-                msg,
-                'sagualiazao@aliyun.com',
-                [email],
-                fail_silently=False
-            )
-            request.session['captcha'] = captcha
-        except BaseException:
+    def reset_password_email_function(request):
+        req = simplejson.load(request)
+        email = req['email']
+        users = User.objects.filter(email=email)
+        if len(users) == 0:
             return SimpleResponse.failure_json_response
+        captcha = Captcha.string_captcha()
+        msg = '您重置账户: [' + email + '] 密码的验证码是: ' + captcha
+        mail_status = send_mail(
+            r'[验证码]仨瓜俩枣小组的编程游戏-密码重置',
+            msg,
+            'sagualiazao@aliyun.com',
+            [email],
+            fail_silently=False
+        )
+        request.session['captcha'] = captcha
         return SimpleResponse.success_json_response
-    else:
-        return HttpResponseNotFound()
+
+    return SimpleResponse.postMethodOnly(request, reset_password_email_function)
 
 
 def check_email_captcha(request):
@@ -119,17 +112,14 @@ def check_email_captcha(request):
 
         HttpResponseNotFound(): 如果request不是一个GET请求\n
     """
-    if request.method == 'GET':
-        try:
-            captcha = request.GET['captcha']
-            if captcha != request.session['captcha']:
-                return SimpleResponse.failure_json_response
-            else:
-                return SimpleResponse.success_json_response
-        except BaseException:
+    def check_email_captcha_function(request):
+        captcha = request.GET['captcha']
+        if captcha != request.session['captcha']:
             return SimpleResponse.failure_json_response
-    else:
-        return HttpResponseNotFound()
+        else:
+            return SimpleResponse.success_json_response
+
+    return SimpleResponse.getMethodOnly(request, check_email_captcha_function)
 
 
 @csrf_exempt
@@ -146,27 +136,21 @@ def reset_password(request):
 
         HttpResponseNotFound(): 如果request不是一个POST请求\n
     """
-    if request.method == 'POST':
-        try:
-            # 捕获json为空错误
-            req = simplejson.load(request)
-            email = req['email']
-            users = User.objects.filter(email=email)
-            # 如果该用户不存在,不需要检查邮箱格式
-            if len(users) == 0:
-                return SimpleResponse.failure_json_response
-            # 捕获值缺少或错误
-            password_ace = req['password']
-            captcha = req['captcha']
-            password = CBC.decrypt(captcha, password_ace)
-            user = users[0]
-            user.set_password(password)
-            user.save()
-        except BaseException:
+    def reset_password_function(request):
+        req = simplejson.load(request)
+        email = req['email']
+        users = User.objects.filter(email=email)
+        if len(users) == 0:
             return SimpleResponse.failure_json_response
+        password_ace = req['password']
+        captcha = req['captcha']
+        password = CBC.decrypt(captcha, password_ace)
+        user = users[0]
+        user.set_password(password)
+        user.save()
         return SimpleResponse.success_json_response
-    else:
-        return HttpResponseNotFound()
+
+    return SimpleResponse.postMethodOnly(request, reset_password_function)
 
 
 @csrf_exempt
@@ -187,29 +171,7 @@ def login(request):
 
         HttpResponseNotFound(): 如果request不是一个POST\GET请求\n
     """
-    # POST请求来自主动登录
-    if request.method == 'POST':
-        try:
-            req = simplejson.load(request)
-            email = req['email']
-            users = User.objects.filter(email=email)
-            if len(users) == 0:
-                return SimpleResponse.failure_json_response
-            password_ace = req['password']
-            captcha = req['captcha']
-            password = CBC.decrypt(captcha, password_ace)
-            user = users[0]
-            login_status = user.check_password(password)
-        except BaseException:
-            return SimpleResponse.failure_json_response
-        else:
-            if login_status:
-                request.session['email'] = email
-                return SimpleResponse.user_json_response(user)
-            else:
-                return SimpleResponse.failure_json_response
-    # GET请求来自登录状态检测
-    elif request.method == 'GET':
+    def login_get_fuction(request):
         email = request.session.get('email', False)
         if email == False:
             return SimpleResponse.failure_json_response
@@ -217,8 +179,25 @@ def login(request):
             users = User.objects.filter(email=email)
             user = users[0]
             return SimpleResponse.user_json_response(user)
-    else:
-        return HttpResponseNotFound()
+
+    def login_post_function(request):
+        req = simplejson.load(request)
+        email = req['email']
+        users = User.objects.filter(email=email)
+        if len(users) == 0:
+            return SimpleResponse.failure_json_response
+        password_ace = req['password']
+        captcha = req['captcha']
+        password = CBC.decrypt(captcha, password_ace)
+        user = users[0]
+        login_status = user.check_password(password)
+        if login_status:
+            request.session['email'] = email
+            return SimpleResponse.user_json_response(user)
+        else:
+            return SimpleResponse.failure_json_response
+
+    return SimpleResponse.getOrPost(request, login_get_fuction, login_post_function)
 
 
 def check_email(request):
@@ -226,7 +205,7 @@ def check_email(request):
     检验邮箱是否已被注册
 
     Parameters:
-        :request: 指向'/api/check-email'的POST请求或GET请求\n
+        :request: 指向'/api/check-email'的GET请求\n
 
     Returns:
         JsonResponse:\n
@@ -234,19 +213,16 @@ def check_email(request):
 
         HttpResponseNotFound(): 如果request不是一个GET请求\n
     """
-    if request.method == 'GET':
-        try:
-            email = request.GET['email']
-            users = User.objects.filter(email=email)
-        except BaseException:
+    def check_email_function(request):
+        email = request.GET['email']
+        users = User.objects.filter(email=email)
+        if len(users) == 0:
             return SimpleResponse.failure_json_response
         else:
-            if len(users) == 0:
-                return SimpleResponse.failure_json_response
-            else:
-                return SimpleResponse.success_json_response
-    else:
-        return HttpResponseNotFound()
+            return SimpleResponse.success_json_response
+
+    return SimpleResponse.getMethodOnly(request, check_email_function)
+
 
 def logout(request):
     """
@@ -288,30 +264,25 @@ def save_map(request):
 
         HttpResponseNotFound(): 如果request不是一个POST请求\n
     """
-    if request.method == 'POST':
-        try:
-            req = simplejson.load(request)
-            email = request.session['email']
-            author = User.objects.get(email=email)
-            map_str = req['mapString']
-            name = req['name']
-            remarks = req['remarks']
-            newMap = DesignedMaps(
-                map=map_str,
-                name=name,
-                remarks=remarks,
-                author=author,
-                is_published=False
-            )
-            newMap.save()
-            status = MapImage.generate_map_image(newMap.map_id, map_str)
-        except BaseException:
-            return SimpleResponse.failure_json_response
-        else:
-            return SimpleResponse.success_json_response
-    else:
-        return HttpResponseNotFound()
-
+    def save_map_function(request):
+        req = simplejson.load(request)
+        email = request.session['email']
+        author = User.objects.get(email=email)
+        map_str = req['mapString']
+        name = req['name']
+        remarks = req['remarks']
+        new_map = DesignedMaps(
+            map=map_str,
+            name=name,
+            remarks=remarks,
+            author=author,
+            is_published=False
+        )
+        new_map.save()
+        status = MapImage.generate_map_image(new_map.map_id, map_str)
+        return SimpleResponse.success_json_response
+    
+    return SimpleResponse.postMethodOnly(request, save_map_function)
 
 @csrf_exempt
 def read_map(request):
@@ -333,19 +304,17 @@ def read_map(request):
 
         HttpResponseNotFound(): 如果request不是一个GET请求\n
     """
-    if request.method == 'GET':
-        try:
-            map_id = int(request.GET['mapid'])
-            selected_map = DesignedMaps.objects.filter(map_id=map_id)
-            if len(selected_map) == 0:
-                return SimpleResponse.failure_json_response
-            else:
-                selected_map = selected_map[0]
-                return SimpleResponse.designed_map_json_response(selected_map)
-        except BaseException as e:
+    def read_map_function(request):
+        map_id = int(request.GET['mapid'])
+        selected_map = DesignedMaps.objects.filter(map_id=map_id)
+        if len(selected_map) == 0:
             return SimpleResponse.failure_json_response
-    else:
-        return HttpResponseNotFound()
+        else:
+            selected_map = selected_map[0]
+            return SimpleResponse.designed_map_json_response(selected_map)
+
+    return SimpleResponse.getMethodOnly(request, read_map_function)
+
 
 @csrf_exempt
 def pay(request):
@@ -360,20 +329,249 @@ def pay(request):
         :'status': 发送支付请求失败'0',发送成功'1'\n
         :'url': 成功发送支付请求打开的页面\n
     """
-    if request.method == 'GET':
-        email = request.session.get('email', False)
-        if email == False:
-            return HttpResponseNotFound()
+    def pay_function(request, email):
+        users = User.objects.filter(email=email)
+        user = users[0]
+        alipay_pr = Pingpp.pay()
+        return JsonResponse({
+            'status': '1',
+            'url': alipay_pr
+        })
+
+    return SimpleResponse.getMethodOnly(request, pay_function, True)
+
+
+def read_map_list(request):
+    """
+    读取地图广场
+
+    Parameters:
+        :request: 指向'/api/read-map-list'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 读取失败'0',读取成功'1'\n
+        :'data': 读取的地图信息列表\n
+    """
+    def read_map_list_function(request, email):
+        user = User.objects.get(email=email)
+        maps = DesignedMaps.objects.filter(is_published=True)
+        if len(maps) == 0:
+            return JsonResponse({
+                'status': '1',
+                'data': ''
+            })
+        map_list = list()
+        for i in maps:
+            is_favorite_map = FavoriteMaps.objects.filter(user=user, map=i)
+            map_list.append((
+                i.map_id,
+                i.name,
+                str(i.author),
+                MapImage.getImageLink(i.map_id),
+                i.remarks,
+                bool(len(is_favorite_map))
+            ))
+        json = simplejson.dumps(map_list)
+        return JsonResponse({
+            'status': '1',
+            'data': json
+        })
+
+    return SimpleResponse.getMethodOnly(request, read_map_list_function, True)
+
+
+def read_my_map_list(request):
+    """
+    读取用户的地图
+
+    Parameters:
+        :request: 指向'/api/read-my-map-list'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 读取失败'0',读取成功'1'\n
+        :'data': 读取的地图信息列表\n
+    """
+    def read_my_map_list_function(request, email):
+        user = User.objects.get(email=email)
+        maps = DesignedMaps.objects.filter(author=user)
+        if len(maps) == 0:
+            return JsonResponse({
+                'status': '1',
+                'data': ''
+            })
+        map_list = list()
+        for i in maps:
+            map_list.append((
+                i.map_id,
+                i.name,
+                MapImage.getImageLink(i.map_id),
+                i.remarks,
+                i.is_published
+            ))
+        json = simplejson.dumps(map_list)
+        return JsonResponse({
+            'status': '1',
+            'data': json
+        })
+
+    return SimpleResponse.getMethodOnly(request, read_my_map_list_function, True)
+
+
+@csrf_exempt
+def change_favorite_map(request):
+    """
+    修改地图收藏状态
+
+    Parameters:
+        :request: 指向'/api/change-favorite-map'的POST请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 修改失败'0',修改成功'1'\n
+    """
+    def change_favorite_map_function(request, email):
+        user = User.objects.get(email=email)
+        req = simplejson.load(request)
+        map_id = req['mapid']
+        status = bool(int(req['status']))
+        the_map = DesignedMaps.objects.get(map_id=map_id)
+        has_favorite = FavoriteMaps.objects.filter(user=user, map=the_map)
+        if status and len(has_favorite) == 0:
+            new_favorite = FavoriteMaps(user=user, map=the_map)
+            new_favorite.save()
         else:
-            try:
-                users = User.objects.filter(email=email)
-                user = users[0]
-                alipay_pr = Pingpp.pay()
-                return JsonResponse({
-                    'status': '1',
-                    'url': alipay_pr
-                })
-            except BaseException:
-                return SimpleResponse.failure_json_response
-    else:
-        return SimpleResponse.failure_json_response
+            remove_favorite = FavoriteMaps.objects.get(user=user, map=the_map)
+            remove_favorite.delete()
+        json = simplejson.dumps(map_list)
+        return SimpleResponse.success_json_response
+
+    return SimpleResponse.postMethodOnly(request, change_favorite_map_function, True)
+
+
+def read_published_map_list(request):
+    """
+    读取用户制作的地图列表
+
+    Parameters:
+        :request: 指向'/api/read-published-map-list'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 读取失败'0',读取成功'1'\n
+        :'data': 读取的地图信息列表\n
+    """
+    def read_published_map_list_function(request, email):
+        user = User.objects.get(email=email)
+        maps = DesignedMaps.objects.filter(author=user, is_published=True)
+        if len(maps) == 0:
+            return JsonResponse({
+                'status': '1',
+                'data': ''
+            })
+        map_list = list()
+        for i in maps:
+            map_list.append((
+                i.map_id,
+                i.name,
+                MapImage.getImageLink(i.map_id),
+                i.remarks
+            ))
+        json = simplejson.dumps(map_list)
+        return JsonResponse({
+            'status': '1',
+            'data': json
+        })
+
+    return SimpleResponse.getMethodOnly(request, read_published_map_list_function, True)
+
+
+def read_favorite_map_list(request):
+    """
+    读取用户收藏的地图列表
+
+    Parameters:
+        :request: 指向'/api/read-favorite-map-list'的GET请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 读取失败'0',读取成功'1'\n
+        :'data': 读取的地图信息列表\n
+    """
+    def read_favorite_map_list_function(request, email):
+        user = User.objects.get(email=email)
+        favorites = FavoriteMaps.objects.filter(user=user)
+        if len(favorites) == 0:
+            return JsonResponse({
+                'status': '1',
+                'data': ''
+            })
+        map_list = list()
+        for i in favorites:
+            map_list.append((
+                i.map.map_id,
+                i.map.name,
+                str(i.map.author),
+                MapImage.getImageLink(i.map.map_id),
+                i.map.remarks                        
+            ))
+        json = simplejson.dumps(map_list)
+        return JsonResponse({
+            'status': '1',
+            'data': json
+        })
+
+    return SimpleResponse.getMethodOnly(request, read_favorite_map_list_function, True)
+
+
+@csrf_exempt
+def change_publish_status(request):
+    """
+    修改地图发布状态
+
+    Parameters:
+        :request: 指向'/api/change-publish'的POST请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 修改失败'0',修改成功'1'\n
+    """
+    def change_publish_status_function(request, email):
+        user = User.objects.get(email=email)
+        req = simplejson.load(request)
+        map_id = req['mapid']
+        status = bool(int(req['status']))
+        the_map = DesignedMaps.objects.get(map_id=map_id)
+        if status and the_map.author == user:
+            the_map.publish()
+        else:
+            the_map.cancel_publish()
+        return SimpleResponse.success_json_response
+
+    return SimpleResponse.getMethodOnly(request, change_publish_status_function, True)
+
+
+@csrf_exempt
+def delete_map(request):
+    """
+    删除地图
+
+    Parameters:
+        :request: 指向'/api/delete-map'的POST请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 修改失败'0',修改成功'1'\n
+    """
+    def delete_map_function(request, email):
+        user = User.objects.get(email=email)
+        req = simplejson.load(request)
+        map_id = req['mapid']
+        the_map = DesignedMaps.objects.get(map_id=map_id)
+        if the_map.author == user:
+            the_map.delete()
+            MapImage.deleteMapImages(map_id)
+        return SimpleResponse.success_json_response
+
+    return SimpleResponse.postMethodOnly(request, delete_map_function, True)

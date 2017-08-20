@@ -21,6 +21,8 @@
 * @class BlockBase
 */
 import 'yuki-createjs'
+import { simpleGet } from '@/assets/js/util.js'
+
 export default {
     name: 'block-base',
     data: function () {
@@ -273,11 +275,7 @@ export default {
             document.getElementById('code-area').value = code
         },
         read: async function () {
-            let response = await fetch('api/read-map?mapid=' + this.mapId, {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            let response = await simpleGet('api/read-map?mapid=' + this.mapId)
             let obj = await response.json()
             if (await obj.status === '1') {
                 var string = obj.map

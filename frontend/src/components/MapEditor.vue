@@ -22,6 +22,8 @@
 
 <script>
 import 'yuki-createjs'
+import { simplePost } from '@/assets/js/util.js'
+
 export default {
     name: 'map-editor',
     data: function () {
@@ -231,12 +233,6 @@ export default {
                 this.mapPost(string)
                 this.clean()
             }
-            if (this.mapTips === '') {
-                alert('请输入有关说明信息')
-            }
-            console.log(string)
-            this.mapPost(string)
-            this.clean()
         },
         clean () {
             this.stage.removeAllChildren()
@@ -262,22 +258,12 @@ export default {
             this.init()
         },
         mapPost: async function (string) {
-            let jsonObj = JSON.stringify({
+            let jsonObj = {
                 'mapString': string,
                 'name': this.mapName,
                 'remarks': this.mapTips
-            })
-            let fetchHead = {
-                'Content-Type': 'application/json, text/plain, */*',
-                'Accept': 'application/json'
             }
-            let response = await fetch('api/save-map', {
-                method: 'post',
-                mode: 'cors',
-                credentials: 'include',
-                headers: fetchHead,
-                body: jsonObj
-            })
+            let response = await simplePost('api/save-map', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
                 alert('保存成功!')

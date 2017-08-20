@@ -21,7 +21,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from '../assets/js/store'
+import store from '@/assets/js/store.js'
 
 export default {
     name: 'select-level',
@@ -53,14 +53,14 @@ h1 {
     width: 100%;
     height: 700px;
     margin-top: -38px;
-    background: url(../assets/backg.jpg) center center no-repeat;
+    background: url(../assets/img/backg.jpg) center center no-repeat;
     background-size: cover;
 }
 #continue-win {
     width: 40%;
     height: 300px;
     color: black;
-    background: url(../assets/desp2.jpg) center center no-repeat;
+    background: url(../assets/img/desp2.jpg) center center no-repeat;
     background-size: cover;
     border-radius: 1em;
     position: absolute;

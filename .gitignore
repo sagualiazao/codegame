@@ -124,5 +124,8 @@ yarn.lock
 /api/static
 /api/templates
 
+#saved map image
+/frontend/static/img/saved_maps
+
 #frontend-doc
 /frontend/out

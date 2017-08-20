@@ -6,21 +6,14 @@
                 <map-editor></map-editor>
             </el-tab-pane>
             <el-tab-pane label="我做的地图" name="my-map">
-                <div class="published">
-                    <h2>已发布</h2>
-                    <img src="../assets/pc5.jpg">
-                    <img src="../assets/pc8.jpg">
-                    <img src="../assets/pc10.jpg">
-                </div>
-                <div class="unpublished">
-                    <h2>未发布</h2>
-                    <img src="../assets/pc13.jpg">
-                    <img src="../assets/pc14.jpg">
-                    <img src="../assets/pc15.jpg">
-                    <img src="../assets/pc16.jpg">
-                    <img src="../assets/pc17.jpg">
-                    <img src="../assets/pc18.jpg">
-                    <button type="publish-map" @click="publishClick">发布地图</button>
+                <div v-for="map in myMapList">
+                    <div class="caption">
+                        <p class="mapname">地图名称: {{ map[1] }}</p>
+                        <p class="image"><img :src="map[2]" alt="显示错误"></p>
+                        <p class="remarks">地图说明: {{ map[3] }}</p>
+                        <p class="published-status">发布状态: {{ map[4] }}</p>
+                        <hr>
+                    </div>
                 </div>
             </el-tab-pane>
         </el-tabs>
@@ -31,14 +24,14 @@
 
 <script>
 import MapEditor from './MapEditor'
+import { simpleGet } from '@/assets/js/util.js'
 
 export default {
     name: 'edit-map',
     data: function () {
         return {
             activeName: 'map-editor',
-            activeIndex: 'published',
-            msg: '看到这行字，说明它正常了'
+            myMapList: null
         }
     },
     components: {
@@ -50,16 +43,54 @@ export default {
             if (await this.$store.state.loginStatus === false) {
                 alert('请先登录噢!')
                 this.$router.push('/')
+            } else {
+                this.readMyMapList()
             }
+        } else {
+            this.readMyMapList()
         }
     },
     methods: {
-        handleClick (tab, event) {
+        handleClick: function (tab, event) {},
+        publishClick: function () {},
+        readMyMapList: async function () {
+            let response = await simpleGet('api/read-my-map-list')
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                let list = JSON.parse(obj.data)
+                this.myMapList = list
+                // 返回一个数组对象, for map in mapList
+                // map[0]: id 地图id
+                // map[1]: name 地图名称
+                // map[2]: img 地图缩略图
+                // map[3]: remarks 地图说明
+                // map[4]: favorite 收藏发布状态
+            } else if (await obj.status === '0') {
+                alert('读取失败!')
+            }
         },
-        saveClick () {
-            // 这里保存地图
+        changePublishStatus: async function (id, status) {
+            // 取消地图发布状态
+            let jsonObj = {
+                'mapid': id,
+                'status': Number(status).toString()
+            }
+            let response = await simplePost('api/change-publish', jsonObj)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                // TODO: 刷新组件视图
+            }
         },
-        publishClick () {
+        deleteMap: async function (id) {
+            // 删除地图
+            let jsonObj = {
+                'mapid': id
+            }
+            let response = await simplePost('api/delete-map', jsonObj)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                // TODO: 刷新组件视图
+            }
         }
     }
 }

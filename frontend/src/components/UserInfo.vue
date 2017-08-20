@@ -3,7 +3,7 @@
     <h1>个人主页</h1>
     <div>
         <div class="base-info">
-            <img src="../assets/h1.jpg" id="img-id">
+            <img src="../assets/img/h1.jpg" id="img-id">
             <i class="el-icon-date"></i>
             <span>昵称</span>
             <p>{{ this.$store.state.userNickName }}</p>
@@ -37,7 +37,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from '../assets/js/store'
+import store from '@/assets/js/store.js'
 import ResetPasswordForm from './ResetPasswordForm'
 
 export default {
@@ -90,12 +90,12 @@ div {
 .user-info {
     margin-top: -20px;
     /*background-color: #b4e2f4;*/
-    background: url(../assets/infobackgro1.png) no-repeat 0px center;
+    background: url(../assets/img/infobackgro1.png) no-repeat 0px center;
     background-size: contain;
     /*animation: myfirst 3s;*/
 }
 #btn {
-    background-image: url(../assets/border3.jpg);
+    background-image: url(../assets/img/border3.jpg);
 }
 h1, h2, p, span, i, a, input {
     position: relative;
@@ -125,7 +125,7 @@ img {
 .base-info p, .game-info p{
     border-radius: 30px;
     /*border: 8px solid black;
-    border-image: url(../assets/border8.png) repeat;*/
+    border-image: url(../assets/img/border8.png) repeat;*/
     border: 2px solid #708090;
     margin-right: 600px;
     width: 500px;
