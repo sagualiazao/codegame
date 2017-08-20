@@ -376,13 +376,13 @@ export default {
         },
         init () {
             this.initNum()
-            if (this.stage !== null) {
-                this.stage.removeAllChildren()
-            }
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.mapx = this.stage.x
             this.mapy = this.stage.y
+            var scale = Math.min(canvas.width / 640, canvas.height / 640)
+            this.stage.scaleX = scale
+            this.stage.scaleY = scale
             this.pic = new createjs.Bitmap('../../static/map/background.png')
             this.pic.x = this.mapx
             this.pic.y = this.mapy
@@ -393,6 +393,10 @@ export default {
                 this.direct[i] = 2
             }
             createjs.Ticker.addEventListener('tick', this.stage)
+        },
+        gameover () {
+        },
+        victory () {
         },
         fly (index) {
             var x = Math.floor((this.player[index].x - this.mapx) / this.div)
@@ -426,6 +430,11 @@ export default {
             }
             if (condition === 1) {
                 this.wait(index, 0.5)
+                for (var i = 0; i < this.player.length; i++) {
+                    if (i !== index) {
+                        this.tween[i].wait(500)
+                    }
+                }
             }
         },
         drop (index, str) {
@@ -447,7 +456,7 @@ export default {
                 this.maps[x][y] = '0'
                 var xx = Math.floor((this.treeSp.x - this.mapx) / this.div)
                 var yy = Math.floor((this.treeSp.y - this.mapy) / this.div)
-                this.maps[xx][yy] = 0
+                this.maps[xx][yy] = '0'
                 this.haveKey = false
                 this.tween[index].call(function () {
                     that.key.x = that.player[index].x
@@ -459,6 +468,11 @@ export default {
             }
             if (condition === 1) {
                 this.wait(index, 0.5)
+                for (var i = 0; i < this.player.length; i++) {
+                    if (i !== index) {
+                        this.tween[i].wait(500)
+                    }
+                }
             }
         },
         saywords (index, words) {
@@ -479,6 +493,11 @@ export default {
         say (index, words) {
             this.tween[index].call(this.saywords, [index, words])
             this.wait(index, 0.5)
+            for (var i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(500)
+                }
+            }
         },
         getPlay (index, direct) {
             switch (direct) {
@@ -522,13 +541,20 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playerx = playerx + this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 2]).to({x: playerx}, this.speed).call(this.getStop, [index, 2])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].x = playerx
         },
         goLeft (index, step) {
@@ -541,13 +567,20 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playerx = playerx - this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 4]).to({x: playerx}, this.speed).call(this.getStop, [index, 4])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].x = playerx
         },
         goUp (index, step) {
@@ -560,13 +593,20 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playery = playery - this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 1]).to({y: playery}, this.speed).call(this.getStop, [index, 1])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].y = playery
         },
         goDown (index, step) {
@@ -579,13 +619,20 @@ export default {
                     break
                 } else if (this.maps[x][y] === '2') {
                     console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
                     console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playery = playery + this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 3]).to({y: playery}, this.speed).call(this.getStop, [index, 3])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].y = playery
         }
     },
