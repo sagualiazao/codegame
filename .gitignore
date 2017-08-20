@@ -124,14 +124,7 @@ yarn.lock
 /api/static
 /api/templates
 
-#google-blockly
-/frontend/static/google-blockly
-
-#ace-build
-/frontend/static/ace-builds
-
 #saved map image
-/api/store
 /frontend/static/img/saved_maps
 
 #frontend-doc
