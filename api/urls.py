@@ -17,7 +17,10 @@ urlpatterns = [
     url(r'^api/read-map$', views.read_map),
     url(r'^api/pay$', views.pay),
     url(r'^api/read-map-list$', views.read_map_list),
+    url(r'^api/read-my-map-list$', views.read_my_map_list),
     url(r'^api/change-favorite$', views.change_favorite_map),
     url(r'^api/read-published-map-list$', views.read_published_map_list),
-    url(r'^api/read-favorite-map-list$', views.read_favorite_map_list)
+    url(r'^api/read-favorite-map-list$', views.read_favorite_map_list),
+    url(r'^api/change-publish$', views.change_publish_status),
+    url(r'^api/delete-map$', views.delete_map)
 ]

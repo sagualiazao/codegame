@@ -22,8 +22,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from '../assets/js/store'
-import { cbcEncrypt } from '@/assets/js/util.js'
+import store from '@/assets/js/store.js'
+import { cbcEncrypt, simplePost } from '@/assets/js/util.js'
 
 export default {
     name: 'signin-form',
@@ -87,22 +87,12 @@ export default {
             let captcha = parseInt(Math.random() * 9000, 10) + 1000
             captcha = captcha.toString()
             let password = cbcEncrypt(captcha, this.loginForm.password)
-            let jsonObj = JSON.stringify({
+            let jsonObj = {
                 'email': this.loginForm.email.toLowerCase(),
                 'password': password,
                 'captcha': captcha
-            })
-            let fetchHead = {
-                'Content-Type': 'application/json, text/plain, */*',
-                'Accept': 'application/json'
             }
-            let response = await fetch('api/login', {
-                method: 'post',
-                mode: 'cors',
-                credentials: 'include',
-                headers: fetchHead,
-                body: jsonObj
-            })
+            let response = await simplePost('api/login', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
                 alert('登录成功')

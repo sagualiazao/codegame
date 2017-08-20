@@ -14,6 +14,7 @@
                     <div v-else>
                         <i class="el-icon-star-on" @click="changeFavor(map, false)">已收藏</i>
                     </div>
+                    <hr>
                 </div>
             </div>
             <button type="playMap" @click="playClick">试玩</button>
@@ -24,6 +25,7 @@
                     <p class="mapname">地图名称: {{ map[1] }}</p>
                     <p class="image"><img :src="map[2]" alt="显示错误"></p>
                     <p class="remarks">地图说明: {{ map[3] }}</p>
+                    <hr>
                 </div>
             </div>
         </el-tab-pane>
@@ -34,6 +36,7 @@
                     <p class="image"><img :src="map[3]" alt="显示错误"></p>
                     <p class="author">地图作者: {{ map[2] }}</p>
                     <p class="remarks">地图说明: {{ map[4] }}</p>
+                    <hr>
                 </div>
             </div>
         </el-tab-pane>
@@ -42,6 +45,8 @@
 </template>
 
 <script>
+import { simpleGet, simplePost } from '@/assets/js/util.js'
+
 export default {
     name: 'map-square',
     data: function () {
@@ -73,11 +78,7 @@ export default {
             this.changeFavoriteMap(map[0], status)
         },
         readMapList: async function () {
-            let response = await fetch('api/read-map-list', {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            let response = await simpleGet('api/read-map-list')
             let obj = await response.json()
             if (await obj.status === '1') {
                 let list = JSON.parse(obj.data)
@@ -94,11 +95,7 @@ export default {
             }
         },
         readPublishedMapList: async function () {
-            let response = await fetch('api/read-published-map-list', {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            let response = await simpleGet('api/read-published-map-list')
             let obj = await response.json()
             if (await obj.status === '1') {
                 let list = JSON.parse(obj.data)
@@ -114,11 +111,7 @@ export default {
             }
         },
         readFavoriteMapList: async function () {
-            let response = await fetch('api/read-favorite-map-list', {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            let response = await simpleGet('api/read-favorite-map-list')
             let obj = await response.json()
             if (await obj.status === '1') {
                 let list = JSON.parse(obj.data)
@@ -134,22 +127,26 @@ export default {
             }
         },
         changeFavoriteMap: async function (id, status) {
-            let response = await fetch(
-                ('api/change-favorite' + '?mapid=' + id + '&status=' + Number(status).toString()),
-                {
-                    method: 'get',
-                    mode: 'cors',
-                    credentials: 'include'
-                }
-            )
+            let jsonObj = {
+                'mapid': id,
+                'status': Number(status).toString()
+            }
+            let response = await simplePost('api/change-favorite', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                for (let i = 0; i < this.mapList.length; i++) {
-                    if (mapList[i][0] === id) {
-                        mapList[i][5] = status
-                        break
-                    }
-                }
+                // TODO: 更改按钮显示状态
+            }
+        },
+        cancelPublishStatus: async function (id) {
+            // 取消地图发布状态
+            let jsonObj = {
+                'mapid': id,
+                'status': '0'
+            }
+            let response = await simplePost('api/change-publish', jsonObj)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                // TODO: 刷新组件视图
             }
         }
     }

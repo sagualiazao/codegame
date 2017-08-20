@@ -1,5 +1,5 @@
 export function cbcEncrypt (keyStr, data) {
-    var CryptoJS = require('crypto-js')
+    let CryptoJS = require('crypto-js')
     keyStr = CryptoJS.MD5(keyStr).toString()
     let key = CryptoJS.enc.Utf8.parse(keyStr)
     let iv = CryptoJS.enc.Utf8.parse(keyStr.substr(2, 18))
@@ -13,7 +13,7 @@ export function cbcEncrypt (keyStr, data) {
 }
 
 export function cbcDecrypt (keyStr, data) {
-    var CryptoJS = require('crypto-js')
+    let CryptoJS = require('crypto-js')
     keyStr = CryptoJS.MD5(keyStr).toString()
     let key = CryptoJS.enc.Utf8.parse(keyStr)
     let iv = CryptoJS.enc.Utf8.parse(keyStr.substr(2, 18))
@@ -24,4 +24,29 @@ export function cbcDecrypt (keyStr, data) {
         padding: CryptoJS.pad.ZeroPadding
     })
     return decrypted.toString(CryptoJS.enc.Utf8)
+}
+
+export async function simpleGet (url) {
+    let response = await fetch(url, {
+        method: 'get',
+        mode: 'cors',
+        credentials: 'include'
+    })
+    return response
+}
+
+export async function simplePost (url, obj) {
+    let jsonObj = JSON.stringify(obj)
+    let fetchHead = {
+        'Content-Type': 'application/json, text/plain, */*',
+        'Accept': 'application/json'
+    }
+    let response = await fetch(url, {
+        method: 'post',
+        mode: 'cors',
+        credentials: 'include',
+        headers: fetchHead,
+        body: jsonObj
+    })
+    return response
 }

@@ -613,7 +613,7 @@ class PayTest(ModifySessionMixin, TestCase):
     
     def test_pauy_post_method(self):
         response = self.client.post('/api/pay')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
     
     def test_pay_get_success(self):
         data = {

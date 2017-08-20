@@ -29,7 +29,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from '../assets/js/store'
+import store from '@/assets/js/store.js'
 
 export default {
     name: 'main-page',
@@ -59,7 +59,7 @@ h1 {
     width: 100%;
     height: 600px;
     margin-top: -22px;
-    background: url(../assets/backg.jpg) center center no-repeat;
+    background: url(../assets/img/backg.jpg) center center no-repeat;
     background-size: cover;
 }
 #intro {
@@ -96,19 +96,19 @@ h1 {
     height: 200px;
 }
 #intro1 {
-    background: url(../assets/backg.jpg) center center no-repeat;
+    background: url(../assets/img/backg.jpg) center center no-repeat;
     background-size: cover;
 }
 #intro2 {
-    background: url(../assets/desp1.png) center center no-repeat;
+    background: url(../assets/img/desp1.png) center center no-repeat;
     background-size: cover;
 }
 #intro3 {
-    background: url(../assets/desp2.jpg) center center no-repeat;
+    background: url(../assets/img/desp2.jpg) center center no-repeat;
     background-size: cover;
 }
 #intro4 {
-    background: url(../assets/desp3.jpg) center center no-repeat;
+    background: url(../assets/img/desp3.jpg) center center no-repeat;
     background-size: cover;
 }
 </style>

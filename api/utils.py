@@ -6,8 +6,15 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from io import BytesIO
 from Crypto.Hash import MD5
 from Crypto.Cipher import AES
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotFound
 import api.models
+
+
+def blank_func():
+    """
+    一个空函数
+    """
+    pass
 
 
 class SimpleResponse:
@@ -71,6 +78,85 @@ class SimpleResponse:
             'author': str(selected_map.author)
         })
 
+    @staticmethod
+    def getMethodOnly(
+        request,
+        func,
+        session_needed=False,
+        handle_exception=False,
+        func_handle=blank_func
+        ):
+        if request.method == 'GET':
+            try:
+                if session_needed:
+                    email = request.session.get('email', False)
+                    if email == False:
+                        return HttpResponseNotFound()
+                    response = func(request, email)
+                else:
+                    response = func(request)
+                return response
+            except BaseException:
+                if handle_exception:
+                    func_handle(request)
+                return SimpleResponse.failure_json_response
+        else:
+            return HttpResponseNotFound()
+
+    @staticmethod
+    def postMethodOnly(
+        request,
+        func,
+        session_needed=False,
+        handle_exception=False,
+        func_handle=blank_func
+        ):
+        if request.method == 'POST':
+            try:
+                if session_needed:
+                    email = request.session.get('email', False)
+                    if email == False:
+                        return HttpResponseNotFound()
+                    response = func(request, email)
+                else:
+                    response = func(request)
+                return response
+            except BaseException:
+                if handle_exception:
+                    func_handle(request)
+                return SimpleResponse.failure_json_response
+        else:
+            return HttpResponseNotFound()
+    
+
+    @staticmethod
+    def getOrPost(
+        request,
+        func_get,
+        func_post,
+        session_needed=False,
+        handle_exception=False,
+        func_handle=blank_func
+        ):
+        if request.method in ['GET', 'POST']:
+            func = dict()
+            func['GET'] = func_get
+            func['POST'] = func_post
+            try:
+                if session_needed:
+                    email = request.session.get('email', False)
+                    if email == False:
+                        return HttpResponseNotFound()
+                    response = func[request.method](request, email)
+                else:
+                    response = func[request.method](request)
+                return response
+            except BaseException:
+                if handle_exception:
+                    func_handle(request)
+                return SimpleResponse.failure_json_response
+        else:
+            return HttpResponseNotFound()
 
 class Captcha:
     """
@@ -364,6 +450,8 @@ class MapImage:
 
             if not os.path.exists(MapImage.MAP_DIR):
                 os.makedirs(MapImage.MAP_DIR)
+            if not os.path.exists(MapImage.MAP_DIR_DEV):
+                os.makedirs(MapImage.MAP_DIR_DEV)
             the_map.save(MapImage.MAP_DIR + file_name, 'PNG')
             the_map.save(MapImage.MAP_DIR_DEV + file_name, 'PNG')
             return True
@@ -372,6 +460,15 @@ class MapImage:
     def getImageLink(map_id):
         file_link = MapImage.HREF_DIR + str(map_id) + '.png'
         return file_link
+
+    @staticmethod
+    def deleteMapImages(map_id):
+        file_name = MapImage.MAP_DIR + str(map_id) + '.png'
+        if os.path.isfile(file_name):
+            os.remove(file_name)
+        file_name = MapImage.MAP_DIR_DEV + str(map_id) + '.png'
+        if os.path.isfile(file_name):
+            os.remove(file_name)
 
 class Pingpp:
     """
