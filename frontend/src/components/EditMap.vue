@@ -7,12 +7,19 @@
             </el-tab-pane>
             <el-tab-pane label="我做的地图" name="my-map">
                 <div v-for="map in myMapList">
-                    <div class="caption">
-                        <p class="mapname">地图名称: {{ map[1] }}</p>
-                        <p class="image"><img :src="map[2]" alt="显示错误"></p>
-                        <p class="remarks">地图说明: {{ map[3] }}</p>
-                        <p class="published-status">发布状态: {{ map[4] }}</p>
-                        <hr>
+                    <div class="map-picture">
+                        <a href="#BlockBase"><img :src="map[2]" alt="显示错误"></a>
+                        <div class="caption">
+                            <p class="mapname">地图名称: {{ map[1] }}</p>
+                            <p class="remarks">地图说明: {{ map[3] }}</p>
+                            <div v-if="map[4] === true">
+                                <i class="el-icon-circle-check" @click="publishClick(map, false)" title="点击取消发布">已发布</i>
+                            </div>
+                            <div v-else>
+                                <i class="el-icon-upload" @click="publishClick(map, true)" title="点击发布">未发布</i>
+                            </div>
+                            <i class="el-icon-delete" @click="deleteClick(map)">删除地图</i>
+                        </div>
                     </div>
                 </div>
             </el-tab-pane>
@@ -52,7 +59,14 @@ export default {
     },
     methods: {
         handleClick: function (tab, event) {},
-        publishClick: function () {},
+        publishClick: function (map, status) {
+            map[4] = status
+            this.changePublishStatus(map[0], status)
+        },
+        deleteClick (map) {
+            this.open2()
+            this.deleteMap(map[0])
+        },
         readMyMapList: async function () {
             let response = await simpleGet('api/read-my-map-list')
             let obj = await response.json()
@@ -80,6 +94,7 @@ export default {
             if (await obj.status === '1') {
                 // TODO: 刷新组件视图
             }
+            this.readMyMapList()
         },
         deleteMap: async function (id) {
             // 删除地图
@@ -91,6 +106,24 @@ export default {
             if (await obj.status === '1') {
                 // TODO: 刷新组件视图
             }
+            this.readMyMapList()
+        },
+        open2 () {
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                })
+            })
         }
     }
 }
@@ -104,13 +137,47 @@ h1 {
 h2 {
     color:#808000;
 }
-.published img, .unpublished img {
-    width: 400px;
-    height: 300px;
+div.map-picture {
+    border: ridge 2px #ADD8E6;
+    text-align: center;
+    width: auto;
+    height: auto;
+    float: left;
+    margin: 3px;
+    display: block;
+    box-sizing: border-box;
+    transition: all .4s ease-in-out;
+    overflow: hidden;
 }
-#map1 {
-    margin-top: 20px;
+.caption {
+    text-align: center;
+    font-weight: normal;
+    width: auto;
+    font-size: 12px;
+    margin: 10px 5px 10px 5px;
 }
+img {
+      width: auto;
+      height: auto;
+      display: block;
+      margin: 3px;
+  }
+img {
+      opacity: 0.4;
+      filter: alpha(opacity = 40); /* For IE8 and earlier */
+      transition: all 0.5s;
+  }
+ img:hover {
+      opacity: 1.0;
+      filter: alpha(opacity = 100); /* For IE8 and earlier */
+      transform: scale(1.1);
+  }
+ .el-icon-circle-check {
+      cursor: pointer;
+  }
+ .el-icon-delete {
+      cursor: pointer;
+  }
 button {
     display: inline-block;
     margin-top: 30px;
