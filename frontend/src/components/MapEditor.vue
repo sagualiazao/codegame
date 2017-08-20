@@ -274,14 +274,18 @@ export default {
             }
         }
     },
-    mounted: function () {
-        // if (this.$store.state.loginStatus === false) {
-        //     alert('请先登录噢!')
-        //     this.$router.push('/')
-        // } else {
-        //     this.init()
-        // }
-        this.init()
+    mounted: async function () {
+        if (this.$store.state.loginStatus === false) {
+            await this.$store.dispatch('signin')
+            if (await this.$store.state.loginStatus === false) {
+                alert('请先登录噢!')
+                this.$router.push('/')
+            } else {
+                this.init()
+            }
+        } else {
+            this.init()
+        }
     }
 }
 </script>

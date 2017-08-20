@@ -17,6 +17,11 @@
 </template>
 
 <script>
+/**
+* EditorBase 组件中完成代码编辑器内容的识别转换, 以及动画的执行
+*
+* @class EditorBase
+*/
 import 'yuki-createjs'
 import { simpleGet } from '@/assets/js/util.js'
 
@@ -24,6 +29,13 @@ export default {
     name: 'editor-base',
     data: function () {
         return {
+            /**
+            *用来存放ACE转换之后形成的代码编辑器对象
+            *
+            * @property jsEditor
+            * @type {Object}
+            * @default null
+            */
             jsEditor: null,
             pic: null,
             maps: null,
@@ -41,15 +53,39 @@ export default {
             div: 64,
             speed: 1000,
             direct: [],
+            /**
+            *用来存放用户动态创建的函数名及内容
+            *
+            * @property functionSet
+            * @type {Dictionary}
+            * @default {}
+            */
             functionSet: {},
-            editorConstData: require('../assets/js/editor_const_list.js'),
+            /**
+            *获取当前白名单中的 代码库和执行函数
+            *
+            * @property whiteListConstData
+            * @type {Object}
+            * @default {}
+            */
             whiteListConstData: require('../assets/js/white_list.js')
         }
     },
     methods: {
+        /**
+        *界面切换函数, 点击 Blockly Tab 切换到 blockly 游戏界面
+        *
+        * @method blockClick
+        */
         blockClick (index) {
             this.$router.push('/' + index)
         },
+        /**
+        *获取当前代码编辑器中的所有代码, 转换为由单个代码组成的列表
+        *
+        * @method getCommandCodeList
+        * @return {List} 返回一个由单个代码组成的列表
+        */
         getCommandCodeList () {
             let commandCodeList = []
             let lineCount = this.jsEditor.session.getLength()
@@ -66,9 +102,24 @@ export default {
             }
             return commandCodeList
         },
+        /**
+        *判断字符串current是否满足正则表达式target的格式
+        *
+        * @method isSameFormat
+        * @param {RegExp}  target 正则表达式
+        * @param {String} current 要判断的字符串
+        * @return {Boolean} 如果匹配, 返回true; 否则, 返回false;
+        */
         isSameFormat (target, current) {
             return current.replace(target, '') === ''
         },
+        /**
+        *判断代码code是否在白名单中
+        *
+        * @method indexInCommandLibrary
+        * @param {String} code 要判断的字符串
+        * @return {Boolean|String} 如果在白名单中, 返回坐标位置； 如果不在白名单中, 返回false
+        */
         indexInCommandLibrary (code) {
             let commandCodeLibrary = this.whiteListConstData.commandCodeLibrary
             let indexOfDot = code.replace(/\s*/g, '').indexOf('.')
@@ -101,6 +152,13 @@ export default {
             }
             return exit
         },
+        /**
+        *获取对应的安全代码（单条命令）
+        *
+        * @method getSafeCode
+        * @param {String} code 需要转换的代码
+        * @return {Boolean|String} 如果可以转换为安全代码, 返回对应安全代码； 否则, 返回false
+        */
         getSafeCode (code) {
             /* eslint no-eval: 0 */
             let safeCode = false
@@ -112,6 +170,12 @@ export default {
             }
             return safeCode
         },
+        /**
+        *获取当前代码编辑器输入对应的可以直接eval执行的安全代码串
+        *
+        * @method getSafeCommandString
+        * @return {String} 如果当前输入可以转换为安全代码串, 返回对应安全代码串； 否则, 返回空字符串
+        */
         getSafeCommandString () {
             let safeCommandString = ''
             let commandList = this.getCommandCodeList()
@@ -127,6 +191,11 @@ export default {
             }
             return safeCommandString
         },
+        /**
+        *run 按钮的相应函数, 解析执行安全代码, 执行对应的动画
+        *
+        * @method tinyEditorRun
+        */
         tinyEditorRun () {
             this.init()
             this.whiteListConstData.init()
@@ -140,6 +209,13 @@ export default {
                 alert(e)
             }
         },
+        /**
+        *根据当前方向, 选择合适的goxxx函数
+        *
+        * @method go
+        * @param {Number} index 选择的角色对应的数字
+        * @param {Number} step 行走的步数
+        */
         go (index, step) {
             switch (this.direct[index]) {
             case 1:
@@ -156,6 +232,13 @@ export default {
                 break
             }
         },
+        /**
+        *控制人物转向函数
+        *
+        * @method turn
+        * @param {Number} index 选择的角色对应的数字
+        * @param {Stirn} direction 转动的方向
+        */
         turn (index, direction) {
             if (direction === 'right') {
                 this.direct[index] = this.direct[index] % 4 + 1
@@ -165,6 +248,11 @@ export default {
                 this.tween[index].call(this.getStop, [index, this.direct[index]])
             }
         },
+        /**
+        *clean 按钮的相应函数, 清空当前的工作区域
+        *
+        * @method cleanWorkspace
+        */
         cleanWorkspace () {
             this.jsEditor.setValue('')
         },
@@ -507,7 +595,7 @@ export default {
     *
     @method mounted
     *
-    @for EditorBase.vue
+    @for EditorBase
     */
     mounted: function () {
         let ace = require('brace')

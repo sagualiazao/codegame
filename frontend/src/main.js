@@ -14,6 +14,7 @@ import MapSquare from './components/MapSquare'
 import UserInfo from './components/UserInfo'
 import EditorBase from './components/EditorBase.vue'
 import EditMap from './components/EditMap'
+import PageNotFound from './components/PageNotFound'
 
 global.Blockly = Blockly
 Vue.config.productionTip = false
@@ -61,6 +62,10 @@ const router = new Router({
             path: '/EditMap',
             name: 'EditMap',
             component: EditMap
+        },
+        {
+            path: '*',
+            component: PageNotFound
         }
     ]
 })

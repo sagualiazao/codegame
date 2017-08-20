@@ -57,10 +57,21 @@ export default {
             favoriteMapList: null
         }
     },
-    mounted () {
+    mounted: async function () {
         if (this.$store.state.loginStatus === false) {
-            alert('请先登录噢!')
-            this.$router.push('/')
+            await this.$store.dispatch('signin')
+            if (await this.$store.state.loginStatus === false) {
+                alert('请先登录噢!')
+                this.$router.push('/')
+            } else {
+                this.readMapList()
+                this.readFavoriteMapList()
+                this.readPublishedMapList()
+            }
+        } else {
+            this.readMapList()
+            this.readFavoriteMapList()
+            this.readPublishedMapList()
         }
         this.readMapList()
         this.readFavoriteMapList()
