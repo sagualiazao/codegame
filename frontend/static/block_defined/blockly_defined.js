@@ -99,8 +99,10 @@ global.Blockly.Blocks['dg_fly'] = {
 global.Blockly.Blocks['dg_for'] = {
     init: function () {
         this.appendDummyInput().appendField('repeat')
-        .appendField(new global.Blockly.FieldNumber(0, 0, 10), 'times').appendField('times')
+        this.appendValueInput('time').setCheck(null)
+        this.appendDummyInput().appendField('times')
         this.appendStatementInput('statementsName').setCheck(null)
+        this.setInputsInline(true)
         this.setPreviousStatement(true, null)
         this.setNextStatement(true, null)
         this.setColour(120)
@@ -132,8 +134,81 @@ global.Blockly.Blocks['dg_function_call'] = {
     }
 }
 
+global.Blockly.Blocks['dg_var'] = {
+    init: function() {
+        this.appendDummyInput().appendField('var').appendField(new global.Blockly.FieldTextInput('x'), 'variableName')
+        this.setPreviousStatement(true, null)
+        this.setNextStatement(true, null)
+        this.setColour(345)
+        this.setTooltip('')
+        this.setHelpUrl('')
+    }
+}
+
+global.Blockly.Blocks['dg_var_set'] = {
+    init: function() {
+        this.appendDummyInput().appendField('var').appendField(new global.Blockly.FieldTextInput('x'), 'variableName').appendField('=')
+        this.appendValueInput('value').setCheck('Number')
+        this.setInputsInline(true)
+        this.setPreviousStatement(true, null)
+        this.setNextStatement(true, null)
+        this.setColour(345)
+        this.setTooltip('')
+        this.setHelpUrl('')
+    }
+}
+
+global.Blockly.Blocks['dg_value_set'] = {
+    init: function() {
+        this.appendDummyInput().appendField('set').appendField(new global.Blockly.FieldTextInput('x'), 'variableName').appendField('=')
+        this.appendValueInput('value').setCheck('Number')
+        this.setInputsInline(true)
+        this.setPreviousStatement(true, null)
+        this.setNextStatement(true, null)
+        this.setColour(345)
+        this.setTooltip('')
+        this.setHelpUrl('')
+    }
+}
+
+global.Blockly.Blocks['dg_get_value'] = {
+    init: function() {
+        this.appendDummyInput().appendField(new global.Blockly.FieldTextInput('x'), 'variableName')
+        this.setOutput(true, 'Number')
+        this.setColour(345)
+        this.setTooltip('')
+        this.setHelpUrl('')
+    }
+}
+
+global.Blockly.JavaScript['dg_get_value'] = function(block) {
+    var textVariableName = block.getFieldValue('variableName')
+    var code = '' + textVariableName
+    return code
+}
+
+global.Blockly.JavaScript['dg_var'] = function(block) {
+    var textVariablename = block.getFieldValue('variableName')
+    var code = 'var ' + textVariablename + ';\n'
+    return code
+}
+
+global.Blockly.JavaScript['dg_var_set'] = function(block) {
+    var textVariablename = block.getFieldValue('variableName')
+    var value = global.Blockly.JavaScript.valueToCode(block, 'value', global.Blockly.JavaScript.ORDER_ATOMIC)
+    var code = 'var ' + textVariablename + '=' + value + ';\n'
+    return code
+}
+
+global.Blockly.JavaScript['dg_value_set'] = function(block) {
+    var textVariablename = block.getFieldValue('variableName')
+    var value = global.Blockly.JavaScript.valueToCode(block, 'value', global.Blockly.JavaScript.ORDER_ATOMIC)
+    var code = textVariablename + '=' + value + ';\n'
+    return code
+}
+
 global.Blockly.JavaScript['dg_for'] = function (block) {
-    var timesNumber = block.getFieldValue('times')
+    var timesNumber = global.Blockly.JavaScript.valueToCode(block, 'time', Blockly.JavaScript.ORDER_ATOMIC)
     var statementsName = global.Blockly.JavaScript.statementToCode(block, 'statementsName')
     var code = 'repeat ' + timesNumber + ' times:\n' + statementsName + 'repeat-end \n'
     return code
@@ -186,7 +261,7 @@ global.Blockly.JavaScript['dg_wait'] = function (block) {
     var valueName = global.Blockly.JavaScript
     .valueToCode(block, 'NAME', global.Blockly.JavaScript.ORDER_ATOMIC)
     // TODO: Assemble JavaScript into code variable.
-    var code = 'wait("' + valueName + '");\n'
+    var code = 'wait(' + valueName + ');\n'
     return code
 }
 
@@ -206,7 +281,11 @@ global.Blockly.JavaScript['dg_function_call'] = function (block) {
 global.Blockly.JavaScript['dg_object'] = function (block) {
     var characterName = block.getFieldValue('characterName')
     var statementsName = global.Blockly.JavaScript.statementToCode(block, 'functionName')
-    // TODO: Assemble JavaScript into code variable.
-    var code = characterName + '(' + statementsName + ')\n'
+    var codeList = statementsName.split('\n')
+    var code = ''
+    for (var i = 0; i < codeList.length - 1; i++) {
+        codeList[i] = characterName + '.' + codeList[i].replace(/\s*/g, '')
+        code += codeList[i] + '\n'
+    }
     return code
 }

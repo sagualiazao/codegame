@@ -17,16 +17,29 @@
 </template>
 
 <script>
+/**
+* EditorBase 组件中完成代码编辑器内容的识别转换, 以及动画的执行
+*
+* @class EditorBase
+*/
 import 'yuki-createjs'
+import { simpleGet } from '@/assets/js/util.js'
+
 export default {
     name: 'editor-base',
     data: function () {
         return {
+            /**
+            *用来存放ACE转换之后形成的代码编辑器对象
+            *
+            * @property jsEditor
+            * @type {Object}
+            * @default null
+            */
             jsEditor: null,
             pic: null,
             maps: null,
             player: [],
-            friend: null,
             stage: null,
             key: null,
             treeSp: null,
@@ -40,15 +53,39 @@ export default {
             div: 64,
             speed: 1000,
             direct: [],
+            /**
+            *用来存放用户动态创建的函数名及内容
+            *
+            * @property functionSet
+            * @type {Dictionary}
+            * @default {}
+            */
             functionSet: {},
-            editorConstData: require('../assets/js/editor_const_list.js'),
+            /**
+            *获取当前白名单中的 代码库和执行函数
+            *
+            * @property whiteListConstData
+            * @type {Object}
+            * @default {}
+            */
             whiteListConstData: require('../assets/js/white_list.js')
         }
     },
     methods: {
+        /**
+        *界面切换函数, 点击 Blockly Tab 切换到 blockly 游戏界面
+        *
+        * @method blockClick
+        */
         blockClick (index) {
             this.$router.push('/' + index)
         },
+        /**
+        *获取当前代码编辑器中的所有代码, 转换为由单个代码组成的列表
+        *
+        * @method getCommandCodeList
+        * @return {List} 返回一个由单个代码组成的列表
+        */
         getCommandCodeList () {
             let commandCodeList = []
             let lineCount = this.jsEditor.session.getLength()
@@ -65,9 +102,24 @@ export default {
             }
             return commandCodeList
         },
+        /**
+        *判断字符串current是否满足正则表达式target的格式
+        *
+        * @method isSameFormat
+        * @param {RegExp}  target 正则表达式
+        * @param {String} current 要判断的字符串
+        * @return {Boolean} 如果匹配, 返回true; 否则, 返回false;
+        */
         isSameFormat (target, current) {
             return current.replace(target, '') === ''
         },
+        /**
+        *判断代码code是否在白名单中
+        *
+        * @method indexInCommandLibrary
+        * @param {String} code 要判断的字符串
+        * @return {Boolean|String} 如果在白名单中, 返回坐标位置； 如果不在白名单中, 返回false
+        */
         indexInCommandLibrary (code) {
             let commandCodeLibrary = this.whiteListConstData.commandCodeLibrary
             let indexOfDot = code.replace(/\s*/g, '').indexOf('.')
@@ -100,6 +152,13 @@ export default {
             }
             return exit
         },
+        /**
+        *获取对应的安全代码（单条命令）
+        *
+        * @method getSafeCode
+        * @param {String} code 需要转换的代码
+        * @return {Boolean|String} 如果可以转换为安全代码, 返回对应安全代码； 否则, 返回false
+        */
         getSafeCode (code) {
             /* eslint no-eval: 0 */
             let safeCode = false
@@ -111,6 +170,12 @@ export default {
             }
             return safeCode
         },
+        /**
+        *获取当前代码编辑器输入对应的可以直接eval执行的安全代码串
+        *
+        * @method getSafeCommandString
+        * @return {String} 如果当前输入可以转换为安全代码串, 返回对应安全代码串； 否则, 返回空字符串
+        */
         getSafeCommandString () {
             let safeCommandString = ''
             let commandList = this.getCommandCodeList()
@@ -126,6 +191,11 @@ export default {
             }
             return safeCommandString
         },
+        /**
+        *run 按钮的相应函数, 解析执行安全代码, 执行对应的动画
+        *
+        * @method tinyEditorRun
+        */
         tinyEditorRun () {
             this.init()
             this.whiteListConstData.init()
@@ -139,6 +209,13 @@ export default {
                 alert(e)
             }
         },
+        /**
+        *根据当前方向, 选择合适的goxxx函数
+        *
+        * @method go
+        * @param {Number} index 选择的角色对应的数字
+        * @param {Number} step 行走的步数
+        */
         go (index, step) {
             switch (this.direct[index]) {
             case 1:
@@ -155,6 +232,13 @@ export default {
                 break
             }
         },
+        /**
+        *控制人物转向函数
+        *
+        * @method turn
+        * @param {Number} index 选择的角色对应的数字
+        * @param {Stirn} direction 转动的方向
+        */
         turn (index, direction) {
             if (direction === 'right') {
                 this.direct[index] = this.direct[index] % 4 + 1
@@ -164,15 +248,16 @@ export default {
                 this.tween[index].call(this.getStop, [index, this.direct[index]])
             }
         },
+        /**
+        *clean 按钮的相应函数, 清空当前的工作区域
+        *
+        * @method cleanWorkspace
+        */
         cleanWorkspace () {
             this.jsEditor.setValue('')
         },
         read: async function () {
-            let response = await fetch('api/read-map?mapid=' + this.mapId, {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            let response = await simpleGet('api/read-map?mapid=' + this.mapId)
             let obj = await response.json()
             if (await obj.status === '1') {
                 var string = obj.map
@@ -210,11 +295,11 @@ export default {
         },
         mapTest () {
             this.maps = [
-                ['6', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['2', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['3', '1', '0', '1', '0', '1', '5', '1', '0', '1'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['7', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+                ['6', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+                ['7', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+                ['8', '1', '0', '2', '0', '1', '3', '1', '0', '1'],
+                ['0', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+                ['9', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
                 ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
                 ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
                 ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
@@ -225,29 +310,29 @@ export default {
         loadObj (index, i, j) {
             var stone
             if (index.length === 2) {
-                stone = new createjs.Bitmap('../../static/9.png')
+                stone = new createjs.Bitmap('../../static/map/5.png')
                 stone.x = this.toScreenX(index[0])
                 stone.y = this.toScreenY(index[1])
                 this.stage.addChild(stone)
                 return
             }
-            if (index === '2') {
-                this.key = new createjs.Bitmap('../../static/2.png')
+            if (index === '7') {
+                this.key = new createjs.Bitmap('../../static/map/7.png')
                 this.key.x = this.toScreenX(i)
                 this.key.y = this.toScreenY(j)
                 this.stage.addChild(this.key)
                 return
             }
-            if (index === '5') {
-                this.loadCharactor(0, '../../static/player.png', i, j)
+            if (index === '3') {
+                this.loadCharactor(0, '../../static/map/player1.png', i, j)
                 return
             }
             if (index === '6') {
-                this.loadCharactor(1, '../../static/friend.png', i, j)
+                this.loadCharactor(1, '../../static/map/player2.png', i, j)
                 return
             }
-            if (index === '7') {
-                this.treeSp = new createjs.Bitmap('../../static/7.png')
+            if (index === '9') {
+                this.treeSp = new createjs.Bitmap('../../static/map/9.png')
                 this.treeSp.x = this.toScreenX(i)
                 this.treeSp.y = this.toScreenY(j)
                 this.maps[i][j] = '1'
@@ -255,7 +340,7 @@ export default {
                 return
             }
             if (index !== '0') {
-                stone = new createjs.Bitmap('../../static/' + index + '.png')
+                stone = new createjs.Bitmap('../../static/map/' + index + '.png')
                 stone.x = this.toScreenX(i)
                 stone.y = this.toScreenY(j)
                 this.stage.addChild(stone)
@@ -291,14 +376,14 @@ export default {
         },
         init () {
             this.initNum()
-            if (this.stage !== null) {
-                this.stage.removeAllChildren()
-            }
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.mapx = this.stage.x
             this.mapy = this.stage.y
-            this.pic = new createjs.Bitmap('../../static/black.png')
+            var scale = Math.min(canvas.width / 640, canvas.height / 640)
+            this.stage.scaleX = scale
+            this.stage.scaleY = scale
+            this.pic = new createjs.Bitmap('../../static/map/background.png')
             this.pic.x = this.mapx
             this.pic.y = this.mapy
             this.stage.addChild(this.pic)
@@ -308,6 +393,10 @@ export default {
                 this.direct[i] = 2
             }
             createjs.Ticker.addEventListener('tick', this.stage)
+        },
+        gameover () {
+        },
+        victory () {
         },
         fly (index) {
             var x = Math.floor((this.player[index].x - this.mapx) / this.div)
@@ -330,7 +419,7 @@ export default {
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
             const that = this
             var condition = 0
-            if (this.maps[x][y] === '2' && str === 'key') {
+            if (this.maps[x][y] === '7' && str === 'key') {
                 this.maps[x][y] = '0'
                 this.haveKey = true
                 this.tween[index].call(function () {
@@ -341,6 +430,11 @@ export default {
             }
             if (condition === 1) {
                 this.wait(index, 0.5)
+                for (var i = 0; i < this.player.length; i++) {
+                    if (i !== index) {
+                        this.tween[i].wait(500)
+                    }
+                }
             }
         },
         drop (index, str) {
@@ -348,9 +442,9 @@ export default {
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
             const that = this
             var condition = 0
-            if (this.maps[x][y] !== '3' && this.haveKey && str === 'key') {
+            if (this.maps[x][y] !== '8' && this.haveKey && str === 'key') {
                 condition = 1
-                this.maps[x][y] = '2'
+                this.maps[x][y] = '7'
                 this.haveKey = false
                 this.tween[index].call(function () {
                     that.key.x = that.player[index].x
@@ -358,11 +452,11 @@ export default {
                     that.stage.addChild(that.key)
                     that.saywords(index, 'Drop it!')
                 })
-            } else if (this.maps[x][y] === '3' && this.haveKey && str === 'key') {
+            } else if (this.maps[x][y] === '8' && this.haveKey && str === 'key') {
                 this.maps[x][y] = '0'
                 var xx = Math.floor((this.treeSp.x - this.mapx) / this.div)
                 var yy = Math.floor((this.treeSp.y - this.mapy) / this.div)
-                this.maps[xx][yy] = 0
+                this.maps[xx][yy] = '0'
                 this.haveKey = false
                 this.tween[index].call(function () {
                     that.key.x = that.player[index].x
@@ -374,6 +468,11 @@ export default {
             }
             if (condition === 1) {
                 this.wait(index, 0.5)
+                for (var i = 0; i < this.player.length; i++) {
+                    if (i !== index) {
+                        this.tween[i].wait(500)
+                    }
+                }
             }
         },
         saywords (index, words) {
@@ -394,6 +493,11 @@ export default {
         say (index, words) {
             this.tween[index].call(this.saywords, [index, words])
             this.wait(index, 0.5)
+            for (var i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(500)
+                }
+            }
         },
         getPlay (index, direct) {
             switch (direct) {
@@ -435,13 +539,22 @@ export default {
                 var y = Math.floor((playery - this.mapy) / this.div)
                 if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '2') {
+                    console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
-                    alert('GameOver')
+                    console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playerx = playerx + this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 2]).to({x: playerx}, this.speed).call(this.getStop, [index, 2])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].x = playerx
         },
         goLeft (index, step) {
@@ -452,13 +565,22 @@ export default {
                 var y = Math.floor((playery - this.mapy) / this.div)
                 if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '2') {
+                    console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
-                    alert('GameOver')
+                    console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playerx = playerx - this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 4]).to({x: playerx}, this.speed).call(this.getStop, [index, 4])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].x = playerx
         },
         goUp (index, step) {
@@ -469,13 +591,22 @@ export default {
                 var y = Math.floor((playery - this.div - this.mapy) / this.div)
                 if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '2') {
+                    console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
-                    alert('GameOver')
+                    console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playery = playery - this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 1]).to({y: playery}, this.speed).call(this.getStop, [index, 1])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].y = playery
         },
         goDown (index, step) {
@@ -486,13 +617,22 @@ export default {
                 var y = Math.floor((playery + this.div - this.mapy) / this.div)
                 if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
+                } else if (this.maps[x][y] === '2') {
+                    console.log('GameOver')
+                    this.tween[index].call(this.gameover)
                 } else if (this.maps[x][y] === '4') {
-                    alert('GameOver')
+                    console.log('Victory')
+                    this.tween[index].call(this.victory)
                 } else {
                     playery = playery + this.div
                 }
             }
             this.tween[index].call(this.getPlay, [index, 3]).to({y: playery}, this.speed).call(this.getStop, [index, 3])
+            for (i = 0; i < this.player.length; i++) {
+                if (i !== index) {
+                    this.tween[i].wait(this.speed)
+                }
+            }
             this.player[index].y = playery
         }
     },
@@ -502,17 +642,18 @@ export default {
     *
     @method mounted
     *
-    @for EditorBase.vue
+    @for EditorBase
     */
     mounted: function () {
         let ace = require('brace')
-        require('brace/mode/javascript')
-        require('brace/theme/monokai')
+        require('brace/mode/cirru')
+        require('brace/theme/xcode')
         this.jsEditor = ace.edit('js-editor')
-        this.jsEditor.setTheme('ace/theme/monokai')
-        this.jsEditor.getSession().setMode('ace/mode/javascript')
+        this.jsEditor.$blockScrolling = Infinity
+        this.jsEditor.setTheme('ace/theme/xcode')
+        this.jsEditor.getSession().setMode('ace/mode/cirru')
         this.jsEditor.setHighlightActiveLine(true)
-        this.jsEditor.setValue('function run:')
+        this.jsEditor.setValue('go(3)')
         this.jsEditor.resize()
         this.init()
     }

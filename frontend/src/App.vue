@@ -27,26 +27,9 @@ export default {
         MenuBarUnlogged,
         MenuBarLogged
     },
-    mounted: async function () {
-        let response = await fetch('api/login', {
-            method: 'get',
-            mode: 'cors',
-            credentials: 'include'
-        })
-        let obj = await response.json()
-        if (await obj.status === '1') {
-            // TODO: 登录成功,传递信息,关闭窗口
-            this.$store.commit('changeLoginStatus', true)
-            this.$store.commit('changeUserEmail', obj.email)
-            this.$store.commit('changeUserId', obj.id)
-            this.$store.commit('changeUserNickName', obj.nickname)
-            this.$store.commit('changeUserGameProgress', obj.gameProgress)
-            this.$store.commit('changeUserHasPaied', obj.hasPaied)
-            this.$store.commit('changeRegisterDate', obj.createdAt)
-            this.$store.commit('changeMenu', 'menu-bar-logged')
-        } else {}
-    },
-    methods: {}
+    mounted: function () {
+        this.$store.dispatch('signin')
+    }
 }
 </script>
 

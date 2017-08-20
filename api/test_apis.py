@@ -9,10 +9,15 @@ import doublegame.settings
 
 
 class ModifySessionMixin(object):
-
+    """
+    支持test模拟session功能的基类
+    """
     client = Client()
 
-    def create_session(self):   
+    def create_session(self):
+        """
+        为当前类创建模拟session功能
+        """
         session_engine = import_module(doublegame.settings.SESSION_ENGINE)        
         store = session_engine.SessionStore()                          
         store.save()
@@ -20,8 +25,11 @@ class ModifySessionMixin(object):
 
 
 class GetCaptchaTestCase(TestCase):
-
+    
     def test_get_captcha_post_request(self):
+        """
+        测试user对象是否能正确被创建
+        """
         response = self.client.post('/api/captcha')
         self.assertEqual(response.status_code, 404)
 
@@ -597,3 +605,31 @@ class LogoutTestCase(TestCase):
         response = self.client.get('/api/logout')
         json = simplejson.loads(response.content)
         self.assertEqual(json['status'], '0')
+
+class PayTest(ModifySessionMixin, TestCase):
+
+    def setUp(self):
+        user = api.models.User.objects.create_user(email='tom@123.com', nickname='Tom', password='123456')
+    
+    def test_pauy_post_method(self):
+        response = self.client.post('/api/pay')
+        self.assertEqual(response.status_code, 404)
+    
+    def test_pay_get_success(self):
+        data = {
+            'email': 'tom@123.com',
+            'password': 'mXvXMG2g0YkE4GzyLVn/dg==',
+            'captcha': 'abcd'
+        }
+        data = simplejson.dumps(data)
+        response = self.client.post('/api/login', data=data, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '1')
+        response = self.client.get('/api/pay')
+        json = simplejson.loads(response.content)
+        self.assertEqual(json['status'], '1')
+    
+    def test_pay_without_session(self):
+        response = self.client.get('/api/pay')
+        self.assertEqual(response.status_code, 404)

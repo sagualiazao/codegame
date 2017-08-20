@@ -2,7 +2,7 @@
     <div class="map-editor">
         <h1>在这里创建你的地图</h1>
         <div>
-            <canvas id="my-map">
+            <canvas id="my-map" width="900" height="640">
             </canvas>
         </div>
         <div>
@@ -22,6 +22,8 @@
 
 <script>
 import 'yuki-createjs'
+import { simplePost } from '@/assets/js/util.js'
+
 export default {
     name: 'map-editor',
     data: function () {
@@ -29,6 +31,7 @@ export default {
             transform: [],
             stage: null,
             mapContainer: null,
+            scale: 1,
             maps: [],
             randomColor: 0,
             canvasWidth: 900,
@@ -57,9 +60,10 @@ export default {
         },
         init () {
             var canvas = document.getElementById('my-map')
-            canvas.width = this.canvasWidth
-            canvas.height = this.canvasHeight
             this.stage = new createjs.Stage(canvas)
+            this.scale = Math.min(canvas.width / 900, canvas.height / 640)
+            this.stage.scaleX = this.scale
+            this.stage.scaleY = this.scale
             createjs.Touch.enable(this.stage)
             this.mapContainer = new createjs.Container()
             var background = new createjs.Bitmap('../../static/map/background.png')
@@ -104,26 +108,26 @@ export default {
         },
         mousedown (event) {
             this.shadowur(true, event.target.parent)
-            this.sx = event.stageX
-            this.sy = event.stageY
-            this.fzmx = event.stageX - event.target.parent.x
-            this.fzmy = event.stageY - event.target.parent.y
+            this.sx = event.stageX / this.scale
+            this.sy = event.stageY / this.scale
+            this.fzmx = event.stageX / this.scale - event.target.parent.x
+            this.fzmy = event.stageY / this.scale - event.target.parent.y
             event.target.parent.addEventListener('pressmove', this.pressmove, false)
         },
         pressmove (event) {
             var self = event.target.parent
             var mapH = this.div * this.mapHeight
-            if (event.stageX - this.fzmx < this.mapContainer.x) {
+            if (event.stageX / this.scale - this.fzmx < this.mapContainer.x) {
                 self.x = this.mapContainer.x
             } else {
-                self.x = event.stageX - this.fzmx
+                self.x = event.stageX / this.scale - this.fzmx
             }
-            if (event.stageY - this.fzmy < this.mapContainer.y) {
+            if (event.stageY / this.scale - this.fzmy < this.mapContainer.y) {
                 self.y = this.mapContainer.y
-            } else if (event.stageY - this.fzmy + self.getBounds().height > (this.mapContainer.y + mapH)) {
+            } else if (event.stageY / this.scale - this.fzmy + self.getBounds().height > (this.mapContainer.y + mapH)) {
                 self.y = this.mapContainer.y + mapH - self.getBounds().height
             } else {
-                self.y = event.stageY - this.fzmy
+                self.y = event.stageY / this.scale - this.fzmy
             }
         },
         pressup (event) {
@@ -229,6 +233,14 @@ export default {
                 this.mapPost(string)
                 this.clean()
             }
+<<<<<<< HEAD
+=======
+            if (this.mapTips === '') {
+                alert('请输入有关说明信息')
+            }
+            this.mapPost(string)
+            this.clean()
+>>>>>>> xiao/add_flexible_map_editor
         },
         clean () {
             this.stage.removeAllChildren()
@@ -240,7 +252,7 @@ export default {
             this.canvasHeight = 640
             this.div = 64
             this.bias = 30
-            this.items = 4
+            this.items = 5
             this.mapWidth = 10
             this.mapHeight = 10
             this.fzmx = 0
@@ -254,22 +266,12 @@ export default {
             this.init()
         },
         mapPost: async function (string) {
-            let jsonObj = JSON.stringify({
+            let jsonObj = {
                 'mapString': string,
                 'name': this.mapName,
                 'remarks': this.mapTips
-            })
-            let fetchHead = {
-                'Content-Type': 'application/json, text/plain, */*',
-                'Accept': 'application/json'
             }
-            let response = await fetch('api/save-map', {
-                method: 'post',
-                mode: 'cors',
-                credentials: 'include',
-                headers: fetchHead,
-                body: jsonObj
-            })
+            let response = await simplePost('api/save-map', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
                 alert('保存成功!')
@@ -280,10 +282,15 @@ export default {
             }
         }
     },
-    mounted: function () {
+    mounted: async function () {
         if (this.$store.state.loginStatus === false) {
-            alert('请先登录噢!')
-            this.$router.push('/')
+            await this.$store.dispatch('signin')
+            if (await this.$store.state.loginStatus === false) {
+                alert('请先登录噢!')
+                this.$router.push('/')
+            } else {
+                this.init()
+            }
         } else {
             this.init()
         }

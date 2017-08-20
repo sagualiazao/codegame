@@ -2,57 +2,163 @@
 <div class="map-square">
     <el-tabs ref="tabs" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="地图广场" name="first" class="map-square-tab">
-            <img src="../assets/pc7.jpg">
-            <img src="../assets/pc8.jpg">
-            <img src="../assets/pc9.jpg">
-            <img src="../assets/pc1.jpg">
-            <img src="../assets/pc2.jpg">
-            <img src="../assets/pc3.jpg">
-            <img src="../assets/pc4.jpg">
-            <img src="../assets/pc5.jpg">
-            <img src="../assets/pc6.jpg">
-            <img src="../assets/pc10.jpg">
-            <img src="../assets/pc11.jpg">
-            <img src="../assets/pc12.jpg">
+            <div v-for="map in mapList">
+                <div class="caption">
+                    <p class="mapname">地图名称: {{ map[1] }}</p>
+                    <p class="image"><img :src="map[3]" alt="显示错误"></p>
+                    <p class="author">地图作者: {{ map[2] }}</p>
+                    <p class="remarks">地图说明: {{ map[4] }}</p>
+                    <div v-if="map[5] === false">
+                        <i class="el-icon-star-off" @click="changeFavor(map, true)" title="点击收藏地图">收藏</i>
+                    </div>
+                    <div v-else>
+                        <i class="el-icon-star-on" @click="changeFavor(map, false)">已收藏</i>
+                    </div>
+                    <hr>
+                </div>
+            </div>
             <button type="playMap" @click="playClick">试玩</button>
-            <h1>这是地图广场</h1>
         </el-tab-pane>
         <el-tab-pane label="我发布的地图" name="second" class="published-map-tab">
-            <img src="../assets/pc5.jpg">
-            <img src="../assets/pc8.jpg">
-            <img src="../assets/pc10.jpg">
-            <h1>这是我发布的地图</h1>
+            <div v-for="map in publishedMapList">
+                <div class="caption">
+                    <p class="mapname">地图名称: {{ map[1] }}</p>
+                    <p class="image"><img :src="map[2]" alt="显示错误"></p>
+                    <p class="remarks">地图说明: {{ map[3] }}</p>
+                    <hr>
+                </div>
+            </div>
         </el-tab-pane>
         <el-tab-pane label="我收藏的地图" name="third" class="favorite-map-tab">
-            <img src="../assets/pc1.jpg">
-            <img src="../assets/pc2.jpg">
-            <img src="../assets/pc3.jpg">
-            <img src="../assets/pc4.jpg">
-            <h1>这是我收藏的地图</h1>
+            <div v-for="map in favoriteMapList">
+                <div class="caption">
+                    <p class="mapname">地图名称: {{ map[1] }}</p>
+                    <p class="image"><img :src="map[3]" alt="显示错误"></p>
+                    <p class="author">地图作者: {{ map[2] }}</p>
+                    <p class="remarks">地图说明: {{ map[4] }}</p>
+                    <hr>
+                </div>
+            </div>
         </el-tab-pane>
     </el-tabs>
 </div>
 </template>
 
 <script>
+import { simpleGet, simplePost } from '@/assets/js/util.js'
+
 export default {
     name: 'map-square',
     data: function () {
         return {
-            msg: '看到这行字，说明它正常了',
-            activeName: 'first'
+            activeName: 'first',
+            mapList: null,
+            publishedMapList: null,
+            favoriteMapList: null
         }
     },
-    mounted () {
+    mounted: async function () {
         if (this.$store.state.loginStatus === false) {
-            alert('请先登录噢!')
-            this.$router.push('/')
+            await this.$store.dispatch('signin')
+            if (await this.$store.state.loginStatus === false) {
+                alert('请先登录噢!')
+                this.$router.push('/')
+            } else {
+                this.readMapList()
+                this.readFavoriteMapList()
+                this.readPublishedMapList()
+            }
+        } else {
+            this.readMapList()
+            this.readFavoriteMapList()
+            this.readPublishedMapList()
         }
+        this.readMapList()
+        this.readFavoriteMapList()
+        this.readPublishedMapList()
     },
     methods: {
         handleClick (tab, event) {
         },
         playClick () {
+        },
+        collect () {
+        },
+        changeFavor (map, status) {
+            map[5] = status
+            this.changeFavoriteMap(map[0], status)
+        },
+        readMapList: async function () {
+            let response = await simpleGet('api/read-map-list')
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                let list = JSON.parse(obj.data)
+                this.mapList = list
+                // 返回一个数组对象, for map in mapList
+                // map[0]: id 地图id
+                // map[1]: name 地图名称
+                // map[2]: author 地图作者
+                // map[3]: img 地图缩略图
+                // map[4]: remarks 地图说明
+                // map[5]: favorite 收藏状态
+            } else if (await obj.status === '0') {
+                alert('读取失败!')
+            }
+        },
+        readPublishedMapList: async function () {
+            let response = await simpleGet('api/read-published-map-list')
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                let list = JSON.parse(obj.data)
+                this.publishedMapList = list
+                // 返回一个数组对象, for map in mapList
+                // map[0]: id 地图id
+                // map[1]: name 地图名称
+                // map[2]: img 地图缩略图
+                // map[3]: remarks 地图说明
+                // map[4]: published 发布状态
+            } else if (await obj.status === '0') {
+                alert('读取失败!')
+            }
+        },
+        readFavoriteMapList: async function () {
+            let response = await simpleGet('api/read-favorite-map-list')
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                let list = JSON.parse(obj.data)
+                this.favoriteMapList = list
+                // 返回一个数组对象, for map in mapList
+                // map[0]: id 地图id
+                // map[1]: name 地图名称
+                // map[2]: author 地图作者
+                // map[3]: img 地图缩略图
+                // map[4]: remarks 地图说明
+            } else if (await obj.status === '0') {
+                alert('读取失败!')
+            }
+        },
+        changeFavoriteMap: async function (id, status) {
+            let jsonObj = {
+                'mapid': id,
+                'status': Number(status).toString()
+            }
+            let response = await simplePost('api/change-favorite', jsonObj)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                // TODO: 更改按钮显示状态
+            }
+        },
+        cancelPublishStatus: async function (id) {
+            // 取消地图发布状态
+            let jsonObj = {
+                'mapid': id,
+                'status': '0'
+            }
+            let response = await simplePost('api/change-publish', jsonObj)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                // TODO: 刷新组件视图
+            }
         }
     }
 }
@@ -63,9 +169,20 @@ export default {
 h1 {
     font-weight: normal;
 }
+.el-icon-star-on {
+    color: orange;
+}
 img {
     width: 300px;
     height: 200px;
+}
+img {
+    opacity: 0.4;
+    filter: alpha(opacity = 40); /* For IE8 and earlier */
+}
+img:hover {
+    opacity: 1.0;
+    filter: alpha(opacity = 100); /* For IE8 and earlier */
 }
 button {
     display: inline-block;

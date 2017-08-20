@@ -26,8 +26,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from '../assets/js/store'
-import { cbcEncrypt } from '@/assets/js/util.js'
+import store from '@/assets/js/store.js'
+import { cbcEncrypt, simpleGet, simplePost } from '@/assets/js/util.js'
 
 export default {
     name: 'reset-password-form',
@@ -38,8 +38,8 @@ export default {
         var validateEmail = (rule, email, callback) => {
             if (email === '') {
                 callback(new Error(' '))
-            } else if (rEmail.test(email)) {
-                this.checkEmail(email, callback)
+            } else if (rEmail.test(email.toLowerCase())) {
+                this.checkEmail(email.toLowerCase(), callback)
             } else {
                 callback(new Error('邮箱格式错误'))
             }
@@ -120,11 +120,7 @@ export default {
             this.cannotResetPassword = true
         },
         checkEmail: async function (email, callback) {
-            let response = await fetch('api/check-email?email=' + email, {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            let response = await simpleGet('api/check-email?email=' + email)
             let obj = await response.json()
             if (await obj.status === '0') {
                 this.sendEmailDisabled = true
@@ -146,20 +142,10 @@ export default {
         },
         sendEmail: async function () {
             this.sendEmailDisabled = true
-            let jsonObj = JSON.stringify({
-                'email': this.resetPasswordForm.email
-            })
-            let fetchHead = {
-                'Content-Type': 'application/json, text/plain, */*',
-                'Accept': 'application/json'
+            let jsonObj = {
+                'email': this.resetPasswordForm.email.toLowerCase()
             }
-            let response = await fetch('api/reset-password-email', {
-                method: 'post',
-                mode: 'cors',
-                credentials: 'include',
-                headers: fetchHead,
-                body: jsonObj
-            })
+            let response = await simplePost('api/reset-password-email', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
                 this.captchaKey = obj.captcha
@@ -170,11 +156,7 @@ export default {
             }
         },
         checkCaptcha: async function (captcha, callback) {
-            let response = await fetch('api/check-email-captcha?captcha=' + captcha, {
-                method: 'get',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            let response = await simpleGet('api/check-email-captcha?captcha=' + captcha)
             let obj = await response.json()
             if (await obj.status === '0') {
                 callback(new Error('验证码错误'))
@@ -184,22 +166,12 @@ export default {
         },
         resetPassword: async function () {
             let password = cbcEncrypt(this.resetPasswordForm.captcha, this.resetPasswordForm.password)
-            let jsonObj = JSON.stringify({
-                'email': this.resetPasswordForm.email,
+            let jsonObj = {
+                'email': this.resetPasswordForm.email.toLowerCase(),
                 'password': password,
                 'captcha': this.resetPasswordForm.captcha
-            })
-            let fetchHead = {
-                'Content-Type': 'application/json, text/plain, */*',
-                'Accept': 'application/json'
             }
-            let response = await fetch('api/reset-password', {
-                method: 'post',
-                mode: 'cors',
-                credentials: 'include',
-                headers: fetchHead,
-                body: jsonObj
-            })
+            let response = await simplePost('api/reset-password', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
                 alert('密码修改成功')
@@ -207,12 +179,10 @@ export default {
                 alert('密码修改失败')
             }
         }
-    },
-    mounted () {
-        this.$store.dispatch('signout')
     }
 }
 </script>
+
 <style scoped>
 .send-ver {
 	margin-left: 100px;

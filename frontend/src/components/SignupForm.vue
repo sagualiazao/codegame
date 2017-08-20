@@ -33,8 +33,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from '../assets/js/store'
-import { cbcEncrypt } from '@/assets/js/util.js'
+import store from '@/assets/js/store.js'
+import { cbcEncrypt, simpleGet, simplePost } from '@/assets/js/util.js'
 
 export default {
     name: 'signup-form',
@@ -47,8 +47,8 @@ export default {
             if (email === '') {
                 // 错误消息交给placeholder,利用error进行逻辑判断
                 callback(new Error(' '))
-            } else if (rEmail.test(email)) {
-                fetch('api/check-email?email=' + email, {
+            } else if (rEmail.test(email.toLowerCase())) {
+                fetch('api/check-email?email=' + email.toLowerCase(), {
                     method: 'get',
                     mode: 'cors',
                     credentials: 'include'
@@ -147,23 +147,13 @@ export default {
         register: async function () {
             // 对密码执行一次CBC加密算法
             let password = cbcEncrypt(this.registerForm.captcha, this.registerForm.password)
-            let jsonObj = JSON.stringify({
-                'email': this.registerForm.email,
+            let jsonObj = {
+                'email': this.registerForm.email.toLowerCase(),
                 'password': password,
                 'nickname': this.registerForm.nickname,
                 'captcha': this.registerForm.captcha
-            })
-            let fetchHead = {
-                'Content-Type': 'application/json, text/plain, */*',
-                'Accept': 'application/json'
             }
-            let response = await fetch('api/register', {
-                method: 'post',
-                mode: 'cors',
-                credentials: 'include',
-                headers: fetchHead,
-                body: jsonObj
-            })
+            let response = await simplePost('api/register', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
                 alert('注册成功!')
@@ -175,14 +165,9 @@ export default {
             }
         },
         refreshCaptcha: async function () {
-            // fetch/then里面不能用this,暂时没有想到能够获取$data的方法,改用async/await方法
-            let response = await fetch('/api/captcha', {
-                method: 'get',
-                mode: 'cors'
-            })
+            let response = await simpleGet('/api/captcha')
             let obj = await response.json()
-            // src可以直接设置为base64，需要增加data:image/png;前缀，如果是jpg图片需要改为data:image/jpg;
-            let src = await 'data:image/png;base64,' + obj.img
+            let src = await obj.img
             this.captchaImage = await src
             this.captchaKey = await obj.captcha
         }

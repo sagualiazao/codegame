@@ -17,7 +17,8 @@ const state = {
     // 弹窗的弹出判断
     signinDialog: false,
     signupDialog: false,
-    resetPasswordDialog: false
+    resetPasswordDialog: false,
+    changePasswordDialog: false
 }
 
 const mutations = {
@@ -47,6 +48,9 @@ const mutations = {
     },
     resetPasswordWindow: function (state, status) {
         state.resetPasswordDialog = status
+    },
+    changePasswordWindow: function (state, status) {
+        state.changePasswordDialog = status
     },
     changeMenu: function (state, status) {
         state.currentMenbar = status
@@ -85,6 +89,25 @@ const actions = {
         context.commit('resetPasswordWindow', false)
         context.commit('changeMenu', 'menu-bar-unlogged')
         context.commit('changeRegisterDate', null)
+    },
+    signin: async function (context) {
+        let response = await fetch('api/login', {
+            method: 'get',
+            mode: 'cors',
+            credentials: 'include'
+        })
+        let obj = await response.json()
+        if (await obj.status === '1') {
+            // TODO: 登录成功,传递信息,关闭窗口
+            context.commit('changeLoginStatus', true)
+            context.commit('changeUserEmail', obj.email)
+            context.commit('changeUserId', obj.id)
+            context.commit('changeUserNickName', obj.nickname)
+            context.commit('changeUserGameProgress', obj.gameProgress)
+            context.commit('changeUserHasPaied', obj.hasPaied)
+            context.commit('changeRegisterDate', obj.createdAt)
+            context.commit('changeMenu', 'menu-bar-logged')
+        } else {}
     }
 }
 

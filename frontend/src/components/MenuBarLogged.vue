@@ -23,7 +23,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from '../assets/js/store'
+import store from '@/assets/js/store.js'
+import { simpleGet } from '@/assets/js/util.js'
 
 export default {
     name: 'menu-bar-logged',
@@ -49,6 +50,15 @@ export default {
             this.$store.commit('changeMenu', 'menu-bar-unlogged')
             this.$router.push('/')
             this.$store.dispatch('signout')
+        },
+        pay: async function () {
+            let response = simpleGet('api/pay')
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                // TODO:弹出新窗口
+                let url = obj.url
+                alert(url)
+            }
         }
     }
 }

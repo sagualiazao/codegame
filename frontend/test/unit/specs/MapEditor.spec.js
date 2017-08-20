@@ -1,16 +1,21 @@
 import MapEditor from '@/components/MapEditor'
 import { createVue, destroyVM } from '../util'
+import Vue from 'vue'
+import ElementUI from 'element-ui'
+import 'yuki-createjs'
+Vue.use(ElementUI)
+
 describe('MapEditor.vue', () => {
     let vm
 
     beforeEach(() => {
         vm = createVue(MapEditor, true)
+        vm.init()
     })
 
     afterEach(() => {
         destroyVM(vm)
     })
-
     it('mounted挂载成功', () => {
         expect(vm.mapWidth).to.equal(10)
         expect(vm.mapHeight).to.equal(10)
@@ -25,29 +30,66 @@ describe('MapEditor.vue', () => {
     })
 
     it('坐标函数执行成功', () => {
-        expect(vm.toMapX(200)).to.equal(3)
+        expect(vm.toMapX(0)).to.equal(0)
         expect(vm.toMapY(200)).to.equal(3)
     })
 
-    it('mousedown事件监听成功', () => {
-
-        // TODO 动画执行成功的测试 争取对各个运行函数更高的覆盖率
+    it('addPic函数执行', () => {
+        let ox = vm.stage.x + vm.canvasWidth - vm.div - vm.bias
+        let cc = vm.stage.numChildren
+        vm.addPic(3, ox, vm.bias + vm.div * 3)
+        expect(vm.stage.numChildren).to.equal(cc + 1)
+        cc = vm.stage.numChildren
+        vm.addPic(4, ox, vm.bias + vm.div * 4)
+        expect(vm.stage.numChildren).to.equal(cc + 1)
+        vm.havePlayer = true
+        cc = vm.stage.numChildren
+        vm.addPic(3, ox, vm.bias + vm.div * 3)
+        expect(vm.stage.numChildren).to.equal(cc)
+        vm.haveFlag = true
+        cc = vm.stage.numChildren
+        vm.addPic(4, ox, vm.bias + vm.div * 4)
+        expect(vm.stage.numChildren).to.equal(cc)
+        cc = vm.stage.numChildren
+        vm.addPic(1, ox, vm.bias + vm.div * 1)
+        expect(vm.stage.numChildren).to.equal(cc + 1)
+        cc = vm.stage.numChildren
+        vm.addPic(1, ox, vm.bias + vm.div * 1)
+        expect(vm.stage.numChildren).to.equal(cc + 1)
 
     })
 
-    // it('点击运行按钮后direct和functionSet恢复默认值', () => {
-    //     vm.direct = 4
-    //     vm.functionSet = {'Run': 'go(5);'}
-    //     let buttonElm = vm.$el.querySelector('.run-button')
-    //     buttonElm.click()
-    //     setTimeout(done => {
-    //         expect(vm.direct).to.equal(2)
-    //         expect(vm.functionSet).to.deep.equal({})
-    //         done()
-    //     }, 100)
-    // })
-
-    it('点击editor正常切换', () => {
-        // TODO 测试router正常切换
+    it('remove函数对非传送门执行成功', () => {
+        function create (i, x, y) {
+            var con = new createjs.Container()
+            var bitmap = new createjs.Bitmap('../../static/map/' + i + '.png')
+            con.x = x
+            con.y = y
+            con.name = i
+            con.addChild(bitmap)
+            vm.stage.addChild(con)
+            return con
+        }
+        vm.maps[2][2] = create (1, 0, 0)
+        vm.remove(2, 2)
+        expect(vm.maps[2][2]).to.equal(0)
+        vm.maps[2][2] = 0
+        vm.remove(2, 2)
+        expect(vm.maps[2][2]).to.equal(0)
+        vm.maps[2][2] = create (2, 0, 0)
+        vm.remove(2, 2)
+        expect(vm.maps[2][2]).to.equal(0)
+        vm.maps[2][2] = create (3, 0, 0)
+        vm.remove(2, 2)
+        expect(vm.maps[2][2]).to.equal(0)
+        expect(vm.havePlayer).to.equal(false)
+        vm.maps[2][2] = create (4, 0, 0)
+        vm.remove(2, 2)
+        expect(vm.maps[2][2]).to.equal(0)
+        expect(vm.haveFlag).to.equal(false)
+        vm.maps[2][2] = create (5, 0, 0)
+        vm.remove(2, 2)
+        expect(vm.maps[2][2]).to.equal(0)
+        expect(vm.haveFlag).to.equal(false)
     })
 })
