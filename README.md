@@ -4,7 +4,7 @@
 > 盛晓颖,左婧,肖飞,禚晨晨,樊文杰
 
 # 把项目部署到vagrant虚拟机:
-激活你的虚拟环境
+请配置好您的编码环境并激活您的虚拟环境
 ``` bash
 git clone http://se.jisuanke.com/code-game/Group1.git
 cd Group1
@@ -18,7 +18,7 @@ Group1> python manage.py runserver
 ```
 
 # 查看前后端文档
-前端文档的快捷方式  Group1/frontend_doc.html
+前端文档的快捷方式  Group1/frontend_doc.html  
 后端文档的快捷方式  Group1/backend_doc.html
 
 # 常见问题
