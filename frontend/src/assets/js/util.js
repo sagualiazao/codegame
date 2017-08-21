@@ -1,3 +1,18 @@
+/**
+* 工具类 封装前后端通信需要的函数
+*
+* @class util
+*/
+
+/**
+*cbc加密
+*
+* @method cbcEncrypt
+* @for util
+* @param {String}  keyStr
+* @param {String} data
+* @return {String}
+*/
 export function cbcEncrypt (keyStr, data) {
     let CryptoJS = require('crypto-js')
     keyStr = CryptoJS.MD5(keyStr).toString()
@@ -12,6 +27,15 @@ export function cbcEncrypt (keyStr, data) {
     return encrypted.toString()
 }
 
+/**
+*cbc解密
+*
+* @method cbcDecrypt
+* @for util
+* @param {String}  keyStr
+* @param {String} data
+* @return {String}
+*/
 export function cbcDecrypt (keyStr, data) {
     let CryptoJS = require('crypto-js')
     keyStr = CryptoJS.MD5(keyStr).toString()
@@ -26,6 +50,14 @@ export function cbcDecrypt (keyStr, data) {
     return decrypted.toString(CryptoJS.enc.Utf8)
 }
 
+/**
+*封装get请求
+*
+* @method simpleGet
+* @for util
+* @param {String}  url
+* @return {Object} response
+*/
 export async function simpleGet (url) {
     let response = await fetch(url, {
         method: 'get',
@@ -35,6 +67,15 @@ export async function simpleGet (url) {
     return response
 }
 
+/**
+*封装post请求
+*
+* @method simplePost
+* @for util
+* @param {String}  url
+* @param {Object}  obj
+* @return {Object} response
+*/
 export async function simplePost (url, obj) {
     let jsonObj = JSON.stringify(obj)
     let fetchHead = {
@@ -51,6 +92,15 @@ export async function simplePost (url, obj) {
     return response
 }
 
+/**
+*读地图和关卡信息的函数
+*
+* @method readMap
+* @for util
+* @param {Object}  levelMode
+* @param {Number}  id
+* @return {Object} 
+*/
 export async function readMap (levelMode, id) {
     if (levelMode === true) {
         return simpleGet('api/read-level?mapid=' + id)
