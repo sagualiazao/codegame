@@ -94,6 +94,22 @@ export default {
             */
             treeSp: null,
             /**
+            *用来判断是否游戏成功
+            *
+            * @property victory
+            * @type {Boolean}
+            * @default false
+            */
+            isVictory: false,
+            /**
+            *用来判断是否游戏结束
+            *
+            * @property gameover
+            * @type {Boolean}
+            * @default false
+            */
+            isGameover: false,
+            /**
             *用来存放角色动画
             *
             * @property tween
@@ -396,6 +412,11 @@ export default {
             let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
             document.getElementById('code-area').value = code
         },
+        /**
+        *读取vuex中的mapString,并转化成二维数组存于maps中
+        *
+        * @method read
+        */
         read () {
             var string = this.$store.state.mapString
             var k = 0
@@ -548,6 +569,11 @@ export default {
             this.mapHeight = 10
             this.div = 64
             this.speed = 1000
+            if (this.stage !== null) {
+                this.stage.removeAllChildren()
+            }
+            this.isGameover = false
+            this.isVictory = false
             this.functionSet = {}
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
@@ -572,13 +598,15 @@ export default {
         *游戏结束
         * @method gameover
         */
-        gameover () {
+        gamever () {
+            alert('gameover')
         },
         /**
         *游戏过关
         * @method victory
         */
         victory () {
+            alert('victory')
         },
         /**
         *传送函数，如果角色所在位置为传送门，则传送到另一传送门处，否则无动作
@@ -776,11 +804,13 @@ export default {
                 if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
                 } else if (this.maps[x][y] === '2') {
-                    console.log('GameOver')
-                    this.tween[index].call(this.gameover)
+                    this.isGameover = true
+                    playerx = playerx + this.div
+                    break
                 } else if (this.maps[x][y] === '4') {
-                    console.log('Victory')
-                    this.tween[index].call(this.victory)
+                    this.isVictory = true
+                    playerx = playerx + this.div
+                    break
                 } else {
                     playerx = playerx + this.div
                 }
@@ -790,6 +820,11 @@ export default {
                 if (i !== index) {
                     this.tween[i].wait(this.speed)
                 }
+            }
+            if (this.isGameover) {
+                this.tween[index].call(this.gameover)
+            } else if (this.isVictory) {
+                this.tween[index].call(this.victory)
             }
             this.player[index].x = playerx
         },
@@ -808,11 +843,13 @@ export default {
                 if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
                 } else if (this.maps[x][y] === '2') {
-                    console.log('GameOver')
-                    this.tween[index].call(this.gameover)
+                    this.isGameover = true
+                    playerx = playerx - this.div
+                    break
                 } else if (this.maps[x][y] === '4') {
-                    console.log('Victory')
-                    this.tween[index].call(this.victory)
+                    this.isVictory = true
+                    playerx = playerx - this.div
+                    break
                 } else {
                     playerx = playerx - this.div
                 }
@@ -822,6 +859,11 @@ export default {
                 if (i !== index) {
                     this.tween[i].wait(this.speed)
                 }
+            }
+            if (this.isGameover) {
+                this.tween[index].call(this.gameover)
+            } else if (this.isVictory) {
+                this.tween[index].call(this.victory)
             }
             this.player[index].x = playerx
         },
@@ -840,11 +882,13 @@ export default {
                 if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
                 } else if (this.maps[x][y] === '2') {
-                    console.log('GameOver')
-                    this.tween[index].call(this.gameover)
+                    this.isGameover = true
+                    playery = playery - this.div
+                    break
                 } else if (this.maps[x][y] === '4') {
-                    console.log('Victory')
-                    this.tween[index].call(this.victory)
+                    this.isVictory = true
+                    playery = playery - this.div
+                    break
                 } else {
                     playery = playery - this.div
                 }
@@ -854,6 +898,11 @@ export default {
                 if (i !== index) {
                     this.tween[i].wait(this.speed)
                 }
+            }
+            if (this.isGameover) {
+                this.tween[index].call(this.gameover)
+            } else if (this.isVictory) {
+                this.tween[index].call(this.victory)
             }
             this.player[index].y = playery
         },
@@ -872,11 +921,13 @@ export default {
                 if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
                 } else if (this.maps[x][y] === '2') {
-                    console.log('GameOver')
-                    this.tween[index].call(this.gameover)
+                    this.isGameover = true
+                    playery = playery + this.div
+                    break
                 } else if (this.maps[x][y] === '4') {
-                    console.log('Victory')
-                    this.tween[index].call(this.victory)
+                    this.isVictory = true
+                    playery = playery + this.div
+                    break
                 } else {
                     playery = playery + this.div
                 }
@@ -886,6 +937,11 @@ export default {
                 if (i !== index) {
                     this.tween[i].wait(this.speed)
                 }
+            }
+            if (this.isGameover) {
+                this.tween[index].call(this.gameover)
+            } else if (this.isVictory) {
+                this.tween[index].call(this.victory)
             }
             this.player[index].y = playery
         }

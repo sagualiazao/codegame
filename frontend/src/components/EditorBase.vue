@@ -33,7 +33,6 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import 'yuki-createjs'
-import { simpleGet } from '@/assets/js/util.js'
 
 export default {
     name: 'editor-base',
@@ -88,6 +87,22 @@ export default {
             * @default null
             */
             key: null,
+            /**
+            *用来判断是否游戏成功
+            *
+            * @property victory
+            * @type {Boolean}
+            * @default false
+            */
+            isVictory: false,
+            /**
+            *用来判断是否游戏结束
+            *
+            * @property gameover
+            * @type {Boolean}
+            * @default false
+            */
+            isGameover: false,
             /**
             *用来存放石头信息
             *
@@ -379,27 +394,26 @@ export default {
         cleanWorkspace () {
             this.jsEditor.setValue('')
         },
-        read: async function () {
-            let response = await simpleGet('api/read-map?mapid=' + this.mapId)
-            let obj = await response.json()
-            if (await obj.status === '1') {
-                var string = obj.map
-                var k = 0
-                var i
-                var j
-                for (i = 0; i < this.mapWidth; i++) {
-                    for (j = 0; j < this.mapHeight; j++) {
-                        if (string[k] !== '!') {
-                            this.maps[i][j] = string[k]
-                            k += 1
-                        } else {
-                            this.maps[i][j] = string[k + 1] + string[k + 2]
-                            k += 4
-                        }
+        /**
+        *读取vuex中的mapString,并转化成二维数组存于maps中
+        *
+        * @method read
+        */
+        read () {
+            var string = this.$store.state.mapString
+            var k = 0
+            var i
+            var j
+            for (i = 0; i < this.mapWidth; i++) {
+                for (j = 0; j < this.mapHeight; j++) {
+                    if (string[k] !== '!') {
+                        this.maps[i][j] = string[k]
+                        k += 1
+                    } else {
+                        this.maps[i][j] = string[k + 1] + string[k + 2]
+                        k += 4
                     }
                 }
-            } else if (await obj.status === '0') {
-                alert('读取失败!')
             }
         },
         /**
@@ -422,20 +436,20 @@ export default {
         toScreenY (mapY) {
             return Math.floor(this.mapy + this.div * mapY)
         },
-        mapTest () {
-            this.maps = [
-                ['6', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-                ['7', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-                ['8', '1', '0', '2', '0', '1', '3', '1', '0', '1'],
-                ['0', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-                ['9', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1']
-            ]
-        },
+        // mapTest () {
+        //     this.maps = [
+        //         ['6', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+        //         ['7', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+        //         ['8', '1', '0', '2', '0', '1', '3', '1', '0', '1'],
+        //         ['0', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+        //         ['9', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+        //         ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
+        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1']
+        //     ]
+        // },
         /**
         *根据二维数组的值加载对应资源到指定位置，‘0’ 为草地，‘1’为树木，‘2’为河，‘3’为主角
         *‘4’为终点，‘6’为配角，‘7’为钥匙，‘8’为门，‘9’为石头，‘xx’格式为传送门
@@ -516,7 +530,12 @@ export default {
         loadMap () {
             var i
             var j
-            this.mapTest()
+            this.maps = new Array(this.mapWidth)
+            for (i = 0; i < this.mapWidth; i++) {
+                this.maps[i] = new Array(this.mapHeight)
+            }
+            // this.mapTest()
+            this.read()
             for (i = 0; i < this.mapWidth; i++) {
                 for (j = 0; j < this.mapHeight; j++) {
                     this.loadObj(this.maps[i][j], i, j)
@@ -532,6 +551,11 @@ export default {
             this.mapHeight = 10
             this.div = 64
             this.speed = 1000
+            if (this.stage !== null) {
+                this.stage.removeAllChildren()
+            }
+            this.isGameover = false
+            this.isVictory = false
             this.functionSet = {}
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
@@ -556,13 +580,15 @@ export default {
         *游戏结束
         * @method gameover
         */
-        gameover () {
+        gamever () {
+            alert('gameover')
         },
         /**
         *游戏过关
         * @method victory
         */
         victory () {
+            alert('victory')
         },
         /**
         *传送函数，如果角色所在位置为传送门，则传送到另一传送门处，否则无动作
@@ -760,11 +786,13 @@ export default {
                 if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
                 } else if (this.maps[x][y] === '2') {
-                    console.log('GameOver')
-                    this.tween[index].call(this.gameover)
+                    this.isGameover = true
+                    playerx = playerx + this.div
+                    break
                 } else if (this.maps[x][y] === '4') {
-                    console.log('Victory')
-                    this.tween[index].call(this.victory)
+                    this.isVictory = true
+                    playerx = playerx + this.div
+                    break
                 } else {
                     playerx = playerx + this.div
                 }
@@ -774,6 +802,11 @@ export default {
                 if (i !== index) {
                     this.tween[i].wait(this.speed)
                 }
+            }
+            if (this.isGameover) {
+                this.tween[index].call(this.gameover)
+            } else if (this.isVictory) {
+                this.tween[index].call(this.victory)
             }
             this.player[index].x = playerx
         },
@@ -792,11 +825,13 @@ export default {
                 if (x >= this.mapWidth || x < 0 || this.maps[x][y] === '1') {
                     break
                 } else if (this.maps[x][y] === '2') {
-                    console.log('GameOver')
-                    this.tween[index].call(this.gameover)
+                    this.isGameover = true
+                    playerx = playerx - this.div
+                    break
                 } else if (this.maps[x][y] === '4') {
-                    console.log('Victory')
-                    this.tween[index].call(this.victory)
+                    this.isVictory = true
+                    playerx = playerx - this.div
+                    break
                 } else {
                     playerx = playerx - this.div
                 }
@@ -806,6 +841,11 @@ export default {
                 if (i !== index) {
                     this.tween[i].wait(this.speed)
                 }
+            }
+            if (this.isGameover) {
+                this.tween[index].call(this.gameover)
+            } else if (this.isVictory) {
+                this.tween[index].call(this.victory)
             }
             this.player[index].x = playerx
         },
@@ -824,11 +864,13 @@ export default {
                 if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
                 } else if (this.maps[x][y] === '2') {
-                    console.log('GameOver')
-                    this.tween[index].call(this.gameover)
+                    this.isGameover = true
+                    playery = playery - this.div
+                    break
                 } else if (this.maps[x][y] === '4') {
-                    console.log('Victory')
-                    this.tween[index].call(this.victory)
+                    this.isVictory = true
+                    playery = playery - this.div
+                    break
                 } else {
                     playery = playery - this.div
                 }
@@ -838,6 +880,11 @@ export default {
                 if (i !== index) {
                     this.tween[i].wait(this.speed)
                 }
+            }
+            if (this.isGameover) {
+                this.tween[index].call(this.gameover)
+            } else if (this.isVictory) {
+                this.tween[index].call(this.victory)
             }
             this.player[index].y = playery
         },
@@ -856,11 +903,13 @@ export default {
                 if (y >= this.mapHeight || y < 0 || this.maps[x][y] === '1') {
                     break
                 } else if (this.maps[x][y] === '2') {
-                    console.log('GameOver')
-                    this.tween[index].call(this.gameover)
+                    this.isGameover = true
+                    playery = playery + this.div
+                    break
                 } else if (this.maps[x][y] === '4') {
-                    console.log('Victory')
-                    this.tween[index].call(this.victory)
+                    this.isVictory = true
+                    playery = playery + this.div
+                    break
                 } else {
                     playery = playery + this.div
                 }
@@ -870,6 +919,11 @@ export default {
                 if (i !== index) {
                     this.tween[i].wait(this.speed)
                 }
+            }
+            if (this.isGameover) {
+                this.tween[index].call(this.gameover)
+            } else if (this.isVictory) {
+                this.tween[index].call(this.victory)
             }
             this.player[index].y = playery
         }
