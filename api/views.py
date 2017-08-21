@@ -28,7 +28,7 @@ def get_captcha(request):
             'captcha': code,
         })
 
-    return SimpleResponse.getMethodOnly(request, get_captcha_function)
+    return SimpleResponse.get_only(request, get_captcha_function)
 
 
 @csrf_exempt
@@ -60,7 +60,7 @@ def register(request):
         User.objects.create_user(email=email, nickname=nickname, password=password)
         return SimpleResponse.success_json_response
 
-    return SimpleResponse.postMethodOnly(request, register_fuction)
+    return SimpleResponse.post_only(request, register_fuction)
 
 
 @csrf_exempt
@@ -96,7 +96,7 @@ def reset_password_email(request):
         request.session['captcha'] = captcha
         return SimpleResponse.success_json_response
 
-    return SimpleResponse.postMethodOnly(request, reset_password_email_function)
+    return SimpleResponse.post_only(request, reset_password_email_function)
 
 
 def check_email_captcha(request):
@@ -119,7 +119,7 @@ def check_email_captcha(request):
         else:
             return SimpleResponse.success_json_response
 
-    return SimpleResponse.getMethodOnly(request, check_email_captcha_function)
+    return SimpleResponse.get_only(request, check_email_captcha_function)
 
 
 @csrf_exempt
@@ -150,7 +150,7 @@ def reset_password(request):
         user.save()
         return SimpleResponse.success_json_response
 
-    return SimpleResponse.postMethodOnly(request, reset_password_function)
+    return SimpleResponse.post_only(request, reset_password_function)
 
 
 @csrf_exempt
@@ -197,7 +197,7 @@ def login(request):
         else:
             return SimpleResponse.failure_json_response
 
-    return SimpleResponse.getOrPost(request, login_get_fuction, login_post_function)
+    return SimpleResponse.get_or_post(request, login_get_fuction, login_post_function)
 
 
 def check_email(request):
@@ -221,7 +221,7 @@ def check_email(request):
         else:
             return SimpleResponse.success_json_response
 
-    return SimpleResponse.getMethodOnly(request, check_email_function)
+    return SimpleResponse.get_only(request, check_email_function)
 
 
 def logout(request):
@@ -246,6 +246,7 @@ def logout(request):
             return SimpleResponse.success_json_response
     else:
         return HttpResponseNotFound()
+
 
 @csrf_exempt
 def save_map(request):
@@ -282,7 +283,7 @@ def save_map(request):
         status = MapImage.generate_map_image(new_map.map_id, map_str)
         return SimpleResponse.success_json_response
     
-    return SimpleResponse.postMethodOnly(request, save_map_function)
+    return SimpleResponse.post_only(request, save_map_function)
 
 
 def read_map(request):
@@ -313,7 +314,7 @@ def read_map(request):
             selected_map = selected_map[0]
             return SimpleResponse.designed_map_json_response(selected_map)
 
-    return SimpleResponse.getMethodOnly(request, read_map_function)
+    return SimpleResponse.get_only(request, read_map_function)
 
 
 def read_level(request):
@@ -344,7 +345,7 @@ def read_level(request):
             selected_map = selected_map[0]
             return SimpleResponse.game_level_json_response(selected_map)
 
-    return SimpleResponse.getMethodOnly(request, read_level_function)
+    return SimpleResponse.get_only(request, read_level_function)
 
 
 def pay(request):
@@ -363,13 +364,12 @@ def pay(request):
         users = User.objects.filter(email=email)
         user = users[0]
         alipay_pr = Pingpp.pay()
-        print(alipay_pr)
         return JsonResponse({
             'status': '1',
             'url': alipay_pr
         })
 
-    return SimpleResponse.getMethodOnly(request, pay_function, True)
+    return SimpleResponse.get_only(request, pay_function, True)
 
 
 def read_map_list(request):
@@ -410,7 +410,7 @@ def read_map_list(request):
             'data': json
         })
 
-    return SimpleResponse.getMethodOnly(request, read_map_list_function, True)
+    return SimpleResponse.get_only(request, read_map_list_function, True)
 
 
 def read_my_map_list(request):
@@ -449,7 +449,7 @@ def read_my_map_list(request):
             'data': json
         })
 
-    return SimpleResponse.getMethodOnly(request, read_my_map_list_function, True)
+    return SimpleResponse.get_only(request, read_my_map_list_function, True)
 
 
 @csrf_exempt
@@ -465,14 +465,13 @@ def change_favorite_map(request):
         :'status': 修改失败'0',修改成功'1'\n
     """
     def change_favorite_map_function(request, email):
+        print(email)
         user = User.objects.get(email=email)
         req = simplejson.load(request)
         map_id = req['mapid']
         status = bool(int(req['status']))
         the_map = DesignedMaps.objects.get(map_id=map_id)
         has_favorite = FavoriteMaps.objects.filter(user=user, map=the_map)
-        print(status)
-        print(len(has_favorite))
         if status and len(has_favorite) == 0:
             new_favorite = FavoriteMaps(user=user, map=the_map)
             new_favorite.save()
@@ -482,7 +481,7 @@ def change_favorite_map(request):
         json = simplejson.dumps(map_list)
         return SimpleResponse.success_json_response
 
-    return SimpleResponse.postMethodOnly(request, change_favorite_map_function, True)
+    return SimpleResponse.post_only(request, change_favorite_map_function, True)
 
 
 def read_published_map_list(request):
@@ -520,7 +519,7 @@ def read_published_map_list(request):
             'data': json
         })
 
-    return SimpleResponse.getMethodOnly(request, read_published_map_list_function, True)
+    return SimpleResponse.get_only(request, read_published_map_list_function, True)
 
 
 def read_favorite_map_list(request):
@@ -559,7 +558,7 @@ def read_favorite_map_list(request):
             'data': json
         })
 
-    return SimpleResponse.getMethodOnly(request, read_favorite_map_list_function, True)
+    return SimpleResponse.get_only(request, read_favorite_map_list_function, True)
 
 
 @csrf_exempt
@@ -586,7 +585,7 @@ def change_publish_status(request):
             the_map.cancel_publish()
         return SimpleResponse.success_json_response
 
-    return SimpleResponse.postMethodOnly(request, change_publish_status_function, True)
+    return SimpleResponse.post_only(request, change_publish_status_function, True)
 
 
 @csrf_exempt
@@ -611,7 +610,7 @@ def delete_map(request):
             MapImage.deleteMapImages(map_id)
         return SimpleResponse.success_json_response
 
-    return SimpleResponse.postMethodOnly(request, delete_map_function, True)
+    return SimpleResponse.post_only(request, delete_map_function, True)
 
 @csrf_exempt
 def change_nickname(request):
@@ -625,14 +624,12 @@ def change_nickname(request):
         JsonResponse:\n
         :'status': 修改失败'0',修改成功'1'\n
     """
-    def delete_map_function(request, email):
+    def change_nickname_function(request, email):
         user = User.objects.get(email=email)
-        print(user)
         req = simplejson.load(request)
         nickname = req['nickname']
-        print(nickname)
         user.nickname = nickname
         user.save()
         return SimpleResponse.success_json_response
 
-    return SimpleResponse.postMethodOnly(request, delete_map_function, True)
+    return SimpleResponse.post_only(request, change_nickname_function, True)

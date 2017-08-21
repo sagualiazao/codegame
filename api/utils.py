@@ -105,13 +105,29 @@ class SimpleResponse:
         })
 
     @staticmethod
-    def getMethodOnly(
+    def get_only(
         request,
         func,
         session_needed=False,
         handle_exception=False,
         func_handle=blank_func
         ):
+        """
+        对服务器对于GET请求的响应进行了封装
+
+        Parameters:
+            :request: WEB请求\n
+            :func: 处理请求,并返回一个响应信息的函数\n
+            :session_needed: 该请求是否需要验证用户已登录, 默认为False\n
+            :handle_exception: 该请求是否需要一个额外的异常处理函数, 默认为False\n
+            :func_handle: 该请求使用的异常处理函数, 默认为blank_func\n
+
+        Returns:
+            :HttpResponse:\n
+                在成功执行时返回func的返回值\n
+                在请求method不对应时或检测未登录时返回404\n
+                在func执行出现异常后返回SimpleResponse.failure_json_response\n
+        """
         if request.method == 'GET':
             try:
                 if session_needed:
@@ -130,13 +146,29 @@ class SimpleResponse:
             return HttpResponseNotFound()
 
     @staticmethod
-    def postMethodOnly(
+    def post_only(
         request,
         func,
         session_needed=False,
         handle_exception=False,
         func_handle=blank_func
         ):
+        """
+        对服务器对于POST请求的响应进行了封装
+
+        Parameters:
+            :request: WEB请求\n
+            :func: 处理请求,并返回一个响应信息的函数\n
+            :session_needed: 该请求是否需要验证用户已登录, 默认为False\n
+            :handle_exception: 该请求是否需要一个额外的异常处理函数, 默认为False\n
+            :func_handle: 该请求使用的异常处理函数, 默认为blank_func\n
+
+        Returns:
+            :HttpResponse:\n
+                在成功执行时返回func的返回值\n
+                在请求method不对应时或检测未登录时返回404\n
+                在func执行出现异常后返回SimpleResponse.failure_json_response\n
+        """
         if request.method == 'POST':
             try:
                 if session_needed:
@@ -156,7 +188,7 @@ class SimpleResponse:
     
 
     @staticmethod
-    def getOrPost(
+    def get_or_post(
         request,
         func_get,
         func_post,
@@ -164,6 +196,23 @@ class SimpleResponse:
         handle_exception=False,
         func_handle=blank_func
         ):
+        """
+        对服务器对于GET请求或POST请求的响应进行了封装
+
+        Parameters:
+            :request: WEB请求\n
+            :func_get: 处理GET请求,并返回一个响应信息的函数\n
+            :func_post: 处理POST请求,并返回一个响应信息的函数\n
+            :session_needed: 该请求是否需要验证用户已登录, 默认为False\n
+            :handle_exception: 该请求是否需要一个额外的异常处理函数, 默认为False\n
+            :func_handle: 该请求使用的异常处理函数, 默认为blank_func\n
+
+        Returns:
+            :HttpResponse:\n
+                在成功执行时返回func的返回值\n
+                在请求method不对应时或检测未登录时返回404\n
+                在func执行出现异常后返回SimpleResponse.failure_json_response\n
+        """
         if request.method in ['GET', 'POST']:
             func = dict()
             func['GET'] = func_get
@@ -484,11 +533,29 @@ class MapImage:
 
     @staticmethod
     def getImageLink(map_id):
+        """
+        返回地图图片资源地址
+
+        Parameters:
+            :map_id: DesignedMaps的map_id属性
+        
+        Returns:
+            :file_link: 对应图片资源地址的字符串
+        """
         file_link = MapImage.HREF_DIR + str(map_id) + '.png'
         return file_link
 
     @staticmethod
     def deleteMapImages(map_id):
+        """
+        删除指定map_id的地图图片
+
+        Parameters:
+            :map_id: DesignedMaps的map_id属性
+
+        Returns:
+            无
+        """
         file_name = MapImage.MAP_DIR + str(map_id) + '.png'
         if os.path.isfile(file_name):
             os.remove(file_name)
