@@ -8,7 +8,7 @@
             <el-tab-pane :label="$store.state._const.MY_DISIGNED_MAPS" name="my-map">
                 <div v-for="map in myMapList">
                     <div class="map-picture">
-                        <a href="#BlockBase"><img :src="map[2]" :alt="$store.state._const.WRONG_DISPLAY"></a>
+                        <a @click="enterMap(map[0])"><img :src="map[2]" :alt="$store.state._const.WRONG_DISPLAY"></a>
                         <div class="caption">
                             <p class="mapname">
                                 {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
@@ -45,7 +45,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import MapEditor from './MapEditor'
-import { simpleGet, simplePost } from '@/assets/js/util.js'
+import { simpleGet, simplePost, readMap } from '@/assets/js/util.js'
 
 export default {
     name: 'edit-map',
@@ -83,6 +83,16 @@ export default {
         },
         deleteClick (map) {
             this.confirmDelete(map[0])
+        },
+        enterMap: async function (id) {
+            this.$store.commit('changeLevelMode', false)
+            this.$store.commit('changeGameID', id)
+            let response = await readMap(false, id)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                this.$store.commit('changeMap', obj)
+                this.$router.push('/BlockBase')
+            }
         },
         readMyMapList: async function () {
             let response = await simpleGet('api/read-my-map-list')
