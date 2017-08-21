@@ -475,7 +475,7 @@ const actions = {
     *
     * @method signin
     * @for actions
-    * @param {Object}  context 
+    * @param {Object}  context
     */
     signin: async function (context) {
         let response = await fetch('api/login', {

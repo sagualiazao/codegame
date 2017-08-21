@@ -476,11 +476,6 @@ export default {
                 this.mapPost(string)
                 this.clean()
             }
-            if (this.mapTips === '') {
-                alert('请输入有关说明信息')
-            }
-            this.mapPost(string)
-            this.clean()
         },
         /**
         *清空函数，清空地图上的所有元素
