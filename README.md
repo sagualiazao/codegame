@@ -11,15 +11,26 @@
 > mariaDB 10.2.7
 
 # 项目部署
-请实现确保 python\node.js\mariaDB\pip\npm 均可正常运行  
-并切换到适当的python虚拟环境  
-接下来你可以通过脚本文件进行部署(到django开发服务器):
+请实现确保 python\node.js\mariaDB\pip\npm 均可正常运行,并切换到适当的python虚拟环境  
+如果你使用linux,可以直接通过脚本文件进行部署(到django开发服务器):
 ``` bash
 git clone http://se.jisuanke.com/code-game/Group1.git
 cd Group1
 chmod +x init.sh
 ./init.sh
 ```
+如果你使用的是windows下的vagrant虚拟机,请确保你的虚拟机支持建立软链接  
+否则,需要修改虚拟机共享文件夹配置
+``` bash
+config.vm.synced_folder ".", "/vagrant", create:true
+config.vm.provider "virtualbox" do |vb|
+  vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
+  vb.memory = "1024"
+  vb.cpus = 2
+end
+```
+之后进入vagrant,使用venv,使用脚本文件进行部署  
+或根据脚本文件操作进行部署
 
 # 运行程序
 ``` bash
@@ -27,8 +38,18 @@ Group1> python manage.py runserver
 ```
 
 # 查看前后端文档
-前端文档的快捷方式  Group1/frontend_doc.html  
-后端文档的快捷方式  Group1/backend_doc.html
+> 前端文档的快捷方式  Group1/frontend_doc.html  
+> 后端文档的快捷方式  Group1/backend_doc.html  
+如果使用vagrant,请手动在windows下打开  
+> 前端文档 Group1/frontend/out/index.html frontend_doc.html  
+> 后端文档 Group1/docs/django/build/html/index.html backend_doc.html
+
+
+
+
+
+
+====================================================
 
 # 常见问题
 1.获取项目,SSH方法暂时链接不了,先使用HTTP方法
