@@ -471,6 +471,8 @@ def change_favorite_map(request):
         status = bool(int(req['status']))
         the_map = DesignedMaps.objects.get(map_id=map_id)
         has_favorite = FavoriteMaps.objects.filter(user=user, map=the_map)
+        print(status)
+        print(len(has_favorite))
         if status and len(has_favorite) == 0:
             new_favorite = FavoriteMaps(user=user, map=the_map)
             new_favorite.save()
@@ -584,7 +586,7 @@ def change_publish_status(request):
             the_map.cancel_publish()
         return SimpleResponse.success_json_response
 
-    return SimpleResponse.getMethodOnly(request, change_publish_status_function, True)
+    return SimpleResponse.postMethodOnly(request, change_publish_status_function, True)
 
 
 @csrf_exempt

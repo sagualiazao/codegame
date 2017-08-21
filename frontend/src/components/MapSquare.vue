@@ -19,31 +19,37 @@
                         <span class="remarks">
                             {{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}
                         </span>
-                        <div v-if="map[5] === false">
-                            <i class="el-icon-star-off" @click="changeFavor(map, true)" :title="$store.state._const.CLICK_TO_FAVORITE">
-                                {{ $store.state._const.IS_NOT_FAVORITE }}
+                        <div v-if="map[5] === true">
+                            <i class="el-icon-star-on" @click="changeFavor(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
+                                {{ $store.state._const.IS_FAVORITE }}
                             </i>
                         </div>
                         <div v-else>
-                            <i class="el-icon-star-on" @click="changeFavor(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
-                                {{ $store.state._const.IS_FAVORITE }}
+                            <i class="el-icon-star-off" @click="changeFavor(map, true)" :title="$store.state._const.CLICK_TO_FAVORITE">
+                                {{ $store.state._const.IS_NOT_FAVORITE }}
                             </i>
                         </div>
                     </div>
                     <hr>
                 </div>
             </div>
-            <button type="playMap" @click="playClick">
-                {{ $store.state._const.TEST_PLAY }}
-            </button>
         </el-tab-pane>
         <el-tab-pane :label="$store.state._const.MY_PUBLISHED_MAPS" name="second" class="published-map-tab">
             <div v-for="map in publishedMapList">
                 <div class="map-picture">
-                    <a href="#BlockBase"><img :src="map[2]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
+                    <a href="#BlockBase"><img :src="map[2]" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
-                        <span class="mapname">{{ $store.state._const.MAP_NAME }}: {{ map[1] }}</span><br>
-                        <span class="remarks">{{ $store.state._const.MAP_REMARKS }}: {{ map[3] }}</span>
+                        <p class="mapname">
+                            {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
+                        </p>
+                        <p class="remarks">
+                            {{ $store.state._const.MAP_REMARKS }}: {{ map[3] }}
+                        </p>
+                        <p>
+                            <i class="el-icon-circle-check" @click="publishClick(map)" :title="$store.state._const.CLICK_TO_CANCEL_PUBLISH">
+                                {{ $store.state._const.MAP_PUBLISHED }}
+                            </i>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -106,6 +112,10 @@ export default {
         },
         handleClick: function (tab, event) {},
         playClick: function () {},
+        publishClick: function (map) {
+            map[4] = false
+            this.cancelPublishStatus(map[0])
+        },
         changeFavor (map, status) {
             map[5] = status
             this.changeFavoriteMap(map[0], status)
@@ -170,24 +180,18 @@ export default {
                 'mapid': id,
                 'status': Number(status).toString()
             }
-            let response = await simplePost('api/change-favorite', jsonObj)
-            let obj = await response.json()
-            if (await obj.status === '1') {
-                // TODO: 更改按钮显示状态
-            }
-            this.readMapList()
-            this.readFavoriteMapList()
+            await simplePost('api/change-favorite', jsonObj)
+            await this.readMapList()
+            await this.readFavoriteMapList()
         },
         cancelPublishStatus: async function (id) {
             let jsonObj = {
                 'mapid': id,
-                'status': '0'
+                'status': Number(status).toString()
             }
-            let response = await simplePost('api/change-publish', jsonObj)
-            let obj = await response.json()
-            if (await obj.status === '1') {
-                // TODO: 刷新组件视图
-            }
+            await simplePost('api/change-publish', jsonObj)
+            await this.readPublishedMapList()
+            await this.readMapList()
         }
     }
 }

@@ -82,8 +82,7 @@ export default {
             this.changePublishStatus(map[0], status)
         },
         deleteClick (map) {
-            this.open2()
-            this.deleteMap(map[0])
+            this.confirmDelete(map[0])
         },
         readMyMapList: async function () {
             let response = await simpleGet('api/read-my-map-list')
@@ -111,9 +110,8 @@ export default {
             let response = await simplePost('api/change-publish', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                // TODO: 刷新组件视图
+                this.readMyMapList()
             }
-            this.readMyMapList()
         },
         deleteMap: async function (id) {
             let jsonObj = {
@@ -122,13 +120,13 @@ export default {
             let response = await simplePost('api/delete-map', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                // TODO: 刷新组件视图
+                this.readMyMapList()
             }
-            this.readMyMapList()
         },
-        open2: function () {
+        confirmDelete: function (id) {
             let successMsg = this.$store.state._const.DELETE_SUCCESS
             let failureMsg = this.$store.state._const.DELETE_FAILURE
+            let deleteMap = this.deleteMap
             this.$confirm(
                 this.$store.state._const.DELETE_CONFIRM_INFORMATION,
                 this.$store.state._const.TIPS,
@@ -137,6 +135,7 @@ export default {
                     cancelButtonText: this.$store.state._const.CANCEL,
                     type: 'warning'
                 }).then(() => {
+                    deleteMap(id)
                     this.$message({
                         type: 'success',
                         message: successMsg
