@@ -2,6 +2,12 @@
 
 
 # pwd: Group1/
+# 安装python依赖
+pip install -r requirements.txt 
+echo python依赖已安装
+
+
+# pwd: Group1/
 # 创建数据库
 touch init.sql
 echo "drop database if exists buildtest;" > init.sql
@@ -22,12 +28,6 @@ echo 数据模型已创建
 # 写入关卡信息
 mysql -h localhost -u root -pvagrant < ./import.sql
 echo 关卡信息已写入
-
-
-# pwd: Group1/
-# 安装python依赖
-pip install -r requirements.txt 
-echo python依赖已安装
 
 
 # pwd: Group1/
