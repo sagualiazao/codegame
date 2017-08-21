@@ -73,7 +73,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 #index4 {
     margin-left: 85%;

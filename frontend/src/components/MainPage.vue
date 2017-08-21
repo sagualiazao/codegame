@@ -31,6 +31,19 @@ export default {
         handleSelect: function (index) {
             this.$store.commit('changeView', index)
         }
+    },
+    mounted: async function () {
+        if (this.$store.state.loginStatus === false) {
+            await this.$store.dispatch('signin')
+            if (await this.$store.state.loginStatus === false) {
+                this.$message(this.$store.state._const.LOGIN_FIRST)
+                this.$router.push('/')
+            } else {
+                this.$router.push('/SelectLevel')
+            }
+        } else {
+            this.$router.push('/SelectLevel')
+        }
     }
 }
 </script>
