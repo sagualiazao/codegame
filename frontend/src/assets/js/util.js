@@ -99,7 +99,7 @@ export async function simplePost (url, obj) {
 * @for util
 * @param {Object}  levelMode
 * @param {Number}  id
-* @return {Object} 
+* @return {Object}
 */
 export async function readMap (levelMode, id) {
     if (levelMode === true) {

@@ -33,7 +33,7 @@
         <el-tab-pane :label="$store.state._const.MY_PUBLISHED_MAPS" name="second" class="published-map-tab">
             <div v-for="map in publishedMapList">
                 <div class="map-picture">
-                    <a href="#BlockBase"><img :src="map[2]" :alt="$store.state._const.WRONG_DISPLAY"></a>
+                    <a @click="enterMap(map[0])"><img :src="map[2]" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
                         <p class="mapname">
                             {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
@@ -53,7 +53,7 @@
         <el-tab-pane :label="$store.state._const.MY_FAVORITE_MAPS" name="third" class="favorite-map-tab">
             <div v-for="map in favoriteMapList">
                 <div class="map-picture">
-                    <a href="#BlockBase"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
+                    <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
                         <span class="mapname">{{ $store.state._const.MAP_NAME }}: {{ map[1] }}</span>
                         <span class="author">{{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}</span><br>

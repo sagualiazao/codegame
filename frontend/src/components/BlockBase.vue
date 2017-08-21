@@ -31,7 +31,6 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import 'yuki-createjs'
-import { simpleGet } from '@/assets/js/util.js'
 
 export default {
     name: 'block-base',
