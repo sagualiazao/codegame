@@ -29,7 +29,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
-import { readMap } from '@/assets/js/util.js'
+import { readMap, setCookie } from '@/assets/js/util.js'
 
 export default {
     name: 'select-level',
@@ -65,6 +65,9 @@ export default {
             if (await obj.status === '1') {
                 this.selectlevelDialog = false
                 this.$store.commit('changeMap', obj)
+                setCookie('levelMode', this.$store.state.levelMode.toString())
+                setCookie('gameId', this.$store.state.gameId.toString())
+                setCookie('mapString', this.$store.state.mapString)
                 this.$router.push('/BlockBase')
             }
         }

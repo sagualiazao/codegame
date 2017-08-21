@@ -20,7 +20,9 @@ export default {
     name: 'app',
     store: store,
     data: function () {
-        return {}
+        return {
+            currentMenubar: 'menu-bar-unlogged'
+        }
     },
     components: {
         MenuBarUnlogged,

@@ -44,6 +44,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import 'yuki-createjs'
+import { getCookie } from '@/assets/js/util.js'
 
 export default {
     name: 'block-base',
@@ -431,7 +432,20 @@ export default {
         * @method read
         */
         read () {
-            var string = this.$store.state.mapString
+            var string = getCookie('mapString')
+            var gameId = parseInt(getCookie('gameId'))
+            var levelMode = getCookie('levelMode')
+            if (string === '') {
+                string = this.$store.state.mapString
+            } else {
+                if (getCookie('levelMode') === 'false') {
+                    levelMode = false
+                } else {
+                    levelMode = true
+                }
+                this.$store.commit('changeGameID', gameId)
+                this.$store.commit('changeLevelMode', levelMode)
+            }
             var k = 0
             var i
             var j

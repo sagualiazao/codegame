@@ -45,7 +45,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import MapEditor from './MapEditor'
-import { simpleGet, simplePost, readMap } from '@/assets/js/util.js'
+import { simpleGet, simplePost, readMap, setCookie } from '@/assets/js/util.js'
 
 export default {
     name: 'edit-map',
@@ -91,6 +91,9 @@ export default {
             let obj = await response.json()
             if (await obj.status === '1') {
                 this.$store.commit('changeMap', obj)
+                setCookie('levelMode', this.$store.state.levelMode.toString())
+                setCookie('gameId', this.$store.state.gameId.toString())
+                setCookie('mapString', this.$store.state.mapString)
                 this.$router.push('/BlockBase')
             }
         },
