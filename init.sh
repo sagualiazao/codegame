@@ -4,8 +4,10 @@ echo python依赖已安装
 
 # 创建数据库
 touch init.sql
-echo "drop database if exists doublegame;" > init.sql
-echo "create database doublegame default character set utf8 collate utf8_unicode_ci;" >> init.sql
+echo """
+drop database if exists doublegame;
+create database doublegame default character set utf8 collate utf8_unicode_ci;
+" > init.sql
 mysql -h localhost -u root -pvagrant < ./init.sql
 rm init.sql
 echo 数据库已创建
@@ -16,7 +18,14 @@ python manage.py migrate
 echo 数据模型已创建
 
 # 写入关卡信息
+touch import.sql
+echo """
+use doublegame;
+delete from api_gamelevels;
+load data local infile \"./levelinfo\" ignore into table doublegame.api_gamelevels FIELDS terminated by '$\n' LINES starting by '{\n' terminated by '}\n' (map_id, map, name, tips, codes, mode)
+" > import.sql
 mysql -h localhost -u root -pvagrant < ./import.sql
+rm import.sql
 echo 关卡信息已写入
 
 # 安装js依赖
@@ -51,7 +60,7 @@ sphinx-build -b html source build
 make html
 echo 后端文档构建完成
 
-# 生成前段文档快捷方式
+# 生成前端文档快捷方式
 cd ../../
 ln -s ./frontend/out/index.html frontend_doc.html
 

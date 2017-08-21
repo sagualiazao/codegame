@@ -1,10 +1,19 @@
-# 小组成员
+### 小组成员
 
-> Group SaGuaLiaZao 仨瓜俩枣小组
+> Group SaGuaLiaZao 仨瓜俩枣小组  
 > 盛晓颖,左婧,肖飞,禚晨晨,樊文杰
 
-# 把项目部署到vagrant虚拟机:
-请配置好您的编码环境并激活您的虚拟环境
+### 开发环境
+> python 3.5.2  
+> pip 9.0.1
+> node.js 8.2.1  
+> npm 5.3.0
+> mariaDB 10.2.7
+
+# 项目部署
+请实现确保 python\node.js\mariaDB\pip\npm 均可正常运行  
+并切换到适当的python虚拟环境  
+接下来你可以通过脚本文件进行部署(到django开发服务器):
 ``` bash
 git clone http://se.jisuanke.com/code-game/Group1.git
 cd Group1
