@@ -1,19 +1,24 @@
 <template>
-<!-- 用于登录的弹出窗口 -->
     <div class="signin-form">
         <el-form :model="loginForm" :rules="loginRules" ref="loginForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="邮箱" prop="email" class="form-email-item">
+            <el-form-item :label="$store.state._const.EMAIL" prop="email" class="form-email-item">
                 <el-input v-model="loginForm.email"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="password" class="form-password-item">
+            <el-form-item :label="$store.state._const.PASSWORD" prop="password" class="form-password-item">
                 <el-input type="password" :maxlength="16" v-model="loginForm.password" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item class="form-forget-password-item">
-                <el-button class="forget-password" type="text" @click="resetPasswordChange" id="reset-password-button">忘记密码</el-button>
+                <el-button class="forget-password" type="text" @click="resetPasswordChange" id="reset-password-button">
+                    {{ $store.state._const.FORGET_PASSWORD }}
+                </el-button>
             </el-form-item>
             <el-form-item class="form-commit-item">
-                <el-button type="primary" @click="submitForm('loginForm')" id="commit-button">提交</el-button>
-                <el-button @click="resetForm('loginForm')" id="reset-button">重置</el-button>
+                <el-button type="primary" @click="submitForm('loginForm')" id="commit-button">
+                    {{ $store.state._const.SUBMIT }}
+                </el-button>
+                <el-button @click="resetForm('loginForm')" id="reset-button">
+                    {{ $store.state._const.RESET }}
+                </el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -29,24 +34,21 @@ export default {
     name: 'signin-form',
     store: store,
     data: function () {
-        // 用于检测邮箱格式的正则表达式
         var rEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
-        // 检测邮箱格式是否正确
         var validateEmail = (rule, email, callback) => {
             if (email === '') {
-                callback(new Error('请输入邮箱'))
+                callback(new Error(this.$store.state._const.NEED_EMAIL))
             } else if (rEmail.test(email.toLowerCase())) {
                 callback()
             } else {
-                callback(new Error('邮箱格式错误'))
+                callback(new Error(this.$store.state._const.WRONG_EMAIL_FORMAT))
             }
         }
-        // 检测密码格式是否正确,在密码改变后可以通过callback显示错误信息
         var validatePassword = (rule, password, callback) => {
             if (password === '') {
-                callback(new Error('请输入密码'))
+                callback(new Error(this.$store.state._const.NEED_PASSWORD))
             } else if (password.length < 6) {
-                callback(new Error('密码长度不足'))
+                callback(new Error(this.$store.state._const.SHORT_PASSWORD))
             } else {
                 callback()
             }
@@ -67,13 +69,12 @@ export default {
         }
     },
     methods: {
-        // 确定登录
         submitForm: function (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.login()
                 } else {
-                    alert('邮箱或密码输入不正确!')
+                    alert(this.$store.state._const.CHECK_FORM)
                     return false
                 }
             })
@@ -81,7 +82,6 @@ export default {
         resetForm: function (formName) {
             this.$refs[formName].resetFields()
         },
-        // 向后端发送登录的POST请求
         login: async function () {
             let captcha = parseInt(Math.random() * 9000, 10) + 1000
             captcha = captcha.toString()
@@ -94,8 +94,7 @@ export default {
             let response = await simplePost('api/login', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                alert('登录成功')
-                // TODO: 登录成功,传递信息,关闭窗口
+                alert(this.$store.state._const.LOGIN_SUCCESS)
                 this.$store.commit('changeLoginStatus', true)
                 this.$store.commit('changeUserEmail', obj.email)
                 this.$store.commit('changeUserId', obj.id)
@@ -107,7 +106,7 @@ export default {
                 this.$store.commit('changeMenu', 'menu-bar-logged')
                 this.$router.push('/' + 'SelectLevel')
             } else {
-                alert('邮箱或密码错误')
+                alert(this.$store.state._const.LOGIN_FAILURE)
             }
         },
         resetPasswordChange: function () {

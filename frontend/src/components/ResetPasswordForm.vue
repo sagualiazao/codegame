@@ -1,23 +1,29 @@
 <template>
     <el-form :model="resetPasswordForm" :rules="resetPasswordRules" ref="resetPasswordForm" label-width="100px" class="demo-dynamic">
-        <el-form-item prop="email" label="邮箱">
-            <el-input v-model="resetPasswordForm.email" placeholder="请输入你的邮箱地址"></el-input>
+        <el-form-item prop="email" :label="$store.state._const.EMAIL">
+            <el-input v-model="resetPasswordForm.email" :placeholder="$store.state._const.NEED_EMAIL"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" class="send-ver" :disabled="sendEmailDisabled" @click="sendEmail()" icon="share">{{ this.buttonMessage }}</el-button>
+            <el-button type="primary" class="send-ver" :disabled="sendEmailDisabled" @click="sendEmail()" icon="share">
+                {{ this.buttonMessage }}
+            </el-button>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="resetPasswordForm.password" :disabled="cannotResetPassword" placeholder="请输入密码" auto-complete="off"></el-input>
+        <el-form-item :label="$store.state._const.PASSWORD" prop="password">
+            <el-input type="password" v-model="resetPasswordForm.password" :disabled="cannotResetPassword" :placeholder="$store.state._const.NEED_PASSWORD" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="checkPassword">
-            <el-input type="password" v-model="resetPasswordForm.checkPassword" :disabled="cannotResetPassword" placeholder="请确认你的密码" auto-complete="off"></el-input>
+        <el-form-item :label="$store.state._const.REPEAT_PASSWORD" prop="checkPassword">
+            <el-input type="password" v-model="resetPasswordForm.checkPassword" :disabled="cannotResetPassword" :placeholder="$store.state._const.NEED_REPEAT_PASSWORD" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="验证码" prop="captcha">
-            <el-input v-model="resetPasswordForm.captcha" :maxlength="6" :disabled="cannotResetPassword" placeholder="请输入邮件中的验证码" auto-complete="off"></el-input>
+        <el-form-item :label="$store.state._const.CAPTCHA" prop="captcha">
+            <el-input v-model="resetPasswordForm.captcha" :maxlength="6" :disabled="cannotResetPassword" :placeholder="$store.state._const.NEED_EMAIL_CAPTCHA" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="submitForm('resetPasswordForm')">提交</el-button>
-            <el-button type="success" @click="resetForm('resetPasswordForm')" id="reset-button">重置</el-button>
+            <el-button type="primary" @click="submitForm('resetPasswordForm')">
+                {{ $store.state._const.SUBMIT }}
+            </el-button>
+            <el-button type="success" @click="resetForm('resetPasswordForm')" id="reset-button">
+                {{ $store.state._const.RESET }}
+            </el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -34,45 +40,44 @@ export default {
     store: store,
     data: function () {
         var rEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
-        // 检测邮箱格式是否正确
         var validateEmail = (rule, email, callback) => {
             if (email === '') {
-                callback(new Error(' '))
+                callback(new Error(this.$store.state._const.BLANK))
             } else if (rEmail.test(email.toLowerCase())) {
                 this.checkEmail(email.toLowerCase(), callback)
             } else {
-                callback(new Error('邮箱格式错误'))
+                callback(new Error(this.$store.state._const.WRONG_EMAIL_FORMAT))
             }
         }
         var validatePassword = (rule, password, callback) => {
             if (password === '') {
-                callback(new Error('请输入密码'))
+                callback(new Error(this.$store.state._const.NEED_PASSWORD))
             } else if (password.length < 6) {
-                callback(new Error('密码长度不足'))
+                callback(new Error(this.$store.state._const.SHORT_PASSWORD))
             } else {
                 callback()
             }
         }
         var validateCheckPassword = (rule, checkPassword, callback) => {
             if (checkPassword === '') {
-                callback(new Error('请输入确认密码'))
+                callback(new Error(this.$store.state._const.NEED_REPEAT_PASSWORD))
             } else if (checkPassword !== this.resetPasswordForm.password) {
-                callback(new Error('两次输入密码不一致!'))
+                callback(new Error(this.$store.state._const.DIFFERENT_PASSWORD))
             } else {
                 callback()
             }
         }
         var validateCaptcha = (rule, captcha, callback) => {
             if (captcha === '') {
-                callback(new Error('请输入验证码'))
+                callback(new Error(this.$store.state._const.NEED_CAPTCHA))
             } else if (captcha.length < 6) {
-                callback(new Error('验证码长度不足'))
+                callback(new Error(this.$store.state._const.SHORT_CAPTCHA))
             } else {
                 this.checkCaptcha(captcha, callback)
             }
         }
         return {
-            buttonMessage: '发送验证码邮件',
+            buttonMessage: this.$store.state._const.SEND_CAPTCHA_EMAIL,
             seconds: 60,
             captchaKey: null,
             sendEmailDisabled: true,
@@ -108,7 +113,7 @@ export default {
                     this.$store.commit('resetPasswordWindow', false)
                     return true
                 } else {
-                    alert('error submit!!')
+                    alert(this.$store.state._const.CHECK_FORM)
                     return false
                 }
             })
@@ -124,18 +129,18 @@ export default {
             let obj = await response.json()
             if (await obj.status === '0') {
                 this.sendEmailDisabled = true
-                callback(new Error('该邮箱尚未注册'))
+                callback(new Error(this.$store.state._const.UNUSED_EMAIL))
             } else {
                 this.sendEmailDisabled = false
                 callback()
             }
         },
-        countTime () {
+        countTime: function () {
             this.buttonMessage = this.seconds + 's后再次发送'
             this.seconds--
             if (this.seconds === 0) {
                 this.sendEmailDisabled = false
-                this.buttonMessage = '发送验证码邮件'
+                this.buttonMessage = this.$store.state._const.SEND_CAPTCHA_EMAIL
                 this.seconds = 60
                 clearInterval(this.timer)
             }
@@ -152,14 +157,14 @@ export default {
                 this.timer = setInterval(this.countTime, 1000)
                 this.cannotResetPassword = false
             } else {
-                alert('邮件发送失败')
+                alert(this.$store.state._const.OPERATION_FAILURE)
             }
         },
         checkCaptcha: async function (captcha, callback) {
             let response = await simpleGet('api/check-email-captcha?captcha=' + captcha)
             let obj = await response.json()
             if (await obj.status === '0') {
-                callback(new Error('验证码错误'))
+                callback(new Error(this.$store.state._const.WRONG_CAPTCHA))
             } else {
                 callback()
             }
@@ -174,9 +179,9 @@ export default {
             let response = await simplePost('api/reset-password', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                alert('密码修改成功')
+                alert(this.$store.state._const.OPERATION_SUCCESS)
             } else {
-                alert('密码修改失败')
+                alert(this.$store.state._const.OPERATION_FAILURE)
             }
         }
     }

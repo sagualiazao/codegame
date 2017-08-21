@@ -2,23 +2,33 @@
 <div class="edit-map">
     <div id="map1">
         <el-tabs ref="tabs" v-model="activeName" type="card" @tab-click="handleClick">
-            <el-tab-pane label="制作地图" name="map-editor">
+            <el-tab-pane :label="$store.state._const.EDIT_MAP" name="map-editor">
                 <map-editor></map-editor>
             </el-tab-pane>
-            <el-tab-pane label="我做的地图" name="my-map">
+            <el-tab-pane :label="$store.state._const.MY_DISIGNED_MAPS" name="my-map">
                 <div v-for="map in myMapList">
                     <div class="map-picture">
-                        <a href="#BlockBase"><img :src="map[2]" alt="显示错误"></a>
+                        <a href="#BlockBase"><img :src="map[2]" :alt="$store.state._const.WRONG_DISPLAY"></a>
                         <div class="caption">
-                            <p class="mapname">地图名称: {{ map[1] }}</p>
-                            <p class="remarks">地图说明: {{ map[3] }}</p>
+                            <p class="mapname">
+                                {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
+                            </p>
+                            <p class="remarks">
+                                {{ $store.state._const.MAP_REMARKS }}: {{ map[3] }}
+                            </p>
                             <div v-if="map[4] === true">
-                                <i class="el-icon-circle-check" @click="publishClick(map, false)" title="点击取消发布">已发布</i>
+                                <i class="el-icon-circle-check" @click="publishClick(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_PUBLISH">
+                                    {{ $store.state._const.MAP_PUBLISHED }}
+                                </i>
                             </div>
                             <div v-else>
-                                <i class="el-icon-upload" @click="publishClick(map, true)" title="点击发布">未发布</i>
+                                <i class="el-icon-upload" @click="publishClick(map, true)" title="$store.state._const.CLICK_TO_PUBLISH">
+                                    {{ $store.state._const.MAP_UNPUBLISHED }}
+                                </i>
                             </div>
-                            <i class="el-icon-delete" @click="deleteClick(map)">删除地图</i>
+                            <i class="el-icon-delete" @click="deleteClick(map)">
+                                {{ $store.state._const.DELETE_MAP }}
+                            </i>
                         </div>
                     </div>
                 </div>
@@ -30,11 +40,16 @@
 
 
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '@/assets/js/store.js'
 import MapEditor from './MapEditor'
-import { simpleGet } from '@/assets/js/util.js'
+import { simpleGet, simplePost } from '@/assets/js/util.js'
 
 export default {
     name: 'edit-map',
+    store: store,
     data: function () {
         return {
             activeName: 'map-editor',
@@ -48,16 +63,19 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert('请先登录噢!')
+                alert(this.$store.state._const.LOGIN_FIRST)
                 this.$router.push('/')
             } else {
-                this.readMyMapList()
+                this.init()
             }
         } else {
-            this.readMyMapList()
+            this.init()
         }
     },
     methods: {
+        init: function () {
+            this.readMyMapList()
+        },
         handleClick: function (tab, event) {},
         publishClick: function (map, status) {
             map[4] = status
@@ -82,11 +100,10 @@ export default {
                     // map[4]: favorite 收藏发布状态
                 }
             } else if (await obj.status === '0') {
-                alert('读取失败!')
+                alert(this.$store.state._const.LOAD_FAILURE)
             }
         },
         changePublishStatus: async function (id, status) {
-            // 取消地图发布状态
             let jsonObj = {
                 'mapid': id,
                 'status': Number(status).toString()
@@ -99,7 +116,6 @@ export default {
             this.readMyMapList()
         },
         deleteMap: async function (id) {
-            // 删除地图
             let jsonObj = {
                 'mapid': id
             }
@@ -110,22 +126,27 @@ export default {
             }
             this.readMyMapList()
         },
-        open2 () {
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
+        open2: function () {
+            let successMsg = this.$store.state._const.DELETE_SUCCESS
+            let failureMsg = this.$store.state._const.DELETE_FAILURE
+            this.$confirm(
+                this.$store.state._const.DELETE_CONFIRM_INFORMATION,
+                this.$store.state._const.TIPS,
+                {
+                    confirmButtonText: this.$store.state._const.CONFIRM,
+                    cancelButtonText: this.$store.state._const.CANCEL,
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: successMsg
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: failureMsg
+                    })
                 })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                })
-            })
         }
     }
 }

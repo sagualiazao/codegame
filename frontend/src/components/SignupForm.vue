@@ -1,30 +1,33 @@
 <template>
-<!-- 用于注册的弹出窗口 -->
     <div>
         <el-form :model="registerForm" :rules="registerRules" ref="registerForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="邮箱" prop="email">
-                <el-input v-model="registerForm.email" placeholder="请输入你的邮箱地址"></el-input>
+            <el-form-item :label="$store.state._const.EMAIL" prop="email">
+                <el-input v-model="registerForm.email" :placeholder="$store.state._const.NEED_EMAIL"></el-input>
             </el-form-item>
-            <el-form-item label="昵称" prop="nickname">
-                <el-input placeholder="请输入昵称" :maxlength="16" v-model="registerForm.nickname" auto-complete="off"></el-input>
+            <el-form-item :label="$store.state._const.NICKNAME" prop="nickname">
+                <el-input :placeholder="$store.state._const.NEED_NICKNAME" :maxlength="16" v-model="registerForm.nickname" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="password">
-                <el-input type="password" placeholder="请输入密码,可使用数字\字母\下划线" :maxlength="16" v-model="registerForm.password" auto-complete="off"></el-input>
+            <el-form-item :label="$store.state._const.PASSWORD" prop="password">
+                <el-input type="password" :placeholder="$store.state._const.NEED_PASSWORD_REGISTER" :maxlength="16" v-model="registerForm.password" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码" prop="checkpassword">
-                <el-input type="password" placeholder="请再次输入密码" :maxlength="16" v-model="registerForm.checkpassword" auto-complete="off"></el-input>
+            <el-form-item :label="$store.state._const.REPEAT_PASSWORD" prop="checkpassword">
+                <el-input type="password" :placeholder="$store.state._const.NEED_REPEAT_PASSWORD" :maxlength="16" v-model="registerForm.checkpassword" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item label="验证码" prop="captcha">
+            <el-form-item :label="$store.state._const.CAPTCHA" prop="captcha">
                 <div id="ver-area">
                     <div id="ver-code">
-                        <el-input placeholder="请输入验证码" :maxlength="4" v-model="registerForm.captcha"></el-input>
+                        <el-input :placeholder="$store.state._const.NEED_CAPTCHA" :maxlength="4" v-model="registerForm.captcha"></el-input>
                     </div>
                     <img :src="captchaImage" @click="refreshCaptcha" width="80" height="35"/>
                 </div>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('registerForm')">提交</el-button>
-                <el-button @click="resetForm('registerForm')">重置</el-button>
+                <el-button type="primary" @click="submitForm('registerForm')">
+                    {{ $store.state._const.SUBMIT }}
+                </el-button>
+                <el-button @click="resetForm('registerForm')">
+                    {{ $store.state._const.RESET }}
+                </el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -40,63 +43,46 @@ export default {
     name: 'signup-form',
     store: store,
     data: function () {
-        // 用于检测邮箱格式的正则表达式
         var rEmail = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/
-        // 检测邮箱格式是否正确
         var validateEmail = (rule, email, callback) => {
             if (email === '') {
-                // 错误消息交给placeholder,利用error进行逻辑判断
                 callback(new Error(' '))
             } else if (rEmail.test(email.toLowerCase())) {
-                fetch('api/check-email?email=' + email.toLowerCase(), {
-                    method: 'get',
-                    mode: 'cors',
-                    credentials: 'include'
-                }).then(function (response) {
-                    response.json().then(function (obj) {
-                        if (obj.status === '0') {
-                            callback()
-                        } else {
-                            callback(new Error('该邮箱已被使用'))
-                        }
-                    })
-                })
+                this.checkEmail(email.toLowerCase(), callback)
             } else {
-                callback(new Error('邮箱格式错误'))
+                callback(new Error(this.$store.state._const.WRONG_EMAIL_FORMAT))
             }
         }
-        // 用于检测密码格式的正则表达式
         var rPassword = /^[A-Za-z0-9]+$/
-        // 检验密码格式是否正确
         var validatePassword = (rule, password, callback) => {
             if (password === '') {
-                callback(new Error('请输入密码'))
+                callback(new Error(this.$store.state._const.BLANK))
             } else if (password.length < 6) {
-                callback(new Error('密码长度不足'))
+                callback(new Error(this.$store.state._const.SHORT_PASSWORD))
             } else if (rPassword.test(password)) {
                 callback()
             } else {
-                callback(new Error('密码格式错误'))
+                callback(new Error(this.$store.state._const.WRONG_PASSWORD_FORMAT))
             }
         }
         var validateRepeatPassword = (rule, repeatPassword, callback) => {
             if (repeatPassword === '') {
-                callback(new Error(' '))
+                callback(new Error(this.$store.state._const.BLANK))
             } else if (repeatPassword !== this.registerForm.password) {
-                callback(new Error('两次输入密码不一致!'))
+                callback(new Error(this.$store.state._const.DIFFERENT_PASSWORD))
             } else {
                 callback()
             }
         }
         var validateCaptcha = (rule, captcha, callback) => {
             if (captcha === '') {
-                callback(new Error(' '))
+                callback(new Error(this.$store.state._const.BLANK))
             } else if (captcha.toLowerCase() === this.captchaKey) {
                 callback()
             } else if (captcha.length < 4) {
-                callback(new Error('验证码长度不足'))
+                callback(new Error(this.$store.state._const.SHORT_CAPTCHA))
             } else {
-                callback(new Error('验证码错误'))
+                callback(new Error(this.$store.state._const.WRONG_CAPTCHA))
             }
         }
         return {
@@ -130,12 +116,21 @@ export default {
         this.refreshCaptcha()
     },
     methods: {
+        checkEmail: async function (email, callback) {
+            let response = await simpleGet('api/check-email?email=' + email.toLowerCase())
+            let obj = await response.json()
+            if (await obj.status === '0') {
+                callback()
+            } else {
+                callback(new Error(this.$store.state._const.USED_EMAIL))
+            }
+        },
         submitForm: function (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.register()
                 } else {
-                    alert('注册失败!!')
+                    alert(this.$store.state._const.CHECK_FORM)
                     return false
                 }
             })
@@ -143,9 +138,7 @@ export default {
         resetForm: function (formName) {
             this.$refs[formName].resetFields()
         },
-        // 向后端发送登录的POST请求
         register: async function () {
-            // 对密码执行一次CBC加密算法
             let password = cbcEncrypt(this.registerForm.captcha, this.registerForm.password)
             let jsonObj = {
                 'email': this.registerForm.email.toLowerCase(),
@@ -156,12 +149,10 @@ export default {
             let response = await simplePost('api/register', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                alert('注册成功!')
+                alert(this.$store.state._const.REGISTER_SUCCESS)
                 this.$store.commit('signupWindow', false)
-            } else if (await obj.status === '2') {
-                alert('该邮箱已被注册!')
             } else {
-                alert('注册失败!')
+                alert(this.$store.state._const.REGISTER_FAILURE)
             }
         },
         refreshCaptcha: async function () {

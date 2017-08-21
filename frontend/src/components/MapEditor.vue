@@ -1,31 +1,41 @@
 <template>
     <div class="map-editor">
-        <h1>在这里创建你的地图</h1>
+        <h1>
+            {{ $store.state._const.MAP_EDITOR_INFORMATION }}
+        </h1>
         <div>
             <canvas id="my-map" width="900" height="640">
             </canvas>
         </div>
         <div>
-            <button @click="submit">提交</button>
-            <button @click="clean">清除</button>
-            <button>返回</button>
+            <button @click="submit">
+                {{ $store.state._const.SUBMIT }}
+            </button>
+            <button @click="clean">
+                {{ $store.state._const.RESET }}
+            </button>
         </div>
         <div>
-            <label>地图名</label><br>
-            <input v-model="mapName" placeholder="请输入你的地图名字">
+            <label>{{ $store.state._const.MAP_NAME }}</label><br>
+            <input v-model="mapName" :placeholder="$store.state._const.NEED_MAP_NAME">
             <br>
-            <label>说明信息</label><br>
-            <textarea v-model="mapTips" placeholder="请输入说明信息"></textarea>
+            <label>{{ $store.state._const.MAP_REMARKS }}</label><br>
+            <textarea v-model="mapTips" :placeholder="$store.state._const.NEED_MAP_REMARKS"></textarea>
         </div>
     </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '@/assets/js/store.js'
 import 'yuki-createjs'
 import { simplePost } from '@/assets/js/util.js'
 
 export default {
     name: 'map-editor',
+    store: store,
     data: function () {
         return {
             transform: [],
@@ -228,16 +238,11 @@ export default {
                 }
             }
             if (this.mapName === '') {
-                alert('请输入地图名')
+                alert(this.$store.state._const.NEED_MAP_NAME)
             } else {
                 this.mapPost(string)
                 this.clean()
             }
-            if (this.mapTips === '') {
-                alert('请输入有关说明信息')
-            }
-            this.mapPost(string)
-            this.clean()
         },
         clean () {
             this.stage.removeAllChildren()
@@ -271,11 +276,9 @@ export default {
             let response = await simplePost('api/save-map', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                alert('保存成功!')
+                alert(this.$store.state._const.SAVE_SUCCESS)
             } else if (await obj.status === '0') {
-                alert('保存失败!')
-            } else {
-                alert('网络失败!')
+                alert(this.$store.state._const.SAVE_FAILURE)
             }
         }
     },
@@ -283,7 +286,7 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert('请先登录噢!')
+                alert(this.$store.state._const.LOGIN_FIRST)
                 this.$router.push('/')
             } else {
                 this.init()

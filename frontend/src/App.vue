@@ -22,7 +22,6 @@ export default {
     data: function () {
         return {}
     },
-    // 在这里注册单文件组件
     components: {
         MenuBarUnlogged,
         MenuBarLogged

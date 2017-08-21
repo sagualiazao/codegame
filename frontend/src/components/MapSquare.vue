@@ -1,47 +1,64 @@
 <template>
 <div class="map-square">
     <el-tabs ref="tabs" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="地图广场" name="first" class="map-square-tab">
+        <el-tab-pane :label="$store.state._const.MAP_SQUARE" name="first" class="map-square-tab">
             <div v-for="(map, index) in mapList">
                 <div class="map-picture">
-                    <a href="#BlockBase"><img :src="map[3]" class="image" alt="显示错误">
-                    <span class="tips">点击图片进入此游戏</span></a>
+                    <a href="#BlockBase"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY">
+                        <span class="tips">
+                            {{ $store.state._const.INTER_GAME }}
+                        </span>
+                    </a>
                     <div class="caption">
-                        <span class="mapname">地图名: {{ map[1] }}</span>
-                        <span class="author">作者: {{ map[2] }}</span><br>
-                        <span class="remarks">说明: {{ map[4] }}</span>
+                        <span class="mapname">
+                            {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
+                        </span>
+                        <span class="author">
+                            {{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}
+                        </span><br>
+                        <span class="remarks">
+                            {{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}
+                        </span>
                         <div v-if="map[5] === false">
-                            <i class="el-icon-star-off" @click="changeFavor(map, true)" title="点击收藏地图">收藏</i>
+                            <i class="el-icon-star-off" @click="changeFavor(map, true)" :title="$store.state._const.CLICK_TO_FAVORITE">
+                                {{ $store.state._const.IS_NOT_FAVORITE }}
+                            </i>
                         </div>
                         <div v-else>
-                            <i class="el-icon-star-on" @click="changeFavor(map, false)" title="点击取消收藏">已收藏</i>
+                            <i class="el-icon-star-on" @click="changeFavor(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
+                                {{ $store.state._const.IS_FAVORITE }}
+                            </i>
                         </div>
                     </div>
                     <hr>
                 </div>
             </div>
-            <button type="playMap" @click="playClick">试玩</button>
+            <button type="playMap" @click="playClick">
+                {{ $store.state._const.TEST_PLAY }}
+            </button>
         </el-tab-pane>
-        <el-tab-pane label="我发布的地图" name="second" class="published-map-tab">
+        <el-tab-pane :label="$store.state._const.MY_PUBLISHED_MAPS" name="second" class="published-map-tab">
             <div v-for="map in publishedMapList">
                 <div class="map-picture">
-                    <a href="#BlockBase"><img :src="map[2]" class="image" alt="显示错误"></a>
+                    <a href="#BlockBase"><img :src="map[2]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
-                        <span class="mapname">地图名: {{ map[1] }}</span><br>
-                        <span class="remarks">说明: {{ map[3] }}</span>
+                        <span class="mapname">{{ $store.state._const.MAP_NAME }}: {{ map[1] }}</span><br>
+                        <span class="remarks">{{ $store.state._const.MAP_REMARKS }}: {{ map[3] }}</span>
                     </div>
                 </div>
             </div>
         </el-tab-pane>
-        <el-tab-pane label="我收藏的地图" name="third" class="favorite-map-tab">
+        <el-tab-pane :label="$store.state._const.MY_FAVORITE_MAPS" name="third" class="favorite-map-tab">
             <div v-for="map in favoriteMapList">
                 <div class="map-picture">
-                    <a href="#BlockBase"><img :src="map[3]" class="image" alt="显示错误"></a>
+                    <a href="#BlockBase"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
-                        <span class="mapname">地图名: {{ map[1] }}</span>
-                        <span class="author">作者: {{ map[2] }}</span><br>
-                        <span class="remarks">说明: {{ map[4] }}</span>
-                        <i class="el-icon-star-on" @click="changeFavor(map, false)" title="点击取消收藏">已收藏</i>
+                        <span class="mapname">{{ $store.state._const.MAP_NAME }}: {{ map[1] }}</span>
+                        <span class="author">{{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}</span><br>
+                        <span class="remarks">{{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}</span>
+                        <i class="el-icon-star-on" @click="changeFavor(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
+                            {{ $store.state._const.IS_FAVORITE }}
+                        </i>
                     </div>
                 </div>
             </div>
@@ -51,10 +68,15 @@
 </template>
 
 <script>
-import { simpleGet, simplePost, readMap } from '@/assets/js/util.js'
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '@/assets/js/store.js'
+import { simpleGet, simplePost } from '@/assets/js/util.js'
 
 export default {
     name: 'map-square',
+    store: store,
     data: function () {
         return {
             activeName: 'first',
@@ -67,40 +89,23 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert('请先登录噢!')
+                alert(this.$store.state._const.LOGIN_FIRST)
                 this.$router.push('/')
             } else {
-                this.readMapList()
-                this.readFavoriteMapList()
-                this.readPublishedMapList()
+                this.init()
             }
         } else {
+            this.init()
+        }
+    },
+    methods: {
+        init: function () {
             this.readMapList()
             this.readFavoriteMapList()
             this.readPublishedMapList()
-        }
-        this.readMapList()
-        this.readFavoriteMapList()
-        this.readPublishedMapList()
-        // 第一个参数为true读取游戏关卡, 为false读取用户自定义地图
-        let response = await readMap(true, 1)
-        let obj = await response.json()
-        if (await obj.status === '1') {
-            // obj.map
-            // obj.name
-            // obj.tips
-            // obj.codes
-            let list = JSON.parse(obj.mode)
-        }
-    },
-    compute: {
-
-    },
-    methods: {
-        handleClick (tab, event) {
         },
-        playClick () {
-        },
+        handleClick: function (tab, event) {},
+        playClick: function () {},
         changeFavor (map, status) {
             map[5] = status
             this.changeFavoriteMap(map[0], status)
@@ -121,7 +126,7 @@ export default {
                     // map[5]: favorite 收藏状态
                 }
             } else if (await obj.status === '0') {
-                alert('读取失败!')
+                alert(this.$store.state._const.LOAD_FAILURE)
             }
         },
         readPublishedMapList: async function () {
@@ -139,7 +144,7 @@ export default {
                     // map[4]: published 发布状态
                 }
             } else if (await obj.status === '0') {
-                alert('读取失败!')
+                alert(this.$store.state._const.LOAD_FAILURE)
             }
         },
         readFavoriteMapList: async function () {
@@ -157,7 +162,7 @@ export default {
                     // map[4]: remarks 地图说明
                 }
             } else if (await obj.status === '0') {
-                alert('读取失败!')
+                alert(this.$store.state._const.LOAD_FAILURE)
             }
         },
         changeFavoriteMap: async function (id, status) {
@@ -174,7 +179,6 @@ export default {
             this.readFavoriteMapList()
         },
         cancelPublishStatus: async function (id) {
-            // 取消地图发布状态
             let jsonObj = {
                 'mapid': id,
                 'status': '0'
@@ -189,7 +193,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
     font-weight: normal;

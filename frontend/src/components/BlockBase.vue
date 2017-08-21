@@ -4,12 +4,18 @@
         <canvas id="game-canval" height="640" width="640"></canvas>
     </div>
     <div class="tab-plugin">
-        <a class="block-tab tab" id="block-tab">Block</a>
+        <a class="block-tab tab" id="block-tab">
+            {{ $store.state._const.BLOCK }}
+        </a>
         <a class="editor-tab tab" @click="editorClick('EditorBase')" id="editor-tab">Editor</a>
         <div class="tab-container" id="block-area"></div>
         <textarea id="code-area" class="code-area" rows="3" cols="20"></textarea>
-        <button class="clean-button" @click="cleanWorkspace()">Clean</button>
-        <button class="run-button" @click="blockRunCode()">Run</button>
+        <button class="clean-button" @click="cleanWorkspace()">
+            {{ $store.state._const.CLEAN}}
+        </button>
+        <button class="run-button" @click="blockRunCode()">
+            {{ $store.state._const.RUN }}
+        </button>
     </div>
 </div>
 </template>
@@ -20,11 +26,16 @@
 *
 * @class BlockBase
 */
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '@/assets/js/store.js'
 import 'yuki-createjs'
 import { simpleGet } from '@/assets/js/util.js'
 
 export default {
     name: 'block-base',
+    store: store,
     data: function () {
         return {
             /**
