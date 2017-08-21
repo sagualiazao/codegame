@@ -1,25 +1,25 @@
 <template>
 <div id="select-level">
     <div id="continue-win">
-        <button id="continue-play" @click="selectlevel_dialog = true">继续游戏</button>
+        <button id="continue-play" @click="selectlevelDialog = true">继续游戏</button>
         <el-progress  id="progress" type="circle" :percentage="50"></el-progress>
     </div>
-    <el-dialog title="选择关卡" :visible.sync="selectlevel_dialog" size="tiny" :before-close="handleClose">
-        <el-button type="success" class="level-btn" @click="select_lev(1)">1</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(2)">2</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(3)">3</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(4)">4</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(5)">5</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(6)">6</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(7)">7</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(8)">8</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(9)">9</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(10)">10</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(11)">11</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(12)">12</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(13)">13</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(14)">14</el-button>
-        <el-button type="success" class="level-btn" @click="select_lev(15)">15</el-button>
+    <el-dialog title="选择关卡" :visible.sync="selectlevelDialog" size="tiny" :before-close="handleClose">
+        <el-button type="success" class="level-btn" @click="selectLevel(1)">1</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(2)">2</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(3)">3</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(4)">4</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(5)">5</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(6)">6</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(7)">7</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(8)">8</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(9)">9</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(10)">10</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(11)">11</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(12)">12</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(13)">13</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(14)">14</el-button>
+        <el-button type="success" class="level-btn" @click="selectLevel(15)">15</el-button>
     </el-dialog>
 </div>
 </template>
@@ -29,33 +29,43 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
+import { readMap } from '@/assets/js/util.js'
 
 export default {
     name: 'select-level',
     store: store,
     data: function () {
         return {
-            selectlevel_dialog: false
+            selectlevelDialog: false
         }
     },
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                this.$message('请先登录噢!')
+                this.$message(this.$store.state._const.LOGIN_FIRST)
                 this.$router.push('/')
             }
         }
     },
     methods: {
-        select_lev (LevelNum) {
-            var prog = this.$store.state.userGameProgress
-            if (LevelNum <= prog) {
-                this.$store.commit('changeUserGameProgress', LevelNum)
-                this.selectlevel_dialog = false
-                this.$router.push('/' + 'BlockBase')
+        selectLevel: function (level) {
+            var prog = this.$store.state.userGameProgress + 1
+            if (level <= prog + 1) {
+                this.enterLevel(level)
             } else {
-                this.$message('您还没玩到这关哦！您现在玩到了第' + prog + '关')
+                this.$message('您还没玩到这关哦！您现在已经通过了第' + prog + '关')
+            }
+        },
+        enterLevel: async function (id) {
+            this.$store.commit('changeLevelMode', true)
+            this.$store.commit('changeGameID', id)
+            let response = await readMap(true, id)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                this.selectlevelDialog = false
+                this.$store.commit('changeMap', obj)
+                this.$router.push('/BlockBase')
             }
         }
     }

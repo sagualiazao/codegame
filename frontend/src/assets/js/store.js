@@ -242,7 +242,7 @@ const state = {
     * @default false
     */
     changePasswordDialog: false,
-    levelpassModal: true,
+    levelpassModal: false,
     gamereplayModal: false
 }
 
