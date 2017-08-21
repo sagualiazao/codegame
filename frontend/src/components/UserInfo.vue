@@ -10,14 +10,14 @@
             <span>
                 {{ $store.state._const.NICKNAME }}
             </span>
-            <p>
-                <input type="text" :placeholder="$store.state._const.NEED_NICKNAME" maxlength="16" v-model="nickname">
-                <input type="button" @click="nameSubmit()" :value="$store.state._const.CONFIRM" id="btn">
-            </p>
+            <p>{{ this.$store.state.userNickName }}</p>
+            <el-button type="text" @click="changeName()" title="点击修改昵称">修改昵称</el-button><br>
+            <!-- <input type="text" :placeholder="$store.state._const.NEED_NICKNAME" maxlength="16" v-model="nickname">
+            <input type="button" @click="nameSubmit()" :value="$store.state._const.CONFIRM" id="btn"><br> -->
             <i class="el-icon-message"></i>
             <span>
                 {{ $store.state._const.EMAIL }}
-                </span>
+            </span>
             <p>{{ this.$store.state.userEmail }}</p>
             <i class="el-icon-date"></i>
             <span>
@@ -33,13 +33,13 @@
             </span>
             <p>{{ finishedLevel }}</p>
             <span>
-                {{ $store.state._const.REMAIND_LEVELS }}
+                {{ $store.state._const.REMAINED_LEVELS }}
             </span>
             <p>{{ remainedLevel }}</p>
         </div>
-        <a href="#UserInfo" @click="resetPasswordChange()">
+        <el-button type="text" @click="resetPasswordChange()" title="点击修改密码">
             {{ $store.state._const.RESET_PASSWORD }}
-        </a>
+        </el-button>
         <el-dialog :title="$store.state._const.RESET_PASSWORD" :visible.sync="$store.state.changePasswordDialog" size="tiny">
             <reset-password-form></reset-password-form>
         </el-dialog>
@@ -54,6 +54,7 @@ Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import ResetPasswordForm from './ResetPasswordForm'
 import { simplePost } from '@/assets/js/util.js'
+import { Message } from 'element-ui'
 
 export default {
     name: 'user-info',
@@ -87,16 +88,31 @@ export default {
             this.remainedLevel = 15 - this.finishedLevel
             this.nickname = this.$store.state.userNickName
         },
+        changeName () {
+            this.$prompt('请输入昵称', '修改昵称', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消'
+            }).then(({ value }) => {
+                this.nickname = value
+                this.nameSubmit()
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '取消输入'
+                })
+            })
+        },
         nameSubmit: async function () {
+            // Message.success({message: '修改成功'})
             let response = await simplePost('api/change-nickname', {
                 'nickname': this.nickname
             })
             let obj = await response.json()
             if (await obj.status === '1') {
                 this.$store.commit('changeUserNickName', this.nickname)
-                alert(this.$store.state._const.OPERATION_SUCCESS)
+                Message.success({message: this.$store.state._const.CHANGE_SUCCESS})
             } else {
-                alert(this.$store.state._const.OPERATION_FAILURE)
+                Message.error({message: this.$store.state._const.CHANGE_FALURE})
             }
         },
         resetPasswordChange: function () {
@@ -112,28 +128,28 @@ export default {
 h1 {
     font-weight: normal;
     color: #A0522D;
-}
-div {
-    width: 1500px;
-    left: 100px;
-    margin-top: 80px;
-    text-align: justify;
+    text-align: center;
 }
 .user-info {
-    margin-top: -20px;
+    margin-top: -30px;
     /*background-color: #b4e2f4;*/
     background: url(../assets/img/infobackgro1.png) no-repeat 0px center;
-    background-size: contain;
+    background-size: cover;
     /*animation: myfirst 3s;*/
+    width: 100%;
+    text-align: justify;
 }
-#btn {
+/*#btn {
     background-image: url(../assets/img/border3.jpg);
+}*/
+.el-button {
+    font-size: 20px;
 }
-h1, h2, p, span, i, a, input {
+h2, p, span, i, input, .el-button {
     position: relative;
-    left: 160px;
+    left: 10%;
 }
-a:hover {
+.el-button:hover {
     color: #FF00FF;
     text-decoration: underline;
 }
@@ -151,27 +167,27 @@ h2 {
     color: #FA8072;
 }
 img {
-    width: 200px;
-    height: 200px;
+    width: 15%;
+    height: 15%;
 }
-.base-info p, .game-info p, .base-info input{
+.base-info p, .game-info p {
     border-radius: 30px;
-    /*border: 8px solid black;
-    border-image: url(../assets/img/border8.png) repeat;*/
-    border: 2px solid #708090;
-    margin-right: 600px;
-    width: 500px;
+    border: 15px solid transparent;
+    border-image: url(../assets/img/border10.png) 500 500 round;
+    /*border: 2px solid #708090;*/
+    /*margin-right: 600px;*/
+    width: 35%;
 }
 #img-id {
     float: right;
-    margin-right: 200px;
+    margin-right: 10%;
     transition: width 2s,height 2s,transform 2s;
     border: 1px solid #BFBFBF;
     box-shadow: 2px 2px 3px #aaaaaa;
 }
 #img-id:hover {
-    width: 300px;
-    height: 300px;
+    width: 20%;
+    height: 20%;
     transform: skewX(30deg),skewY(50deg);
     transform: rotate(360deg);
 }

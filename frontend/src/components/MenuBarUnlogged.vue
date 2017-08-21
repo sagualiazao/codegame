@@ -74,4 +74,11 @@ export default {
 .el-dialog--tiny {
     width: 400px;
 }
+.el-menu {
+    height: 60px;
+    color: #48D1CC;
+    font-size: 60px;
+    background-image: url(../assets/img/m1.png);
+    background-size: auto;
+}
 </style>

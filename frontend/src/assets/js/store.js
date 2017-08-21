@@ -103,7 +103,9 @@ const state = {
         WRONG_CAPTCHA: '验证码错误',
         WRONG_DISPLAY: '显示错误',
         WRONG_EMAIL_FORMAT: '邮箱格式错误',
-        WRONG_PASSWORD_FORMAT: '密码格式错误'
+        WRONG_PASSWORD_FORMAT: '密码格式错误',
+        CHANGE_SUCCESS: '修改成功',
+        CHANGE_FALURE: '修改失败'
     },
     /**
     *记录登录状态

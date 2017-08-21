@@ -1,6 +1,6 @@
 <template>
 <div class="menu-bar-logged">
-        <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu theme="light" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
             <el-menu-item index="SelectLevel">
                 {{ $store.state._const.START_GAME }}
             </el-menu-item>
@@ -77,6 +77,14 @@ export default {
 <style scoped>
 #index4 {
     margin-left: 85%;
+}
+.el-menu {
+    width: 100%;
+    height: 60px;
+    color: #48D1CC;
+    font-size: 60px;
+    background-image: url(../assets/img/m1.png);
+    background-size: auto;
 }
 
 </style>
