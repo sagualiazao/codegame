@@ -1,6 +1,8 @@
 <template>
 <div class="container">
-    <a>老老实实点按钮不行吗?</a>
+    <a>
+        {{ $store.state._const.NOT_EXIST_PAGE }}
+    </a>
 </div>
 </template>
 <script>
@@ -13,7 +15,7 @@ export default {
     name: 'page-not-found',
     store: store,
     mounted () {
-        alert('少年这个网址不存在哦')
+        alert(this.$store.state._const.NOT_EXIST_PAGE)
         this.$router.push('/')
     }
 }

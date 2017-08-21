@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^api/register$', views.register),
     url(r'^api/login$', views.login),
     url(r'^api/logout$', views.logout),
+    url(r'^api/change-nickname$', views.change_nickname),
     url(r'^api/pay$', views.pay),
     url(r'^api/save-map$', views.save_map),
     url(r'^api/read-map$', views.read_map),

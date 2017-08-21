@@ -1,17 +1,29 @@
 <template>
 <div class="menu-bar-logged">
         <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="SelectLevel">开始游戏</el-menu-item>
+            <el-menu-item index="SelectLevel">
+                {{ $store.state._const.START_GAME }}
+            </el-menu-item>
             <el-submenu index="2">
-                <template slot="title">我的地图</template>
-                <el-menu-item index="EditMap">制作地图</el-menu-item>
-                <el-menu-item index="MapSquare">地图广场</el-menu-item>
+                <template slot="title">
+                    {{ $store.state._const.MY_MAPS }}
+                </template>
+                <el-menu-item index="EditMap">
+                    {{ $store.state._const.EDIT_MAP }}
+                </el-menu-item>
+                <el-menu-item index="MapSquare">
+                    {{ $store.state._const.MAP_SQUARE }}
+                </el-menu-item>
             </el-submenu>
-            <el-menu-item index="3"><a href="https://www.ele.me" target="_blank">立即购买</a></el-menu-item>
+            <el-menu-item index="3" @click="pay">
+                {{ $store.state._const.BUY_NOW }}
+            </el-menu-item>
             <div id="index4">
                 <el-submenu index="4">
                     <template slot="title">{{ $store.state.userNickName }}</template>
-                    <el-menu-item index="UserInfo">我的信息</el-menu-item>
+                    <el-menu-item index="UserInfo">
+                        {{ $store.state._const.MY_INFORMATION }}
+                    </el-menu-item>
                     <el-menu-item index="4-2" @click="signout" class="signout-button">注销</el-menu-item>
                 </el-submenu>
             </div>
@@ -52,12 +64,10 @@ export default {
             this.$store.dispatch('signout')
         },
         pay: async function () {
-            let response = simpleGet('api/pay')
+            let response = await simpleGet('api/pay')
             let obj = await response.json()
             if (await obj.status === '1') {
-                // TODO:弹出新窗口
-                let url = obj.url
-                alert(url)
+                window.open(obj.url)
             }
         }
     }

@@ -9,9 +9,15 @@
             </pre>
         </div>
         <a class="block-tab tab" @click="blockClick('BlockBase')" id="block-tab">Block</a>
-        <a class="editor-tab tab" id="editor-tab">Editor</a>
-        <button class="clean-button" @click="cleanWorkspace()">Clean</button>
-        <button class="run-button" @click="tinyEditorRun()">Run</button>
+        <a class="editor-tab tab" id="editor-tab">
+            {{ $store.state._const.EDITOR }}
+        </a>
+        <button class="clean-button" @click="cleanWorkspace()">
+            {{ $store.state._const.CLEAN }}
+        </button>
+        <button class="run-button" @click="tinyEditorRun()">
+            {{ $store.state._const.RUN }}
+        </button>
     </div>
 </div>
 </template>
@@ -22,11 +28,16 @@
 *
 * @class EditorBase
 */
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import store from '@/assets/js/store.js'
 import 'yuki-createjs'
 import { simpleGet } from '@/assets/js/util.js'
 
 export default {
     name: 'editor-base',
+    store: store,
     data: function () {
         return {
             /**
@@ -660,8 +671,6 @@ export default {
 }
 </script>
 
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .editor-base {
     margin: 0 auto;

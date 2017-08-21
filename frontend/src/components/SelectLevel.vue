@@ -1,18 +1,10 @@
 <template>
 <div id="select-level">
     <div id="continue-win">
-        <button id="continue-play">继续游戏</button>
+        <button id="continue-play">
+            {{ $store.state._const.CONTINUE_GAME }}
+        </button>
         <el-progress  id="progress" type="circle" :percentage="50"></el-progress>
-    </div>
-    <div id="select-level-container">
-        <div class="level-container">
-            <img src="https://d2j5eocv5gptnv.cloudfront.net/assets/avatars/small/07.png"/>
-            <a class="level" href="http://www.4399.com">level1</a>
-        </div>
-        <div class="level-container">
-            <img src="https://d2j5eocv5gptnv.cloudfront.net/assets/avatars/small/07.png"/>
-            <a class="level" href="http://www.4399.com">level2</a>
-        </div>
     </div>
 </div>
 </template>
@@ -34,7 +26,7 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert('请先登录噢!')
+                alert(this.$store.state._const.LOGIN_FIRST)
                 this.$router.push('/')
             }
         }
@@ -44,7 +36,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
     font-weight: normal;

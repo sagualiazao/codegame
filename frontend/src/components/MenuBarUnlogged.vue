@@ -1,17 +1,25 @@
 <template>
 <div class="menu-bar-unlogged">
     <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-        <el-menu-item index="main-page">首页</el-menu-item>
-        <el-menu-item index="edit-map" @click="mapWindow = true">我的地图</el-menu-item>
-        <el-menu-item index="register" @click="signupChange">注册</el-menu-item>
-        <el-dialog title="注册" :visible.sync="$store.state.signupDialog" size="window.innerWidth > " id="sigup-dialog">
+        <el-menu-item index="main-page">
+            {{ $store.state._const.HOME_PAGE }}
+        </el-menu-item>
+        <el-menu-item index="edit-map" @click="mapWindow = true">
+            {{ $store.state._const.MY_MAPS }}
+        </el-menu-item>
+        <el-menu-item index="register" @click="signupChange">
+            {{ $store.state._const.REGISTER }}
+        </el-menu-item>
+        <el-dialog :title="$store.state._const.REGISTER" :visible.sync="$store.state.signupDialog" size="window.innerWidth > " id="sigup-dialog">
             <signup-form></signup-form>
         </el-dialog>
-        <el-dialog title="忘记密码" :visible.sync="$store.state.resetPasswordDialog" size="tiny">
+        <el-dialog :title="$store.state._const.FORGET_PASSWORD" :visible.sync="$store.state.resetPasswordDialog" size="tiny">
             <reset-password-form></reset-password-form>
         </el-dialog>
-        <el-menu-item index="login" @click="signinChange">登录</el-menu-item>
-        <el-dialog title="登录" :visible.sync="$store.state.signinDialog" size="tiny">
+        <el-menu-item index="login" @click="signinChange">
+            {{ $store.state._const.LOGIN }}
+        </el-menu-item>
+        <el-dialog :title="$store.state._const.LOGIN" :visible.sync="$store.state.signinDialog" size="tiny">
             <signin-form></signin-form>
         </el-dialog>
     </el-menu>
@@ -49,7 +57,7 @@ export default {
                 this.$router.push('/')
             }
             if (index === 'edit-map') {
-                alert('请先登录')
+                alert(this.$store.state._const.LOGIN_FIRST)
             }
         },
         signupChange: function () {

@@ -363,6 +363,7 @@ def pay(request):
         users = User.objects.filter(email=email)
         user = users[0]
         alipay_pr = Pingpp.pay()
+        print(alipay_pr)
         return JsonResponse({
             'status': '1',
             'url': alipay_pr
@@ -606,6 +607,30 @@ def delete_map(request):
         if the_map.author == user:
             the_map.delete()
             MapImage.deleteMapImages(map_id)
+        return SimpleResponse.success_json_response
+
+    return SimpleResponse.postMethodOnly(request, delete_map_function, True)
+
+@csrf_exempt
+def change_nickname(request):
+    """
+    修改昵称
+
+    Parameters:
+        :request: 指向'/api/change-nickname'的POST请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 修改失败'0',修改成功'1'\n
+    """
+    def delete_map_function(request, email):
+        user = User.objects.get(email=email)
+        print(user)
+        req = simplejson.load(request)
+        nickname = req['nickname']
+        print(nickname)
+        user.nickname = nickname
+        user.save()
         return SimpleResponse.success_json_response
 
     return SimpleResponse.postMethodOnly(request, delete_map_function, True)

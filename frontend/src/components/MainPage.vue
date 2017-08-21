@@ -2,25 +2,15 @@
 <div>
     <div class="main-page">
         <div id="button-container">
-            <button id="start-game" @click="clickTest('BlockBase')">开始游戏</button>
+            <button id="start-game" @click="routerTo('BlockBase')">
+                {{ $store.state._const.START_GAME }}
+            </button>
         </div>
     </div>
     <div id="intro">
-        <p id="game-wordintro">让孩子在游戏中走进编程世界，没有压力，开启头脑风暴</p>
-        <div id="pic-intro">
-            <div id="intro1" class="introduction">
-                <p>description1</p>
-            </div>
-            <div id="intro2" class="introduction">
-                <p>description2</p>
-            </div>
-            <div id="intro3" class="introduction">
-                <p>description3</p>
-            </div>
-            <div id="intro4" class="introduction">
-                <p>description4</p>
-            </div>
-        </div>
+        <p id="game-wordintro">
+            {{ $store.state._const.MAIN_PAGE_INFORMATION }}
+        </p>
     </div>
 </div>
 </template>
@@ -34,23 +24,17 @@ import store from '@/assets/js/store.js'
 export default {
     name: 'main-page',
     store: store,
-    data: function () {
-        return {
-            msg: '看到这行字，说明它正常了'
-        }
-    },
     methods: {
-        clickTest (text) {
-            this.$router.push('/' + text)
+        routerTo: function (path) {
+            this.$router.push('/' + path)
         },
-        handleSelect (index) {
+        handleSelect: function (index) {
             this.$store.commit('changeView', index)
         }
     }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
     font-weight: normal;
@@ -94,21 +78,5 @@ h1 {
 .introduction {
     width: 25%;
     height: 200px;
-}
-#intro1 {
-    background: url(../assets/img/backg.jpg) center center no-repeat;
-    background-size: cover;
-}
-#intro2 {
-    background: url(../assets/img/desp1.png) center center no-repeat;
-    background-size: cover;
-}
-#intro3 {
-    background: url(../assets/img/desp2.jpg) center center no-repeat;
-    background-size: cover;
-}
-#intro4 {
-    background: url(../assets/img/desp3.jpg) center center no-repeat;
-    background-size: cover;
 }
 </style>
