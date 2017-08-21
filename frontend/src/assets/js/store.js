@@ -3,7 +3,21 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+/**
+*封装vuex全局常量变量的类
+*
+* @property state
+* @type {Class}
+* @for store
+*/
 const state = {
+    /**
+    *界面需要的字符串常量表
+    *
+    * @property _const
+    * @type {Object}
+    * @for state
+    */
     _const: {
         BLANK: ' ',
         BLOCK: 'Block',
@@ -91,69 +105,314 @@ const state = {
         WRONG_EMAIL_FORMAT: '邮箱格式错误',
         WRONG_PASSWORD_FORMAT: '密码格式错误'
     },
+    /**
+    *记录登录状态
+    *
+    * @property loginStatus
+    * @type {Boolean}
+    * @for state
+    * @default false
+    */
     loginStatus: false,
+    /**
+    *记录当前用户的邮箱
+    *
+    * @property userEmail
+    * @type {String}
+    * @for state
+    * @default null
+    */
     userEmail: null,
+    /**
+    *记录当前用户的ID
+    *
+    * @property userId
+    * @type {Number}
+    * @for state
+    * @default null
+    */
     userId: null,
+    /**
+    *记录当前用户的昵称
+    *
+    * @property userNickName
+    * @type {String}
+    * @for state
+    * @default null
+    */
     userNickName: null,
+    /**
+    *记录当前用户的游戏进度
+    *
+    * @property userGameProgress
+    * @type {Number}
+    * @for state
+    * @default null
+    */
     userGameProgress: null,
+    /**
+    *记录当前用户支付状态
+    *
+    * @property userHasPaied
+    * @type {Boolean}
+    * @for state
+    * @default null
+    */
     userHasPaied: null,
+    /**
+    *记录当前用户注册时间
+    *
+    * @property registerDate
+    * @type {String}
+    * @for state
+    * @default null
+    */
     registerDate: null,
+    /**
+    *记录当前菜单栏选项
+    *
+    * @property currentMenbar
+    * @type {String}
+    * @for state
+    * @default 'menu-bar-unlogged'
+    */
     currentMenbar: 'menu-bar-unlogged',
+    /**
+    *记录游戏是关卡还是地图状态
+    *
+    * @property levelMode
+    * @type {Boolean}
+    * @for state
+    * @default true
+    */
     levelMode: true,
+    /**
+    *记录当前地图ID
+    *
+    * @property mapId
+    * @type {Number}
+    * @for state
+    * @default null
+    */
     mapId: null,
+    /**
+    *登录窗口显示状态
+    *
+    * @property signinDialog
+    * @type {Boolean}
+    * @for state
+    * @default false
+    */
     signinDialog: false,
+    /**
+    *注册窗口显示状态
+    *
+    * @property signupDialog
+    * @type {Boolean}
+    * @for state
+    * @default false
+    */
     signupDialog: false,
+    /**
+    *找回密码窗口显示状态
+    *
+    * @property resetPasswordDialog
+    * @type {Boolean}
+    * @for state
+    * @default false
+    */
     resetPasswordDialog: false,
+    /**
+    *个人信息中更改密码窗口显示状态
+    *
+    * @property changePasswordDialog
+    * @type {Boolean}
+    * @for state
+    * @default false
+    */
     changePasswordDialog: false
 }
 
+/**
+*封装修改vuex全局变量函数的类
+*
+* @property mutations
+* @type {Class}
+* @for store
+*/
 const mutations = {
+    /**
+    *更改登录状态
+    *
+    * @method changeLoginStatus
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Boolean} status 登录状态
+    */
     changeLoginStatus: function (state, status) {
         state.loginStatus = status
     },
+    /**
+    *更改当前用户的邮箱
+    *
+    * @method changeUserEmail
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {String} text 用户邮箱
+    */
     changeUserEmail: function (state, text) {
         state.userEmail = text
     },
+    /**
+    *更改当前用户的ID
+    *
+    * @method changeUserId
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Number} text 用户ID
+    */
     changeUserId: function (state, text) {
         state.userId = text
     },
+    /**
+    *更改当前用户的昵称
+    *
+    * @method changeUserNickName
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {String} text 用户昵称
+    */
     changeUserNickName: function (state, text) {
         state.userNickName = text
     },
+    /**
+    *更改当前用户的游戏进度
+    *
+    * @method changeUserGameProgress
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Number} text 当前进度
+    */
     changeUserGameProgress: function (state, text) {
         state.userGameProgress = text
     },
+    /**
+    *更改当前用户的支付状态
+    *
+    * @method changeUserHasPaied
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Boolean} status 当前支付状态
+    */
     changeUserHasPaied: function (state, status) {
         state.userHasPaied = status
     },
+    /**
+    *更改登录窗口显示状态
+    *
+    * @method signinWindow
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Boolean} status 当前登录窗口显示状态
+    */
     signinWindow: function (state, status) {
         state.signinDialog = status
     },
+    /**
+    *更改注册窗口显示状态
+    *
+    * @method signupWindow
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Boolean} status 当前注册窗口显示状态
+    */
     signupWindow: function (state, status) {
         state.signupDialog = status
     },
+    /**
+    *更改找回密码窗口显示状态
+    *
+    * @method resetPasswordWindow
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Boolean} status 当前找回密码窗口显示状态
+    */
     resetPasswordWindow: function (state, status) {
         state.resetPasswordDialog = status
     },
+    /**
+    *更改个人信息界面更改密码窗口显示状态
+    *
+    * @method changePasswordWindow
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Boolean} status 当前个人信息界面更改密码窗口显示状态
+    */
     changePasswordWindow: function (state, status) {
         state.changePasswordDialog = status
     },
+    /**
+    *更改菜单栏
+    *
+    * @method changeMenu
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {String} status 当前菜单栏个
+    */
     changeMenu: function (state, status) {
         state.currentMenbar = status
     },
+    /**
+    *更改注册时间
+    *
+    * @method changeRegisterDate
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {String} text 注册时间
+    */
     changeRegisterDate: function (state, text) {
         var date = new Date(text)
         state.registerDate = date.toLocaleString()
     },
+    /**
+    *选择游戏处于关卡还是地图编辑器
+    *
+    * @method changeLevelMode
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {String} mode mode
+    */
     changeLevelMode: function (state, mode) {
         state.levelMode = mode
     },
+    /**
+    *选择游戏ID
+    *
+    * @method changeGameID
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {String} id 游戏id
+    */
     changeGameID: function (state, id) {
         state.gameId = id
     }
 }
 
+/**
+*封装vuex全局函数的类
+*
+* @property actions
+* @type {Class}
+* @for store
+*/
 const actions = {
+    /**
+    *注销登录
+    *
+    * @method signout
+    * @for actions
+    * @param {Object}  context
+    */
     signout: function (context) {
         context.commit('changeLoginStatus', false)
         context.commit('changeUserEmail', null)
@@ -171,6 +430,13 @@ const actions = {
             credentials: 'include'
         })
     },
+    /**
+    *界面信息和登录状态等初始化
+    *
+    * @method init
+    * @for actions
+    * @param {Object}  context
+    */
     init: function (context) {
         context.commit('changeLoginStatus', false)
         context.commit('changeUserEmail', null)
@@ -186,6 +452,13 @@ const actions = {
         context.commit('changeLevelMode', true)
         context.commit('changeGameID', null)
     },
+    /**
+    *登录
+    *
+    * @method signin
+    * @for actions
+    * @param {Object}  context 
+    */
     signin: async function (context) {
         let response = await fetch('api/login', {
             method: 'get',
@@ -209,6 +482,11 @@ const actions = {
     }
 }
 
+/**
+* 由vuex搭建的全局常量, 变量和数据处理函数
+*
+* @class store
+*/
 let store = new Vuex.Store({
     state,
     mutations,
