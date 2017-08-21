@@ -71,18 +71,20 @@ class GameLevelsTestCase(TestCase):
     """
     def setUp(self):
         GameLevels.objects.create(
-            map='111111',
-            level_three_steps=10,
-            level_two_steps=20,
-            tips='This is a tip',
-            goal='This is a goal'
+            map_id=1,
+            map='0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000',
+            tips='XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！',
+            codes='go(3)',
+            mode='[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]',
+            name='XXX要回家'
         )
         GameLevels.objects.create(
-            map='222222',
-            level_three_steps=10,
-            level_two_steps=20,
-            tips='这是汉字提示',
-            goal='这是汉字目标'
+            map_id=2,
+            map='0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000',
+            tips='XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！',
+            codes='go(3)',
+            mode='[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]',
+            name='XXX要回家2'
         )
 
     def test_game_level_can_be_created(self):
@@ -91,16 +93,16 @@ class GameLevelsTestCase(TestCase):
         """
         level_one = GameLevels.objects.get(map_id=1)
         level_two = GameLevels.objects.get(map_id=2)
-        self.assertEqual(level_one.map, '111111')
-        self.assertEqual(level_two.map, '222222')
-        self.assertEqual(level_one.level_three_steps, 10)
-        self.assertEqual(level_two.level_three_steps, 10)
-        self.assertEqual(level_one.level_two_steps, 20)
-        self.assertEqual(level_two.level_two_steps, 20)
-        self.assertEqual(level_one.tips, 'This is a tip')
-        self.assertEqual(level_two.tips, '这是汉字提示')
-        self.assertEqual(level_one.goal, 'This is a goal')
-        self.assertEqual(level_two.goal, '这是汉字目标')
+        self.assertEqual(level_one.map, '0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000')
+        self.assertEqual(level_two.map, '0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000')
+        self.assertEqual(level_one.tips, 'XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！')
+        self.assertEqual(level_two.tips, 'XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！')
+        self.assertEqual(level_one.codes, 'go(3)')
+        self.assertEqual(level_two.codes, 'go(3)')
+        self.assertEqual(level_one.mode, '[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]')
+        self.assertEqual(level_two.mode, '[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]')
+        self.assertEqual(level_one.name, 'XXX要回家')
+        self.assertEqual(level_two.name, 'XXX要回家2')
 
 
 class DesignedMapsTestCase(TestCase):
