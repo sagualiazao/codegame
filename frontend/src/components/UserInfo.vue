@@ -72,7 +72,7 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert(this.$store.state._const.LOGIN_FIRST)
+                this.$message(this.$store.state._const.LOGIN_FIRST)
                 this.$router.push('/')
             } else {
                 this.init()

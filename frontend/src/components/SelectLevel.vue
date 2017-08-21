@@ -42,7 +42,7 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert('请先登录噢!')
+                this.$message('请先登录噢!')
                 this.$router.push('/')
             }
         }

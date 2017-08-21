@@ -15,7 +15,7 @@ export default {
     name: 'page-not-found',
     store: store,
     mounted () {
-        alert(this.$store.state._const.NOT_EXIST_PAGE)
+        this.$message(this.$store.state._const.NOT_EXIST_PAGE)
         this.$router.push('/')
     }
 }

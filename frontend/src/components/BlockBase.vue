@@ -975,7 +975,7 @@ export default {
             this.init()
         },
         NextLevel () {
-            // // 这里应该读取现在在玩第几关,如果是最后一关就开放下一关权限
+            // 这里应该读取现在在玩第几关,如果是最后一关就开放下一关权限
             // var num = this.$store.state.userGameProgress
             // this.$store.commit('changeUserGameProgress', num + 1)
             // this.$store.commit('changelevelpassModal', false)
