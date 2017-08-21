@@ -1,11 +1,26 @@
 <template>
 <div id="select-level">
     <div id="continue-win">
-        <button id="continue-play">
-            {{ $store.state._const.CONTINUE_GAME }}
-        </button>
+        <button id="continue-play" @click="selectlevel_dialog = true">继续游戏</button>
         <el-progress  id="progress" type="circle" :percentage="50"></el-progress>
     </div>
+    <el-dialog title="提示" :visible.sync="selectlevel_dialog" size="tiny" :before-close="handleClose">
+        <el-button type="success" class="level-btn" @click="select_lev(1)">1</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(2)">2</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(3)">3</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(4)">4</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(5)">5</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(6)">6</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(7)">7</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(8)">8</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(9)">9</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(10)">10</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(11)">11</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(12)">12</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(13)">13</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(14)">14</el-button>
+        <el-button type="success" class="level-btn" @click="select_lev(15)">15</el-button>
+    </el-dialog>
 </div>
 </template>
 
@@ -20,22 +35,26 @@ export default {
     store: store,
     data: function () {
         return {
+            selectlevel_dialog: false
         }
     },
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert(this.$store.state._const.LOGIN_FIRST)
+                alert('请先登录噢!')
                 this.$router.push('/')
             }
         }
     },
     methods: {
+        select_lev (LevelNum) {
+        }
     }
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
     font-weight: normal;
@@ -58,15 +77,6 @@ h1 {
     left: 32%;
     top: 30%;
 }
-#select-level-container {
-    width: 100%;
-    height: 150px;
-    background-color: grey;
-    position: absolute;
-    left: 0.6%;
-    top: 83%;
-    display: inline-flex;
-}
 #continue-play {
     width: 15%;
     height: 26%;
@@ -79,15 +89,7 @@ h1 {
 #progress {
     padding-top: 15%;
 }
-.level-container {
-    width: 15%;
-    background-color: black;
-    display: inline;
-}
-.level {
-    font-size: 1.5em;
-    color: pink;
-    position: absolute;
-    bottom: 0%;
+.level-btn {
+    margin-top: 20px;
 }
 </style>

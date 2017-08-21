@@ -103,7 +103,8 @@ const state = {
         WRONG_CAPTCHA: '验证码错误',
         WRONG_DISPLAY: '显示错误',
         WRONG_EMAIL_FORMAT: '邮箱格式错误',
-        WRONG_PASSWORD_FORMAT: '密码格式错误'
+        WRONG_PASSWORD_FORMAT: '密码格式错误',
+        GAME_INFORMATION: ''
     },
     /**
     *记录登录状态
@@ -149,7 +150,7 @@ const state = {
     * @for state
     * @default null
     */
-    userGameProgress: null,
+    userGameProgress: 1,
     /**
     *记录当前用户支付状态
     *
@@ -204,7 +205,7 @@ const state = {
     * @default false
     */
     map: null,
-    mapString: null,
+    mapString: '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
     signinDialog: false,
     /**
     *记录当前地图字符串
@@ -240,7 +241,9 @@ const state = {
     * @for state
     * @default false
     */
-    changePasswordDialog: false
+    changePasswordDialog: false,
+    levelpassModal: false,
+    gamereplayModal: false
 }
 
 /**
@@ -411,6 +414,15 @@ const mutations = {
             state.map = obj
             state.mapString = state.map.map
         }
+    },
+    changelevelpassModal: function (state, status) {
+        state.levelpassModal = status
+    },
+    changegamereplayModal: function (state, status) {
+        state.gamereplayModal = status
+    },
+    changegameinformation: function (state, text) {
+        state._const.GAME_INFORMATION = text
     }
 }
 
@@ -459,7 +471,7 @@ const actions = {
         context.commit('changeUserEmail', null)
         context.commit('changeUserId', null)
         context.commit('changeUserNickName', null)
-        context.commit('changeUserGameProgress', null)
+        context.commit('changeUserGameProgress', 1)
         context.commit('changeUserHasPaied', null)
         context.commit('signinWindow', false)
         context.commit('signupWindow', false)

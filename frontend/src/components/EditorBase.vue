@@ -19,6 +19,19 @@
             {{ $store.state._const.RUN }}
         </button>
     </div>
+    <div class="game-background" v-show="$store.state.levelpassModal">
+        <div class="btn-container">
+            <p>{{ $store.state._const.GAME_INFORMATION }}</p>
+            <button class="game-btn" id="replay" @click="replayPass()"></button>
+            <button class="game-btn" id="next-level" @click="NextLevel()">下一关</button>
+        </div>
+    </div>
+    <div class="game-background" v-show="$store.state.gamereplayModal">
+        <div class="btn-container">
+            <p>{{ $store.state._const.GAME_INFORMATION }}</p>
+            <button class="game-btn" id="fail-replay" @click="replaySingle()"></button>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -580,15 +593,23 @@ export default {
         *游戏结束
         * @method gameover
         */
-        gamever () {
-            alert('gameover')
+        gameover () {
+            this.$store.commit('changegameinformation', '游戏失败了呢，再试一次吧！')
+            this.$store.commit('changegamereplayModal', true)
         },
         /**
         *游戏过关
         * @method victory
         */
         victory () {
-            alert('victory')
+            var select = this.$store.state.leveMode
+            if (select === false) {
+                this.$store.commit('changegameinformation', '恭喜您过关!')
+                this.$store.commit('changegamereplayModal', true)
+            } else {
+                this.$store.commit('changegameinformation', '恭喜您过关!')
+                this.$store.commit('changelevelpassModal', true)
+            }
         },
         /**
         *传送函数，如果角色所在位置为传送门，则传送到另一传送门处，否则无动作
@@ -926,6 +947,20 @@ export default {
                 this.tween[index].call(this.victory)
             }
             this.player[index].y = playery
+        },
+        replayPass () {
+            this.$store.commit('changelevelpassModal', false)
+            this.init()
+        },
+        replaySingle () {
+            this.$store.commit('changegamereplayModal', false)
+            this.init()
+        },
+        NextLevel () {
+            var num = this.$store.state.userGameProgress
+            this.$store.commit('changeUserGameProgress', num + 1)
+            this.$store.commit('changelevelpassModal', false)
+            this.init()
         }
     },
     /**
@@ -965,10 +1000,14 @@ export default {
     -moz-box-sizing: border-box;
     position: absolute;
     left: 1%;
-    width: 48%;
+    width: 50%;
     height: 600px;
     padding: 10px;
     border: solid 1px;
+    border-right: solid 3px;
+}
+#game-canval {
+    width: 100%;
 }
 .tab-plugin {
     box-sizing: border-box;
@@ -976,14 +1015,14 @@ export default {
     -moz-box-sizing: border-box;
     position: absolute;
     right: 1%;
-    width: 50%;
+    width: 48%;
     height: 600px;
 }
 .tab-plugin .tab-container {
     position: absolute;
     top: 10px;
     left: 0;
-    width: 100%;
+    width: 98%;
     height: 540px;
     opacity: 1;
 }
@@ -1042,5 +1081,42 @@ export default {
     border-radius: 50%;
     background-color: white;
     border: solid 1px black;
+}
+.game-background {
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0,152,50,0.6);
+    z-index: 99;
+}
+.btn-container {
+    float: left;
+    position: absolute;
+    left: 30%;
+    top: 210px;
+    z-index: 100;
+    width: 40%;
+    height: 350px;
+    background-color: grey;
+}
+.game-btn {
+    width: 20%;
+    height: 100px;
+    border-width: 0px;
+    border-radius: 10em;
+}
+#replay {
+    position: absolute;
+    left: 15%;
+    top: 30%;
+}
+#next-level {
+    position: absolute;
+    left: 70%;
+    top: 30%;
+}
+#fail-replay {
+    position: absolute;
+    left: 40%;
+    top: 30%;
 }
 </style>
