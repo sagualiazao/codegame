@@ -4,11 +4,7 @@
         <el-tab-pane :label="$store.state._const.MAP_SQUARE" name="first" class="map-square-tab">
             <div v-for="(map, index) in mapList">
                 <div class="map-picture">
-                    <a href="#BlockBase"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY">
-                        <span class="tips">
-                            {{ $store.state._const.INTER_GAME }}
-                        </span>
-                    </a>
+                    <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
                         <span class="mapname">
                             {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
@@ -78,7 +74,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
-import { simpleGet, simplePost } from '@/assets/js/util.js'
+import { simpleGet, simplePost, readMap } from '@/assets/js/util.js'
 
 export default {
     name: 'map-square',
@@ -111,7 +107,16 @@ export default {
             this.readPublishedMapList()
         },
         handleClick: function (tab, event) {},
-        playClick: function () {},
+        enterMap: async function (id) {
+            this.$store.commit('changeLevelMode', false)
+            this.$store.commit('changeGameID', id)
+            let response = await readMap(false, id)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                this.$store.commit('changeMap', obj)
+                this.$router.push('/BlockBase')
+            }
+        },
         publishClick: function (map) {
             map[4] = false
             this.cancelPublishStatus(map[0])
