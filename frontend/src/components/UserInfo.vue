@@ -172,8 +172,8 @@ img {
 }
 .base-info p, .game-info p {
     border-radius: 30px;
-    border: 15px solid transparent;
-    border-image: url(../assets/img/border10.png) 500 500 round;
+    border: 18px solid transparent;
+    border-image: url(../assets/img/border10.png) 100 120 round;
     /*border: 2px solid #708090;*/
     /*margin-right: 600px;*/
     width: 35%;
