@@ -4,7 +4,7 @@
         <button id="continue-play" @click="selectlevel_dialog = true">继续游戏</button>
         <el-progress  id="progress" type="circle" :percentage="50"></el-progress>
     </div>
-    <el-dialog title="提示" :visible.sync="selectlevel_dialog" size="tiny" :before-close="handleClose">
+    <el-dialog title="选择关卡" :visible.sync="selectlevel_dialog" size="tiny" :before-close="handleClose">
         <el-button type="success" class="level-btn" @click="select_lev(1)">1</el-button>
         <el-button type="success" class="level-btn" @click="select_lev(2)">2</el-button>
         <el-button type="success" class="level-btn" @click="select_lev(3)">3</el-button>
@@ -49,6 +49,14 @@ export default {
     },
     methods: {
         select_lev (LevelNum) {
+            var prog = this.$store.state.userGameProgress
+            if (LevelNum <= prog) {
+                this.$store.commit('changeUserGameProgress', LevelNum)
+                this.selectlevel_dialog = false
+                this.$router.push('/' + 'BlockBase')
+            } else {
+                this.$message('您还没玩到这关哦！您现在玩到了第' + prog + '关')
+            }
         }
     }
 }
