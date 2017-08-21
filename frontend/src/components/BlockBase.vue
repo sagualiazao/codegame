@@ -397,27 +397,21 @@ export default {
             let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
             document.getElementById('code-area').value = code
         },
-        read: async function () {
-            let response = await simpleGet('api/read-map?mapid=' + this.mapId)
-            let obj = await response.json()
-            if (await obj.status === '1') {
-                var string = obj.map
-                var k = 0
-                var i
-                var j
-                for (i = 0; i < this.mapWidth; i++) {
-                    for (j = 0; j < this.mapHeight; j++) {
-                        if (string[k] !== '!') {
-                            this.maps[i][j] = string[k]
-                            k += 1
-                        } else {
-                            this.maps[i][j] = string[k + 1] + string[k + 2]
-                            k += 4
-                        }
+        read () {
+            var string = this.$store.state.mapString
+            var k = 0
+            var i
+            var j
+            for (i = 0; i < this.mapWidth; i++) {
+                for (j = 0; j < this.mapHeight; j++) {
+                    if (string[k] !== '!') {
+                        this.maps[i][j] = string[k]
+                        k += 1
+                    } else {
+                        this.maps[i][j] = string[k + 1] + string[k + 2]
+                        k += 4
                     }
                 }
-            } else if (await obj.status === '0') {
-                alert('读取失败!')
             }
         },
         /**
@@ -440,20 +434,20 @@ export default {
         toScreenY (mapY) {
             return Math.floor(this.mapy + this.div * mapY)
         },
-        mapTest () {
-            this.maps = [
-                ['6', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-                ['7', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-                ['8', '1', '0', '2', '0', '1', '3', '1', '0', '1'],
-                ['0', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-                ['9', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-                ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1']
-            ]
-        },
+        // mapTest () {
+        //     this.maps = [
+        //         ['6', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+        //         ['7', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+        //         ['8', '1', '0', '2', '0', '1', '3', '1', '0', '1'],
+        //         ['0', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
+        //         ['9', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+        //         ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
+        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
+        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1']
+        //     ]
+        // },
         /**
         *根据二维数组的值加载对应资源到指定位置，‘0’ 为草地，‘1’为树木，‘2’为河，‘3’为主角
         *‘4’为终点，‘6’为配角，‘7’为钥匙，‘8’为门，‘9’为石头，‘xx’格式为传送门
@@ -534,7 +528,12 @@ export default {
         loadMap () {
             var i
             var j
-            this.mapTest()
+            this.maps = new Array(this.mapWidth)
+            for (i = 0; i < this.mapWidth; i++) {
+                this.maps[i] = new Array(this.mapHeight)
+            }
+            // this.mapTest()
+            this.read()
             for (i = 0; i < this.mapWidth; i++) {
                 for (j = 0; j < this.mapHeight; j++) {
                     this.loadObj(this.maps[i][j], i, j)
