@@ -205,6 +205,15 @@ const state = {
     */
     signinDialog: false,
     /**
+    *记录当前地图字符串
+    *
+    * @property mapString
+    * @type {String}
+    * @for state
+    * @default ''
+    */
+    mapString: '1111111111111111111111111111111300000111111111111111111111111111111111111111111111111111111111111111',
+    /**
     *注册窗口显示状态
     *
     * @property signupDialog

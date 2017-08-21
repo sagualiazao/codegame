@@ -455,6 +455,10 @@ export default {
         * @method submit
         */
         submit () {
+            if (!(this.haveFlag && this.havePlayer)) {
+                alert('请放置角色或终点')
+                return
+            }
             var string = ''
             for (var i = 0; i < this.mapWidth; i++) {
                 for (var j = 0; j < this.mapHeight; j++) {
