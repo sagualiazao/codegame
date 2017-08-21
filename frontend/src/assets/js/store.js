@@ -203,6 +203,8 @@ const state = {
     * @for state
     * @default false
     */
+    map: null,
+    mapString: null,
     signinDialog: false,
     /**
     *记录当前地图字符串
@@ -212,7 +214,6 @@ const state = {
     * @for state
     * @default ''
     */
-    mapString: '1111111111111111111111111111111300000111111111111111111111111111111111111111111111111111111111111111',
     /**
     *注册窗口显示状态
     *
@@ -404,6 +405,12 @@ const mutations = {
     */
     changeGameID: function (state, id) {
         state.gameId = id
+    },
+    changeMap: function (state, obj) {
+        if (obj !== null) {
+            state.map = obj
+            state.mapString = state.map.map
+        }
     }
 }
 
@@ -433,6 +440,7 @@ const actions = {
         context.commit('changeRegisterDate', null)
         context.commit('changeLevelMode', true)
         context.commit('changeGameID', null)
+        context.commit('changeMap', null)
         fetch('api/logout', {
             method: 'get',
             mode: 'cors',
@@ -460,6 +468,7 @@ const actions = {
         context.commit('changeRegisterDate', null)
         context.commit('changeLevelMode', true)
         context.commit('changeGameID', null)
+        context.commit('changeMap', null)
     },
     /**
     *登录
@@ -487,6 +496,7 @@ const actions = {
             context.commit('changeMenu', 'menu-bar-logged')
             context.commit('changeLevelMode', true)
             context.commit('changeGameID', null)
+            context.commit('changeMap', null)
         } else {}
     }
 }
