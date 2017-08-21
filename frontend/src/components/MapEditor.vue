@@ -26,6 +26,11 @@
 </template>
 
 <script>
+/**
+* MapEditor 实现地图编辑器，并可将地图转化成对应地图字符串存入数据库中
+*
+* @class MapEditor
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -38,36 +43,202 @@ export default {
     store: store,
     data: function () {
         return {
+            /**
+            *用来记录地图上传送门的单双数
+            *
+            * @property transform
+            * @type {Object}
+            * @default []
+            */
             transform: [],
-            stage: null,
+            /**
+            *用来存放地图的背景的容器
+            *
+            * @property mapContainer
+            * @type {Object}
+            * @default null
+            */
             mapContainer: null,
-            scale: 1,
-            maps: [],
-            randomColor: 0,
-            canvasWidth: 900,
-            canvasHeight: 640,
-            div: 64,
-            bias: 30,
-            items: 5,
+            /**
+            *用来存放地图信息
+            *
+            * @property maps
+            * @type {Object}
+            * @default null
+            */
+            maps: null,
+            /**
+            *用来存放多个角色
+            *
+            * @property player
+            * @type {Object}
+            * @default []
+            */
+            stage: null,
+            /**
+            *用来标识地图ID
+            *
+            * @property mapID
+            * @type {Number}
+            * @default 0
+            */
             mapWidth: 10,
+            /**
+            *用来存放地图高度
+            *
+            * @property mapHeight
+            * @type {Number}
+            * @default 10
+            */
             mapHeight: 10,
+            /**
+            *用来存放地图初始X坐标
+            *
+            * @property mapx
+            * @type {Number}
+            * @default 0
+            */
+            div: 64,
+            /**
+            *用来记录地图缩放比例
+            *
+            * @property scale
+            * @type {Number}
+            * @default 1
+            */
+            scale: 1,
+            /**
+            *用来随机生成点击道具时产生阴影
+            *
+            * @property randomColor
+            * @type {Number}
+            * @default 0
+            */
+            randomColor: 0,
+            /**
+            *画布标准宽度
+            *
+            * @property canvasWidth
+            * @type {Number}
+            * @default 900
+            */
+            canvasWidth: 900,
+            /**
+            *画布标准高度
+            *
+            * @property canvasHeight
+            * @type {Number}
+            * @default 640
+            */
+            canvasHeight: 640,
+            /**
+            *道具栏与画布两侧的距离
+            *
+            * @property bias
+            * @type {Number}
+            * @default 30
+            */
+            bias: 30,
+            /**
+            *道具个数
+            *
+            * @property items
+            * @type {Number}
+            * @default 5
+            */
+            items: 5,
+            /**
+            *辅助变量，记录鼠标点击道具时的x坐标与道具的x坐标的差值
+            *
+            * @property fzmx
+            * @type {Number}
+            * @default 0
+            */
             fzmx: 0,
+            /**
+            *辅助变量，记录鼠标点击道具时的y坐标与道具的y坐标的差值
+            *
+            * @property fzmy
+            * @type {Number}
+            * @default 0
+            */
             fzmy: 0,
+            /**
+            *辅助变量，记录鼠标点击道具时的x坐标
+            *
+            * @property sx
+            * @type {Number}
+            * @default 0
+            */
             sx: 0,
+            /**
+            *辅助变量，记录鼠标点击道具时的y坐标
+            *
+            * @property sy
+            * @type {Number}
+            * @default 0
+            */
             sy: 0,
+            /**
+            *用来记录是否已经放置主角
+            *
+            * @property havePlayer
+            * @type {Boolean}
+            * @default false
+            */
             havePlayer: false,
+            /**
+            *用来记录是否已经放置终点
+            *
+            * @property haveFlag
+            * @type {Boolean}
+            * @default false
+            */
             haveFlag: false,
+            /**
+            *地图名称
+            *
+            * @property mapName
+            * @type {string}
+            * @default ''
+            */
             mapName: '',
+            /**
+            *地图简介
+            *
+            * @property mapTips
+            * @type {string}
+            * @default ''
+            */
             mapTips: ''
         }
     },
     methods: {
+        /**
+        *将舞台坐标x转化为二维数组的x
+        *
+        * @method toMapX
+        * @param {Number} screenX 需要转换的坐标
+        * @return {Number} 返回转化后的坐标
+        */
         toMapX (screenX) {
             return Math.floor((screenX - this.mapContainer.x) / this.div)
         },
+        /**
+        *将舞台坐标y转化为二维数组的y
+        *
+        * @method toMapY
+        * @param {Number} screenY 需要转换的坐标
+        * @return {Number} 返回转化后的坐标
+        */
         toMapY (screenY) {
             return Math.floor((screenY - this.mapContainer.y) / this.div)
         },
+        /**
+        *初始化函数
+        *
+        * @method init
+        */
         init () {
             var canvas = document.getElementById('my-map')
             this.stage = new createjs.Stage(canvas)
@@ -93,6 +264,14 @@ export default {
             }
             createjs.Ticker.addEventListener('tick', this.stage)
         },
+        /**
+        *添加道具到指定位置
+        *
+        * @method addPic
+        * @param {Number} i 道具序号
+        * @param {Number} ox 道具放置的位置坐标x
+        * @param {Number} oy 道具放置的位置坐标y
+        */
         addPic (i, ox, oy) {
             if (i === 3 && this.havePlayer) {
                 return
@@ -109,6 +288,11 @@ export default {
             con.addEventListener('pressup', this.pressup)
             this.stage.addChild(con)
         },
+        /**
+        *界面初始化时，将道具加载到右侧
+        *
+        * @method draw
+        */
         draw () {
             var ox = this.stage.x + this.canvasWidth - this.div - this.bias
             this.randomColor = Math.floor(Math.random() * 16777215).toString(16)
@@ -116,6 +300,12 @@ export default {
                 this.addPic(i, ox, this.bias + this.div * i)
             }
         },
+        /**
+        *鼠标按下时的函数，为道具添加阴影并添加鼠标拖拽事件监听
+        *
+        * @method mousedown
+        * @param {Event} event 事件
+        */
         mousedown (event) {
             this.shadowur(true, event.target.parent)
             this.sx = event.stageX / this.scale
@@ -124,6 +314,12 @@ export default {
             this.fzmy = event.stageY / this.scale - event.target.parent.y
             event.target.parent.addEventListener('pressmove', this.pressmove, false)
         },
+        /**
+        *鼠标拖拽时的函数，道具随鼠标移动而移动，设置道具不会移出画布
+        *
+        * @method pressmover
+        * @param {Event} event 事件
+        */
         pressmove (event) {
             var self = event.target.parent
             var mapH = this.div * this.mapHeight
@@ -140,6 +336,12 @@ export default {
                 self.y = event.stageY / this.scale - this.fzmy
             }
         },
+        /**
+        *鼠标松开时的函数，取消道具阴影，如果道具位置在画布中，则将道具自动对齐在画布的格子中并替换掉该位置上的道具，否则移除道具，并在道具栏重新生成该道具
+        *
+        * @method pressup
+        * @param {Event} event 事件
+        */
         pressup (event) {
             var ox = this.stage.x + this.canvasWidth - this.div - this.bias
             this.shadowur(false, event.target.parent)
@@ -175,6 +377,13 @@ export default {
             event.target.parent.removeAllEventListeners()
             this.addPic(event.target.parent.name, ox, this.bias + this.div * event.target.parent.name)
         },
+        /**
+        *为容器对象添加或取消阴影
+        *
+        * @method shadowur
+        * @param {Boolean} bool true为添加阴影，false为去除阴影
+        * @param {Container} con 待操作的容器对象
+        */
         shadowur (bool, con) {
             if (bool) {
                 con.shadow = new createjs.Shadow('#' + this.randomColor, 0, 0, 10)
@@ -182,6 +391,14 @@ export default {
                 con.shadow = null
             }
         },
+        /**
+        *在指定位置放置传送门，如果此时地图中传送门为单数，则target与最后一个传送门配对，并将两者对应的二维数组的值互相赋值为彼此，
+        *如果此时地图中传送门个数为双数，则不进行配对，target对应的二维数组的值赋值为target
+        * @method shadowur
+        * @param {Object} target 需要放置的传送门
+        * @param {Number} x 传送门位置对应的二维数组的索引x
+        * @param {Number} y 传送门位置对应的二维数组的索引y
+        */
         setTransform (target, x, y) {
             if (this.transform.length === 0) {
                 this.maps[x][y] = target
@@ -192,6 +409,13 @@ export default {
                 this.transform.pop()
             }
         },
+        /**
+        *清除指定位置的元素，如果该位置放置非传送门道具，则清除该道具，如果放置了传送门，则判断传送门是否已配对，已配对则清除这一对传送门，未配对则
+        *清除该传送门
+        * @method remove
+        * @param {Number} x 二维数组的索引x
+        * @param {Number} y 二维数组的索引y
+        */
         remove (x, y) {
             var ox = this.stage.x + this.canvasWidth - this.div - this.bias
             if (this.maps[x][y].name === 3) {
@@ -225,6 +449,11 @@ export default {
             }
             return
         },
+        /**
+        *提交函数，将地图转换成可读取的地图字符串，并调用mapPost函数传入数据库中，并清空地图
+        *
+        * @method submit
+        */
         submit () {
             var string = ''
             for (var i = 0; i < this.mapWidth; i++) {
@@ -243,7 +472,17 @@ export default {
                 this.mapPost(string)
                 this.clean()
             }
+            if (this.mapTips === '') {
+                alert('请输入有关说明信息')
+            }
+            this.mapPost(string)
+            this.clean()
         },
+        /**
+        *清空函数，清空地图上的所有元素
+        *
+        * @method clean
+        */
         clean () {
             this.stage.removeAllChildren()
             this.stage = null
@@ -267,6 +506,12 @@ export default {
             this.mapTips = ''
             this.init()
         },
+        /**
+        *将存储地图的字符串传入数据库
+        *
+        * @method mapPost
+        * @param {string} string 存储地图的字符串
+        */
         mapPost: async function (string) {
             let jsonObj = {
                 'mapString': string,
@@ -282,6 +527,14 @@ export default {
             }
         }
     },
+    /**
+    *
+    vue组件加载过程中进行初始化地图编辑器界面
+    *
+    @method mounted
+    *
+    @for MapEditor
+    */
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')

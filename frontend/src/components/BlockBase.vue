@@ -46,21 +46,133 @@ export default {
             * @default null
             */
             workspace: null,
+            /**
+            *用来存放地图的背景
+            *
+            * @property pic
+            * @type {Object}
+            * @default null
+            */
             pic: null,
+            /**
+            *用来存放地图信息
+            *
+            * @property maps
+            * @type {Object}
+            * @default null
+            */
             maps: null,
+            /**
+            *用来存放多个角色
+            *
+            * @property player
+            * @type {Object}
+            * @default []
+            */
             player: [],
+            /**
+            *用来存放动画舞台
+            *
+            * @property stage
+            * @type {Object}
+            * @default null
+            */
             stage: null,
+            /**
+            *用来存放钥匙信息
+            *
+            * @property key
+            * @type {Object}
+            * @default null
+            */
             key: null,
+            /**
+            *用来存放石头信息
+            *
+            * @property treeSp
+            * @type {Object}
+            * @default null
+            */
             treeSp: null,
+            /**
+            *用来存放角色动画
+            *
+            * @property tween
+            * @type {Object}
+            * @default []
+            */
             tween: [],
-            haveKey: false,
+            /**
+            *用来标识角色是否获得钥匙
+            *
+            * @property haveKey
+            * @type {Object}
+            * @default []
+            */
+            haveKey: [],
+            /**
+            *用来标识地图ID
+            *
+            * @property mapID
+            * @type {Number}
+            * @default 0
+            */
             mapId: 0,
+            /**
+            *用来存放地图宽度
+            *
+            * @property mapWidth
+            * @type {Number}
+            * @default 10
+            */
             mapWidth: 10,
+            /**
+            *用来存放地图高度
+            *
+            * @property mapHeight
+            * @type {Number}
+            * @default 10
+            */
             mapHeight: 10,
+            /**
+            *用来存放地图初始X坐标
+            *
+            * @property mapx
+            * @type {Number}
+            * @default 0
+            */
             mapx: 0,
+            /**
+            *用来存放地图初始Y坐标
+            *
+            * @property mapy
+            * @type {Number}
+            * @default 0
+            */
             mapy: 0,
+            /**
+            *用来存放地图每格大小
+            *
+            * @property div
+            * @type {Number}
+            * @default 64
+            */
             div: 64,
+            /**
+            *用来存放每段动画运行时间
+            *
+            * @property speed
+            * @type {Number}
+            * @default 1000
+            */
             speed: 1000,
+            /**
+            *用来存放角色方向
+            *
+            * @property direct
+            * @type {Object}
+            * @default []
+            */
             direct: [],
             /**
             *用来存放用户动态创建的函数名及内容
@@ -308,19 +420,25 @@ export default {
                 alert('读取失败!')
             }
         },
+        /**
+        *将二维数组的x转化为舞台坐标x
+        *
+        * @method toScreenX
+        * @param {Number} mapX 需要转换的坐标
+        * @return {Number} 返回转化后的坐标
+        */
         toScreenX (mapX) {
             return Math.floor(this.mapx + this.div * mapX)
         },
+        /**
+        *将二维数组的y转化为舞台坐标y
+        *
+        * @method toScreenY
+        * @param {Number} mapY 需要转换的坐标
+        * @return {Number} 返回转化后的坐标
+        */
         toScreenY (mapY) {
             return Math.floor(this.mapy + this.div * mapY)
-        },
-        initNum () {
-            this.mapWidth = 10
-            this.mapHeight = 10
-            this.div = 64
-            this.speed = 1000
-            this.haveKey = false
-            this.functionSet = {}
         },
         mapTest () {
             this.maps = [
@@ -336,6 +454,14 @@ export default {
                 ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1']
             ]
         },
+        /**
+        *根据二维数组的值加载对应资源到指定位置，‘0’ 为草地，‘1’为树木，‘2’为河，‘3’为主角
+        *‘4’为终点，‘6’为配角，‘7’为钥匙，‘8’为门，‘9’为石头，‘xx’格式为传送门
+        * @method loadObj
+        * @param {Number} index 二维数组的值
+        * @param {Number} i 二维数组的索引i
+        * @param {Number} j 二维数组的索引j
+        */
         loadObj (index, i, j) {
             var stone
             if (index.length === 2) {
@@ -376,6 +502,14 @@ export default {
             }
             return
         },
+        /**
+        *加载角色，每个角色有4个动作，runRight、runLeft、runDown、runUp
+        * @method loadCharactor
+        * @param {Number} index 角色序号
+        * @param {Number} path 角色资源的路径
+        * @param {Number} x 二维数组的索引x
+        * @param {Number} y 二维数组的索引y
+        */
         loadCharactor (index, path, x, y) {
             var spritesheet = new createjs.SpriteSheet({
                 'images': [path],
@@ -393,6 +527,10 @@ export default {
             this.player[index].gotoAndStop(8)
             this.stage.addChild(this.player[index])
         },
+        /**
+        *加载地图，根据数组值在对应位置加载资源
+        * @method loadMap
+        */
         loadMap () {
             var i
             var j
@@ -403,8 +541,16 @@ export default {
                 }
             }
         },
+        /**
+        *初始化函数
+        * @method init
+        */
         init () {
-            this.initNum()
+            this.mapWidth = 10
+            this.mapHeight = 10
+            this.div = 64
+            this.speed = 1000
+            this.functionSet = {}
             var canvas = document.getElementById('game-canval')
             this.stage = new createjs.Stage(canvas)
             this.mapx = this.stage.x
@@ -420,13 +566,27 @@ export default {
             for (var i = 0; i < this.player.length; i++) {
                 this.tween[i] = createjs.Tween.get(this.player[i])
                 this.direct[i] = 2
+                this.haveKey[i] = false
             }
             createjs.Ticker.addEventListener('tick', this.stage)
         },
+        /**
+        *游戏结束
+        * @method gameover
+        */
         gameover () {
         },
+        /**
+        *游戏过关
+        * @method victory
+        */
         victory () {
         },
+        /**
+        *传送函数，如果角色所在位置为传送门，则传送到另一传送门处，否则无动作
+        * @method fly
+        * @param {Number} index 角色序号
+        */
         fly (index) {
             var x = Math.floor((this.player[index].x - this.mapx) / this.div)
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
@@ -440,9 +600,21 @@ export default {
             this.player[index].x = playerx
             this.player[index].y = playery
         },
+        /**
+        *等待函数，让指定序号的角色等待一定的秒数
+        * @method wait
+        * @param {Number} index 角色序号
+        * @param {Number} seconds 等待的秒数
+        */
         wait (index, seconds) {
             this.tween[index].wait(seconds * 1000)
         },
+        /**
+        *收集函数，如果角色所在位置为钥匙且角色要捡起的东西为key，则捡起钥匙，否则没有动作
+        * @method collect
+        * @param {Number} index 角色序号
+        * @param {string} str 角色要捡起的东西
+        */
         collect (index, str) {
             var x = Math.floor((this.player[index].x - this.mapx) / this.div)
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
@@ -450,7 +622,7 @@ export default {
             var condition = 0
             if (this.maps[x][y] === '7' && str === 'key') {
                 this.maps[x][y] = '0'
-                this.haveKey = true
+                this.haveKey[index] = true
                 this.tween[index].call(function () {
                     that.stage.removeChild(that.key)
                     that.saywords(index, 'Get it!')
@@ -466,27 +638,34 @@ export default {
                 }
             }
         },
+        /**
+        *掉落函数，如果角色所在位置为门且拥有钥匙且角色要掉落的东西为key，则移走石头；如果角色
+        *所在位置不为门且拥有钥匙且角色要掉落的东西为key，则掉落钥匙；否则无动作
+        * @method drop
+        * @param {Number} index 角色序号
+        * @param {string} str 角色要掉落的东西
+        */
         drop (index, str) {
             var x = Math.floor((this.player[index].x - this.mapx) / this.div)
             var y = Math.floor((this.player[index].y - this.mapy) / this.div)
             const that = this
             var condition = 0
-            if (this.maps[x][y] !== '8' && this.haveKey && str === 'key') {
+            if (this.maps[x][y] !== '8' && this.haveKey[index] && str === 'key') {
                 condition = 1
                 this.maps[x][y] = '7'
-                this.haveKey = false
+                this.haveKey[index] = false
                 this.tween[index].call(function () {
                     that.key.x = that.player[index].x
                     that.key.y = that.player[index].y
                     that.stage.addChild(that.key)
                     that.saywords(index, 'Drop it!')
                 })
-            } else if (this.maps[x][y] === '8' && this.haveKey && str === 'key') {
+            } else if (this.maps[x][y] === '8' && this.haveKey[index] && str === 'key') {
                 this.maps[x][y] = '0'
                 var xx = Math.floor((this.treeSp.x - this.mapx) / this.div)
                 var yy = Math.floor((this.treeSp.y - this.mapy) / this.div)
                 this.maps[xx][yy] = '0'
-                this.haveKey = false
+                this.haveKey[index] = false
                 this.tween[index].call(function () {
                     that.key.x = that.player[index].x
                     that.key.y = that.player[index].y
@@ -504,6 +683,12 @@ export default {
                 }
             }
         },
+        /**
+        *说话函数，让指定序号的角色在该位置弹出语言框，并0.5秒后自动消失
+        * @method saywords
+        * @param {Number} index 角色序号
+        * @param {string} words 角色要说的话
+        */
         saywords (index, words) {
             var text = new createjs.Text(words, '20px Arial', 'blue')
             var sp = new createjs.Shape()
@@ -519,6 +704,12 @@ export default {
                 that.stage.removeChild(sp)
             }, 500)
         },
+        /**
+        *将说话函数添加至角色动画序列中，同时所有角色的动画将等待0.5秒
+        * @method say
+        * @param {Number} index 角色序号
+        * @param {string} words 角色要说的话
+        */
         say (index, words) {
             this.tween[index].call(this.saywords, [index, words])
             this.wait(index, 0.5)
@@ -528,6 +719,12 @@ export default {
                 }
             }
         },
+        /**
+        *根据角色方向进行对应的跑动的动画
+        * @method getPlay
+        * @param {Number} index 角色序号
+        * @param {Number} direct 角色所朝方向
+        */
         getPlay (index, direct) {
             switch (direct) {
             case 1:
@@ -544,6 +741,12 @@ export default {
                 break
             }
         },
+        /**
+        *根据角色方向进行对应的停止的动画
+        * @method getStop
+        * @param {Number} index 角色序号
+        * @param {Number} direct 角色所朝方向
+        */
         getStop (index, direct) {
             switch (direct) {
             case 1:
@@ -560,6 +763,12 @@ export default {
                 break
             }
         },
+        /**
+        *角色向右走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。
+        * @method goRight
+        * @param {Number} index 角色序号
+        * @param {Number} step 步数
+        */
         goRight (index, step) {
             var playerx = this.player[index].x
             var playery = this.player[index].y
@@ -586,6 +795,12 @@ export default {
             }
             this.player[index].x = playerx
         },
+        /**
+        *角色向左走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。
+        * @method goLeft
+        * @param {Number} index 角色序号
+        * @param {Number} step 步数
+        */
         goLeft (index, step) {
             var playerx = this.player[index].x
             var playery = this.player[index].y
@@ -612,6 +827,12 @@ export default {
             }
             this.player[index].x = playerx
         },
+        /**
+        *角色向上走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。
+        * @method goUp
+        * @param {Number} index 角色序号
+        * @param {Number} step 步数
+        */
         goUp (index, step) {
             var playerx = this.player[index].x
             var playery = this.player[index].y
@@ -638,6 +859,12 @@ export default {
             }
             this.player[index].y = playery
         },
+        /**
+        *角色向下走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。
+        * @method goDown
+        * @param {Number} index 角色序号
+        * @param {Number} step 步数
+        */
         goDown (index, step) {
             var playerx = this.player[index].x
             var playery = this.player[index].y
