@@ -41,6 +41,10 @@ let whiteListConstData = {
             []
         ]
     },
+    clean: function () {
+        this.commandCodeLibrary[4] = ''
+        this.commandCodeLibrary[5] = ''
+    },
     /**
     *根据输入的角色姓名获取角色的对应序号
     *

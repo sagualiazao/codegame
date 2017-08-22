@@ -46,7 +46,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import 'yuki-createjs'
-import { getCookie } from '@/assets/js/util.js'
+import { simplePost, readMap, getCookie, setCookie } from '@/assets/js/util.js'
 
 export default {
     name: 'editor-base',
@@ -350,7 +350,7 @@ export default {
         */
         tinyEditorRun () {
             this.init()
-            this.whiteListConstData.init()
+            this.whiteListConstData.clean()
             let safeCommandString = this.getSafeCommandString()
             for (var i = 0; i < this.player.length; i++) {
                 this.tween[i] = createjs.Tween.get(this.player[i])
@@ -1007,7 +1007,6 @@ export default {
         this.jsEditor.setTheme('ace/theme/xcode')
         this.jsEditor.getSession().setMode('ace/mode/cirru')
         this.jsEditor.setHighlightActiveLine(true)
-        this.jsEditor.setValue('go(3)')
         this.jsEditor.resize()
         this.init()
         // 代码库限制
