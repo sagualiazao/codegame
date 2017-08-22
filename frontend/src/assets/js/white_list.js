@@ -32,8 +32,18 @@ let whiteListConstData = {
     * @method init
     */
     init: function () {
-        this.commandCodeLibrary[5] = []
-        this.commandCodeLibrary[4] = []
+        this.commandCodeLibrary = [
+            [/^\s*\w*\.?collect\("\w*"\)\s*$/, /^\s*\w*\.?drop\("\w*"\)\s*$/, /^\s*\w*\.?go\(\w*\)\s*$/, /^\s*\w*\.?fly\(\)\s*$/, /^\s*function-end\s*$/, /^\s*function \w+$/],
+            [],
+            [/^\s*repeat \w+ times\s*$/, /^\s*repeat-end\s*$/, /^\s*\w*\.?say\("\w*"\)\s*$/, /^\s*\w*\.?turn\("left"\)\s*$/, /^\s*\w*\.?turn\("right"\)\s*$/],
+            [/^\s*var\s+[A-Za-z]\w*\s*=\s*(\d+|[A-Za-z]\w*)\s*$/, /^\s*var\s+[A-Za-z]\w*\s*/, /^\s*\w*\.?wait\(\w*\)\s*$/],
+            [],
+            []
+        ]
+    },
+    clean: function () {
+        this.commandCodeLibrary[4] = ''
+        this.commandCodeLibrary[5] = ''
     },
     /**
     *根据输入的角色姓名获取角色的对应序号

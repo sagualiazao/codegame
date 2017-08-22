@@ -1010,6 +1010,15 @@ export default {
                 setCookie('mapString', this.$store.state.mapString)
                 this.$store.commit('changelevelpassModal', false)
                 this.init()
+                // 代码库限制
+                this.whiteListConstData.init()
+                let inactiveIndex = this.$store.state.mapMode
+                for (let i = 0; i < inactiveIndex.length; i++) {
+                    let indexX = inactiveIndex[i][0]
+                    let indexY = inactiveIndex[i][1]
+                    this.whiteListConstData.commandCodeLibrary[indexX][indexY] = ''
+                }
+                this.cleanWorkspace()
             }
         }
     },
@@ -1046,6 +1055,16 @@ export default {
         })
         this.workspace.addChangeListener(this.updateFunction)
         this.init()
+        // 代码库限制
+        this.whiteListConstData.init()
+        let inactiveIndex = this.$store.state.mapMode
+        for (let i = 0; i < inactiveIndex.length; i++) {
+            let indexX = inactiveIndex[i][0]
+            let indexY = inactiveIndex[i][1]
+            this.whiteListConstData.commandCodeLibrary[indexX][indexY] = ''
+        }
+        // 清空工作区
+        this.cleanWorkspace()
     }
 }
 </script>
