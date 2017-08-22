@@ -8,7 +8,9 @@
             <pre id='js-editor' style="font-size: 25px;">
             </pre>
         </div>
-        <a class="block-tab tab" @click="blockClick('BlockBase')" id="block-tab">Block</a>
+        <a class="block-tab tab" @click="blockClick('BlockBase')" id="block-tab">
+            {{ $store.state._const.BLOCK }}
+        </a>
         <a class="editor-tab tab" id="editor-tab">
             {{ $store.state._const.EDITOR }}
         </a>
@@ -19,17 +21,23 @@
             {{ $store.state._const.RUN }}
         </button>
     </div>
-    <div class="game-background" v-show="$store.state.levelpassModal">
+    <div class="game-background" v-show="$store.state.levelPassModal">
         <div class="btn-container">
-            <p>{{ $store.state._const.GAME_INFORMATION }}</p>
-            <button class="game-btn" id="replay" @click="replayPass()">重玩</button>
-            <button class="game-btn" id="next-level" @click="NextLevel()">下一关</button>
+            <p>{{ $store.state.gameInformation }}</p>
+            <button class="game-btn" id="replay" @click="replayPass()">
+                {{ $store.state._const.REPLAY_GAME }}
+            </button>
+            <button class="game-btn" id="next-level" @click="nextLevel()">
+                {{ $store.state._const.NEXT_LEVEL }}
+            </button>
         </div>
     </div>
-    <div class="game-background" v-show="$store.state.gamereplayModal">
+    <div class="game-background" v-show="$store.state.gameReplayModal">
         <div class="btn-container">
-            <p>{{ $store.state._const.GAME_INFORMATION }}</p>
-            <button class="game-btn" id="fail-replay" @click="replaySingle()">重玩</button>
+            <p>{{ $store.state.gameInformation }}</p>
+            <button class="game-btn" id="fail-replay" @click="replaySingle()">
+                {{ $store.state._const.REPLAY_GAME }}
+            </button>
         </div>
     </div>
 </div>
@@ -598,14 +606,17 @@ export default {
         * @method gameover
         */
         gameover () {
-            this.$store.commit('changegameinformation', '游戏失败了呢，再试一次吧！')
-            this.$store.commit('changegamereplayModal', true)
+            this.$store.commit('changeGameInformation', '游戏失败了呢，再试一次吧！')
+            this.$store.commit('changeGameReplayModal', true)
         },
         /**
         *游戏过关
         * @method victory
         */
         victory () {
+            console.log(this.$store.state.mapId)
+            console.log(this.$store.state._const.TOTAL_LEVELS)
+            console.log(this.$store.state.levelMode)
             if (
                 this.$store.state.loginStatus === false &&
                 this.$store.state.mapId >= this.$store.state._const.LEVEL_LIMIT
@@ -614,11 +625,16 @@ export default {
                 return
             }
             if (this.$store.state.levelMode === false) {
-                this.$store.commit('changegameinformation', this.$store.state._const.PASS_LEVEL)
-                this.$store.commit('changegamereplayModal', true)
+                this.$store.commit('changeGameInformation', this.$store.state._const.PASS_LEVEL)
+                this.$store.commit('changeGameReplayModal', true)
             } else {
-                this.$store.commit('changegameinformation', this.$store.state._const.PASS_LEVEL)
-                this.$store.commit('changelevelpassModal', true)
+                if (this.$store.state.mapId === this.$store.state._const.TOTAL_LEVELS) {
+                    this.$store.commit('changeGameInformation', this.$store.state._const.FINISH_GAME)
+                    this.$store.commit('changeGameReplayModal', true)
+                } else {
+                    this.$store.commit('changeGameInformation', this.$store.state._const.PASS_LEVEL)
+                    this.$store.commit('changeLevelPassModal', true)
+                }
             }
         },
         /**
@@ -958,15 +974,27 @@ export default {
             }
             this.player[index].y = playery
         },
+        /**
+        *重玩当前关卡
+        * @method replayPass
+        */
         replayPass () {
-            this.$store.commit('changelevelpassModal', false)
+            this.$store.commit('changeLevelPassModal', false)
             this.init()
         },
+        /**
+        *重玩当前地图
+        * @method replaySingle
+        */
         replaySingle () {
-            this.$store.commit('changegamereplayModal', false)
+            this.$store.commit('changeGameReplayModal', false)
             this.init()
         },
-        NextLevel: async function () {
+        /**
+        *进入下一关,如果未登录,且到达试玩关卡最后一关,需要登录.
+        * @method nextLevel
+        */
+        nextLevel: async function () {
             let level = this.$store.state.mapId
             if (level > this.$store.state.userGameProgress) {
                 simplePost('/api/change-progress', {
@@ -981,7 +1009,7 @@ export default {
                 setCookie('levelMode', this.$store.state.levelMode.toString())
                 setCookie('mapId', this.$store.state.mapId.toString())
                 setCookie('mapString', this.$store.state.mapString)
-                this.$store.commit('changelevelpassModal', false)
+                this.$store.commit('changeLevelPassModal', false)
                 this.init()
                 // 代码库限制
                 this.whiteListConstData.init()
@@ -1128,14 +1156,14 @@ export default {
     width: 100%;
     height: 100%;
     background-color:rgba(0,152,50,0.6);
-    z-index: 99;
+    z-index: 9999;
 }
 .btn-container {
     float: left;
     position: absolute;
     left: 30%;
     top: 210px;
-    z-index: 100;
+    z-index: 10000;
     width: 40%;
     height: 350px;
     background-color: grey;

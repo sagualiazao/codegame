@@ -109,10 +109,25 @@ export async function readMap (levelMode, id) {
     }
 }
 
-export function setCookie (cname, cvalue, exdays) {
+/**
+*设置生存周期至浏览器关闭前的cookie
+*
+* @method setCookie
+* @for util
+* @param {String}  cname
+* @param {String}  cvalue
+*/
+export function setCookie (cname, cvalue) {
     document.cookie = cname + '=' + cvalue + '; '
 }
 
+/**
+*获取cookie
+*
+* @method getCookie
+* @for util
+* @param {String}  cname
+*/
 export function getCookie (cname) {
     var name = cname + '='
     var ca = document.cookie.split(';')
