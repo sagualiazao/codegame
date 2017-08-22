@@ -137,6 +137,7 @@ export default {
                 this.$store.commit('changeMenu', 'menu-bar-logged')
                 this.$router.push('/' + 'SelectLevel')
             } else {
+                this.$store.commit('changeLoginStatus', false)
                 this.$message(this.$store.state._const.LOGIN_FAILURE)
             }
         },

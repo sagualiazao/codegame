@@ -3,49 +3,66 @@ import ElementUI from 'element-ui'
 import UserInfo from '@/components/UserInfo'
 import { createVue, destroyVM } from '../util'
 Vue.use(ElementUI)
+import Mock from 'mockjs'
+import 'whatwg-fetch'
 
-// 测试脚本里面应该包括一个或多个describe块，称为测试套件（test suite）
-describe('UserInfo', () => {
-    // 每个describe块应该包括一个或多个it块，称为测试用例（test case）
+Mock.mock(
+    'api/login',
+    'get',
+    function (request) {
+        let date = new Date(null)
+        date = date.toLocaleString()
+        return {
+            status: '1',
+            email: 'tom@123.com',
+            id: 1,
+            nickname: 'tom',
+            gameProgress: 13,
+            hasPaied: false,
+            createdAt: date
+        }
+    }
+)
+
+Mock.mock(
+    'api/change-nickname',
+    'post',
+    {
+        status: '1'
+    }
+)
+
+describe('UserInfo', function () {
     let vm
 
-    beforeEach(() => {
-        // 创建组件实例
+    beforeEach(async function () {
         vm = createVue(UserInfo, true)
-        vm.$store.state.userNickName = 'Hello'
-        vm.$store.state.userEmail = '123@qq.com'
-        vm.$store.state.registerDate = '2017-08-06'
+        vm.$store.dispatch('init')
+        await vm.$store.dispatch('signin')
+        await vm.init()
     })
 
-    afterEach(() => {
-        vm.$store.dispatch('init')
+    afterEach(function () {
         destroyVM(vm)
     })
 
-    it('should render correct contents', () => {
-        expect(vm.$el.querySelector('.user-info h1').textContent).to.equal('个人主页')
-        expect(vm.$el.querySelector('.base-info span').textContent).to.equal('昵称')
-        expect(vm.$el.querySelector('.game-info span').textContent).to.equal('已完成的关卡数')
-        expect(vm.$el.querySelector('.user-info a').textContent).to.equal('修改密码')
+    it('挂载成功', function () {
+        expect(vm.$store.state.loginStatus).to.equal(true)
+        expect(vm.$store.state.userNickName).to.equal('tom')
+        expect(vm.$store.state.userGameProgress).to.equal(13)
+        expect(vm.finishedLevel).to.equal(13)
+        expect(vm.remainedLevel).to.equal(2)
+        expect(vm.nickname).to.equal('tom')
     })
 
-    it('should set correct data', () => {
-        expect(vm.$store.state.userNickName).to.equal('Hello')
-        expect(vm.$store.state.userEmail).to.equal('123@qq.com')
-        expect(vm.$store.state.registerDate).to.equal('2017-08-06')
-        expect(vm.finishedLevel).to.equal('')
-        expect(vm.remainedLevel).to.equal('')
-        expect(vm.nickname).to.equal('')
-    })
-
-    it('change nickname', async function () {
-        vm.nickname = 'xy'
+    it('nameSubmit()', async function () {
+        vm.nickname = 'jerry'
         await vm.nameSubmit()
-        await expect(vm.$store.state.userNickName).to.equal('xy')
+        await expect(vm.$store.state.userNickName).to.equal('jerry')
     })
 
-    it('click change password', async function () {
-        vm.$el.querySelector('.user-info a').click()
-        await expect(vm.$store.state.changePasswordDialog).to.equal(true)
+    it('resetPasswordChange()', function () {
+        vm.resetPasswordChange()
+        expect(vm.$store.state.changePasswordDialog)
     })
 })

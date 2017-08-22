@@ -24,10 +24,13 @@ const state = {
         BUY_NOW: '立即购买',
         CANCEL: '取消',
         CAPTCHA: '验证码',
+        CHANGE_NICKNAME: '修改昵称',
         CHECK_FORM: '信息错误,请检查',
         CLEAN: 'Clean',
         CLICK_TO_CANCEL_FAVORITE: '点击取消收藏',
         CLICK_TO_CANCEL_PUBLISH: '点击取消发布',
+        CLICK_TO_CHANGE_PASSWORD: '点击修改密码',
+        CLICK_TO_CHANGE_NICKNAME: '点击修改昵称',
         CLICK_TO_FAVORITE: '点击收藏地图',
         CLICK_TO_PUBLISH: '点击发布',
         CONFIRM: '确认',
@@ -106,6 +109,7 @@ const state = {
         RUN: 'Run',
         SAVE_FAILURE: '保存失败',
         SAVE_SUCCESS: '保存成功',
+        SELECT_LEVEL: '选择关卡',
         SEND_CAPTCHA_EMAIL: '发送验证码邮件',
         SHORT_CAPTCHA: '验证码长度不足',
         SHORT_PASSWORD: '密码长度不足',
@@ -569,7 +573,7 @@ const actions = {
         context.commit('changeUserEmail', null)
         context.commit('changeUserId', null)
         context.commit('changeUserNickName', null)
-        context.commit('changeUserGameProgress', null)
+        context.commit('changeUserGameProgress', 0)
         context.commit('changeUserHasPaied', null)
         context.commit('changeMenu', 'menu-bar-unlogged')
         context.commit('changeRegisterDate', null)
@@ -592,7 +596,7 @@ const actions = {
         context.commit('changeUserEmail', null)
         context.commit('changeUserId', null)
         context.commit('changeUserNickName', null)
-        context.commit('changeUserGameProgress', 1)
+        context.commit('changeUserGameProgress', 0)
         context.commit('changeUserHasPaied', null)
         context.commit('signinWindow', false)
         context.commit('signupWindow', false)

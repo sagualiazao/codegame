@@ -4,7 +4,7 @@
         <el-menu-item index="main-page">
             {{ $store.state._const.HOME_PAGE }}
         </el-menu-item>
-        <el-menu-item index="edit-map" @click="mapWindow = true">
+        <el-menu-item index="edit-map">
             {{ $store.state._const.MY_MAPS }}
         </el-menu-item>
         <el-menu-item index="register" @click="signupChange">
@@ -57,31 +57,7 @@ export default {
             * @type {String}
             * @default 'main-page'
             */
-            activeIndex: 'main-page',
-            /**
-            *登录窗口显示状态
-            *
-            * @property signinDialog
-            * @type {Boolean}
-            * @default false
-            */
-            signinDialog: false,
-            /**
-            *注册窗口显示状态
-            *
-            * @property signupDialog
-            * @type {Boolean}
-            * @default false
-            */
-            signupDialog: false,
-            /**
-            *地图选项是否可进入
-            *
-            * @property mapWindow
-            * @type {Boolean}
-            * @default false
-            */
-            mapWindow: false
+            activeIndex: 'main-page'
         }
     },
     methods: {

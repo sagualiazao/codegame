@@ -1,9 +1,11 @@
 <template>
 <div id="select-level">
     <div id="btn-container">
-        <button id="continue-play" @click="selectlevelDialog = true">继续游戏</button>
+        <button id="continue-play" @click="showDialog">
+            {{ $store.state._const.CONTINUE_GAME }}
+        </button>
     </div>
-    <el-dialog title="选择关卡" :visible.sync="selectlevelDialog" size="tiny" :before-close="handleClose">
+    <el-dialog :title="$store.state._const.SELECT_LEVEL" :visible.sync="selectLevelDialog" size="tiny" :before-close="handleClose">
         <el-button type="success" class="level-btn" @click="selectLevel(1)">1</el-button>
         <el-button type="success" class="level-btn" @click="selectLevel(2)">2</el-button>
         <el-button type="success" class="level-btn" @click="selectLevel(3)">3</el-button>
@@ -43,10 +45,10 @@ export default {
             /**
             *关卡选择窗口显示状态
             *
-            * @property selectlevelDialog
+            * @property selectLevelDialog
             * @type {Boolean}
             */
-            selectlevelDialog: false
+            selectLevelDialog: false
         }
     },
     /**
@@ -87,13 +89,21 @@ export default {
             let response = await readMap(true, id)
             let obj = await response.json()
             if (await obj.status === '1') {
-                this.selectlevelDialog = false
+                this.selectLevelDialog = false
                 this.$store.commit('changeMap', obj)
                 setCookie('levelMode', this.$store.state.levelMode.toString())
                 setCookie('mapId', this.$store.state.mapId.toString())
                 setCookie('mapString', this.$store.state.mapString)
                 this.$router.push('/BlockBase')
             }
+        },
+        /**
+        *显示选择关卡窗口
+        *
+        *@method enterLevel
+        */
+        showDialog: function () {
+            this.selectLevelDialog = true
         }
     }
 }
