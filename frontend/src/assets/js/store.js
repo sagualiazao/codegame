@@ -49,6 +49,7 @@ const state = {
         EDIT_MAP: '制作地图',
         EDITOR: 'Editor',
         EMAIL: '邮箱',
+        FINISH_GAME: '恭喜!XXX在你的帮助下成功回到了家!',
         FORGET_PASSWORD: '忘记密码',
         GAME_PROGRESS: '关卡进度',
         HOME_PAGE: '首页',
@@ -85,6 +86,7 @@ const state = {
         NEED_PASSWORD: '请输入密码',
         NEED_PASSWORD_REGISTER: '6-16位数字\\字母\\下划线',
         NEED_REPEAT_PASSWORD: '请再次输入密码',
+        NEXT_LEVEL: '下一关',
         NICKNAME: '昵称',
         NOT_EXIST_PAGE: '少年这个网址不存在哦',
         OPERATION_FAILURE: '操作失败',
@@ -98,6 +100,7 @@ const state = {
         REGISTER_SUCCESS: '注册成功',
         REMAINED_LEVELS: '剩余的关卡',
         REPEAT_PASSWORD: '确认密码',
+        REPLAY_GAME: '重玩',
         RESET: '重置',
         RESET_PASSWORD: '修改密码',
         RUN: 'Run',
@@ -110,13 +113,13 @@ const state = {
         SUBMIT: '提交',
         TEST_PLAY: '试玩',
         TIPS: '提示',
+        TOTAL_LEVELS: 15,
         UNUSED_EMAIL: '该邮箱尚未注册',
         USED_EMAIL: '该邮箱已被使用',
         WRONG_CAPTCHA: '验证码错误',
         WRONG_DISPLAY: '显示错误',
         WRONG_EMAIL_FORMAT: '邮箱格式错误',
         WRONG_PASSWORD_FORMAT: '密码格式错误',
-        GAME_INFORMATION: '',
         CHANGE_SUCCESS: '修改成功',
         CHANGE_FALURE: '修改失败'
     },
@@ -164,7 +167,7 @@ const state = {
     * @for state
     * @default null
     */
-    userGameProgress: 1,
+    userGameProgress: 0,
     /**
     *记录当前用户支付状态
     *
@@ -211,6 +214,60 @@ const state = {
     */
     mapId: null,
     /**
+    *地图ID
+    *
+    * @property mapAuthor
+    * @type {Number}
+    * @for state
+    * @default null
+    */
+    mapName: '',
+    /**
+    *地图名称
+    *
+    * @property mapAuthor
+    * @type {String}
+    * @for state
+    * @default ''
+    */
+    mapTips: '',
+    /**
+    *地图默认代码
+    *
+    * @property mapCodes
+    * @type {String}
+    * @for state
+    * @default ''
+    */
+    mapCodes: '',
+    /**
+    *地图editor Mode
+    *
+    * @property mapMode
+    * @type {String}
+    * @for state
+    * @default []
+    */
+    mapMode: [],
+    /**
+    *地图字符串
+    *
+    * @property mapString
+    * @type {Object}
+    * @for state
+    * @default ''
+    */
+    mapString: '',
+    /**
+    *地图作者
+    *
+    * @property mapAuthor
+    * @type {String}
+    * @for state
+    * @default ''
+    */
+    mapAuthor: '',
+    /**
     *登录窗口显示状态
     *
     * @property signinDialog
@@ -218,12 +275,6 @@ const state = {
     * @for state
     * @default false
     */
-    mapName: '',
-    mapTips: '',
-    mapCodes: '',
-    mapMode: [],
-    mapString: '',
-    mapAuthor: '',
     signinDialog: false,
     /**
     *记录当前地图字符串
@@ -260,8 +311,33 @@ const state = {
     * @default false
     */
     changePasswordDialog: false,
-    levelpassModal: false,
-    gamereplayModal: false
+    /**
+    *通关窗口显示状态
+    *
+    * @property levelPassModal
+    * @type {Boolean}
+    * @for state
+    * @default false
+    */
+    levelPassModal: false,
+    /**
+    *重玩窗口显示状态
+    *
+    * @property gameReplayModal
+    * @type {Boolean}
+    * @for state
+    * @default false
+    */
+    gameReplayModal: false,
+    /**
+    *游戏信息
+    *
+    * @property gameInformation
+    * @type {String}
+    * @for state
+    * @default ''
+    */
+    gameInformation: ''
 }
 
 /**
@@ -416,6 +492,14 @@ const mutations = {
     changeLevelMode: function (state, mode) {
         state.levelMode = mode
     },
+    /**
+    *将地图信息写入state
+    *
+    * @method changeMap
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Object} obj 存储地图信息的列表
+    */
     changeMap: function (state, obj) {
         let theMap = obj
         if (theMap === null) {
@@ -430,14 +514,38 @@ const mutations = {
         state.mapMode = JSON.parse(theMap.mode)
         state.mapAuthor = theMap.author
     },
-    changelevelpassModal: function (state, status) {
-        state.levelpassModal = status
+    /**
+    *更改过关窗口显示状态
+    *
+    * @method changeLevelPassModal
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Boolean} status 当前过关窗口显示状态
+    */
+    changeLevelPassModal: function (state, status) {
+        state.levelPassModal = status
     },
-    changegamereplayModal: function (state, status) {
-        state.gamereplayModal = status
+    /**
+    *更改重玩窗口显示状态
+    *
+    * @method changeGameReplayModal
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {Boolean} status 当前重玩窗口显示状态
+    */
+    changeGameReplayModal: function (state, status) {
+        state.gameReplayModal = status
     },
-    changegameinformation: function (state, text) {
-        state._const.GAME_INFORMATION = text
+    /**
+    *更改关卡信息
+    *
+    * @method changeGameInformation
+    * @for mutations
+    * @param {Object}  state state对象
+    * @param {String} text 要设置的游戏信息
+    */
+    changeGameInformation: function (state, text) {
+        state.gameInformation = text
     }
 }
 
@@ -492,14 +600,11 @@ const actions = {
         context.commit('changeMenu', 'menu-bar-unlogged')
         context.commit('changeRegisterDate', null)
         context.commit('changeMap', null)
+        context.commit('changePasswordWindow', false)
+        context.commit('changeLevelPassModal', false)
+        context.commit('changeGameReplayModal', false)
+        context.commit('changeGameInformation', '')
     },
-    /**
-    *登录
-    *
-    * @method signin
-    * @for actions
-    * @param {Object}  context
-    */
     signin: async function (context) {
         let response = await fetch('api/login', {
             method: 'get',
@@ -508,7 +613,6 @@ const actions = {
         })
         let obj = await response.json()
         if (await obj.status === '1') {
-            // TODO: 登录成功,传递信息,关闭窗口
             context.commit('changeLoginStatus', true)
             context.commit('changeUserEmail', obj.email)
             context.commit('changeUserId', obj.id)
@@ -534,3 +638,59 @@ let store = new Vuex.Store({
 })
 
 export default store
+
+
+/*
+Carla.go(1)
+Carla.turn("right")
+Carla.go(1)
+Carla.turn("left")
+Carla.go(1)
+Carla.turn("right")
+Carla.go(1)
+Carla.turn("left")
+Carla.go(1)
+Carla.turn("right")
+Carla.go(1)
+Carla.turn("left")
+Carla.go(1)
+Carla.turn("right")
+Carla.go(1)
+Carla.turn("left")
+Carla.collect("key")
+Carla.go(2)
+Carla.go(1)
+Carla.turn("left")
+Carla.go(1)
+Carla.turn("right")
+Carla.go(1)
+Carla.turn("left")
+Carla.go(1)
+Carla.turn("right")
+Carla.go(1)
+Carla.turn("left")
+Carla.go(1)
+Carla.turn("right")
+Carla.drop("key")
+go(1)
+turn("right")
+go(1)
+turn("left")
+go(1)
+turn("right")
+go(1)
+turn("left")
+go(1)
+turn("right")
+go(1)
+turn("left")
+go(1)
+fly()
+go(2)
+turn("right")
+go(3)
+turn("left")
+go(2)
+turn("left")
+go(2)
+*/
