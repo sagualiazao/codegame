@@ -19,9 +19,6 @@ import store from './assets/js/store'
 export default {
     name: 'app',
     store: store,
-    data: function () {
-        return {}
-    },
     components: {
         MenuBarUnlogged,
         MenuBarLogged

@@ -72,9 +72,12 @@ class SimpleResponse:
         """
         return JsonResponse({
             'status': '1',
+            'id': selected_map.map_id,
             'map': selected_map.map,
             'name': selected_map.name,
-            'remarks': selected_map.remarks,
+            'tips': selected_map.remarks,
+            'codes': '',
+            'mode': '[]',
             'author': str(selected_map.author)
         })
 
@@ -97,11 +100,13 @@ class SimpleResponse:
         """
         return JsonResponse({
             'status': '1',
+            'id': selected_map.map_id,
             'map': selected_map.map,
             'name': selected_map.name,
             'tips': selected_map.tips,
             'codes': selected_map.codes,
-            'mode': selected_map.mode
+            'mode': selected_map.mode,
+            'author': '仨瓜俩枣'
         })
 
     @staticmethod

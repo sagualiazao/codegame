@@ -20,14 +20,14 @@
     <div class="game-background" v-show="$store.state.levelpassModal">
         <div class="btn-container">
             <p>{{ $store.state._const.GAME_INFORMATION }}</p>
-            <button class="game-btn" id="replay" @click="replayPass()"></button>
+            <button class="game-btn" id="replay" @click="replayPass()">重玩</button>
             <button class="game-btn" id="next-level" @click="NextLevel()">下一关</button>
         </div>
     </div>
     <div class="game-background" v-show="$store.state.gamereplayModal">
         <div class="btn-container">
             <p>{{ $store.state._const.GAME_INFORMATION }}</p>
-            <button class="game-btn" id="fail-replay" @click="replaySingle()"></button>
+            <button class="game-btn" id="fail-replay" @click="replaySingle()">重玩</button>
         </div>
     </div>
 </div>
@@ -44,6 +44,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import 'yuki-createjs'
+import { simplePost, readMap, getCookie, setCookie } from '@/assets/js/util.js'
 
 export default {
     name: 'block-base',
@@ -431,7 +432,18 @@ export default {
         * @method read
         */
         read () {
-            var string = this.$store.state.mapString
+            var string = getCookie('mapString')
+            var levelMode = getCookie('levelMode')
+            if (string === '') {
+                string = this.$store.state.mapString
+            } else {
+                if (getCookie('levelMode') === 'false') {
+                    levelMode = false
+                } else {
+                    levelMode = true
+                }
+                this.$store.commit('changeLevelMode', levelMode)
+            }
             var k = 0
             var i
             var j
@@ -620,7 +632,7 @@ export default {
         * @method victory
         */
         victory () {
-            var select = this.$store.state.leveMode
+            var select = this.$store.state.levelMode
             if (select === false) {
                 this.$store.commit('changegameinformation', '恭喜您过关!')
                 this.$store.commit('changegamereplayModal', true)
@@ -974,12 +986,25 @@ export default {
             this.$store.commit('changegamereplayModal', false)
             this.init()
         },
-        NextLevel () {
-            // 这里应该读取现在在玩第几关,如果是最后一关就开放下一关权限
-            // var num = this.$store.state.userGameProgress
-            // this.$store.commit('changeUserGameProgress', num + 1)
-            // this.$store.commit('changelevelpassModal', false)
-            // this.init()
+        NextLevel: async function () {
+            let level = this.$store.state.mapId
+            if (level > this.$store.state.userGameProgress) {
+                simplePost('/api/change-progress', {
+                    progress: level
+                })
+                this.$store.commit('changeUserGameProgress', level)
+            }
+            level = level + 1
+            let response = await readMap(true, level)
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                this.$store.commit('changeMap', obj)
+                setCookie('levelMode', this.$store.state.levelMode.toString())
+                setCookie('mapId', this.$store.state.mapId.toString())
+                setCookie('mapString', this.$store.state.mapString)
+                this.$store.commit('changelevelpassModal', false)
+                this.init()
+            }
         }
     },
     /**
