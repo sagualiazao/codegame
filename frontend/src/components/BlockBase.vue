@@ -38,6 +38,9 @@
             </button>
         </div>
     </div>
+    <el-dialog :title="$store.state.mapName" :visible.sync="gameTips">
+        <a id="game-info">{{ $store.state.mapTips }}</a>
+    </el-dialog>
 </div>
 </template>
 
@@ -232,7 +235,8 @@ export default {
             * @property whiteListConstData
             * @type {Object}
             */
-            whiteListConstData: require('../assets/js/white_list.js')
+            whiteListConstData: require('../assets/js/white_list.js'),
+            gameTips: false
         }
     },
     methods: {
@@ -1080,6 +1084,7 @@ export default {
             }
         })
         this.workspace.addChangeListener(this.updateFunction)
+        this.gameTips = true
         this.init()
         // 代码库限制
         this.whiteListConstData.init()
@@ -1222,5 +1227,8 @@ export default {
     position: absolute;
     left: 40%;
     top: 30%;
+}
+#game-info {
+    white-space: pre;
 }
 </style>
