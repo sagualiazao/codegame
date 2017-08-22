@@ -6,15 +6,15 @@
                 <div class="map-picture">
                     <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
-                        <span class="mapname">
+                        <p class="mapname">
                             {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
-                        </span>
-                        <span class="author">
+                        </p>
+                        <p class="author">
                             {{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}
-                        </span><br>
-                        <span class="remarks">
+                        </p>
+                        <p class="remarks">
                             {{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}
-                        </span>
+                        </p>
                         <div v-if="map[5] === true">
                             <i class="el-icon-star-on" @click="changeFavor(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
                                 {{ $store.state._const.IS_FAVORITE }}
@@ -26,8 +26,17 @@
                             </i>
                         </div>
                     </div>
-                    <hr>
                 </div>
+            </div><br>
+            <div class="page-block">
+                <el-pagination @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage4"
+                :page-sizes="[8, 10, 12, 16]"
+                :page-size="8"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="100">
+                </el-pagination>
             </div>
         </el-tab-pane>
         <el-tab-pane :label="$store.state._const.MY_PUBLISHED_MAPS" name="second" class="published-map-tab">
@@ -55,9 +64,9 @@
                 <div class="map-picture">
                     <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
-                        <span class="mapname">{{ $store.state._const.MAP_NAME }}: {{ map[1] }}</span>
-                        <span class="author">{{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}</span><br>
-                        <span class="remarks">{{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}</span>
+                        <p class="mapname">{{ $store.state._const.MAP_NAME }}: {{ map[1] }}</p>
+                        <p class="author">{{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}</p>
+                        <p class="remarks">{{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}</p>
                         <i class="el-icon-star-on" @click="changeFavor(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
                             {{ $store.state._const.IS_FAVORITE }}
                         </i>
@@ -84,7 +93,8 @@ export default {
             activeName: 'first',
             mapList: null,
             publishedMapList: null,
-            favoriteMapList: null
+            favoriteMapList: null,
+            currentPage4: 1
         }
     },
     mounted: async function () {
@@ -197,6 +207,12 @@ export default {
             await simplePost('api/change-publish', jsonObj)
             await this.readPublishedMapList()
             await this.readMapList()
+        },
+        handleSizeChange (val) {
+            console.log(`每页 ${val} 条`)
+        },
+        handleCurrentChange (val) {
+            console.log(`当前页: ${val}`)
         }
     }
 }
@@ -208,80 +224,73 @@ h1 {
 }
 .el-icon-star-on {
     color: orange;
+    cursor: pointer;
+}
+.el-icon-star-off {
+    cursor: pointer;
+}
+.el-tab-pane {
+    width: 100%;
 }
 div.map-picture {
-    border: ridge 2px #ADD8E6;
+    border: 1px solid #BFBFBF;
     text-align: center;
-    width: auto;
-    height: auto;
     float: left;
-    margin: 3px;
+    width: 20%;
+    height: auto;
+    margin: 2%;
     display: block;
-    box-sizing: border-box;
-    transition: all .4s ease-in-out;
+    /*box-sizing: border-box;*/
     overflow: hidden;
+}
+div.map-picture:hover {
+    border: 1px solid #777;
 }
 .caption {
     text-align: center;
     font-weight: normal;
-    width: 150px;
-    font-size: 12px;
+    width: 100%;
+    font-size: 0.7em;
     margin: 10px 5px 10px 5px;
   }
   .map-picture a {
       display: block;
   }
-  .map-picture a span {
+  /*.map-picture a p {
       display: none;
       transform: scale(1);
-  }
-  .map-picture a:hover span {
-      display: block;
-      text-align: center;
-      width: 80%;
-      vertical-align: center;
-      position: absolute;
-      overflow: hidden;
-  }
-img {
-    width: auto;
+  }*/
+.map-picture img {
+    width: 80%;
     height: auto;
     display: block;
-    margin: 3px;
+    margin: 10%;
 }
 img {
-    opacity: 0.4;
+    opacity: 0.8;
     filter: alpha(opacity = 40); /* For IE8 and earlier */
     transition: all 0.5s;
 }
 img:hover {
     opacity: 1.0;
     filter: alpha(opacity = 100); /* For IE8 and earlier */
-    transform: scale(1.1);
+    transform: scale(1.2);
+    /*border: 1px solid #333333;*/
+    /*box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);*/
+    overflow: hidden;
 }
-button {
-    display: inline-block;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    padding: 10px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    outline: none;
-    color: white;
-    background-color: #8FBC8F;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 5px 5px  5px #333;
+@media only screen and (max-width: 700px){
+    .map-picture {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
 }
-button:hover {
-    background-color: #D19275;
+.el-icon-circle-check {
+    color:#FFA07A;
 }
-
-button:active {
-    background-color: #D19275;
-    box-shadow: 3px 5px #333;
-    transform: translateY(4px);
+.el-pagination {
+    vertical-align: center;
+    position: absolute;
+    bottom: 5%;
 }
 </style>
