@@ -1,0 +1,855 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>api.utils &mdash; Code Game 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Code Game 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Code Game
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data_models.html">数据库模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_utils.html">工具包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apis.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Code Game</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>api.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for api.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    API工具包,定义了一些在服务器API中使用的函数</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">base64</span><span class="o">,</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">pingpp</span><span class="o">,</span> <span class="nn">string</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ImageDraw</span><span class="p">,</span> <span class="n">ImageFont</span><span class="p">,</span> <span class="n">ImageFilter</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="k">import</span> <span class="n">BytesIO</span>
+<span class="kn">from</span> <span class="nn">Crypto.Hash</span> <span class="k">import</span> <span class="n">MD5</span>
+<span class="kn">from</span> <span class="nn">Crypto.Cipher</span> <span class="k">import</span> <span class="n">AES</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">JsonResponse</span><span class="p">,</span> <span class="n">HttpResponseNotFound</span>
+<span class="kn">import</span> <span class="nn">api.models</span>
+
+
+<div class="viewcode-block" id="blank_func"><a class="viewcode-back" href="../../api_utils.html#api.utils.blank_func">[docs]</a><span class="k">def</span> <span class="nf">blank_func</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    一个空函数</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SimpleResponse"><a class="viewcode-back" href="../../api_utils.html#api.utils.SimpleResponse">[docs]</a><span class="k">class</span> <span class="nc">SimpleResponse</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    用于简化创建json回应消息的代码</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; 一个表明失败状态的json响应 &quot;&quot;&quot;</span>
+    <span class="n">failure_json_response</span> <span class="o">=</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;0&#39;</span><span class="p">})</span>
+    <span class="sd">&quot;&quot;&quot; 一个表明成功状态的json响应 &quot;&quot;&quot;</span>
+    <span class="n">success_json_response</span> <span class="o">=</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">})</span>
+
+<div class="viewcode-block" id="SimpleResponse.user_json_response"><a class="viewcode-back" href="../../api_utils.html#api.utils.SimpleResponse.user_json_response">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">user_json_response</span><span class="p">(</span><span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        返回指定用户对象信息的JsonResponse</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            :user: 用户对象\n</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            JsonResponse:\n</span>
+<span class="sd">            :&#39;status&#39;: 登录失败&#39;0&#39;, 登录成功&#39;1&#39;\n</span>
+<span class="sd">            :&#39;email&#39;: 用户的电子邮件\n</span>
+<span class="sd">            :&#39;nickname&#39;: 用户的昵称\n</span>
+<span class="sd">            :&#39;id&#39;: - 用户的id\n</span>
+<span class="sd">            :&#39;gameProgress&#39;: 用户的游戏进度\n</span>
+<span class="sd">            :&#39;hasPaied&#39;: 用户是否已经付费\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+            <span class="s1">&#39;nickname&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">nickname</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="s1">&#39;gameProgress&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">game_progress</span><span class="p">,</span>
+            <span class="s1">&#39;hasPaied&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">has_paied</span><span class="p">,</span>
+            <span class="s1">&#39;createdAt&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">created_at</span>
+        <span class="p">})</span></div>
+
+<div class="viewcode-block" id="SimpleResponse.designed_map_json_response"><a class="viewcode-back" href="../../api_utils.html#api.utils.SimpleResponse.designed_map_json_response">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">designed_map_json_response</span><span class="p">(</span><span class="n">selected_map</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        返回指定地图对象信息的JsonResponse</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            :user: 用户对象\n</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            JsonResponse:\n</span>
+<span class="sd">            :&#39;status&#39;: 读取失败&#39;0&#39;, 读取成功&#39;1&#39;\n</span>
+<span class="sd">            :&#39;map&#39;: 地图字符串\n</span>
+<span class="sd">            :&#39;name&#39;: 地图名\n</span>
+<span class="sd">            :&#39;remarks&#39;: 地图说明\n</span>
+<span class="sd">            :&#39;author&#39;: 地图作者\n</span>
+<span class="sd">            :&#39;is_published&#39;: 地图发布状态\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">map_id</span><span class="p">,</span>
+            <span class="s1">&#39;map&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">map</span><span class="p">,</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s1">&#39;tips&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">remarks</span><span class="p">,</span>
+            <span class="s1">&#39;codes&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;[]&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">selected_map</span><span class="o">.</span><span class="n">author</span><span class="p">)</span>
+        <span class="p">})</span></div>
+
+<div class="viewcode-block" id="SimpleResponse.game_level_json_response"><a class="viewcode-back" href="../../api_utils.html#api.utils.SimpleResponse.game_level_json_response">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">game_level_json_response</span><span class="p">(</span><span class="n">selected_map</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        返回指定关卡信息的JsonResponse</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            :user: 用户对象\n</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            JsonResponse:\n</span>
+<span class="sd">            :&#39;status&#39;: 读取失败&#39;0&#39;, 读取成功&#39;1&#39;\n</span>
+<span class="sd">            :&#39;map&#39;: 地图字符串\n</span>
+<span class="sd">            :&#39;name&#39;: 地图名\n</span>
+<span class="sd">            :&#39;remarks&#39;: 地图说明\n</span>
+<span class="sd">            :&#39;author&#39;: 地图作者\n</span>
+<span class="sd">            :&#39;is_published&#39;: 地图发布状态\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">map_id</span><span class="p">,</span>
+            <span class="s1">&#39;map&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">map</span><span class="p">,</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s1">&#39;tips&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">tips</span><span class="p">,</span>
+            <span class="s1">&#39;codes&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span>
+            <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="n">selected_map</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+            <span class="s1">&#39;author&#39;</span><span class="p">:</span> <span class="s1">&#39;仨瓜俩枣&#39;</span>
+        <span class="p">})</span></div>
+
+<div class="viewcode-block" id="SimpleResponse.get_only"><a class="viewcode-back" href="../../api_utils.html#api.utils.SimpleResponse.get_only">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_only</span><span class="p">(</span>
+        <span class="n">request</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">,</span>
+        <span class="n">session_needed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">handle_exception</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">func_handle</span><span class="o">=</span><span class="n">blank_func</span>
+        <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        对服务器对于GET请求的响应进行了封装</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            :request: WEB请求\n</span>
+<span class="sd">            :func: 处理请求,并返回一个响应信息的函数\n</span>
+<span class="sd">            :session_needed: 该请求是否需要验证用户已登录, 默认为False\n</span>
+<span class="sd">            :handle_exception: 该请求是否需要一个额外的异常处理函数, 默认为False\n</span>
+<span class="sd">            :func_handle: 该请求使用的异常处理函数, 默认为blank_func\n</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :HttpResponse:\n</span>
+<span class="sd">                在成功执行时返回func的返回值\n</span>
+<span class="sd">                在请求method不对应时或检测未登录时返回404\n</span>
+<span class="sd">                在func执行出现异常后返回SimpleResponse.failure_json_response\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">session_needed</span><span class="p">:</span>
+                    <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">HttpResponseNotFound</span><span class="p">()</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">response</span>
+            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">handle_exception</span><span class="p">:</span>
+                    <span class="n">func_handle</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HttpResponseNotFound</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SimpleResponse.post_only"><a class="viewcode-back" href="../../api_utils.html#api.utils.SimpleResponse.post_only">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">post_only</span><span class="p">(</span>
+        <span class="n">request</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">,</span>
+        <span class="n">session_needed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">handle_exception</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">func_handle</span><span class="o">=</span><span class="n">blank_func</span>
+        <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        对服务器对于POST请求的响应进行了封装</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            :request: WEB请求\n</span>
+<span class="sd">            :func: 处理请求,并返回一个响应信息的函数\n</span>
+<span class="sd">            :session_needed: 该请求是否需要验证用户已登录, 默认为False\n</span>
+<span class="sd">            :handle_exception: 该请求是否需要一个额外的异常处理函数, 默认为False\n</span>
+<span class="sd">            :func_handle: 该请求使用的异常处理函数, 默认为blank_func\n</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :HttpResponse:\n</span>
+<span class="sd">                在成功执行时返回func的返回值\n</span>
+<span class="sd">                在请求method不对应时或检测未登录时返回404\n</span>
+<span class="sd">                在func执行出现异常后返回SimpleResponse.failure_json_response\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">session_needed</span><span class="p">:</span>
+                    <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">HttpResponseNotFound</span><span class="p">()</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">response</span>
+            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">handle_exception</span><span class="p">:</span>
+                    <span class="n">func_handle</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HttpResponseNotFound</span><span class="p">()</span></div>
+    
+
+<div class="viewcode-block" id="SimpleResponse.get_or_post"><a class="viewcode-back" href="../../api_utils.html#api.utils.SimpleResponse.get_or_post">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_or_post</span><span class="p">(</span>
+        <span class="n">request</span><span class="p">,</span>
+        <span class="n">func_get</span><span class="p">,</span>
+        <span class="n">func_post</span><span class="p">,</span>
+        <span class="n">session_needed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">handle_exception</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">func_handle</span><span class="o">=</span><span class="n">blank_func</span>
+        <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        对服务器对于GET请求或POST请求的响应进行了封装</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            :request: WEB请求\n</span>
+<span class="sd">            :func_get: 处理GET请求,并返回一个响应信息的函数\n</span>
+<span class="sd">            :func_post: 处理POST请求,并返回一个响应信息的函数\n</span>
+<span class="sd">            :session_needed: 该请求是否需要验证用户已登录, 默认为False\n</span>
+<span class="sd">            :handle_exception: 该请求是否需要一个额外的异常处理函数, 默认为False\n</span>
+<span class="sd">            :func_handle: 该请求使用的异常处理函数, 默认为blank_func\n</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :HttpResponse:\n</span>
+<span class="sd">                在成功执行时返回func的返回值\n</span>
+<span class="sd">                在请求method不对应时或检测未登录时返回404\n</span>
+<span class="sd">                在func执行出现异常后返回SimpleResponse.failure_json_response\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">]:</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">func</span><span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">func_get</span>
+            <span class="n">func</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">func_post</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">session_needed</span><span class="p">:</span>
+                    <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">HttpResponseNotFound</span><span class="p">()</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="p">](</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="p">](</span><span class="n">request</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">response</span>
+            <span class="k">except</span> <span class="ne">BaseException</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">handle_exception</span><span class="p">:</span>
+                    <span class="n">func_handle</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">HttpResponseNotFound</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="Captcha"><a class="viewcode-back" href="../../api_utils.html#api.utils.Captcha">[docs]</a><span class="k">class</span> <span class="nc">Captcha</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    生成验证码</span>
+
+<span class="sd">    原代码位于 http://www.cnblogs.com/skiler/p/6652848.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">CHAR_SETS</span> <span class="o">=</span> <span class="s1">&#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789&#39;</span>
+    <span class="sd">&quot;&quot;&quot; 用于生成验证码的字符集 &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Captcha.string_captcha"><a class="viewcode-back" href="../../api_utils.html#api.utils.Captcha.string_captcha">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">string_captcha</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        生成一个随机验证码字符串</span>
+
+<span class="sd">        Parameters:  </span>
+<span class="sd">            :length: 验证码的长度\n</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:  </span>
+<span class="sd">            :captcha: 长度为length的验证码字符串\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">captcha_list</span> <span class="o">=</span>  <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">Captcha</span><span class="o">.</span><span class="n">CHAR_SETS</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+        <span class="n">captcha</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">captcha_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">captcha</span></div>
+
+<div class="viewcode-block" id="Captcha.generate_captcha"><a class="viewcode-back" href="../../api_utils.html#api.utils.Captcha.generate_captcha">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate_captcha</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span>
+        <span class="n">background</span><span class="o">=</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;#FF0000&#39;</span><span class="p">,</span>
+        <span class="n">font_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">deform</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">draw_lines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_line</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="n">draw_points</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">point_chance</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        生成验证码图片和字符串</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters:  </span>
+<span class="sd">            :width: 图片宽度\n</span>
+<span class="sd">            :height: 图片高度\n</span>
+<span class="sd">            :background: 背景色\n</span>
+<span class="sd">            :foreground: 前景色\n</span>
+<span class="sd">            :font_size: 字体大小\n</span>
+<span class="sd">            :length: 验证码长度\n</span>
+<span class="sd">            :deform: 图片扭曲\n</span>
+<span class="sd">            :draw_lines: 绘制干扰线\n</span>
+<span class="sd">            :n_line: 干扰线条数范围\n            </span>
+<span class="sd">            :draw_points: 绘制干扰点\n</span>
+<span class="sd">            :point_chance: 干扰点比率\n</span>
+
+<span class="sd">        Returns:  </span>
+<span class="sd">            :img: 图片验证码\n</span>
+<span class="sd">            :strs: 验证码字符串\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;static/font/MONACO.TTF&#39;</span><span class="p">)</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">ImageFont</span><span class="o">.</span><span class="n">truetype</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">font_size</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;RGB&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">background</span><span class="p">)</span>
+        <span class="n">draw</span> <span class="o">=</span> <span class="n">ImageDraw</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">create_lines</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            绘制干扰线</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">line_num</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">n_line</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">line_num</span><span class="p">):</span>
+                <span class="n">begin</span> <span class="o">=</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">height</span><span class="p">))</span>
+                <span class="n">draw</span><span class="o">.</span><span class="n">line</span><span class="p">([</span><span class="n">begin</span><span class="p">,</span> <span class="n">end</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="n">foreground</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">create_points</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            绘制干扰点</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">chance</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">point_chance</span><span class="p">)))</span>
+
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">tmp</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="o">-</span> <span class="n">chance</span><span class="p">:</span>
+                        <span class="n">draw</span><span class="o">.</span><span class="n">point</span><span class="p">((</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">fill</span><span class="o">=</span><span class="n">foreground</span><span class="p">)</span>
+
+        
+        <span class="k">def</span> <span class="nf">get_chars</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            生成给定长度的字符串列表</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">Captcha</span><span class="o">.</span><span class="n">CHAR_SETS</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">create_strs</span><span class="p">():</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            绘制验证码字符</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">c_chars</span> <span class="o">=</span> <span class="n">get_chars</span><span class="p">()</span>
+            <span class="n">strs</span> <span class="o">=</span> <span class="s1">&#39; </span><span class="si">%s</span><span class="s1"> &#39;</span> <span class="o">%</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c_chars</span><span class="p">)</span>
+            <span class="n">font_width</span><span class="p">,</span> <span class="n">font_height</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">strs</span><span class="p">)</span>
+            <span class="n">draw</span><span class="o">.</span><span class="n">text</span><span class="p">(((</span><span class="n">width</span> <span class="o">-</span> <span class="n">font_width</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="n">font_height</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">),</span>
+                    <span class="n">strs</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">font</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">foreground</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c_chars</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">draw_lines</span><span class="p">:</span>
+            <span class="n">create_lines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">draw_points</span><span class="p">:</span>
+            <span class="n">create_points</span><span class="p">()</span>
+        <span class="n">strs</span> <span class="o">=</span> <span class="n">create_strs</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">deform</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="mi">1</span> <span class="o">-</span> <span class="nb">float</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">500</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span><span class="nb">float</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">500</span><span class="p">]</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">transform</span><span class="p">((</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">PERSPECTIVE</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">strs</span></div>
+
+<div class="viewcode-block" id="Captcha.base64_captcha"><a class="viewcode-back" href="../../api_utils.html#api.utils.Captcha.base64_captcha">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">base64_captcha</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        生成base64编码的验证码图片,返回web前端</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters:  </span>
+<span class="sd">            无</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:  </span>
+<span class="sd">            :img: 图片验证码的base64编码\n</span>
+<span class="sd">            :code: 验证码字符串的小写字母格式\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">Captcha</span><span class="o">.</span><span class="n">generate_captcha</span><span class="p">()</span>
+        <span class="n">img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;PNG&#39;</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="s1">&#39;data:image/png;base64,&#39;</span> <span class="o">+</span> <span class="n">img</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">code</span></div></div>
+
+<div class="viewcode-block" id="CBC"><a class="viewcode-back" href="../../api_utils.html#api.utils.CBC">[docs]</a><span class="k">class</span> <span class="nc">CBC</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    给出一种CBC加密和解密方法</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="CBC.crypt"><a class="viewcode-back" href="../../api_utils.html#api.utils.CBC.crypt">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">crypt</span><span class="p">(</span><span class="n">key_str</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        将给定字符串加密</span>
+
+<span class="sd">        Parameters:  </span>
+<span class="sd">            :key_str: 用于加密的密钥\n</span>
+<span class="sd">            :data: 要被加密的字符串\n</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:  </span>
+<span class="sd">            :crypted_str: 加密后的数据的base64编码\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params_is_str</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key_str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">params_is_str</span><span class="p">:</span>
+            <span class="n">key_md5</span> <span class="o">=</span> <span class="n">MD5</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+            <span class="n">key_md5</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">key_str</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">key_str</span> <span class="o">=</span> <span class="n">key_md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+            <span class="n">iv_str</span> <span class="o">=</span> <span class="n">key_str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span>
+            <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span>
+            <span class="n">pad_it</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span> <span class="o">+</span> <span class="p">(</span><span class="mi">16</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">))</span> <span class="o">%</span> <span class="mi">16</span><span class="p">)</span> <span class="o">*</span> <span class="n">padding</span>
+            <span class="n">generator</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key_str</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv_str</span><span class="p">)</span>
+            <span class="n">crypted_bytes</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">pad_it</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="n">crypted_str</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">crypted_bytes</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">crypted_str</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;加密仅接受字符串参数&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CBC.decrypt"><a class="viewcode-back" href="../../api_utils.html#api.utils.CBC.decrypt">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">key_str</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        将给定加密后的字符串解密</span>
+
+<span class="sd">        Parameters:  </span>
+<span class="sd">            :key_str: 用于解密的密钥\n</span>
+<span class="sd">            :data: 加密后的base64字符串\n</span>
+
+<span class="sd">        Returns:  </span>
+<span class="sd">            :recovery_str: 解密后的字符串\n</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">params_is_str</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key_str</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">params_is_str</span><span class="p">:</span>
+            <span class="n">key_md5</span> <span class="o">=</span> <span class="n">MD5</span><span class="o">.</span><span class="n">new</span><span class="p">()</span>
+            <span class="n">key_md5</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">key_str</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+            <span class="n">key_str</span> <span class="o">=</span> <span class="n">key_md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+            <span class="n">iv_str</span> <span class="o">=</span> <span class="n">key_str</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">18</span><span class="p">]</span>
+            <span class="n">padding</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span>
+            <span class="n">generator</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key_str</span><span class="p">,</span> <span class="n">AES</span><span class="o">.</span><span class="n">MODE_CBC</span><span class="p">,</span> <span class="n">iv_str</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">recovery</span> <span class="o">=</span> <span class="n">generator</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">recovery_str</span> <span class="o">=</span> <span class="n">recovery</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="n">padding</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">recovery_str</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;加密仅接受字符串参数&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="check_email_format"><a class="viewcode-back" href="../../api_utils.html#api.utils.check_email_format">[docs]</a><span class="k">def</span> <span class="nf">check_email_format</span><span class="p">(</span><span class="n">email</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    检查邮箱格式</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :email: 给定的email\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        :True/False: email符合规范返回True,否则返回False\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[a-z0-9]+([._\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="MapImage"><a class="viewcode-back" href="../../api_utils.html#api.utils.MapImage">[docs]</a><span class="k">class</span> <span class="nc">MapImage</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    生成地图缩略图</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">RESOURCE_DIR</span> <span class="o">=</span> <span class="s1">&#39;./api/static/map/&#39;</span>
+    <span class="n">MAP_DIR</span> <span class="o">=</span> <span class="s1">&#39;./frontend/static/img/saved_maps/&#39;</span>
+    <span class="n">MAP_DIR_DEV</span> <span class="o">=</span> <span class="s1">&#39;./api/static/img/saved_maps/&#39;</span>
+    <span class="n">HREF_DIR</span> <span class="o">=</span> <span class="s1">&#39;/static/img/saved_maps/&#39;</span>
+    <span class="n">RESOURCE_WIDTH</span> <span class="o">=</span> <span class="mi">64</span>
+    <span class="n">RESOURCE_HEIGHT</span> <span class="o">=</span> <span class="mi">64</span>
+    <span class="n">GRIDS_PER_ROW</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">GRIDS_PER_COLUMN</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">SOURCE_LIST</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">RESOURCE_DIR</span> <span class="o">+</span> <span class="s1">&#39;background.png&#39;</span><span class="p">,</span>  <span class="c1"># 0: background</span>
+        <span class="n">RESOURCE_DIR</span> <span class="o">+</span> <span class="s1">&#39;1.png&#39;</span><span class="p">,</span>  <span class="c1"># 1: tree</span>
+        <span class="n">RESOURCE_DIR</span> <span class="o">+</span> <span class="s1">&#39;2.png&#39;</span><span class="p">,</span>  <span class="c1"># 2: river</span>
+        <span class="n">RESOURCE_DIR</span> <span class="o">+</span> <span class="s1">&#39;3.png&#39;</span><span class="p">,</span>  <span class="c1"># 3: player</span>
+        <span class="n">RESOURCE_DIR</span> <span class="o">+</span> <span class="s1">&#39;4.png&#39;</span><span class="p">,</span>  <span class="c1"># 4: flag</span>
+        <span class="n">RESOURCE_DIR</span> <span class="o">+</span> <span class="s1">&#39;5.png&#39;</span><span class="p">,</span>  <span class="c1"># 5: transform</span>
+    <span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot; 地图资源列表 &quot;&quot;&quot;</span>
+    <span class="n">MAP_SIZE</span> <span class="o">=</span> <span class="n">GRIDS_PER_COLUMN</span> <span class="o">*</span> <span class="n">GRIDS_PER_ROW</span>
+    <span class="sd">&quot;&quot;&quot; 地图大小 &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MapImage.generate_map_image"><a class="viewcode-back" href="../../api_utils.html#api.utils.MapImage.generate_map_image">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate_map_image</span><span class="p">(</span><span class="n">map_id</span><span class="p">,</span> <span class="n">map_str</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.25</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        生成地图缩略图并保存在MAP_DIR目录下</span>
+
+<span class="sd">        Parameters:  </span>
+<span class="sd">            map_id - 地图的id号,用于生成文件名  </span>
+<span class="sd">            map_str - 地图的内容字符串</span>
+<span class="sd">            scale - 缩放比率</span>
+<span class="sd">        Returns:  </span>
+<span class="sd">            True - 生成缩略图成功</span>
+<span class="sd">            False - 资源丢失,生成缩略图失败</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">paste_resource_onto_map</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+
+            <span class="k">def</span> <span class="nf">char_to_resource</span><span class="p">(</span><span class="n">char</span><span class="p">):</span>
+                <span class="n">switcher</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># 1: tree</span>
+                    <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># 2: river</span>
+                    <span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># 3: player</span>
+                    <span class="s1">&#39;4&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>  <span class="c1"># 4: flag</span>
+                    <span class="s1">&#39;5&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># 5: transform</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="n">switcher</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="n">index</span> <span class="o">//</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">GRIDS_PER_ROW</span>
+                <span class="n">column</span> <span class="o">=</span> <span class="n">index</span> <span class="o">%</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">GRIDS_PER_COLUMN</span>
+                <span class="n">box</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">row</span> <span class="o">*</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">RESOURCE_WIDTH</span><span class="p">,</span>
+                    <span class="n">column</span> <span class="o">*</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">RESOURCE_HEIGHT</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">image</span><span class="o">.</span><span class="n">alpha_composite</span><span class="p">(</span><span class="n">resources</span><span class="p">[</span><span class="n">char_to_resource</span><span class="p">(</span><span class="n">char</span><span class="p">)],</span> <span class="n">dest</span><span class="o">=</span><span class="n">box</span><span class="p">)</span>
+
+        <span class="n">map_str</span> <span class="o">=</span> <span class="n">map_str</span>
+        <span class="n">map_id</span> <span class="o">=</span> <span class="n">map_id</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="n">map_width</span> <span class="o">=</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">RESOURCE_WIDTH</span> <span class="o">*</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">GRIDS_PER_ROW</span>
+        <span class="n">map_height</span> <span class="o">=</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">RESOURCE_HEIGHT</span> <span class="o">*</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">GRIDS_PER_COLUMN</span>
+        <span class="n">the_map</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;RGBA&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">map_width</span><span class="p">,</span> <span class="n">map_height</span><span class="p">))</span>
+        <span class="n">resources</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">resource_img</span> <span class="ow">in</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">SOURCE_LIST</span><span class="p">:</span>
+                <span class="n">resources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">resource_img</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">the_map</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">resources</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">map_width</span><span class="p">,</span> <span class="n">map_height</span><span class="p">))</span>
+            <span class="c1"># 把记录传送坐标的一组数字转换为单一数字</span>
+            <span class="n">map_str</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;!\d\d!&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="n">map_str</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_SIZE</span><span class="p">):</span>
+                <span class="n">paste_resource_onto_map</span><span class="p">(</span><span class="n">map_str</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">,</span> <span class="n">the_map</span><span class="p">)</span>
+
+            <span class="n">the_map</span> <span class="o">=</span> <span class="n">the_map</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">map_width</span> <span class="o">*</span> <span class="n">scale</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">map_height</span> <span class="o">*</span> <span class="n">scale</span><span class="p">)))</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">map_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_DIR</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_DIR</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_DIR_DEV</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_DIR_DEV</span><span class="p">)</span>
+            <span class="n">the_map</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_DIR</span> <span class="o">+</span> <span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;PNG&#39;</span><span class="p">)</span>
+            <span class="n">the_map</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_DIR_DEV</span> <span class="o">+</span> <span class="n">file_name</span><span class="p">,</span> <span class="s1">&#39;PNG&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="MapImage.getImageLink"><a class="viewcode-back" href="../../api_utils.html#api.utils.MapImage.getImageLink">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">getImageLink</span><span class="p">(</span><span class="n">map_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        返回地图图片资源地址</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            :map_id: DesignedMaps的map_id属性</span>
+<span class="sd">        </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            :file_link: 对应图片资源地址的字符串</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file_link</span> <span class="o">=</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">HREF_DIR</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">map_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span>
+        <span class="k">return</span> <span class="n">file_link</span></div>
+
+<div class="viewcode-block" id="MapImage.deleteMapImages"><a class="viewcode-back" href="../../api_utils.html#api.utils.MapImage.deleteMapImages">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">deleteMapImages</span><span class="p">(</span><span class="n">map_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        删除指定map_id的地图图片</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            :map_id: DesignedMaps的map_id属性</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            无</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_DIR</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">map_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">MAP_DIR_DEV</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">map_id</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="Pingpp"><a class="viewcode-back" href="../../api_utils.html#api.utils.Pingpp">[docs]</a><span class="k">class</span> <span class="nc">Pingpp</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ping++ 实现的支付接口\n</span>
+<span class="sd">    因为没有营业执照只能使用test模式\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Pingpp.pay"><a class="viewcode-back" href="../../api_utils.html#api.utils.Pingpp.pay">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pay</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        模拟一个支付请求</span>
+
+<span class="sd">        Paramters:</span>
+<span class="sd">            无</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            :str: 模拟支付请求返回的url</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">api_key</span> <span class="o">=</span> <span class="s1">&#39;sk_test_uDWrjHf5aznDjL8mrDWLK4m9&#39;</span>
+        <span class="n">app_id</span> <span class="o">=</span> <span class="s1">&#39;app_4Si9mDSOGmv90Wjf&#39;</span>
+        <span class="n">pingpp</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        <span class="n">pingpp</span><span class="o">.</span><span class="n">private_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;-----BEGIN RSA PRIVATE KEY-----</span>
+<span class="s1">        MIIEowIBAAKCAQEAx2MktxcKBEqdYRi2IgYcupPQIN5cxgiBL5udCCBJBNBbXPaq</span>
+<span class="s1">        uOE1qspfhB1KUzHXATnCONiSzubLcBTnwi2tz0ErRCeJZSERRCpbKx4eu6b1neUT</span>
+<span class="s1">        Wkga7xpZxWONEvkmZo5Nlhf4fXRPUYnO/bdGCNGpQ/HSJfWLtzmhCqO1aJwVhcDm</span>
+<span class="s1">        DMYz4bTkZavhFBdVyXf/8n7UKylk03eymlKJ1swQpeFcxaKfzsk1mJU7mc93mCWj</span>
+<span class="s1">        aR+VWkNbw4AQHDyHgbzH+zYARzCluiy5hXdixGEP+iO4ZBk48rEs1hKTvGz1k+jh</span>
+<span class="s1">        LCdkdpBRjq0pK/htjA3Ce8pF2AJs+fgN6ZUumQIDAQABAoIBAFa4MEfRpXGoYjrQ</span>
+<span class="s1">        3KZ/sg8UKvmgvQkEuetS60GViSym0pXkUuyGRyk5S8HSW3lDvBe0X10KFRAYIXNm</span>
+<span class="s1">        JEa4R1hVJ9REveVWNIRJR83BE+zZ+QnrkDc8FTrZYyIO4lTWOHVyfxxA4Lrv02/L</span>
+<span class="s1">        WFPRWoyLY+tBSf1ohpPyZLCT81rDglT1Z4svX020y8tXvnQqQiOjl4q7Zu4b26HU</span>
+<span class="s1">        TQ463ntMEhM5u7y9MFcxGRaOpF/gARlMGqDu6T8h/oYMiOSLoXOuTR7B80yaX/Mj</span>
+<span class="s1">        RZfUBoZMb5thX9qBLQ7dYnTkwaxwerYPrYvQrW9vtsswZ5NeIbEmCZyorUe8DOmQ</span>
+<span class="s1">        hT1+HmECgYEA/iQERHhZKHXnP0gvhl/uEOGOvLjD5H1D6zClzOHMmOcIF5OuEQb0</span>
+<span class="s1">        VcSMV+8emN7SCp/b/LVgKa27Mla9eXm+EXABRFcI7qGYsYXfbCD7EYX3TaJSp/30</span>
+<span class="s1">        jyLBy+MsHCTEiLeylSh7kHqgTR8tKND8UIzXo9aM7JqwFqleeXGyh7MCgYEAyNiU</span>
+<span class="s1">        EUzyBAv9sui3ZgVYRiVvTilk2HVTY6u61/mMOLsTrX3eYQaqb4GRJJShJO9mmsxX</span>
+<span class="s1">        RHBEZQJvUqqF9PapOsyv8HKuF5+UP6svHnJo7sn9gCvV/h1HTHqzFcYSvUaXnrym</span>
+<span class="s1">        D/0Tthf8CDeuGp5UFWMoFZF14HTr1oQROGAASoMCgYA0bZmzxmAeSLR8CZhEUGX8</span>
+<span class="s1">        dYvMwxEmgfERA+gwbCSZJpA0zPKL8LNXPkT1nw7g2pbaOkBX0dMUxhJoQBy2grcD</span>
+<span class="s1">        QegBATOGhy/I76U32VXyN4DdMy96GJnrLXBtb2AaLjudOMhOnRtgouuO/W+DjBmB</span>
+<span class="s1">        RIz377sC1KafBjHHO/1ooQKBgDQqfJrZv2ppquVTKH9pF/pwMq68daL7JkOXERqT</span>
+<span class="s1">        iGYbwQqozJ+q2Y3Iu2gi6o/rVl0SggAWoM0TitKP0+dCQcYx7+imAK3GFv1KexyP</span>
+<span class="s1">        Xs3WzO8Dc7ti42fr3qPjJG7g7PSfzwoME5iSNjX0MFZdlT1Q2dJwS4uXEsJO3yIj</span>
+<span class="s1">        XS/9AoGBALRApgtUA7Odw4tjCLGvxXuLFnyRkg6hFqoXAP2j8H9bJDOlSSVwQTFd</span>
+<span class="s1">        ahbcIDtQJS57vXUGK2uspbFKLm1WCFzPVyuxDIW6oue/kO+YxxU3NA58zk8oaORq</span>
+<span class="s1">        eA3YvHc7ZmRjVnVkxnXjKofrL6jF5A+lXSXnXchrv2ZYI+1pOsIV</span>
+<span class="s1">        -----END RSA PRIVATE KEY-----&#39;&#39;&#39;</span>
+        <span class="n">orderno</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">ch</span> <span class="o">=</span> <span class="n">pingpp</span><span class="o">.</span><span class="n">Charge</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;Your Subject&#39;</span><span class="p">,</span>
+                <span class="n">body</span><span class="o">=</span><span class="s1">&#39;Your Body&#39;</span><span class="p">,</span>
+                <span class="n">amount</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                <span class="n">order_no</span><span class="o">=</span><span class="n">orderno</span><span class="p">,</span>
+                <span class="n">currency</span><span class="o">=</span><span class="s1">&#39;cny&#39;</span><span class="p">,</span>
+                <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;alipay_qr&#39;</span><span class="p">,</span>
+                <span class="n">client_ip</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span>
+                <span class="n">app</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">app_id</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">ch</span><span class="o">.</span><span class="n">credential</span><span class="o">.</span><span class="n">alipay_qr</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Group Sagualiazao.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,967 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>工具包 &mdash; Code Game 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Code Game 0.1 documentation" href="index.html"/>
+        <link rel="next" title="API" href="apis.html"/>
+        <link rel="prev" title="数据库模型" href="data_models.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Code Game
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="data_models.html">数据库模型</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">工具包</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.test_utils">工具包测试</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apis.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Code Game</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>工具包</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api_utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="module-api.utils">
+<span id="id1"></span><h1>工具包<a class="headerlink" href="#module-api.utils" title="Permalink to this headline">¶</a></h1>
+<p>API工具包,定义了一些在服务器API中使用的函数</p>
+<dl class="class">
+<dt id="api.utils.CBC">
+<em class="property">class </em><code class="descclassname">api.utils.</code><code class="descname">CBC</code><a class="reference internal" href="_modules/api/utils.html#CBC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.CBC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>给出一种CBC加密和解密方法</p>
+<dl class="staticmethod">
+<dt id="api.utils.CBC.crypt">
+<em class="property">static </em><code class="descname">crypt</code><span class="sig-paren">(</span><em>key_str</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#CBC.crypt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.CBC.crypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>将给定字符串加密</p>
+<dl class="docutils">
+<dt>Parameters:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">key_str:</th><td class="field-body">用于加密的密钥</td>
+</tr>
+<tr class="field-even field"><th class="field-name">data:</th><td class="field-body">要被加密的字符串</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">crypted_str:</th><td class="field-body">加密后的数据的base64编码</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.CBC.decrypt">
+<em class="property">static </em><code class="descname">decrypt</code><span class="sig-paren">(</span><em>key_str</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#CBC.decrypt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.CBC.decrypt" title="Permalink to this definition">¶</a></dt>
+<dd><p>将给定加密后的字符串解密</p>
+<dl class="docutils">
+<dt>Parameters:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">key_str:</th><td class="field-body">用于解密的密钥</td>
+</tr>
+<tr class="field-even field"><th class="field-name">data:</th><td class="field-body">加密后的base64字符串</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">recovery_str:</th><td class="field-body">解密后的字符串</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.utils.Captcha">
+<em class="property">class </em><code class="descclassname">api.utils.</code><code class="descname">Captcha</code><a class="reference internal" href="_modules/api/utils.html#Captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.Captcha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>生成验证码</p>
+<p>原代码位于 <a class="reference external" href="http://www.cnblogs.com/skiler/p/6652848.html">http://www.cnblogs.com/skiler/p/6652848.html</a></p>
+<dl class="attribute">
+<dt id="api.utils.Captcha.CHAR_SETS">
+<code class="descname">CHAR_SETS</code><em class="property"> = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789'</em><a class="headerlink" href="#api.utils.Captcha.CHAR_SETS" title="Permalink to this definition">¶</a></dt>
+<dd><p>用于生成验证码的字符集</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.Captcha.base64_captcha">
+<em class="property">static </em><code class="descname">base64_captcha</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#Captcha.base64_captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.Captcha.base64_captcha" title="Permalink to this definition">¶</a></dt>
+<dd><p>生成base64编码的验证码图片,返回web前端</p>
+<dl class="docutils">
+<dt>Parameters:  </dt>
+<dd>无</dd>
+<dt>Returns:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">img:</th><td class="field-body">图片验证码的base64编码</td>
+</tr>
+<tr class="field-even field"><th class="field-name">code:</th><td class="field-body">验证码字符串的小写字母格式</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.Captcha.generate_captcha">
+<em class="property">static </em><code class="descname">generate_captcha</code><span class="sig-paren">(</span><em>width=80</em>, <em>height=35</em>, <em>background='#FFFFFF'</em>, <em>foreground='#FF0000'</em>, <em>font_size=16</em>, <em>length=4</em>, <em>deform=False</em>, <em>draw_lines=True</em>, <em>n_line=(1</em>, <em>2)</em>, <em>draw_points=True</em>, <em>point_chance=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#Captcha.generate_captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.Captcha.generate_captcha" title="Permalink to this definition">¶</a></dt>
+<dd><p>生成验证码图片和字符串</p>
+<dl class="docutils">
+<dt>Parameters:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">width:</th><td class="field-body">图片宽度</td>
+</tr>
+<tr class="field-even field"><th class="field-name">height:</th><td class="field-body">图片高度</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">background:</th><td class="field-body">背景色</td>
+</tr>
+<tr class="field-even field"><th class="field-name">foreground:</th><td class="field-body">前景色</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">font_size:</th><td class="field-body">字体大小</td>
+</tr>
+<tr class="field-even field"><th class="field-name">length:</th><td class="field-body">验证码长度</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">deform:</th><td class="field-body">图片扭曲</td>
+</tr>
+<tr class="field-even field"><th class="field-name">draw_lines:</th><td class="field-body">绘制干扰线</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">n_line:</th><td class="field-body">干扰线条数范围</td>
+</tr>
+<tr class="field-even field"><th class="field-name">draw_points:</th><td class="field-body">绘制干扰点</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">point_chance:</th><td class="field-body">干扰点比率</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">img:</th><td class="field-body">图片验证码</td>
+</tr>
+<tr class="field-even field"><th class="field-name">strs:</th><td class="field-body">验证码字符串</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.Captcha.string_captcha">
+<em class="property">static </em><code class="descname">string_captcha</code><span class="sig-paren">(</span><em>length=6</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#Captcha.string_captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.Captcha.string_captcha" title="Permalink to this definition">¶</a></dt>
+<dd><p>生成一个随机验证码字符串</p>
+<dl class="docutils">
+<dt>Parameters:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">length:</th><td class="field-body">验证码的长度</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:  </dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">captcha:</th><td class="field-body">长度为length的验证码字符串</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.utils.MapImage">
+<em class="property">class </em><code class="descclassname">api.utils.</code><code class="descname">MapImage</code><a class="reference internal" href="_modules/api/utils.html#MapImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.MapImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>生成地图缩略图</p>
+<dl class="attribute">
+<dt id="api.utils.MapImage.GRIDS_PER_COLUMN">
+<code class="descname">GRIDS_PER_COLUMN</code><em class="property"> = 10</em><a class="headerlink" href="#api.utils.MapImage.GRIDS_PER_COLUMN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.GRIDS_PER_ROW">
+<code class="descname">GRIDS_PER_ROW</code><em class="property"> = 10</em><a class="headerlink" href="#api.utils.MapImage.GRIDS_PER_ROW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.HREF_DIR">
+<code class="descname">HREF_DIR</code><em class="property"> = '/static/img/saved_maps/'</em><a class="headerlink" href="#api.utils.MapImage.HREF_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.MAP_DIR">
+<code class="descname">MAP_DIR</code><em class="property"> = './frontend/static/img/saved_maps/'</em><a class="headerlink" href="#api.utils.MapImage.MAP_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.MAP_DIR_DEV">
+<code class="descname">MAP_DIR_DEV</code><em class="property"> = './api/static/img/saved_maps/'</em><a class="headerlink" href="#api.utils.MapImage.MAP_DIR_DEV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.MAP_SIZE">
+<code class="descname">MAP_SIZE</code><em class="property"> = 100</em><a class="headerlink" href="#api.utils.MapImage.MAP_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd><p>地图大小</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.RESOURCE_DIR">
+<code class="descname">RESOURCE_DIR</code><em class="property"> = './api/static/map/'</em><a class="headerlink" href="#api.utils.MapImage.RESOURCE_DIR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.RESOURCE_HEIGHT">
+<code class="descname">RESOURCE_HEIGHT</code><em class="property"> = 64</em><a class="headerlink" href="#api.utils.MapImage.RESOURCE_HEIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.RESOURCE_WIDTH">
+<code class="descname">RESOURCE_WIDTH</code><em class="property"> = 64</em><a class="headerlink" href="#api.utils.MapImage.RESOURCE_WIDTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.MapImage.SOURCE_LIST">
+<code class="descname">SOURCE_LIST</code><em class="property"> = ['./api/static/map/background.png', './api/static/map/1.png', './api/static/map/2.png', './api/static/map/3.png', './api/static/map/4.png', './api/static/map/5.png']</em><a class="headerlink" href="#api.utils.MapImage.SOURCE_LIST" title="Permalink to this definition">¶</a></dt>
+<dd><p>地图资源列表</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.MapImage.deleteMapImages">
+<em class="property">static </em><code class="descname">deleteMapImages</code><span class="sig-paren">(</span><em>map_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#MapImage.deleteMapImages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.MapImage.deleteMapImages" title="Permalink to this definition">¶</a></dt>
+<dd><p>删除指定map_id的地图图片</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">map_id:</th><td class="field-body">DesignedMaps的map_id属性</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd>无</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.MapImage.generate_map_image">
+<em class="property">static </em><code class="descname">generate_map_image</code><span class="sig-paren">(</span><em>map_id</em>, <em>map_str</em>, <em>scale=0.25</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#MapImage.generate_map_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.MapImage.generate_map_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>生成地图缩略图并保存在MAP_DIR目录下</p>
+<dl class="docutils">
+<dt>Parameters:  </dt>
+<dd>map_id - 地图的id号,用于生成文件名  
+map_str - 地图的内容字符串
+scale - 缩放比率</dd>
+<dt>Returns:  </dt>
+<dd>True - 生成缩略图成功
+False - 资源丢失,生成缩略图失败</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.MapImage.getImageLink">
+<em class="property">static </em><code class="descname">getImageLink</code><span class="sig-paren">(</span><em>map_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#MapImage.getImageLink"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.MapImage.getImageLink" title="Permalink to this definition">¶</a></dt>
+<dd><p>返回地图图片资源地址</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">map_id:</th><td class="field-body">DesignedMaps的map_id属性</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">file_link:</th><td class="field-body">对应图片资源地址的字符串</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.utils.Pingpp">
+<em class="property">class </em><code class="descclassname">api.utils.</code><code class="descname">Pingpp</code><a class="reference internal" href="_modules/api/utils.html#Pingpp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.Pingpp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Ping++ 实现的支付接口</p>
+<p>因为没有营业执照只能使用test模式</p>
+<dl class="staticmethod">
+<dt id="api.utils.Pingpp.pay">
+<em class="property">static </em><code class="descname">pay</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#Pingpp.pay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.Pingpp.pay" title="Permalink to this definition">¶</a></dt>
+<dd><p>模拟一个支付请求</p>
+<dl class="docutils">
+<dt>Paramters:</dt>
+<dd>无</dd>
+<dt>Returns:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">str:</th><td class="field-body">模拟支付请求返回的url</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.utils.SimpleResponse">
+<em class="property">class </em><code class="descclassname">api.utils.</code><code class="descname">SimpleResponse</code><a class="reference internal" href="_modules/api/utils.html#SimpleResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.SimpleResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>用于简化创建json回应消息的代码</p>
+<dl class="staticmethod">
+<dt id="api.utils.SimpleResponse.designed_map_json_response">
+<em class="property">static </em><code class="descname">designed_map_json_response</code><span class="sig-paren">(</span><em>selected_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#SimpleResponse.designed_map_json_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.SimpleResponse.designed_map_json_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>返回指定地图对象信息的JsonResponse</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">user:</th><td class="field-body">用户对象</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">读取失败‘0’, 读取成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘map’:</th><td class="field-body">地图字符串</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘name’:</th><td class="field-body">地图名</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘remarks’:</th><td class="field-body">地图说明</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘author’:</th><td class="field-body">地图作者</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘is_published’:</th><td class="field-body">地图发布状态</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.SimpleResponse.failure_json_response">
+<code class="descname">failure_json_response</code><em class="property"> = &lt;JsonResponse status_code=200, &quot;application/json&quot;&gt;</em><a class="headerlink" href="#api.utils.SimpleResponse.failure_json_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>一个表明成功状态的json响应</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.SimpleResponse.game_level_json_response">
+<em class="property">static </em><code class="descname">game_level_json_response</code><span class="sig-paren">(</span><em>selected_map</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#SimpleResponse.game_level_json_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.SimpleResponse.game_level_json_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>返回指定关卡信息的JsonResponse</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">user:</th><td class="field-body">用户对象</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">读取失败‘0’, 读取成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘map’:</th><td class="field-body">地图字符串</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘name’:</th><td class="field-body">地图名</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘remarks’:</th><td class="field-body">地图说明</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘author’:</th><td class="field-body">地图作者</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘is_published’:</th><td class="field-body">地图发布状态</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.SimpleResponse.get_only">
+<em class="property">static </em><code class="descname">get_only</code><span class="sig-paren">(</span><em>request</em>, <em>func</em>, <em>session_needed=False</em>, <em>handle_exception=False</em>, <em>func_handle=&lt;function blank_func&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#SimpleResponse.get_only"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.SimpleResponse.get_only" title="Permalink to this definition">¶</a></dt>
+<dd><p>对服务器对于GET请求的响应进行了封装</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">WEB请求</td>
+</tr>
+<tr class="field-even field"><th class="field-name">func:</th><td class="field-body">处理请求,并返回一个响应信息的函数</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">session_needed:</th><td class="field-body">该请求是否需要验证用户已登录, 默认为False</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">handle_exception:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">该请求是否需要一个额外的异常处理函数, 默认为False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">func_handle:</th><td class="field-body">该请求使用的异常处理函数, 默认为blank_func</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">HttpResponse:</th><td class="field-body"><p class="first">在成功执行时返回func的返回值</p>
+<p>在请求method不对应时或检测未登录时返回404</p>
+<p class="last">在func执行出现异常后返回SimpleResponse.failure_json_response</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.SimpleResponse.get_or_post">
+<em class="property">static </em><code class="descname">get_or_post</code><span class="sig-paren">(</span><em>request</em>, <em>func_get</em>, <em>func_post</em>, <em>session_needed=False</em>, <em>handle_exception=False</em>, <em>func_handle=&lt;function blank_func&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#SimpleResponse.get_or_post"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.SimpleResponse.get_or_post" title="Permalink to this definition">¶</a></dt>
+<dd><p>对服务器对于GET请求或POST请求的响应进行了封装</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">WEB请求</td>
+</tr>
+<tr class="field-even field"><th class="field-name">func_get:</th><td class="field-body">处理GET请求,并返回一个响应信息的函数</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">func_post:</th><td class="field-body">处理POST请求,并返回一个响应信息的函数</td>
+</tr>
+<tr class="field-even field"><th class="field-name">session_needed:</th><td class="field-body">该请求是否需要验证用户已登录, 默认为False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">handle_exception:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">该请求是否需要一个额外的异常处理函数, 默认为False</td>
+</tr>
+<tr class="field-even field"><th class="field-name">func_handle:</th><td class="field-body">该请求使用的异常处理函数, 默认为blank_func</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">HttpResponse:</th><td class="field-body"><p class="first">在成功执行时返回func的返回值</p>
+<p>在请求method不对应时或检测未登录时返回404</p>
+<p class="last">在func执行出现异常后返回SimpleResponse.failure_json_response</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.SimpleResponse.post_only">
+<em class="property">static </em><code class="descname">post_only</code><span class="sig-paren">(</span><em>request</em>, <em>func</em>, <em>session_needed=False</em>, <em>handle_exception=False</em>, <em>func_handle=&lt;function blank_func&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#SimpleResponse.post_only"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.SimpleResponse.post_only" title="Permalink to this definition">¶</a></dt>
+<dd><p>对服务器对于POST请求的响应进行了封装</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">WEB请求</td>
+</tr>
+<tr class="field-even field"><th class="field-name">func:</th><td class="field-body">处理请求,并返回一个响应信息的函数</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">session_needed:</th><td class="field-body">该请求是否需要验证用户已登录, 默认为False</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">handle_exception:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">该请求是否需要一个额外的异常处理函数, 默认为False</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">func_handle:</th><td class="field-body">该请求使用的异常处理函数, 默认为blank_func</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">HttpResponse:</th><td class="field-body"><p class="first">在成功执行时返回func的返回值</p>
+<p>在请求method不对应时或检测未登录时返回404</p>
+<p class="last">在func执行出现异常后返回SimpleResponse.failure_json_response</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.utils.SimpleResponse.success_json_response">
+<code class="descname">success_json_response</code><em class="property"> = &lt;JsonResponse status_code=200, &quot;application/json&quot;&gt;</em><a class="headerlink" href="#api.utils.SimpleResponse.success_json_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="api.utils.SimpleResponse.user_json_response">
+<em class="property">static </em><code class="descname">user_json_response</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#SimpleResponse.user_json_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.SimpleResponse.user_json_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>返回指定用户对象信息的JsonResponse</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">user:</th><td class="field-body">用户对象</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body"><p class="first">登录失败‘0’, 登录成功‘1’</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘email’:</th><td class="field-body"><p class="first">用户的电子邮件</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘nickname’:</th><td class="field-body"><p class="first">用户的昵称</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘id’:</th><td class="field-body"><ul class="first simple">
+<li>用户的id</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘gameProgress’:</th><td class="field-body"><p class="first">用户的游戏进度</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘hasPaied’:</th><td class="field-body"><p class="first last">用户是否已经付费</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="api.utils.blank_func">
+<code class="descclassname">api.utils.</code><code class="descname">blank_func</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#blank_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.blank_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>一个空函数</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.utils.check_email_format">
+<code class="descclassname">api.utils.</code><code class="descname">check_email_format</code><span class="sig-paren">(</span><em>email</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/utils.html#check_email_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.utils.check_email_format" title="Permalink to this definition">¶</a></dt>
+<dd><p>检查邮箱格式</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">email:</th><td class="field-body">给定的email</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">True/False:</th><td class="field-body">email符合规范返回True,否则返回False</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="module-api.test_utils">
+<span id="id2"></span><h2>工具包测试<a class="headerlink" href="#module-api.test_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="api.test_utils.CaptchaTestCase">
+<em class="property">class </em><code class="descclassname">api.test_utils.</code><code class="descname">CaptchaTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CaptchaTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CaptchaTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="api.test_utils.CaptchaTestCase.test_captcha_can_set_length">
+<code class="descname">test_captcha_can_set_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CaptchaTestCase.test_captcha_can_set_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CaptchaTestCase.test_captcha_can_set_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_utils.CaptchaTestCase.test_captcha_character_set">
+<code class="descname">test_captcha_character_set</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CaptchaTestCase.test_captcha_character_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CaptchaTestCase.test_captcha_character_set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_utils.CaptchaTestCase.test_captcha_default_length">
+<code class="descname">test_captcha_default_length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CaptchaTestCase.test_captcha_default_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CaptchaTestCase.test_captcha_default_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_utils.CbcTestCase">
+<em class="property">class </em><code class="descclassname">api.test_utils.</code><code class="descname">CbcTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CbcTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CbcTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="api.test_utils.CbcTestCase.test_cbc_can_crypt_correctly">
+<code class="descname">test_cbc_can_crypt_correctly</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CbcTestCase.test_cbc_can_crypt_correctly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CbcTestCase.test_cbc_can_crypt_correctly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_utils.CbcTestCase.test_cbc_raise_typeerror_if_not_str">
+<code class="descname">test_cbc_raise_typeerror_if_not_str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CbcTestCase.test_cbc_raise_typeerror_if_not_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CbcTestCase.test_cbc_raise_typeerror_if_not_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_utils.CheckEmailFormatTestCase">
+<em class="property">class </em><code class="descclassname">api.test_utils.</code><code class="descname">CheckEmailFormatTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CheckEmailFormatTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CheckEmailFormatTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="api.test_utils.CheckEmailFormatTestCase.test_check_email_fromat">
+<code class="descname">test_check_email_fromat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#CheckEmailFormatTestCase.test_check_email_fromat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.CheckEmailFormatTestCase.test_check_email_fromat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_utils.ModifySessionMixin">
+<em class="property">class </em><code class="descclassname">api.test_utils.</code><code class="descname">ModifySessionMixin</code><a class="reference internal" href="_modules/api/test_utils.html#ModifySessionMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.ModifySessionMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>支持test模拟session功能的基类</p>
+<dl class="attribute">
+<dt id="api.test_utils.ModifySessionMixin.client">
+<code class="descname">client</code><em class="property"> = &lt;django.test.client.Client object&gt;</em><a class="headerlink" href="#api.test_utils.ModifySessionMixin.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_utils.ModifySessionMixin.create_session">
+<code class="descname">create_session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#ModifySessionMixin.create_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.ModifySessionMixin.create_session" title="Permalink to this definition">¶</a></dt>
+<dd><p>为当前类创建模拟session功能</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_utils.SimpleResponseTest">
+<em class="property">class </em><code class="descclassname">api.test_utils.</code><code class="descname">SimpleResponseTest</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#SimpleResponseTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.SimpleResponseTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_utils.ModifySessionMixin" title="api.test_utils.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_utils.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<dl class="method">
+<dt id="api.test_utils.SimpleResponseTest.test_blank_func">
+<code class="descname">test_blank_func</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#SimpleResponseTest.test_blank_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.SimpleResponseTest.test_blank_func" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_utils.SimpleResponseTest.test_designed_map_json_response">
+<code class="descname">test_designed_map_json_response</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#SimpleResponseTest.test_designed_map_json_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.SimpleResponseTest.test_designed_map_json_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_utils.SimpleResponseTest.test_game_level_json_response">
+<code class="descname">test_game_level_json_response</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#SimpleResponseTest.test_game_level_json_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.SimpleResponseTest.test_game_level_json_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_utils.SimpleResponseTest.test_user_json_response">
+<code class="descname">test_user_json_response</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_utils.html#SimpleResponseTest.test_user_json_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_utils.SimpleResponseTest.test_user_json_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="apis.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data_models.html" class="btn btn-neutral" title="数据库模型" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Group Sagualiazao.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

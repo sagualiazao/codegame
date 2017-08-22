@@ -1,0 +1,883 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>api.views &mdash; Code Game 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Code Game 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Code Game
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data_models.html">数据库模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_utils.html">工具包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apis.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Code Game</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>api.views</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for api.views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="k">import</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">JsonResponse</span><span class="p">,</span> <span class="n">HttpResponseNotFound</span>
+<span class="kn">from</span> <span class="nn">django.views.decorators.csrf</span> <span class="k">import</span> <span class="n">csrf_exempt</span>
+<span class="kn">import</span> <span class="nn">simplejson</span>
+<span class="kn">from</span> <span class="nn">api.utils</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">django.core.mail</span> <span class="k">import</span> <span class="n">send_mail</span>
+<span class="kn">from</span> <span class="nn">api.models</span> <span class="k">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">DesignedMaps</span><span class="p">,</span> <span class="n">GameLevels</span><span class="p">,</span> <span class="n">FavoriteMaps</span>
+
+
+<div class="viewcode-block" id="get_captcha"><a class="viewcode-back" href="../../apis.html#api.views.get_captcha">[docs]</a><span class="k">def</span> <span class="nf">get_captcha</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    向web前端发送图片验证码</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/captcha&#39;的GET请求\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;img&#39;: 图片验证码的base64编码\n</span>
+<span class="sd">        :&#39;capthca&#39;: 验证码的小写字符串\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个GET请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get_captcha_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="n">Captcha</span><span class="o">.</span><span class="n">base64_captcha</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;img&#39;</span><span class="p">:</span> <span class="n">img</span><span class="p">,</span>
+            <span class="s1">&#39;captcha&#39;</span><span class="p">:</span> <span class="n">code</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">get_captcha_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="register"><a class="viewcode-back" href="../../apis.html#api.views.register">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    执行注册用户操作</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/register&#39;的POST请求\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 注册失败&#39;0&#39;, 注册成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;capthca&#39;: 验证码的小写字符串\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个POST请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">register_fuction</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">check_email_format</span><span class="p">(</span><span class="n">email</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="n">password_ace</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+        <span class="n">nickname</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;nickname&#39;</span><span class="p">]</span>
+        <span class="n">captcha</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;captcha&#39;</span><span class="p">]</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">CBC</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">captcha</span><span class="p">,</span> <span class="n">password_ace</span><span class="p">)</span>
+        <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">,</span> <span class="n">nickname</span><span class="o">=</span><span class="n">nickname</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">register_fuction</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="reset_password_email"><a class="viewcode-back" href="../../apis.html#api.views.reset_password_email">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">reset_password_email</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    发送重置密码的邮件验证码</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/reset-password-email&#39;的POST请求\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 发送失败&#39;0&#39;, 发送成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;capthca&#39;: 验证码的小写字符串\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个POST请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">reset_password_email_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="n">captcha</span> <span class="o">=</span> <span class="n">Captcha</span><span class="o">.</span><span class="n">string_captcha</span><span class="p">()</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;您重置账户: [&#39;</span> <span class="o">+</span> <span class="n">email</span> <span class="o">+</span> <span class="s1">&#39;] 密码的验证码是: &#39;</span> <span class="o">+</span> <span class="n">captcha</span>
+        <span class="n">mail_status</span> <span class="o">=</span> <span class="n">send_mail</span><span class="p">(</span>
+            <span class="sa">r</span><span class="s1">&#39;[验证码]仨瓜俩枣小组的编程游戏-密码重置&#39;</span><span class="p">,</span>
+            <span class="n">msg</span><span class="p">,</span>
+            <span class="s1">&#39;sagualiazao@aliyun.com&#39;</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">email</span><span class="p">],</span>
+            <span class="n">fail_silently</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;captcha&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">captcha</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">reset_password_email_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_email_captcha"><a class="viewcode-back" href="../../apis.html#api.views.check_email_captcha">[docs]</a><span class="k">def</span> <span class="nf">check_email_captcha</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    建议输入的邮件验证码是否正确</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/check-email&#39;的GET请求\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 未被注册&#39;0&#39;, 已被注册&#39;1&#39;\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个GET请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">check_email_captcha_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">captcha</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">[</span><span class="s1">&#39;captcha&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">captcha</span> <span class="o">!=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;captcha&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">check_email_captcha_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="reset_password"><a class="viewcode-back" href="../../apis.html#api.views.reset_password">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">reset_password</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    重置密码</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/reset-password&#39;的POST请求\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 修改失败&#39;0&#39;, 修改成功&#39;1&#39;\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个POST请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">reset_password_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="n">password_ace</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+        <span class="n">captcha</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;captcha&#39;</span><span class="p">]</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">CBC</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">captcha</span><span class="p">,</span> <span class="n">password_ace</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">reset_password_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="login"><a class="viewcode-back" href="../../apis.html#api.views.login">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    登录</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/login&#39;的POST请求或GET请求\n</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 登录失败&#39;0&#39;, 登录成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;email&#39;: 用户的电子邮件\n</span>
+<span class="sd">        :&#39;nickname&#39;: 用户的昵称\n</span>
+<span class="sd">        :&#39;id&#39;: - 用户的id\n</span>
+<span class="sd">        :&#39;gameProgress&#39;: 用户的游戏进度\n</span>
+<span class="sd">        :&#39;hasPaied&#39;: 用户是否已经付费\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个POST\GET请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">login_get_fuction</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">user_json_response</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">login_post_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="n">password_ace</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+        <span class="n">captcha</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;captcha&#39;</span><span class="p">]</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">CBC</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">captcha</span><span class="p">,</span> <span class="n">password_ace</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">login_status</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">login_status</span><span class="p">:</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">email</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">user_json_response</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_or_post</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">login_get_fuction</span><span class="p">,</span> <span class="n">login_post_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_email"><a class="viewcode-back" href="../../apis.html#api.views.check_email">[docs]</a><span class="k">def</span> <span class="nf">check_email</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    检验邮箱是否已被注册</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/check-email&#39;的GET请求\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: - 未被注册&#39;0&#39;, 已被注册&#39;1&#39;\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个GET请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">check_email_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">users</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">check_email_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="logout"><a class="viewcode-back" href="../../apis.html#api.views.logout">[docs]</a><span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    注销</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/logout&#39;的GET请求\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 注销失败&#39;0&#39;, 注销成功&#39;1&#39;\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个GET请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">email</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">HttpResponseNotFound</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="save_map"><a class="viewcode-back" href="../../apis.html#api.views.save_map">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">save_map</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    保存用户编辑的地图</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/save-map&#39;的POST请求\n</span>
+<span class="sd">        :mapString: 要存储的地图信息\n</span>
+<span class="sd">        :name: 地图的名称\n</span>
+<span class="sd">        :remarks: 地图的说明\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 保存失败&#39;0&#39;, 保存成功&#39;1&#39;\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个POST请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">save_map_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">email</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">map_str</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;mapString&#39;</span><span class="p">]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">remarks</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;remarks&#39;</span><span class="p">]</span>
+        <span class="n">new_map</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="p">(</span>
+            <span class="nb">map</span><span class="o">=</span><span class="n">map_str</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">remarks</span><span class="o">=</span><span class="n">remarks</span><span class="p">,</span>
+            <span class="n">author</span><span class="o">=</span><span class="n">author</span><span class="p">,</span>
+            <span class="n">is_published</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="n">new_map</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">MapImage</span><span class="o">.</span><span class="n">generate_map_image</span><span class="p">(</span><span class="n">new_map</span><span class="o">.</span><span class="n">map_id</span><span class="p">,</span> <span class="n">map_str</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+    
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">save_map_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_map"><a class="viewcode-back" href="../../apis.html#api.views.read_map">[docs]</a><span class="k">def</span> <span class="nf">read_map</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    读取用户编辑的地图</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/read-map&#39;的GET请求\n</span>
+<span class="sd">        :mapid: 要读取的map的id\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 读取失败&#39;0&#39;, 读取成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;map&#39;: 地图字符串\n</span>
+<span class="sd">        :&#39;name&#39;: 地图名\n</span>
+<span class="sd">        :&#39;remarks&#39;: 地图说明\n</span>
+<span class="sd">        :&#39;author&#39;: 地图作者\n</span>
+<span class="sd">        :&#39;is_published&#39;: 地图发布状态\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个GET请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">read_map_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">map_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">[</span><span class="s1">&#39;mapid&#39;</span><span class="p">])</span>
+        <span class="n">selected_map</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">map_id</span><span class="o">=</span><span class="n">map_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_map</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">selected_map</span> <span class="o">=</span> <span class="n">selected_map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">designed_map_json_response</span><span class="p">(</span><span class="n">selected_map</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">read_map_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_level"><a class="viewcode-back" href="../../apis.html#api.views.read_level">[docs]</a><span class="k">def</span> <span class="nf">read_level</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    读取系统关卡</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/read-level&#39;的GET请求\n</span>
+<span class="sd">        :mapid: 要读取的level的id\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 读取失败&#39;0&#39;, 读取成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;map&#39;: 地图字符串\n</span>
+<span class="sd">        :&#39;name&#39;: 地图名\n</span>
+<span class="sd">        :&#39;remarks&#39;: 地图说明\n</span>
+<span class="sd">        :&#39;author&#39;: 地图作者\n</span>
+<span class="sd">        :&#39;is_published&#39;: 地图发布状态\n</span>
+
+<span class="sd">        HttpResponseNotFound(): 如果request不是一个GET请求\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">read_level_function</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+        <span class="n">map_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="p">[</span><span class="s1">&#39;mapid&#39;</span><span class="p">])</span>
+        <span class="n">selected_map</span> <span class="o">=</span> <span class="n">GameLevels</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">map_id</span><span class="o">=</span><span class="n">map_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_map</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">failure_json_response</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">selected_map</span> <span class="o">=</span> <span class="n">selected_map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">game_level_json_response</span><span class="p">(</span><span class="n">selected_map</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">read_level_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="pay"><a class="viewcode-back" href="../../apis.html#api.views.pay">[docs]</a><span class="k">def</span> <span class="nf">pay</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    发送支付请求</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/pay&#39;的GET请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 发送支付请求失败&#39;0&#39;,发送成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;url&#39;: 成功发送支付请求打开的页面\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">pay_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">alipay_pr</span> <span class="o">=</span> <span class="n">Pingpp</span><span class="o">.</span><span class="n">pay</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="n">alipay_pr</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pay_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_map_list"><a class="viewcode-back" href="../../apis.html#api.views.read_map_list">[docs]</a><span class="k">def</span> <span class="nf">read_map_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    读取地图广场</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/read-map-list&#39;的GET请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 读取失败&#39;0&#39;,读取成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;data&#39;: 读取的地图信息列表\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">read_map_list_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">maps</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">is_published</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">maps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+            <span class="p">})</span>
+        <span class="n">map_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">maps</span><span class="p">:</span>
+            <span class="n">is_favorite_map</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">map_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">map_id</span><span class="p">,</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">author</span><span class="p">),</span>
+                <span class="n">MapImage</span><span class="o">.</span><span class="n">getImageLink</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">map_id</span><span class="p">),</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">remarks</span><span class="p">,</span>
+                <span class="nb">bool</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">is_favorite_map</span><span class="p">))</span>
+            <span class="p">))</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">map_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">map_list</span><span class="p">),</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">json</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">read_map_list_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_my_map_list"><a class="viewcode-back" href="../../apis.html#api.views.read_my_map_list">[docs]</a><span class="k">def</span> <span class="nf">read_my_map_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    读取用户的地图</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/read-my-map-list&#39;的GET请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 读取失败&#39;0&#39;,读取成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;data&#39;: 读取的地图信息列表\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">read_my_map_list_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">maps</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">maps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+            <span class="p">})</span>
+        <span class="n">map_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">maps</span><span class="p">:</span>
+            <span class="n">map_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">map_id</span><span class="p">,</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">MapImage</span><span class="o">.</span><span class="n">getImageLink</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">map_id</span><span class="p">),</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">remarks</span><span class="p">,</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">is_published</span>
+            <span class="p">))</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">map_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">map_list</span><span class="p">),</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">json</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">read_my_map_list_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change_favorite_map"><a class="viewcode-back" href="../../apis.html#api.views.change_favorite_map">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">change_favorite_map</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    修改地图收藏状态</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/change-favorite-map&#39;的POST请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 修改失败&#39;0&#39;,修改成功&#39;1&#39;\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">change_favorite_map_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">map_id</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;mapid&#39;</span><span class="p">]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">req</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]))</span>
+        <span class="n">the_map</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">map_id</span><span class="o">=</span><span class="n">map_id</span><span class="p">)</span>
+        <span class="n">has_favorite</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="n">the_map</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">has_favorite</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">new_favorite</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="n">the_map</span><span class="p">)</span>
+            <span class="n">new_favorite</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">remove_favorite</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="n">the_map</span><span class="p">)</span>
+            <span class="n">remove_favorite</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">map_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">change_favorite_map_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_published_map_list"><a class="viewcode-back" href="../../apis.html#api.views.read_published_map_list">[docs]</a><span class="k">def</span> <span class="nf">read_published_map_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    读取用户制作的地图列表</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/read-published-map-list&#39;的GET请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 读取失败&#39;0&#39;,读取成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;data&#39;: 读取的地图信息列表\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">read_published_map_list_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">maps</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">author</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">is_published</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">maps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+            <span class="p">})</span>
+        <span class="n">map_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">maps</span><span class="p">:</span>
+            <span class="n">map_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">map_id</span><span class="p">,</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">MapImage</span><span class="o">.</span><span class="n">getImageLink</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">map_id</span><span class="p">),</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">remarks</span>
+            <span class="p">))</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">map_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">map_list</span><span class="p">),</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">json</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">read_published_map_list_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_favorite_map_list"><a class="viewcode-back" href="../../apis.html#api.views.read_favorite_map_list">[docs]</a><span class="k">def</span> <span class="nf">read_favorite_map_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    读取用户收藏的地图列表</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/read-favorite-map-list&#39;的GET请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 读取失败&#39;0&#39;,读取成功&#39;1&#39;\n</span>
+<span class="sd">        :&#39;data&#39;: 读取的地图信息列表\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">read_favorite_map_list_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">favorites</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">favorites</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span>
+            <span class="p">})</span>
+        <span class="n">map_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">favorites</span><span class="p">:</span>
+            <span class="n">map_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">map_id</span><span class="p">,</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">author</span><span class="p">),</span>
+                <span class="n">MapImage</span><span class="o">.</span><span class="n">getImageLink</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">map_id</span><span class="p">),</span>
+                <span class="n">i</span><span class="o">.</span><span class="n">map</span><span class="o">.</span><span class="n">remarks</span>                        
+            <span class="p">))</span>
+        <span class="n">json</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">map_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+            <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">map_list</span><span class="p">),</span>
+            <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">json</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">get_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">read_favorite_map_list_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change_publish_status"><a class="viewcode-back" href="../../apis.html#api.views.change_publish_status">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">change_publish_status</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    修改地图发布状态</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/change-publish&#39;的POST请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 修改失败&#39;0&#39;,修改成功&#39;1&#39;\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">change_publish_status_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">map_id</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;mapid&#39;</span><span class="p">]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">req</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]))</span>
+        <span class="n">the_map</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">map_id</span><span class="o">=</span><span class="n">map_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="ow">and</span> <span class="n">the_map</span><span class="o">.</span><span class="n">author</span> <span class="o">==</span> <span class="n">user</span><span class="p">:</span>
+            <span class="n">the_map</span><span class="o">.</span><span class="n">publish</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">the_map</span><span class="o">.</span><span class="n">cancel_publish</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">change_publish_status_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="delete_map"><a class="viewcode-back" href="../../apis.html#api.views.delete_map">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">delete_map</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    删除地图</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/delete-map&#39;的POST请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 修改失败&#39;0&#39;,修改成功&#39;1&#39;\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">delete_map_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">map_id</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;mapid&#39;</span><span class="p">]</span>
+        <span class="n">the_map</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">map_id</span><span class="o">=</span><span class="n">map_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">the_map</span><span class="o">.</span><span class="n">author</span> <span class="o">==</span> <span class="n">user</span><span class="p">:</span>
+            <span class="n">the_map</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="n">MapImage</span><span class="o">.</span><span class="n">deleteMapImages</span><span class="p">(</span><span class="n">map_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">delete_map_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change_nickname"><a class="viewcode-back" href="../../apis.html#api.views.change_nickname">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">change_nickname</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    修改昵称</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/change-nickname&#39;的POST请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 修改失败&#39;0&#39;,修改成功&#39;1&#39;\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">change_nickname_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">nickname</span> <span class="o">=</span> <span class="n">req</span><span class="p">[</span><span class="s1">&#39;nickname&#39;</span><span class="p">]</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">nickname</span> <span class="o">=</span> <span class="n">nickname</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">change_nickname_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change_progress"><a class="viewcode-back" href="../../apis.html#api.views.change_progress">[docs]</a><span class="nd">@csrf_exempt</span>
+<span class="k">def</span> <span class="nf">change_progress</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    修改昵称</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        :request: 指向&#39;/api/change-progress&#39;的POST请求,需要服务器保存session信息(已登录)才能访问\n</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        JsonResponse:\n</span>
+<span class="sd">        :&#39;status&#39;: 修改失败&#39;0&#39;,修改成功&#39;1&#39;\n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">change_nickname_function</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">email</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">email</span><span class="p">)</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">req</span><span class="p">[</span><span class="s1">&#39;progress&#39;</span><span class="p">])</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">game_progress</span> <span class="o">=</span> <span class="n">progress</span>
+        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">success_json_response</span>
+
+    <span class="k">return</span> <span class="n">SimpleResponse</span><span class="o">.</span><span class="n">post_only</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">change_nickname_function</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Group Sagualiazao.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
