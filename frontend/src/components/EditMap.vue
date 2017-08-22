@@ -20,15 +20,18 @@
                                 <i class="el-icon-circle-check" @click="publishClick(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_PUBLISH">
                                     {{ $store.state._const.MAP_PUBLISHED }}
                                 </i>
+                                <i class="el-icon-delete" @click="deleteClick(map)">
+                                    {{ $store.state._const.DELETE_MAP }}
+                                </i>
                             </div>
                             <div v-else>
                                 <i class="el-icon-upload" @click="publishClick(map, true)" title="$store.state._const.CLICK_TO_PUBLISH">
                                     {{ $store.state._const.MAP_UNPUBLISHED }}
                                 </i>
+                                <i class="el-icon-delete" @click="deleteClick(map)">
+                                    {{ $store.state._const.DELETE_MAP }}
+                                </i>
                             </div>
-                            <i class="el-icon-delete" @click="deleteClick(map)">
-                                {{ $store.state._const.DELETE_MAP }}
-                            </i>
                         </div>
                     </div>
                 </div>
@@ -45,7 +48,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import MapEditor from './MapEditor'
-import { simpleGet, simplePost, readMap } from '@/assets/js/util.js'
+import { simpleGet, simplePost, readMap, setCookie } from '@/assets/js/util.js'
 
 export default {
     name: 'edit-map',
@@ -86,11 +89,13 @@ export default {
         },
         enterMap: async function (id) {
             this.$store.commit('changeLevelMode', false)
-            this.$store.commit('changeGameID', id)
             let response = await readMap(false, id)
             let obj = await response.json()
             if (await obj.status === '1') {
                 this.$store.commit('changeMap', obj)
+                setCookie('levelMode', this.$store.state.levelMode.toString())
+                setCookie('mapId', this.$store.state.mapId.toString())
+                setCookie('mapString', this.$store.state.mapString)
                 this.$router.push('/BlockBase')
             }
         },
@@ -170,46 +175,73 @@ h2 {
     color:#808000;
 }
 div.map-picture {
-    border: ridge 2px #ADD8E6;
+    border: 1px solid #BFBFBF;
     text-align: center;
-    width: auto;
-    height: auto;
     float: left;
-    margin: 3px;
+    width: 20%;
+    height: auto;
+    margin: 2%;
     display: block;
-    box-sizing: border-box;
-    transition: all .4s ease-in-out;
+    /*box-sizing: border-box;*/
     overflow: hidden;
+}
+div.map-picture:hover {
+    border: 1px solid #777;
 }
 .caption {
     text-align: center;
     font-weight: normal;
-    width: auto;
-    font-size: 12px;
+    width: 100%;
+    font-size: 0.7em;
     margin: 10px 5px 10px 5px;
+  }
+  .map-picture a {
+      display: block;
+  }
+  /*.map-picture a p {
+      display: none;
+      transform: scale(1);
+  }*/
+.map-picture img {
+    width: 80%;
+    height: auto;
+    display: block;
+    margin: 10%;
 }
 img {
-      width: auto;
-      height: auto;
-      display: block;
-      margin: 3px;
-  }
-img {
-      opacity: 0.4;
-      filter: alpha(opacity = 40); /* For IE8 and earlier */
-      transition: all 0.5s;
-  }
- img:hover {
-      opacity: 1.0;
-      filter: alpha(opacity = 100); /* For IE8 and earlier */
-      transform: scale(1.1);
-  }
- .el-icon-circle-check {
-      cursor: pointer;
-  }
- .el-icon-delete {
-      cursor: pointer;
-  }
+    opacity: 0.8;
+    filter: alpha(opacity = 40); /* For IE8 and earlier */
+    transition: all 0.5s;
+}
+img:hover {
+    opacity: 1.0;
+    filter: alpha(opacity = 100); /* For IE8 and earlier */
+    transform: scale(1.2);
+    /*border: 1px solid #333333;*/
+    /*box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);*/
+    overflow: hidden;
+}
+@media only screen and (max-width: 700px){
+    .map-picture {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
+}
+.el-icon-upload {
+    float: left;
+    color: #2E8B57;
+}
+.el-icon-circle-check {
+    float: left;
+    color:#FFA07A;
+    cursor: pointer;
+}
+.el-icon-delete {
+    float: right;
+    margin-right: 2px;
+    color: #4169E1;
+    cursor: pointer;
+}
 button {
     display: inline-block;
     margin-top: 30px;

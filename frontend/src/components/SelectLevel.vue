@@ -26,7 +26,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
-import { readMap } from '@/assets/js/util.js'
+import { readMap, setCookie } from '@/assets/js/util.js'
 
 export default {
     name: 'select-level',
@@ -47,21 +47,22 @@ export default {
     },
     methods: {
         selectLevel: function (level) {
-            var prog = this.$store.state.userGameProgress + 1
-            if (level <= prog + 1) {
+            if (level <= this.$store.state.userGameProgress + 1) {
                 this.enterLevel(level)
             } else {
-                this.$message('您还没玩到这关哦！您现在已经通过了第' + prog + '关')
+                this.$message('您还没玩到这关哦！您现在已经通过了第' + this.$store.state.userGameProgress + '关')
             }
         },
         enterLevel: async function (id) {
             this.$store.commit('changeLevelMode', true)
-            this.$store.commit('changeGameID', id)
             let response = await readMap(true, id)
             let obj = await response.json()
             if (await obj.status === '1') {
                 this.selectlevelDialog = false
                 this.$store.commit('changeMap', obj)
+                setCookie('levelMode', this.$store.state.levelMode.toString())
+                setCookie('mapId', this.$store.state.mapId.toString())
+                setCookie('mapString', this.$store.state.mapString)
                 this.$router.push('/BlockBase')
             }
         }

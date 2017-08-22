@@ -32,6 +32,15 @@ const state = {
         CLICK_TO_PUBLISH: '点击发布',
         CONFIRM: '确认',
         CONTINUE_GAME: '继续游戏',
+        DEFAULT_MAP: {
+            id: 1,
+            map: '0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000',
+            name: 'XXX要回家',
+            tips: 'XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！\n请使用go(5)使XXX走到小旗处',
+            codes: 'go(3)',
+            mode: '[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]',
+            author: '仨瓜俩枣'
+        },
         DELETE_CONFIRM_INFORMATION: '此操作将永久删除该文件, 是否继续?',
         DELETE_FAILURE: '删除失败',
         DELETE_MAP: '删除地图',
@@ -206,8 +215,12 @@ const state = {
     * @for state
     * @default false
     */
-    map: null,
-    mapString: '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
+    mapName: '',
+    mapTips: '',
+    mapCodes: '',
+    mapMode: [],
+    mapString: '',
+    mapAuthor: '',
     signinDialog: false,
     /**
     *记录当前地图字符串
@@ -400,22 +413,19 @@ const mutations = {
     changeLevelMode: function (state, mode) {
         state.levelMode = mode
     },
-    /**
-    *选择游戏ID
-    *
-    * @method changeGameID
-    * @for mutations
-    * @param {Object}  state state对象
-    * @param {String} id 游戏id
-    */
-    changeGameID: function (state, id) {
-        state.gameId = id
-    },
     changeMap: function (state, obj) {
-        if (obj !== null) {
-            state.map = obj
-            state.mapString = state.map.map
+        let theMap = obj
+        if (theMap === null) {
+            theMap = state._const.DEFAULT_MAP
+            state.levelMode = true
         }
+        state.mapId = theMap.id
+        state.mapString = theMap.map
+        state.mapName = theMap.name
+        state.mapTips = theMap.tips
+        state.mapCodes = theMap.codes
+        state.mapMode = JSON.parse(theMap.mode)
+        state.mapAuthor = theMap.author
     },
     changelevelpassModal: function (state, status) {
         state.levelpassModal = status
@@ -452,8 +462,6 @@ const actions = {
         context.commit('changeUserHasPaied', null)
         context.commit('changeMenu', 'menu-bar-unlogged')
         context.commit('changeRegisterDate', null)
-        context.commit('changeLevelMode', true)
-        context.commit('changeGameID', null)
         context.commit('changeMap', null)
         fetch('api/logout', {
             method: 'get',
@@ -480,8 +488,6 @@ const actions = {
         context.commit('resetPasswordWindow', false)
         context.commit('changeMenu', 'menu-bar-unlogged')
         context.commit('changeRegisterDate', null)
-        context.commit('changeLevelMode', true)
-        context.commit('changeGameID', null)
         context.commit('changeMap', null)
     },
     /**
@@ -508,8 +514,6 @@ const actions = {
             context.commit('changeUserHasPaied', obj.hasPaied)
             context.commit('changeRegisterDate', obj.createdAt)
             context.commit('changeMenu', 'menu-bar-logged')
-            context.commit('changeLevelMode', true)
-            context.commit('changeGameID', null)
             context.commit('changeMap', null)
         } else {}
     }
