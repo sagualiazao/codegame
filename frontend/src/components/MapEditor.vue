@@ -21,8 +21,8 @@
             <br>
             <label>{{ $store.state._const.MAP_REMARKS }}</label><br>
             <textarea v-model="mapTips" :placeholder="$store.state._const.NEED_MAP_REMARKS"></textarea><br>
-            <el-button type="primary" @click="submit">提交</el-button>
-            <el-button @click="mapInfo = false">取消</el-button>
+            <el-button type="primary" @click="submit">{{ $store.state._const.SUBMIT }}</el-button>
+            <el-button @click="mapInfo = false">{{ $store.state._const.CANCEL }}</el-button>
         </el-dialog>
     </div>
 </template>
@@ -243,25 +243,25 @@ export default {
         * @method init
         */
         init () {
-            var canvas = document.getElementById('my-map')
+            let canvas = document.getElementById('my-map')
             this.stage = new createjs.Stage(canvas)
             this.scale = Math.min(canvas.width / 900, canvas.height / 640)
             this.stage.scaleX = this.scale
             this.stage.scaleY = this.scale
             createjs.Touch.enable(this.stage)
             this.mapContainer = new createjs.Container()
-            var background = new createjs.Bitmap('../../static/map/background.png')
+            let background = new createjs.Bitmap('../../static/map/background.png')
             this.mapContainer.x = this.stage.x
             this.mapContainer.y = this.stage.y
             this.mapContainer.addChild(background)
             this.stage.addChild(this.mapContainer)
             this.draw()
             this.maps = new Array(this.mapWidth)
-            for (var ii = 0; ii < this.mapWidth; ii++) {
+            for (let ii = 0; ii < this.mapWidth; ii++) {
                 this.maps[ii] = new Array(this.mapHeight)
             }
-            for (var i = 0; i < this.mapWidth; i++) {
-                for (var j = 0; j < this.mapHeight; j++) {
+            for (let i = 0; i < this.mapWidth; i++) {
+                for (let j = 0; j < this.mapHeight; j++) {
                     this.maps[i][j] = 0
                 }
             }
@@ -281,8 +281,8 @@ export default {
             } else if (i === 4 && this.haveFlag) {
                 return
             }
-            var con = new createjs.Container()
-            var bitmap = new createjs.Bitmap('../../static/map/' + i + '.png')
+            let con = new createjs.Container()
+            let bitmap = new createjs.Bitmap('../../static/map/' + i + '.png')
             con.x = ox
             con.y = oy
             con.name = i
@@ -297,9 +297,9 @@ export default {
         * @method draw
         */
         draw () {
-            var ox = this.stage.x + this.canvasWidth - this.div - this.bias
+            let ox = this.stage.x + this.canvasWidth - this.div - this.bias
             this.randomColor = Math.floor(Math.random() * 16777215).toString(16)
-            for (var i = 0; i <= this.items; i++) {
+            for (let i = 0; i <= this.items; i++) {
                 this.addPic(i, ox, this.bias + this.div * i)
             }
         },
@@ -324,8 +324,8 @@ export default {
         * @param {Event} event 事件
         */
         pressmove (event) {
-            var self = event.target.parent
-            var mapH = this.div * this.mapHeight
+            let self = event.target.parent
+            let mapH = this.div * this.mapHeight
             if (event.stageX / this.scale - this.fzmx < this.mapContainer.x) {
                 self.x = this.mapContainer.x
             } else {
@@ -346,12 +346,12 @@ export default {
         * @param {Event} event 事件
         */
         pressup (event) {
-            var ox = this.stage.x + this.canvasWidth - this.div - this.bias
+            let ox = this.stage.x + this.canvasWidth - this.div - this.bias
             this.shadowur(false, event.target.parent)
-            var mapW = this.div * this.mapWidth
-            var mapH = this.div * this.mapHeight
-            var x
-            var y
+            let mapW = this.div * this.mapWidth
+            let mapH = this.div * this.mapHeight
+            let x
+            let y
             if (event.target.parent.x >= this.stage.x && event.target.parent.x <= this.stage.x + mapW - this.div / 2) {
                 if (event.target.parent.y >= this.stage.y && event.target.parent.y < this.stage.y + mapH) {
                     event.target.parent.x = event.target.parent.x - (event.target.parent.x - this.stage.x) % this.div + Math.round((event.target.parent.x - this.stage.x) % this.div / this.div) * this.div
@@ -420,7 +420,7 @@ export default {
         * @param {Number} y 二维数组的索引y
         */
         remove (x, y) {
-            var ox = this.stage.x + this.canvasWidth - this.div - this.bias
+            let ox = this.stage.x + this.canvasWidth - this.div - this.bias
             if (this.maps[x][y].name === 3) {
                 this.havePlayer = false
                 this.addPic(3, ox, this.bias + this.div * 3)
@@ -438,8 +438,8 @@ export default {
             }
             if (this.maps[x][y].name === 5) {
                 if (!((x === this.toMapX(this.maps[x][y].x)) && (y === this.toMapY(this.maps[x][y].y)))) {
-                    var temp = this.maps[x][y]
-                    var tempp = this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)]
+                    let temp = this.maps[x][y]
+                    let tempp = this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)]
                     this.maps[x][y] = 0
                     this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)] = 0
                     this.stage.removeChild(temp)
@@ -462,9 +462,9 @@ export default {
                 this.$message('请放置角色或终点')
                 return
             }
-            var string = ''
-            for (var i = 0; i < this.mapWidth; i++) {
-                for (var j = 0; j < this.mapHeight; j++) {
+            let string = ''
+            for (let i = 0; i < this.mapWidth; i++) {
+                for (let j = 0; j < this.mapHeight; j++) {
                     if (this.maps[i][j].name === 5) {
                         this.maps[i][j] = '!' + this.toMapX(this.maps[i][j].x) + '' + this.toMapY(this.maps[i][j].y) + '!'
                     } else if (this.maps[i][j] !== 0) {
@@ -478,6 +478,7 @@ export default {
             } else {
                 this.mapPost(string)
                 this.clean()
+                this.mapInfo = false
             }
         },
         /**
