@@ -87,7 +87,7 @@ global.Blockly.Blocks['dg_function'] = {
 
 global.Blockly.Blocks['dg_fly'] = {
     init: function () {
-        this.appendDummyInput().setAlign(global.Blockly.ALIGN_CENTRE).appendField('gate    fly ')
+        this.appendDummyInput().setAlign(global.Blockly.ALIGN_CENTRE).appendField('fly')
         this.setPreviousStatement(true, null)
         this.setNextStatement(true, null)
         this.setColour(260)

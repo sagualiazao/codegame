@@ -15,7 +15,7 @@ let toolBoxText1 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText2 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -36,7 +36,7 @@ let toolBoxText2 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText3 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -57,7 +57,7 @@ let toolBoxText3 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText4 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -79,7 +79,7 @@ let toolBoxText4 = [
     '        <block type="dg_fly"></block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText5 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -110,7 +110,7 @@ let toolBoxText5 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText6 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -165,7 +165,7 @@ let toolBoxText6 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText7 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -223,7 +223,7 @@ let toolBoxText7 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText8 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -288,7 +288,7 @@ let toolBoxText8 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText9 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -359,7 +359,7 @@ let toolBoxText9 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 let toolBoxText10 = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
@@ -438,10 +438,10 @@ let toolBoxText10 = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
 
 // 剩余关卡都用11,12,13,14,15
-let toolBoxText = [
+let toolBoxTextDefault = [
     '<xml id="toolbox" style="display: none;">',
     '    <category name="Math" colour="#5C68A6">',
     '        <block type="math_number">',
@@ -524,4 +524,20 @@ let toolBoxText = [
     '        </block>',
     '    </category>',
     '</xml>'
-]
+].join('\n')
+
+let toolBoxText = {
+    toolBoxTextDefault,
+    toolBoxText1,
+    toolBoxText2,
+    toolBoxText3,
+    toolBoxText4,
+    toolBoxText5,
+    toolBoxText6,
+    toolBoxText7,
+    toolBoxText8,
+    toolBoxText9,
+    toolBoxText10
+}
+
+module.exports = toolBoxText

@@ -236,7 +236,21 @@ export default {
             * @type {Object}
             */
             whiteListConstData: require('../assets/js/white_list.js'),
-            gameTips: false
+            /**
+            *游戏提示状态
+            *
+            * @property gameTips
+            * @type {Boolean}
+            * @default false
+            */
+            gameTips: false,
+            /**
+            *blockly工具栏库
+            *
+            * @property toolBoxTextLibrary
+            * @type {Object}
+            */
+            toolBoxTextLibrary: require('../assets/js/block_toolbox_library.js')
         }
     },
     methods: {
@@ -371,7 +385,7 @@ export default {
         blockRunCode () {
             /* eslint no-eval: 0 */
             this.init()
-            this.whiteListConstData.init()
+            this.whiteListConstData.clean()
             let safeCommandString = this.getSafeCommandString()
             for (var i = 0; i < this.player.length; i++) {
                 this.tween[i] = createjs.Tween.get(this.player[i])
@@ -1019,10 +1033,45 @@ export default {
             this.init()
         },
         /**
+        *根据不同关卡选择正确的工具栏
+        * @method chooseRightToolBox
+        */
+        chooseRightToolBox () {
+            let toolBoxTest = ''
+            let currentMapId = this.$store.state.mapId
+            if (currentMapId > 10) {
+                toolBoxTest = this.toolBoxTextLibrary.toolBoxTextDefault
+            } else {
+                let expression = 'this.toolBoxTextLibrary.toolBoxText' + currentMapId
+                toolBoxTest = eval(expression)
+            }
+            this.workspace = global.Blockly.inject('block-area', {
+                toolbox: toolBoxTest,
+                media: '../static/media/',
+                sounds: false,
+                trashcan: true,
+                grid: {
+                    spacing: 20,
+                    length: 3,
+                    colour: '#ccc',
+                    snap: true
+                },
+                zoom: {
+                    controls: true,
+                    wheel: true,
+                    startScale: 1.0,
+                    maxScale: 3,
+                    minScale: 0.3,
+                    scaleSpeed: 1.2
+                }
+            })
+        },
+        /**
         *进入下一关,如果未登录,且到达试玩关卡最后一关,需要登录.
         * @method nextLevel
         */
         nextLevel: async function () {
+            /* eslint no-eval: 0 */
             let level = this.$store.state.mapId
             if (level > this.$store.state.userGameProgress && this.$store.state.loginStatus) {
                 simplePost('/api/change-progress', {
@@ -1040,14 +1089,8 @@ export default {
                 setCookie('mapString', this.$store.state.mapString)
                 this.$store.commit('changeLevelPassModal', false)
                 this.init()
-                // 代码库限制
-                this.whiteListConstData.init()
-                let inactiveIndex = this.$store.state.mapMode
-                for (let i = 0; i < inactiveIndex.length; i++) {
-                    let indexX = inactiveIndex[i][0]
-                    let indexY = inactiveIndex[i][1]
-                    this.whiteListConstData.commandCodeLibrary[indexX][indexY] = ''
-                }
+                this.chooseRightToolBox()
+                this.workspace.addChangeListener(this.updateFunction)
                 this.cleanWorkspace()
             }
         }
@@ -1062,38 +1105,10 @@ export default {
     */
     mounted: function () {
         require('../../static/block_defined/blockly_defined.js')
-        let toolBox = this.blockConstData.toolBoxText
-        this.workspace = global.Blockly.inject('block-area', {
-            toolbox: toolBox,
-            media: '../static/media/',
-            sounds: false,
-            trashcan: true,
-            grid: {
-                spacing: 20,
-                length: 3,
-                colour: '#ccc',
-                snap: true
-            },
-            zoom: {
-                controls: true,
-                wheel: true,
-                startScale: 1.0,
-                maxScale: 3,
-                minScale: 0.3,
-                scaleSpeed: 1.2
-            }
-        })
+        this.chooseRightToolBox()
         this.workspace.addChangeListener(this.updateFunction)
         this.gameTips = true
         this.init()
-        // 代码库限制
-        this.whiteListConstData.init()
-        let inactiveIndex = this.$store.state.mapMode
-        for (let i = 0; i < inactiveIndex.length; i++) {
-            let indexX = inactiveIndex[i][0]
-            let indexY = inactiveIndex[i][1]
-            this.whiteListConstData.commandCodeLibrary[indexX][indexY] = ''
-        }
         // 清空工作区
         this.cleanWorkspace()
     }
