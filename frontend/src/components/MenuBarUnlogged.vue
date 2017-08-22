@@ -27,6 +27,11 @@
 </template>
 
 <script>
+/**
+* MenuBarUnlogged 未登录菜单
+*
+* @class MenuBarUnlogged
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -45,13 +50,46 @@ export default {
     },
     data: function () {
         return {
+            /**
+            *激活的界面
+            *
+            * @property activeName
+            * @type {String}
+            * @default 'main-page'
+            */
             activeIndex: 'main-page',
+            /**
+            *登录窗口显示状态
+            *
+            * @property signinDialog
+            * @type {Boolean}
+            * @default false
+            */
             signinDialog: false,
+            /**
+            *注册窗口显示状态
+            *
+            * @property signupDialog
+            * @type {Boolean}
+            * @default false
+            */
             signupDialog: false,
+            /**
+            *地图选项是否可进入
+            *
+            * @property mapWindow
+            * @type {Boolean}
+            * @default false
+            */
             mapWindow: false
         }
     },
     methods: {
+        /**
+        *点击菜单栏切换路由
+        * @method handleSelect
+        * @param {String} index
+        */
         handleSelect: function (index) {
             if (index === 'main-page') {
                 this.$router.push('/')
@@ -60,9 +98,17 @@ export default {
                 this.$message(this.$store.state._const.LOGIN_FIRST)
             }
         },
+        /**
+        *点击注册按钮响应函数
+        * @method signupChange
+        */
         signupChange: function () {
             this.$store.commit('signupWindow', true)
         },
+        /**
+        *点击登录按钮响应函数
+        * @method signinChange
+        */
         signinChange: function () {
             this.$store.commit('signinWindow', true)
         }

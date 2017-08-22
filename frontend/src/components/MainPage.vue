@@ -16,6 +16,11 @@
 </template>
 
 <script>
+/**
+* MainPage 主页组件
+*
+* @class MainPage
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -25,14 +30,20 @@ export default {
     name: 'main-page',
     store: store,
     methods: {
+        /**
+        *路由切换
+        * @method routerTo
+        * @param {String} path
+        */
         routerTo: function (path) {
             this.$store.commit('changeMap', null)
             this.$router.push('/' + path)
-        },
-        handleSelect: function (index) {
-            this.$store.commit('changeView', index)
         }
     },
+    /**
+    *MainPage的mounted函数, 实现页面加载和判断登录状态
+    * @method mounted
+    */
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')

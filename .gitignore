@@ -126,6 +126,3 @@ yarn.lock
 
 #saved map image
 /frontend/static/img/saved_maps
-
-#frontend-doc
-/frontend/out

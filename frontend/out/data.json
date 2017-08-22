@@ -1,0 +1,4438 @@
+{
+    "project": {},
+    "files": {
+        "src/assets/js/blockly_const_list.js": {
+            "name": "src/assets/js/blockly_const_list.js",
+            "modules": {},
+            "classes": {
+                "blockConstData": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/assets/js/editor_const_list.js": {
+            "name": "src/assets/js/editor_const_list.js",
+            "modules": {},
+            "classes": {
+                "editorConstData": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/assets/js/store.js": {
+            "name": "src/assets/js/store.js",
+            "modules": {},
+            "classes": {
+                "store": 1
+            },
+            "fors": {
+                "store": 1,
+                "state": 1,
+                "mutations": 1,
+                "actions": 1
+            },
+            "namespaces": {}
+        },
+        "src/assets/js/util.js": {
+            "name": "src/assets/js/util.js",
+            "modules": {},
+            "classes": {
+                "util": 1
+            },
+            "fors": {
+                "util": 1
+            },
+            "namespaces": {}
+        },
+        "src/assets/js/white_list.js": {
+            "name": "src/assets/js/white_list.js",
+            "modules": {},
+            "classes": {
+                "whiteListConstData": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/BlockBase.js": {
+            "name": "src/components/BlockBase.js",
+            "modules": {},
+            "classes": {
+                "BlockBase": 1
+            },
+            "fors": {
+                "BlockBase": 1
+            },
+            "namespaces": {}
+        },
+        "src/components/EditMap.js": {
+            "name": "src/components/EditMap.js",
+            "modules": {},
+            "classes": {
+                "EditMap": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/EditorBase.js": {
+            "name": "src/components/EditorBase.js",
+            "modules": {},
+            "classes": {
+                "EditorBase": 1
+            },
+            "fors": {
+                "EditorBase": 1
+            },
+            "namespaces": {}
+        },
+        "src/components/MainPage.js": {
+            "name": "src/components/MainPage.js",
+            "modules": {},
+            "classes": {
+                "MainPage": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/MapEditor.js": {
+            "name": "src/components/MapEditor.js",
+            "modules": {},
+            "classes": {
+                "MapEditor": 1
+            },
+            "fors": {
+                "MapEditor": 1
+            },
+            "namespaces": {}
+        },
+        "src/components/MapSquare.js": {
+            "name": "src/components/MapSquare.js",
+            "modules": {},
+            "classes": {
+                "MapSqure": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/MenuBarLogged.js": {
+            "name": "src/components/MenuBarLogged.js",
+            "modules": {},
+            "classes": {
+                "MenuBarLogged": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/MenuBarUnlogged.js": {
+            "name": "src/components/MenuBarUnlogged.js",
+            "modules": {},
+            "classes": {
+                "MenuBarUnlogged": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/PageNotFound.js": {
+            "name": "src/components/PageNotFound.js",
+            "modules": {},
+            "classes": {
+                "PageNotFound": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/ResetPasswordForm.js": {
+            "name": "src/components/ResetPasswordForm.js",
+            "modules": {},
+            "classes": {
+                "resetPasswordForm": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/SelectLevel.js": {
+            "name": "src/components/SelectLevel.js",
+            "modules": {},
+            "classes": {
+                "SelectLevel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/SigninForm.js": {
+            "name": "src/components/SigninForm.js",
+            "modules": {},
+            "classes": {
+                "SigninForm": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/SignupForm.js": {
+            "name": "src/components/SignupForm.js",
+            "modules": {},
+            "classes": {
+                "SignupForm": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/components/UserInfo.js": {
+            "name": "src/components/UserInfo.js",
+            "modules": {},
+            "classes": {
+                "UserInfo": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "test/unit/util.js": {
+            "name": "test/unit/util.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "blockConstData": {
+            "name": "blockConstData",
+            "shortname": "blockConstData",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/assets/js/blockly_const_list.js",
+            "line": 86,
+            "description": "Block需要的字符串常量"
+        },
+        "editorConstData": {
+            "name": "editorConstData",
+            "shortname": "editorConstData",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/assets/js/editor_const_list.js",
+            "line": 22,
+            "description": "Editor需要的字符串常量"
+        },
+        "store": {
+            "name": "store",
+            "shortname": "store",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/assets/js/store.js",
+            "line": 525,
+            "description": "由vuex搭建的全局常量, 变量和数据处理函数"
+        },
+        "state": {
+            "name": "state",
+            "shortname": "state",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": []
+        },
+        "mutations": {
+            "name": "mutations",
+            "shortname": "mutations",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": []
+        },
+        "actions": {
+            "name": "actions",
+            "shortname": "actions",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": []
+        },
+        "util": {
+            "name": "util",
+            "shortname": "util",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/assets/js/util.js",
+            "line": 1,
+            "description": "工具类 封装前后端通信需要的函数"
+        },
+        "whiteListConstData": {
+            "name": "whiteListConstData",
+            "shortname": "whiteListConstData",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/assets/js/white_list.js",
+            "line": 16,
+            "description": "代码白名单"
+        },
+        "BlockBase": {
+            "name": "BlockBase",
+            "shortname": "BlockBase",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/BlockBase.js",
+            "line": 37,
+            "description": "BlockBase 组件中完成blockly积木块内容的识别转换, 以及动画的执行"
+        },
+        "EditMap": {
+            "name": "EditMap",
+            "shortname": "EditMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/EditMap.js",
+            "line": 46,
+            "description": "EditMap 组件中完成制作地图的功能"
+        },
+        "EditorBase": {
+            "name": "EditorBase",
+            "shortname": "EditorBase",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/EditorBase.js",
+            "line": 39,
+            "description": "EditorBase 组件中完成代码编辑器内容的识别转换, 以及动画的执行"
+        },
+        "MainPage": {
+            "name": "MainPage",
+            "shortname": "MainPage",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/MainPage.js",
+            "line": 19,
+            "description": "MainPage 主页组件"
+        },
+        "MapEditor": {
+            "name": "MapEditor",
+            "shortname": "MapEditor",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/MapEditor.js",
+            "line": 31,
+            "description": "MapEditor 实现地图编辑器，并可将地图转化成对应地图字符串存入数据库中"
+        },
+        "MapSqure": {
+            "name": "MapSqure",
+            "shortname": "MapSqure",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/MapSquare.js",
+            "line": 82,
+            "description": "MapSqure 地图广场"
+        },
+        "MenuBarLogged": {
+            "name": "MenuBarLogged",
+            "shortname": "MenuBarLogged",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/MenuBarLogged.js",
+            "line": 35,
+            "description": "MenuBarLogged 登录菜单"
+        },
+        "MenuBarUnlogged": {
+            "name": "MenuBarUnlogged",
+            "shortname": "MenuBarUnlogged",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/MenuBarUnlogged.js",
+            "line": 30,
+            "description": "MenuBarUnlogged 未登录菜单"
+        },
+        "PageNotFound": {
+            "name": "PageNotFound",
+            "shortname": "PageNotFound",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/PageNotFound.js",
+            "line": 9,
+            "description": "PageNotFound 404页面"
+        },
+        "resetPasswordForm": {
+            "name": "resetPasswordForm",
+            "shortname": "resetPasswordForm",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 32,
+            "description": "resetPasswordForm 修改页码界面"
+        },
+        "SelectLevel": {
+            "name": "SelectLevel",
+            "shortname": "SelectLevel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/SelectLevel.js",
+            "line": 27,
+            "description": "SelectLevel 选择关卡"
+        },
+        "SigninForm": {
+            "name": "SigninForm",
+            "shortname": "SigninForm",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/SigninForm.js",
+            "line": 27,
+            "description": "SigninForm 登录界面"
+        },
+        "SignupForm": {
+            "name": "SignupForm",
+            "shortname": "SignupForm",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/SignupForm.js",
+            "line": 36,
+            "description": "SignupForm 注册界面"
+        },
+        "UserInfo": {
+            "name": "UserInfo",
+            "shortname": "UserInfo",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/components/UserInfo.js",
+            "line": 51,
+            "description": "UserInfo 用户信息界面"
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "src/assets/js/blockly_const_list.js",
+            "line": 92,
+            "description": "用于初始化blocly工具栏的字符串",
+            "itemtype": "property",
+            "name": "toolBoxText",
+            "type": "{String}",
+            "class": "blockConstData"
+        },
+        {
+            "file": "src/assets/js/editor_const_list.js",
+            "line": 28,
+            "description": "用于测试的editor初始值",
+            "itemtype": "property",
+            "name": "initialValue",
+            "type": "{String}",
+            "class": "editorConstData"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 6,
+            "description": "封装vuex全局常量变量的类",
+            "itemtype": "property",
+            "name": "state",
+            "type": "{Class}",
+            "class": "store"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 14,
+            "description": "界面需要的字符串常量表",
+            "itemtype": "property",
+            "name": "_const",
+            "type": "{Object}",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 123,
+            "description": "记录登录状态",
+            "itemtype": "property",
+            "name": "loginStatus",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 132,
+            "description": "记录当前用户的邮箱",
+            "itemtype": "property",
+            "name": "userEmail",
+            "type": "{String}",
+            "default": "null",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 141,
+            "description": "记录当前用户的ID",
+            "itemtype": "property",
+            "name": "userId",
+            "type": "{Number}",
+            "default": "null",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 150,
+            "description": "记录当前用户的昵称",
+            "itemtype": "property",
+            "name": "userNickName",
+            "type": "{String}",
+            "default": "null",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 159,
+            "description": "记录当前用户的游戏进度",
+            "itemtype": "property",
+            "name": "userGameProgress",
+            "type": "{Number}",
+            "default": "null",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 168,
+            "description": "记录当前用户支付状态",
+            "itemtype": "property",
+            "name": "userHasPaied",
+            "type": "{Boolean}",
+            "default": "null",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 177,
+            "description": "记录当前用户注册时间",
+            "itemtype": "property",
+            "name": "registerDate",
+            "type": "{String}",
+            "default": "null",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 186,
+            "description": "记录当前菜单栏选项",
+            "itemtype": "property",
+            "name": "currentMenbar",
+            "type": "{String}",
+            "default": "'menu-bar-unlogged'",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 195,
+            "description": "记录游戏是关卡还是地图状态",
+            "itemtype": "property",
+            "name": "levelMode",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 204,
+            "description": "记录当前地图ID",
+            "itemtype": "property",
+            "name": "mapId",
+            "type": "{Number}",
+            "default": "null",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 213,
+            "description": "登录窗口显示状态",
+            "itemtype": "property",
+            "name": "signinDialog",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 228,
+            "description": "记录当前地图字符串",
+            "itemtype": "property",
+            "name": "mapString",
+            "type": "{String}",
+            "default": "''",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 236,
+            "description": "注册窗口显示状态",
+            "itemtype": "property",
+            "name": "signupDialog",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 245,
+            "description": "找回密码窗口显示状态",
+            "itemtype": "property",
+            "name": "resetPasswordDialog",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 254,
+            "description": "个人信息中更改密码窗口显示状态",
+            "itemtype": "property",
+            "name": "changePasswordDialog",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "state"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 267,
+            "description": "封装修改vuex全局变量函数的类",
+            "itemtype": "property",
+            "name": "mutations",
+            "type": "{Class}",
+            "class": "store"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 275,
+            "description": "更改登录状态",
+            "itemtype": "method",
+            "name": "changeLoginStatus",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "登录状态",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 286,
+            "description": "更改当前用户的邮箱",
+            "itemtype": "method",
+            "name": "changeUserEmail",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "text",
+                    "description": "用户邮箱",
+                    "type": "String"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 297,
+            "description": "更改当前用户的ID",
+            "itemtype": "method",
+            "name": "changeUserId",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "text",
+                    "description": "用户ID",
+                    "type": "Number"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 308,
+            "description": "更改当前用户的昵称",
+            "itemtype": "method",
+            "name": "changeUserNickName",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "text",
+                    "description": "用户昵称",
+                    "type": "String"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 319,
+            "description": "更改当前用户的游戏进度",
+            "itemtype": "method",
+            "name": "changeUserGameProgress",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "text",
+                    "description": "当前进度",
+                    "type": "Number"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 330,
+            "description": "更改当前用户的支付状态",
+            "itemtype": "method",
+            "name": "changeUserHasPaied",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "当前支付状态",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 341,
+            "description": "更改登录窗口显示状态",
+            "itemtype": "method",
+            "name": "signinWindow",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "当前登录窗口显示状态",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 352,
+            "description": "更改注册窗口显示状态",
+            "itemtype": "method",
+            "name": "signupWindow",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "当前注册窗口显示状态",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 363,
+            "description": "更改找回密码窗口显示状态",
+            "itemtype": "method",
+            "name": "resetPasswordWindow",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "当前找回密码窗口显示状态",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 374,
+            "description": "更改个人信息界面更改密码窗口显示状态",
+            "itemtype": "method",
+            "name": "changePasswordWindow",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "当前个人信息界面更改密码窗口显示状态",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 385,
+            "description": "更改菜单栏",
+            "itemtype": "method",
+            "name": "changeMenu",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "当前菜单栏个",
+                    "type": "String"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 396,
+            "description": "更改注册时间",
+            "itemtype": "method",
+            "name": "changeRegisterDate",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "text",
+                    "description": "注册时间",
+                    "type": "String"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 408,
+            "description": "选择游戏处于关卡还是地图编辑器",
+            "itemtype": "method",
+            "name": "changeLevelMode",
+            "params": [
+                {
+                    "name": "state",
+                    "description": "state对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "mode",
+                    "description": "mode",
+                    "type": "String"
+                }
+            ],
+            "class": "mutations"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 444,
+            "description": "封装vuex全局函数的类",
+            "itemtype": "property",
+            "name": "actions",
+            "type": "{Class}",
+            "class": "store"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 452,
+            "description": "注销登录",
+            "itemtype": "method",
+            "name": "signout",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "actions"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 475,
+            "description": "界面信息和登录状态等初始化",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "actions"
+        },
+        {
+            "file": "src/assets/js/store.js",
+            "line": 496,
+            "description": "登录",
+            "itemtype": "method",
+            "name": "signin",
+            "params": [
+                {
+                    "name": "context",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "actions"
+        },
+        {
+            "file": "src/assets/js/util.js",
+            "line": 7,
+            "description": "cbc加密",
+            "itemtype": "method",
+            "name": "cbcEncrypt",
+            "params": [
+                {
+                    "name": "keyStr",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "util"
+        },
+        {
+            "file": "src/assets/js/util.js",
+            "line": 30,
+            "description": "cbc解密",
+            "itemtype": "method",
+            "name": "cbcDecrypt",
+            "params": [
+                {
+                    "name": "keyStr",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "util"
+        },
+        {
+            "file": "src/assets/js/util.js",
+            "line": 53,
+            "description": "封装get请求",
+            "itemtype": "method",
+            "name": "simpleGet",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "response",
+                "type": "Object"
+            },
+            "class": "util"
+        },
+        {
+            "file": "src/assets/js/util.js",
+            "line": 70,
+            "description": "封装post请求",
+            "itemtype": "method",
+            "name": "simplePost",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "response",
+                "type": "Object"
+            },
+            "class": "util"
+        },
+        {
+            "file": "src/assets/js/util.js",
+            "line": 95,
+            "description": "读地图和关卡信息的函数",
+            "itemtype": "method",
+            "name": "readMap",
+            "params": [
+                {
+                    "name": "levelMode",
+                    "description": "",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "util"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 22,
+            "description": "安全代码库",
+            "itemtype": "property",
+            "name": "commandCodeLibrary",
+            "type": "{List}",
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 29,
+            "description": "白名单初始化函数",
+            "itemtype": "method",
+            "name": "init",
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 44,
+            "description": "白名单清空变量和函数列表的函数",
+            "itemtype": "method",
+            "name": "clean",
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 53,
+            "description": "根据输入的角色姓名获取角色的对应序号",
+            "itemtype": "method",
+            "name": "indexOfCharacter",
+            "return": {
+                "description": "如果角色姓名为 Nancy 返回 0; Carla 1; 不存在 2；",
+                "type": "Number"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 68,
+            "description": "将用户输入的Name.xxx()转换为名字序号作为参数的字符串",
+            "itemtype": "method",
+            "name": "formateTheName",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "名字序号作为参数的字符串",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 91,
+            "description": "转换对应代码库位置[0, 0]的代码",
+            "itemtype": "method",
+            "name": "formatFunction00",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 105,
+            "description": "转换对应代码库位置[0, 1]的代码",
+            "itemtype": "method",
+            "name": "formatFunction01",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 119,
+            "description": "转换对应代码库位置[0, 2]的代码",
+            "itemtype": "method",
+            "name": "formatFunction02",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 133,
+            "description": "转换对应代码库位置[0, 3]的代码",
+            "itemtype": "method",
+            "name": "formatFunction03",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 148,
+            "description": "转换对应代码库位置[0, 4]的代码",
+            "itemtype": "method",
+            "name": "formatFunction04",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 159,
+            "description": "转换对应代码库位置[0, 5]的代码",
+            "itemtype": "method",
+            "name": "formatFunction05",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 179,
+            "description": "转换对应代码库位置[2, 0]的代码",
+            "itemtype": "method",
+            "name": "formatFunction20",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 191,
+            "description": "转换对应代码库位置[2, 1]的代码",
+            "itemtype": "method",
+            "name": "formatFunction21",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 202,
+            "description": "转换对应代码库位置[2, 2]的代码",
+            "itemtype": "method",
+            "name": "formatFunction22",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 216,
+            "description": "转换对应代码库位置[2, 3]的代码",
+            "itemtype": "method",
+            "name": "formatFunction23",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 230,
+            "description": "转换对应代码库位置[2, 4]的代码",
+            "itemtype": "method",
+            "name": "formatFunction24",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 244,
+            "description": "转换对应代码库位置[3, 0]的代码",
+            "itemtype": "method",
+            "name": "formatFunction30",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 268,
+            "description": "转换对应代码库位置[3, 1]的代码",
+            "itemtype": "method",
+            "name": "formatFunction31",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 290,
+            "description": "转换对应代码库位置[3, 2]的代码",
+            "itemtype": "method",
+            "name": "formatFunction32",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 304,
+            "description": "转换对应代码库位置[4, x]的代码",
+            "itemtype": "method",
+            "name": "formatFunction4",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/assets/js/white_list.js",
+            "line": 314,
+            "description": "转换对应代码库位置[5, x]的代码",
+            "itemtype": "method",
+            "name": "formatFunction5",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "安全可执行代码",
+                "type": "String"
+            },
+            "class": "whiteListConstData"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 54,
+            "description": "用来存放生成的blockly工作区",
+            "itemtype": "property",
+            "name": "workspace",
+            "type": "{Object}",
+            "default": "null",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 62,
+            "description": "用来存放地图的背景",
+            "itemtype": "property",
+            "name": "pic",
+            "type": "{Object}",
+            "default": "null",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 70,
+            "description": "用来存放地图信息",
+            "itemtype": "property",
+            "name": "maps",
+            "type": "{Object}",
+            "default": "null",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 78,
+            "description": "用来存放多个角色",
+            "itemtype": "property",
+            "name": "player",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 86,
+            "description": "用来存放动画舞台",
+            "itemtype": "property",
+            "name": "stage",
+            "type": "{Object}",
+            "default": "null",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 94,
+            "description": "用来存放钥匙信息",
+            "itemtype": "property",
+            "name": "key",
+            "type": "{Object}",
+            "default": "null",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 102,
+            "description": "用来存放石头信息",
+            "itemtype": "property",
+            "name": "treeSp",
+            "type": "{Object}",
+            "default": "null",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 110,
+            "description": "用来判断是否游戏成功",
+            "itemtype": "property",
+            "name": "victory",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 118,
+            "description": "用来判断是否游戏结束",
+            "itemtype": "property",
+            "name": "gameover",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 126,
+            "description": "用来存放角色动画",
+            "itemtype": "property",
+            "name": "tween",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 134,
+            "description": "用来标识角色是否获得钥匙",
+            "itemtype": "property",
+            "name": "haveKey",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 142,
+            "description": "用来标识地图ID",
+            "itemtype": "property",
+            "name": "mapID",
+            "type": "{Number}",
+            "default": "0",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 150,
+            "description": "用来存放地图宽度",
+            "itemtype": "property",
+            "name": "mapWidth",
+            "type": "{Number}",
+            "default": "10",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 158,
+            "description": "用来存放地图高度",
+            "itemtype": "property",
+            "name": "mapHeight",
+            "type": "{Number}",
+            "default": "10",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 166,
+            "description": "用来存放地图初始X坐标",
+            "itemtype": "property",
+            "name": "mapx",
+            "type": "{Number}",
+            "default": "0",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 174,
+            "description": "用来存放地图初始Y坐标",
+            "itemtype": "property",
+            "name": "mapy",
+            "type": "{Number}",
+            "default": "0",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 182,
+            "description": "用来存放地图每格大小",
+            "itemtype": "property",
+            "name": "div",
+            "type": "{Number}",
+            "default": "64",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 190,
+            "description": "用来存放每段动画运行时间",
+            "itemtype": "property",
+            "name": "speed",
+            "type": "{Number}",
+            "default": "1000",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 198,
+            "description": "用来存放角色方向",
+            "itemtype": "property",
+            "name": "direct",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 206,
+            "description": "用来存放用户动态创建的函数名及内容",
+            "itemtype": "property",
+            "name": "functionSet",
+            "type": "{Dictionary}",
+            "default": "{}",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 214,
+            "description": "blocly常量表资源",
+            "itemtype": "property",
+            "name": "blockConstData",
+            "type": "{Object}",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 221,
+            "description": "获取当前白名单中的 代码库和执行函数",
+            "itemtype": "property",
+            "name": "whiteListConstData",
+            "type": "{Object}",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 231,
+            "description": "界面切换函数, 点击 Editor Tab 切换到 editor 游戏界面",
+            "itemtype": "method",
+            "name": "editorClick",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 239,
+            "description": "获取当前积木块对应的中的所有代码, 转换为由单个代码组成的列表",
+            "itemtype": "method",
+            "name": "getCommandCodeList",
+            "return": {
+                "description": "返回一个由单个代码组成的列表",
+                "type": "List"
+            },
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 265,
+            "description": "判断字符串current是否满足正则表达式target的格式",
+            "itemtype": "method",
+            "name": "isSameFormat",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "正则表达式",
+                    "type": "RegExp"
+                },
+                {
+                    "name": "current",
+                    "description": "要判断的字符串",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "如果匹配, 返回true; 否则, 返回false;",
+                "type": "Boolean"
+            },
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 276,
+            "description": "判断代码code是否在白名单中",
+            "itemtype": "method",
+            "name": "indexInCommandLibrary",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要判断的字符串",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "如果在白名单中, 返回坐标位置； 如果不在白名单中, 返回false",
+                "type": "Boolean|String"
+            },
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 315,
+            "description": "获取对应的安全代码（单条命令）",
+            "itemtype": "method",
+            "name": "getSafeCode",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "需要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "如果可以转换为安全代码, 返回对应安全代码； 否则, 返回false",
+                "type": "Boolean|String"
+            },
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 333,
+            "description": "获取当前工作区积木块对应的可以直接eval执行的安全代码串",
+            "itemtype": "method",
+            "name": "getSafeCommandString",
+            "return": {
+                "description": "如果当前输入可以转换为安全代码串, 返回对应安全代码串； 否则, 返回空字符串",
+                "type": "String"
+            },
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 354,
+            "description": "run 按钮的相应函数, 解析执行安全代码, 执行对应的动画",
+            "itemtype": "method",
+            "name": "blockRunCode",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 373,
+            "description": "根据当前方向, 选择合适的goxxx函数",
+            "itemtype": "method",
+            "name": "go",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "选择的角色对应的数字",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "行走的步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 396,
+            "description": "控制人物转向函数",
+            "itemtype": "method",
+            "name": "turn",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "选择的角色对应的数字",
+                    "type": "Number"
+                },
+                {
+                    "name": "direction",
+                    "description": "转动的方向",
+                    "type": "Stirn"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 412,
+            "description": "clean 按钮的相应函数, 清空当前的工作区域",
+            "itemtype": "method",
+            "name": "cleanWorkspace",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 420,
+            "description": "根据当前工作区的积木块动态生成可以直接复制到代码编辑器中执行的代码",
+            "itemtype": "method",
+            "name": "updateFunction",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 429,
+            "description": "读取vuex中的mapString,并转化成二维数组存于maps中",
+            "itemtype": "method",
+            "name": "read",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 462,
+            "description": "将二维数组的x转化为舞台坐标x",
+            "itemtype": "method",
+            "name": "toScreenX",
+            "params": [
+                {
+                    "name": "mapX",
+                    "description": "需要转换的坐标",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "返回转化后的坐标",
+                "type": "Number"
+            },
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 472,
+            "description": "将二维数组的y转化为舞台坐标y",
+            "itemtype": "method",
+            "name": "toScreenY",
+            "params": [
+                {
+                    "name": "mapY",
+                    "description": "需要转换的坐标",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "返回转化后的坐标",
+                "type": "Number"
+            },
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 496,
+            "description": "根据二维数组的值加载对应资源到指定位置，‘0’ 为草地，‘1’为树木，‘2’为河，‘3’为主角\n‘4’为终点，‘6’为配角，‘7’为钥匙，‘8’为门，‘9’为石头，‘xx’格式为传送门",
+            "itemtype": "method",
+            "name": "loadObj",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "二维数组的值",
+                    "type": "Number"
+                },
+                {
+                    "name": "i",
+                    "description": "二维数组的索引i",
+                    "type": "Number"
+                },
+                {
+                    "name": "j",
+                    "description": "二维数组的索引j",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 544,
+            "description": "加载角色，每个角色有4个动作，runRight、runLeft、runDown、runUp",
+            "itemtype": "method",
+            "name": "loadCharactor",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "path",
+                    "description": "角色资源的路径",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "二维数组的索引x",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "二维数组的索引y",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 569,
+            "description": "加载地图，根据数组值在对应位置加载资源",
+            "itemtype": "method",
+            "name": "loadMap",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 588,
+            "description": "初始化函数",
+            "itemtype": "method",
+            "name": "init",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 622,
+            "description": "游戏结束",
+            "itemtype": "method",
+            "name": "gameover",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 630,
+            "description": "游戏过关",
+            "itemtype": "method",
+            "name": "victory",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 650,
+            "description": "传送函数，如果角色所在位置为传送门，则传送到另一传送门处，否则无动作",
+            "itemtype": "method",
+            "name": "fly",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 668,
+            "description": "等待函数，让指定序号的角色等待一定的秒数",
+            "itemtype": "method",
+            "name": "wait",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "seconds",
+                    "description": "等待的秒数",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 677,
+            "description": "收集函数，如果角色所在位置为钥匙且角色要捡起的东西为key，则捡起钥匙，否则没有动作",
+            "itemtype": "method",
+            "name": "collect",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "str",
+                    "description": "角色要捡起的东西",
+                    "type": "String"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 706,
+            "description": "掉落函数，如果角色所在位置为门且拥有钥匙且角色要掉落的东西为key，则移走石头；如果角色\n所在位置不为门且拥有钥匙且角色要掉落的东西为key，则掉落钥匙；否则无动作",
+            "itemtype": "method",
+            "name": "drop",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "str",
+                    "description": "角色要掉落的东西",
+                    "type": "String"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 751,
+            "description": "说话函数，让指定序号的角色在该位置弹出语言框，并0.5秒后自动消失",
+            "itemtype": "method",
+            "name": "saywords",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "words",
+                    "description": "角色要说的话",
+                    "type": "String"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 772,
+            "description": "将说话函数添加至角色动画序列中，同时所有角色的动画将等待0.5秒",
+            "itemtype": "method",
+            "name": "say",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "words",
+                    "description": "角色要说的话",
+                    "type": "String"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 787,
+            "description": "根据角色方向进行对应的跑动的动画",
+            "itemtype": "method",
+            "name": "getPlay",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "direct",
+                    "description": "角色所朝方向",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 809,
+            "description": "根据角色方向进行对应的停止的动画",
+            "itemtype": "method",
+            "name": "getStop",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "direct",
+                    "description": "角色所朝方向",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 831,
+            "description": "角色向右走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。",
+            "itemtype": "method",
+            "name": "goRight",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 870,
+            "description": "角色向左走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。",
+            "itemtype": "method",
+            "name": "goLeft",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 909,
+            "description": "角色向上走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。",
+            "itemtype": "method",
+            "name": "goUp",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 948,
+            "description": "角色向下走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。",
+            "itemtype": "method",
+            "name": "goDown",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/BlockBase.js",
+            "line": 1025,
+            "description": "vue组件加载过程中进行初始化 包括初始化google-blocklu  初始化createjs游戏界面",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "BlockBase"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 63,
+            "description": "激活的界面",
+            "itemtype": "property",
+            "name": "activeName",
+            "type": "{String}",
+            "default": "'map-editor'",
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 71,
+            "description": "我的地图列表",
+            "itemtype": "property",
+            "name": "myMapList",
+            "type": "{Object}",
+            "default": "null",
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 84,
+            "description": "vue组件的mounted函数, 判断登录状态, 调用初始化函数",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 103,
+            "description": "初始化函数, 调用readMyMapList函数",
+            "itemtype": "method",
+            "name": "init",
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 111,
+            "description": "切换标签页",
+            "itemtype": "method",
+            "name": "handleClick",
+            "params": [
+                {
+                    "name": "tab",
+                    "description": "标签页",
+                    "type": "Object"
+                },
+                {
+                    "name": "event",
+                    "description": "事件",
+                    "type": "Event"
+                }
+            ],
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 118,
+            "description": "点击发布按钮的相应函数",
+            "itemtype": "method",
+            "name": "publishClick",
+            "params": [
+                {
+                    "name": "map",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 128,
+            "description": "点击删除按钮的相应函数",
+            "itemtype": "method",
+            "name": "deleteClick",
+            "params": [
+                {
+                    "name": "map",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 136,
+            "description": "进入地图游戏界面",
+            "itemtype": "method",
+            "name": "enterMap",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 153,
+            "description": "读取数据库地图列表",
+            "itemtype": "method",
+            "name": "readMyMapList",
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 175,
+            "description": "更改发布状态",
+            "itemtype": "method",
+            "name": "changePublishStatus",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "status",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 192,
+            "description": "删除地图",
+            "itemtype": "method",
+            "name": "deleteMap",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditMap.js",
+            "line": 207,
+            "description": "删除地图提示确认的响应函数",
+            "itemtype": "method",
+            "name": "confirmDelete",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditMap"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 56,
+            "description": "用来存放ACE转换之后形成的代码编辑器对象",
+            "itemtype": "property",
+            "name": "jsEditor",
+            "type": "{Object}",
+            "default": "null",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 64,
+            "description": "用来存放地图的背景",
+            "itemtype": "property",
+            "name": "pic",
+            "type": "{Object}",
+            "default": "null",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 72,
+            "description": "用来存放地图信息",
+            "itemtype": "property",
+            "name": "maps",
+            "type": "{Object}",
+            "default": "null",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 80,
+            "description": "用来存放多个角色",
+            "itemtype": "property",
+            "name": "player",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 88,
+            "description": "用来存放动画舞台",
+            "itemtype": "property",
+            "name": "stage",
+            "type": "{Object}",
+            "default": "null",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 96,
+            "description": "用来存放钥匙信息",
+            "itemtype": "property",
+            "name": "key",
+            "type": "{Object}",
+            "default": "null",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 104,
+            "description": "用来判断是否游戏成功",
+            "itemtype": "property",
+            "name": "victory",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 112,
+            "description": "用来判断是否游戏结束",
+            "itemtype": "property",
+            "name": "gameover",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 120,
+            "description": "用来存放石头信息",
+            "itemtype": "property",
+            "name": "treeSp",
+            "type": "{Object}",
+            "default": "null",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 128,
+            "description": "用来存放角色动画",
+            "itemtype": "property",
+            "name": "tween",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 136,
+            "description": "用来标识角色是否获得钥匙",
+            "itemtype": "property",
+            "name": "haveKey",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 144,
+            "description": "用来标识地图ID",
+            "itemtype": "property",
+            "name": "mapID",
+            "type": "{Number}",
+            "default": "0",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 152,
+            "description": "用来存放地图宽度",
+            "itemtype": "property",
+            "name": "mapWidth",
+            "type": "{Number}",
+            "default": "10",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 160,
+            "description": "用来存放地图高度",
+            "itemtype": "property",
+            "name": "mapHeight",
+            "type": "{Number}",
+            "default": "10",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 168,
+            "description": "用来存放地图初始X坐标",
+            "itemtype": "property",
+            "name": "mapx",
+            "type": "{Number}",
+            "default": "0",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 176,
+            "description": "用来存放地图初始Y坐标",
+            "itemtype": "property",
+            "name": "mapy",
+            "type": "{Number}",
+            "default": "0",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 184,
+            "description": "用来存放地图每格大小",
+            "itemtype": "property",
+            "name": "div",
+            "type": "{Number}",
+            "default": "64",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 192,
+            "description": "用来存放每段动画运行时间",
+            "itemtype": "property",
+            "name": "speed",
+            "type": "{Number}",
+            "default": "1000",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 200,
+            "description": "用来存放角色方向",
+            "itemtype": "property",
+            "name": "direct",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 208,
+            "description": "用来存放用户动态创建的函数名及内容",
+            "itemtype": "property",
+            "name": "functionSet",
+            "type": "{Dictionary}",
+            "default": "{}",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 216,
+            "description": "获取当前白名单中的 代码库和执行函数",
+            "itemtype": "property",
+            "name": "whiteListConstData",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 227,
+            "description": "界面切换函数, 点击 Blockly Tab 切换到 blockly 游戏界面",
+            "itemtype": "method",
+            "name": "blockClick",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 235,
+            "description": "获取当前代码编辑器中的所有代码, 转换为由单个代码组成的列表",
+            "itemtype": "method",
+            "name": "getCommandCodeList",
+            "return": {
+                "description": "返回一个由单个代码组成的列表",
+                "type": "List"
+            },
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 257,
+            "description": "判断字符串current是否满足正则表达式target的格式",
+            "itemtype": "method",
+            "name": "isSameFormat",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "正则表达式",
+                    "type": "RegExp"
+                },
+                {
+                    "name": "current",
+                    "description": "要判断的字符串",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "如果匹配, 返回true; 否则, 返回false;",
+                "type": "Boolean"
+            },
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 268,
+            "description": "判断代码code是否在白名单中",
+            "itemtype": "method",
+            "name": "indexInCommandLibrary",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "要判断的字符串",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "如果在白名单中, 返回坐标位置； 如果不在白名单中, 返回false",
+                "type": "Boolean|String"
+            },
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 307,
+            "description": "获取对应的安全代码（单条命令）",
+            "itemtype": "method",
+            "name": "getSafeCode",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "需要转换的代码",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "如果可以转换为安全代码, 返回对应安全代码； 否则, 返回false",
+                "type": "Boolean|String"
+            },
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 325,
+            "description": "获取当前代码编辑器输入对应的可以直接eval执行的安全代码串",
+            "itemtype": "method",
+            "name": "getSafeCommandString",
+            "return": {
+                "description": "如果当前输入可以转换为安全代码串, 返回对应安全代码串； 否则, 返回空字符串",
+                "type": "String"
+            },
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 346,
+            "description": "run 按钮的相应函数, 解析执行安全代码, 执行对应的动画",
+            "itemtype": "method",
+            "name": "tinyEditorRun",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 364,
+            "description": "根据当前方向, 选择合适的goxxx函数",
+            "itemtype": "method",
+            "name": "go",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "选择的角色对应的数字",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "行走的步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 387,
+            "description": "控制人物转向函数",
+            "itemtype": "method",
+            "name": "turn",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "选择的角色对应的数字",
+                    "type": "Number"
+                },
+                {
+                    "name": "direction",
+                    "description": "转动的方向",
+                    "type": "Stirn"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 403,
+            "description": "clean 按钮的相应函数, 清空当前的工作区域",
+            "itemtype": "method",
+            "name": "cleanWorkspace",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 411,
+            "description": "读取vuex中的mapString,并转化成二维数组存于maps中",
+            "itemtype": "method",
+            "name": "read",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 436,
+            "description": "将二维数组的x转化为舞台坐标x",
+            "itemtype": "method",
+            "name": "toScreenX",
+            "params": [
+                {
+                    "name": "mapX",
+                    "description": "需要转换的坐标",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "返回转化后的坐标",
+                "type": "Number"
+            },
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 446,
+            "description": "将二维数组的y转化为舞台坐标y",
+            "itemtype": "method",
+            "name": "toScreenY",
+            "params": [
+                {
+                    "name": "mapY",
+                    "description": "需要转换的坐标",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "返回转化后的坐标",
+                "type": "Number"
+            },
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 470,
+            "description": "根据二维数组的值加载对应资源到指定位置，‘0’ 为草地，‘1’为树木，‘2’为河，‘3’为主角\n‘4’为终点，‘6’为配角，‘7’为钥匙，‘8’为门，‘9’为石头，‘xx’格式为传送门",
+            "itemtype": "method",
+            "name": "loadObj",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "二维数组的值",
+                    "type": "Number"
+                },
+                {
+                    "name": "i",
+                    "description": "二维数组的索引i",
+                    "type": "Number"
+                },
+                {
+                    "name": "j",
+                    "description": "二维数组的索引j",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 518,
+            "description": "加载角色，每个角色有4个动作，runRight、runLeft、runDown、runUp",
+            "itemtype": "method",
+            "name": "loadCharactor",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "path",
+                    "description": "角色资源的路径",
+                    "type": "Number"
+                },
+                {
+                    "name": "x",
+                    "description": "二维数组的索引x",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "二维数组的索引y",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 543,
+            "description": "加载地图，根据数组值在对应位置加载资源",
+            "itemtype": "method",
+            "name": "loadMap",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 562,
+            "description": "初始化函数",
+            "itemtype": "method",
+            "name": "init",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 596,
+            "description": "游戏结束",
+            "itemtype": "method",
+            "name": "gameover",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 604,
+            "description": "游戏过关",
+            "itemtype": "method",
+            "name": "victory",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 624,
+            "description": "传送函数，如果角色所在位置为传送门，则传送到另一传送门处，否则无动作",
+            "itemtype": "method",
+            "name": "fly",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 642,
+            "description": "等待函数，让指定序号的角色等待一定的秒数",
+            "itemtype": "method",
+            "name": "wait",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "seconds",
+                    "description": "等待的秒数",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 651,
+            "description": "收集函数，如果角色所在位置为钥匙且角色要捡起的东西为key，则捡起钥匙，否则没有动作",
+            "itemtype": "method",
+            "name": "collect",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "str",
+                    "description": "角色要捡起的东西",
+                    "type": "String"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 680,
+            "description": "掉落函数，如果角色所在位置为门且拥有钥匙且角色要掉落的东西为key，则移走石头；如果角色\n所在位置不为门且拥有钥匙且角色要掉落的东西为key，则掉落钥匙；否则无动作",
+            "itemtype": "method",
+            "name": "drop",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "str",
+                    "description": "角色要掉落的东西",
+                    "type": "String"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 725,
+            "description": "说话函数，让指定序号的角色在该位置弹出语言框，并0.5秒后自动消失",
+            "itemtype": "method",
+            "name": "saywords",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "words",
+                    "description": "角色要说的话",
+                    "type": "String"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 746,
+            "description": "将说话函数添加至角色动画序列中，同时所有角色的动画将等待0.5秒",
+            "itemtype": "method",
+            "name": "say",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "words",
+                    "description": "角色要说的话",
+                    "type": "String"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 761,
+            "description": "根据角色方向进行对应的跑动的动画",
+            "itemtype": "method",
+            "name": "getPlay",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "direct",
+                    "description": "角色所朝方向",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 783,
+            "description": "根据角色方向进行对应的停止的动画",
+            "itemtype": "method",
+            "name": "getStop",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "direct",
+                    "description": "角色所朝方向",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 805,
+            "description": "角色向右走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。",
+            "itemtype": "method",
+            "name": "goRight",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 844,
+            "description": "角色向左走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。",
+            "itemtype": "method",
+            "name": "goLeft",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 883,
+            "description": "角色向上走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。",
+            "itemtype": "method",
+            "name": "goUp",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 922,
+            "description": "角色向下走指定步数，如果碰到树木则停下，碰到河流则提示游戏结束，碰到终点则提示游戏过关。",
+            "itemtype": "method",
+            "name": "goDown",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "角色序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "step",
+                    "description": "步数",
+                    "type": "Number"
+                }
+            ],
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/EditorBase.js",
+            "line": 999,
+            "description": "vue组件加载过程中进行初始化 包括初始化ACE编辑器  初始化createjs游戏界面",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "EditorBase"
+        },
+        {
+            "file": "src/components/MainPage.js",
+            "line": 33,
+            "description": "路由切换",
+            "itemtype": "method",
+            "name": "routerTo",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "MainPage"
+        },
+        {
+            "file": "src/components/MainPage.js",
+            "line": 43,
+            "description": "MainPage的mounted函数, 实现页面加载和判断登录状态",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "MainPage"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 48,
+            "description": "用来记录地图上传送门的单双数",
+            "itemtype": "property",
+            "name": "transform",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 56,
+            "description": "用来存放地图的背景的容器",
+            "itemtype": "property",
+            "name": "mapContainer",
+            "type": "{Object}",
+            "default": "null",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 64,
+            "description": "用来存放地图信息",
+            "itemtype": "property",
+            "name": "maps",
+            "type": "{Object}",
+            "default": "null",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 72,
+            "description": "用来存放多个角色",
+            "itemtype": "property",
+            "name": "player",
+            "type": "{Object}",
+            "default": "[]",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 80,
+            "description": "用来标识地图ID",
+            "itemtype": "property",
+            "name": "mapID",
+            "type": "{Number}",
+            "default": "0",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 88,
+            "description": "用来存放地图高度",
+            "itemtype": "property",
+            "name": "mapHeight",
+            "type": "{Number}",
+            "default": "10",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 96,
+            "description": "用来存放地图初始X坐标",
+            "itemtype": "property",
+            "name": "mapx",
+            "type": "{Number}",
+            "default": "0",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 104,
+            "description": "用来记录地图缩放比例",
+            "itemtype": "property",
+            "name": "scale",
+            "type": "{Number}",
+            "default": "1",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 112,
+            "description": "用来随机生成点击道具时产生阴影",
+            "itemtype": "property",
+            "name": "randomColor",
+            "type": "{Number}",
+            "default": "0",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 120,
+            "description": "画布标准宽度",
+            "itemtype": "property",
+            "name": "canvasWidth",
+            "type": "{Number}",
+            "default": "900",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 128,
+            "description": "画布标准高度",
+            "itemtype": "property",
+            "name": "canvasHeight",
+            "type": "{Number}",
+            "default": "640",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 136,
+            "description": "道具栏与画布两侧的距离",
+            "itemtype": "property",
+            "name": "bias",
+            "type": "{Number}",
+            "default": "30",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 144,
+            "description": "道具个数",
+            "itemtype": "property",
+            "name": "items",
+            "type": "{Number}",
+            "default": "5",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 152,
+            "description": "辅助变量，记录鼠标点击道具时的x坐标与道具的x坐标的差值",
+            "itemtype": "property",
+            "name": "fzmx",
+            "type": "{Number}",
+            "default": "0",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 160,
+            "description": "辅助变量，记录鼠标点击道具时的y坐标与道具的y坐标的差值",
+            "itemtype": "property",
+            "name": "fzmy",
+            "type": "{Number}",
+            "default": "0",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 168,
+            "description": "辅助变量，记录鼠标点击道具时的x坐标",
+            "itemtype": "property",
+            "name": "sx",
+            "type": "{Number}",
+            "default": "0",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 176,
+            "description": "辅助变量，记录鼠标点击道具时的y坐标",
+            "itemtype": "property",
+            "name": "sy",
+            "type": "{Number}",
+            "default": "0",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 184,
+            "description": "用来记录是否已经放置主角",
+            "itemtype": "property",
+            "name": "havePlayer",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 192,
+            "description": "用来记录是否已经放置终点",
+            "itemtype": "property",
+            "name": "haveFlag",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 200,
+            "description": "地图名称",
+            "itemtype": "property",
+            "name": "mapName",
+            "type": "{string}",
+            "default": "''",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 208,
+            "description": "地图简介",
+            "itemtype": "property",
+            "name": "mapTips",
+            "type": "{string}",
+            "default": "''",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 220,
+            "description": "将舞台坐标x转化为二维数组的x",
+            "itemtype": "method",
+            "name": "toMapX",
+            "params": [
+                {
+                    "name": "screenX",
+                    "description": "需要转换的坐标",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "返回转化后的坐标",
+                "type": "Number"
+            },
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 230,
+            "description": "将舞台坐标y转化为二维数组的y",
+            "itemtype": "method",
+            "name": "toMapY",
+            "params": [
+                {
+                    "name": "screenY",
+                    "description": "需要转换的坐标",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "返回转化后的坐标",
+                "type": "Number"
+            },
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 240,
+            "description": "初始化函数",
+            "itemtype": "method",
+            "name": "init",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 270,
+            "description": "添加道具到指定位置",
+            "itemtype": "method",
+            "name": "addPic",
+            "params": [
+                {
+                    "name": "i",
+                    "description": "道具序号",
+                    "type": "Number"
+                },
+                {
+                    "name": "ox",
+                    "description": "道具放置的位置坐标x",
+                    "type": "Number"
+                },
+                {
+                    "name": "oy",
+                    "description": "道具放置的位置坐标y",
+                    "type": "Number"
+                }
+            ],
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 294,
+            "description": "界面初始化时，将道具加载到右侧",
+            "itemtype": "method",
+            "name": "draw",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 306,
+            "description": "鼠标按下时的函数，为道具添加阴影并添加鼠标拖拽事件监听",
+            "itemtype": "method",
+            "name": "mousedown",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "事件",
+                    "type": "Event"
+                }
+            ],
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 320,
+            "description": "鼠标拖拽时的函数，道具随鼠标移动而移动，设置道具不会移出画布",
+            "itemtype": "method",
+            "name": "pressmover",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "事件",
+                    "type": "Event"
+                }
+            ],
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 342,
+            "description": "鼠标松开时的函数，取消道具阴影，如果道具位置在画布中，则将道具自动对齐在画布的格子中并替换掉该位置上的道具，否则移除道具，并在道具栏重新生成该道具",
+            "itemtype": "method",
+            "name": "pressup",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "事件",
+                    "type": "Event"
+                }
+            ],
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 383,
+            "description": "为容器对象添加或取消阴影",
+            "itemtype": "method",
+            "name": "shadowur",
+            "params": [
+                {
+                    "name": "bool",
+                    "description": "true为添加阴影，false为去除阴影",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "con",
+                    "description": "待操作的容器对象",
+                    "type": "Container"
+                }
+            ],
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 397,
+            "description": "在指定位置放置传送门，如果此时地图中传送门为单数，则target与最后一个传送门配对，并将两者对应的二维数组的值互相赋值为彼此，\n如果此时地图中传送门个数为双数，则不进行配对，target对应的二维数组的值赋值为target",
+            "itemtype": "method",
+            "name": "shadowur",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "需要放置的传送门",
+                    "type": "Object"
+                },
+                {
+                    "name": "x",
+                    "description": "传送门位置对应的二维数组的索引x",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "传送门位置对应的二维数组的索引y",
+                    "type": "Number"
+                }
+            ],
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 415,
+            "description": "清除指定位置的元素，如果该位置放置非传送门道具，则清除该道具，如果放置了传送门，则判断传送门是否已配对，已配对则清除这一对传送门，未配对则\n清除该传送门",
+            "itemtype": "method",
+            "name": "remove",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "二维数组的索引x",
+                    "type": "Number"
+                },
+                {
+                    "name": "y",
+                    "description": "二维数组的索引y",
+                    "type": "Number"
+                }
+            ],
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 455,
+            "description": "提交函数，将地图转换成可读取的地图字符串，并调用mapPost函数传入数据库中，并清空地图",
+            "itemtype": "method",
+            "name": "submit",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 484,
+            "description": "清空函数，清空地图上的所有元素",
+            "itemtype": "method",
+            "name": "clean",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 512,
+            "description": "将存储地图的字符串传入数据库",
+            "itemtype": "method",
+            "name": "mapPost",
+            "params": [
+                {
+                    "name": "string",
+                    "description": "存储地图的字符串",
+                    "type": "String"
+                }
+            ],
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapEditor.js",
+            "line": 533,
+            "description": "vue组件加载过程中进行初始化地图编辑器界面",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "MapEditor"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 98,
+            "description": "激活的界面",
+            "itemtype": "property",
+            "name": "activeName",
+            "type": "{String}",
+            "default": "'first'",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 106,
+            "description": "所有地图列表",
+            "itemtype": "property",
+            "name": "mapList",
+            "type": "{Object}",
+            "default": "null",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 114,
+            "description": "已发布地图列表",
+            "itemtype": "property",
+            "name": "publishedMapList",
+            "type": "{Object}",
+            "default": "null",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 122,
+            "description": "收藏地图列表",
+            "itemtype": "property",
+            "name": "favoriteMapList",
+            "type": "{Object}",
+            "default": "null",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 133,
+            "description": "vue组件的mounted函数, 判断登录状态, 调用初始化函数",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 153,
+            "description": "初始化函数, 读取所有地图, 收藏地图, 已发布地图",
+            "itemtype": "method",
+            "name": "init",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 163,
+            "description": "切换标签页",
+            "itemtype": "method",
+            "name": "handleClick",
+            "params": [
+                {
+                    "name": "tab",
+                    "description": "标签页",
+                    "type": "Object"
+                },
+                {
+                    "name": "event",
+                    "description": "事件",
+                    "type": "Event"
+                }
+            ],
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 170,
+            "description": "进入地图游戏界面",
+            "itemtype": "method",
+            "name": "enterMap",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 187,
+            "description": "点击发布按钮的相应函数",
+            "itemtype": "method",
+            "name": "publishClick",
+            "params": [
+                {
+                    "name": "map",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 197,
+            "description": "改变收藏状态",
+            "itemtype": "method",
+            "name": "changeFavor",
+            "params": [
+                {
+                    "name": "map",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "status",
+                    "description": "",
+                    "type": "Boolean"
+                }
+            ],
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 207,
+            "description": "读取数据库所有地图列表",
+            "itemtype": "method",
+            "name": "readMyMapList",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 230,
+            "description": "读取数据库所有已发布地图列表",
+            "itemtype": "method",
+            "name": "readPublishedMapList",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 252,
+            "description": "读取数据库所有收藏地图列表",
+            "itemtype": "method",
+            "name": "readFavoriteMapList",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 274,
+            "description": "更改数据库收藏地图列表",
+            "itemtype": "method",
+            "name": "changeFavoriteMap",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 288,
+            "description": "更改数据库发布地图列表",
+            "itemtype": "method",
+            "name": "cancelPublishStatus",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 301,
+            "description": "更改每页数据",
+            "itemtype": "method",
+            "name": "handleSizeChange",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MapSquare.js",
+            "line": 308,
+            "description": "更改当前页数据",
+            "itemtype": "method",
+            "name": "handleCurrentChange",
+            "class": "MapSqure"
+        },
+        {
+            "file": "src/components/MenuBarLogged.js",
+            "line": 51,
+            "description": "激活的界面",
+            "itemtype": "property",
+            "name": "activeName",
+            "type": "{String}",
+            "default": "'main-page'",
+            "class": "MenuBarLogged"
+        },
+        {
+            "file": "src/components/MenuBarLogged.js",
+            "line": 62,
+            "description": "点击菜单栏切换路由",
+            "itemtype": "method",
+            "name": "handleSelect",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "MenuBarLogged"
+        },
+        {
+            "file": "src/components/MenuBarLogged.js",
+            "line": 78,
+            "description": "注销",
+            "itemtype": "method",
+            "name": "signout",
+            "class": "MenuBarLogged"
+        },
+        {
+            "file": "src/components/MenuBarLogged.js",
+            "line": 87,
+            "description": "支付",
+            "itemtype": "method",
+            "name": "pay",
+            "class": "MenuBarLogged"
+        },
+        {
+            "file": "src/components/MenuBarUnlogged.js",
+            "line": 53,
+            "description": "激活的界面",
+            "itemtype": "property",
+            "name": "activeName",
+            "type": "{String}",
+            "default": "'main-page'",
+            "class": "MenuBarUnlogged"
+        },
+        {
+            "file": "src/components/MenuBarUnlogged.js",
+            "line": 61,
+            "description": "登录窗口显示状态",
+            "itemtype": "property",
+            "name": "signinDialog",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "MenuBarUnlogged"
+        },
+        {
+            "file": "src/components/MenuBarUnlogged.js",
+            "line": 69,
+            "description": "注册窗口显示状态",
+            "itemtype": "property",
+            "name": "signupDialog",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "MenuBarUnlogged"
+        },
+        {
+            "file": "src/components/MenuBarUnlogged.js",
+            "line": 77,
+            "description": "地图选项是否可进入",
+            "itemtype": "property",
+            "name": "mapWindow",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "MenuBarUnlogged"
+        },
+        {
+            "file": "src/components/MenuBarUnlogged.js",
+            "line": 88,
+            "description": "点击菜单栏切换路由",
+            "itemtype": "method",
+            "name": "handleSelect",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "MenuBarUnlogged"
+        },
+        {
+            "file": "src/components/MenuBarUnlogged.js",
+            "line": 101,
+            "description": "点击注册按钮响应函数",
+            "itemtype": "method",
+            "name": "signupChange",
+            "class": "MenuBarUnlogged"
+        },
+        {
+            "file": "src/components/MenuBarUnlogged.js",
+            "line": 108,
+            "description": "点击登录按钮响应函数",
+            "itemtype": "method",
+            "name": "signinChange",
+            "class": "MenuBarUnlogged"
+        },
+        {
+            "file": "src/components/PageNotFound.js",
+            "line": 22,
+            "description": "vue组件的mounted函数",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "PageNotFound"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 85,
+            "description": "按钮的内容",
+            "itemtype": "property",
+            "name": "buttonMessage",
+            "type": "{String}",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 92,
+            "description": "一次等待时间",
+            "itemtype": "property",
+            "name": "seconds",
+            "type": "{Number}",
+            "default": "60",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 100,
+            "description": "验证码",
+            "itemtype": "property",
+            "name": "captchaKey",
+            "type": "{String}",
+            "default": "null",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 108,
+            "description": "可以发送邮件状态",
+            "itemtype": "property",
+            "name": "sendEmailDisabled",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 116,
+            "description": "是否可以更改密码",
+            "itemtype": "property",
+            "name": "cannotResetPassword",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 124,
+            "description": "发送邮件的倒计时",
+            "itemtype": "property",
+            "name": "timer",
+            "type": "{Object}",
+            "default": "null",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 132,
+            "description": "更改密码的表单",
+            "itemtype": "property",
+            "name": "resetPasswordForm",
+            "type": "{Object}",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 144,
+            "description": "更改密码的规则",
+            "itemtype": "property",
+            "name": "resetPasswordRules",
+            "type": "{Object}",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 167,
+            "description": "提交更改密码表单",
+            "itemtype": "method",
+            "name": "submitForm",
+            "params": [
+                {
+                    "name": "formName",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 184,
+            "description": "重置响应事件",
+            "itemtype": "method",
+            "name": "resetForm",
+            "params": [
+                {
+                    "name": "formName",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 195,
+            "description": "检查邮箱格式",
+            "itemtype": "method",
+            "name": "checkEmail",
+            "params": [
+                {
+                    "name": "email",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 212,
+            "description": "倒计时",
+            "itemtype": "method",
+            "name": "countTime",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 226,
+            "description": "发送邮件",
+            "itemtype": "method",
+            "name": "sendEmail",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 245,
+            "description": "检查验证码输入是否正确",
+            "itemtype": "method",
+            "name": "checkCaptcha",
+            "params": [
+                {
+                    "name": "captcha",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/ResetPasswordForm.js",
+            "line": 260,
+            "description": "更改密码执行函数",
+            "itemtype": "method",
+            "name": "resetPassword",
+            "class": "resetPasswordForm"
+        },
+        {
+            "file": "src/components/SelectLevel.js",
+            "line": 43,
+            "description": "关卡选择窗口显示状态",
+            "itemtype": "property",
+            "name": "selectlevelDialog",
+            "type": "{Boolean}",
+            "class": "SelectLevel"
+        },
+        {
+            "file": "src/components/SelectLevel.js",
+            "line": 52,
+            "description": "vue组件的mounted函数, 判断登录状态, 调用初始化函数",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "SelectLevel"
+        },
+        {
+            "file": "src/components/SelectLevel.js",
+            "line": 68,
+            "description": "选择关卡响应函数",
+            "itemtype": "method",
+            "name": "selectLevel",
+            "class": "SelectLevel"
+        },
+        {
+            "file": "src/components/SelectLevel.js",
+            "line": 80,
+            "description": "进入相应关卡",
+            "itemtype": "method",
+            "name": "enterLevel",
+            "class": "SelectLevel"
+        },
+        {
+            "file": "src/components/SigninForm.js",
+            "line": 62,
+            "description": "登录表单",
+            "itemtype": "property",
+            "name": "loginForm",
+            "type": "{Object}",
+            "class": "SigninForm"
+        },
+        {
+            "file": "src/components/SigninForm.js",
+            "line": 72,
+            "description": "登录规则",
+            "itemtype": "property",
+            "name": "loginRules",
+            "type": "{Object}",
+            "class": "SigninForm"
+        },
+        {
+            "file": "src/components/SigninForm.js",
+            "line": 89,
+            "description": "提交登录表单",
+            "itemtype": "method",
+            "name": "submitForm",
+            "params": [
+                {
+                    "name": "formName",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "SigninForm"
+        },
+        {
+            "file": "src/components/SigninForm.js",
+            "line": 104,
+            "description": "重置表单",
+            "itemtype": "method",
+            "name": "resetForm",
+            "params": [
+                {
+                    "name": "formName",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "SigninForm"
+        },
+        {
+            "file": "src/components/SigninForm.js",
+            "line": 112,
+            "description": "登录事件",
+            "itemtype": "method",
+            "name": "login",
+            "class": "SigninForm"
+        },
+        {
+            "file": "src/components/SigninForm.js",
+            "line": 143,
+            "description": "点击重置密码的相应函数",
+            "itemtype": "method",
+            "name": "resetPasswordChange",
+            "class": "SigninForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 94,
+            "description": "验证码图片",
+            "itemtype": "property",
+            "name": "captchaImage",
+            "type": "{Object}",
+            "default": "null",
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 102,
+            "description": "验证码",
+            "itemtype": "property",
+            "name": "captchaKey",
+            "type": "{String}",
+            "default": "null",
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 110,
+            "description": "注册表单",
+            "itemtype": "property",
+            "name": "registerForm",
+            "type": "{Object}",
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 123,
+            "description": "注册规则",
+            "itemtype": "property",
+            "name": "registerRules",
+            "type": "{Object}",
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 146,
+            "description": "vue组件的mounted函数",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 156,
+            "description": "检查邮箱格式",
+            "itemtype": "method",
+            "name": "checkEmail",
+            "params": [
+                {
+                    "name": "email",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 171,
+            "description": "提交注册表单",
+            "itemtype": "method",
+            "name": "submitForm",
+            "params": [
+                {
+                    "name": "formName",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 186,
+            "description": "重置表单",
+            "itemtype": "method",
+            "name": "resetForm",
+            "params": [
+                {
+                    "name": "formName",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 194,
+            "description": "注册执行",
+            "itemtype": "method",
+            "name": "register",
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/SignupForm.js",
+            "line": 215,
+            "description": "更新验证码",
+            "itemtype": "method",
+            "name": "refreshCaptcha",
+            "class": "SignupForm"
+        },
+        {
+            "file": "src/components/UserInfo.js",
+            "line": 72,
+            "description": "已经完成的关卡数",
+            "itemtype": "property",
+            "name": "finishedLevel",
+            "type": "{Number}",
+            "class": "UserInfo"
+        },
+        {
+            "file": "src/components/UserInfo.js",
+            "line": 79,
+            "description": "未完成的关卡数",
+            "itemtype": "property",
+            "name": "remainedLevel",
+            "type": "{Number}",
+            "class": "UserInfo"
+        },
+        {
+            "file": "src/components/UserInfo.js",
+            "line": 86,
+            "description": "昵称",
+            "itemtype": "property",
+            "name": "nickname",
+            "type": "{String}",
+            "class": "UserInfo"
+        },
+        {
+            "file": "src/components/UserInfo.js",
+            "line": 95,
+            "description": "vue组件的mounted函数, 判断登录状态, 调用初始化函数",
+            "itemtype": "method",
+            "name": "mounted",
+            "class": "UserInfo"
+        },
+        {
+            "file": "src/components/UserInfo.js",
+            "line": 115,
+            "description": "初始化函数, 读取当前用户的昵称等信息",
+            "itemtype": "method",
+            "name": "init",
+            "class": "UserInfo"
+        },
+        {
+            "file": "src/components/UserInfo.js",
+            "line": 125,
+            "description": "更改昵称",
+            "itemtype": "method",
+            "name": "changeName",
+            "class": "UserInfo"
+        },
+        {
+            "file": "src/components/UserInfo.js",
+            "line": 144,
+            "description": "更改昵称提交",
+            "itemtype": "method",
+            "name": "nameSubmit",
+            "class": "UserInfo"
+        },
+        {
+            "file": "src/components/UserInfo.js",
+            "line": 162,
+            "description": "更改密码响应",
+            "itemtype": "method",
+            "name": "resetPasswordChange",
+            "class": "UserInfo"
+        },
+        {
+            "file": "test/unit/util.js",
+            "line": 15,
+            "description": "回收 vm",
+            "params": [
+                {
+                    "name": "vm",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "test/unit/util.js",
+            "line": 24,
+            "description": "创建一个 Vue 的实例对象",
+            "params": [
+                {
+                    "name": "Compo",
+                    "description": "- 组件配置，可直接传 template",
+                    "type": "Object|String"
+                },
+                {
+                    "name": "mounted",
+                    "description": "- 是否添加到 DOM 上",
+                    "type": "Boolean=false"
+                }
+            ],
+            "return": {
+                "description": "vm",
+                "type": "Object"
+            },
+            "class": ""
+        },
+        {
+            "file": "test/unit/util.js",
+            "line": 36,
+            "description": "创建一个测试组件实例",
+            "link": "http://vuejs.org/guide/unit-testing.html#Writing-Testable-Components",
+            "params": [
+                {
+                    "name": "Compo",
+                    "description": "- 组件对象",
+                    "type": "Object"
+                },
+                {
+                    "name": "propsData",
+                    "description": "- props 数据",
+                    "type": "Object"
+                },
+                {
+                    "name": "mounted",
+                    "description": "- 是否添加到 DOM 上",
+                    "type": "Boolean=false"
+                }
+            ],
+            "return": {
+                "description": "vm",
+                "type": "Object"
+            },
+            "class": ""
+        },
+        {
+            "file": "test/unit/util.js",
+            "line": 53,
+            "description": "触发一个事件\nmouseenter, mouseleave, mouseover, keyup, change, click 等",
+            "params": [
+                {
+                    "name": "elm",
+                    "description": "- 元素",
+                    "type": "Element"
+                },
+                {
+                    "name": "name",
+                    "description": "- 事件名称",
+                    "type": "String"
+                },
+                {
+                    "name": "opts",
+                    "description": "- 配置项\n注： 一般在触发事件后使用 vm.$nextTick 方法确定事件触发完成。",
+                    "type": "*"
+                }
+            ],
+            "class": ""
+        },
+        {
+            "file": "test/unit/util.js",
+            "line": 76,
+            "description": "触发 “mouseup” 和 “mousedown” 事件",
+            "params": [
+                {
+                    "name": "elm",
+                    "description": "- 元素",
+                    "type": "Element"
+                },
+                {
+                    "name": "opts",
+                    "description": "- 配置选项",
+                    "type": "*"
+                }
+            ],
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "unknown tag: link",
+            "line": " test/unit/util.js:36"
+        },
+        {
+            "message": "Missing item type\n回收 vm",
+            "line": " test/unit/util.js:15"
+        },
+        {
+            "message": "Missing item type\n创建一个 Vue 的实例对象",
+            "line": " test/unit/util.js:24"
+        },
+        {
+            "message": "Missing item type\n创建一个测试组件实例",
+            "line": " test/unit/util.js:36"
+        },
+        {
+            "message": "Missing item type\n触发一个事件\nmouseenter, mouseleave, mouseover, keyup, change, click 等",
+            "line": " test/unit/util.js:53"
+        },
+        {
+            "message": "Missing item type\n触发 “mouseup” 和 “mousedown” 事件",
+            "line": " test/unit/util.js:76"
+        }
+    ]
+}

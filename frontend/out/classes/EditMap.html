@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>EditMap</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actions.html">actions</a></li>
+                                <li><a href="../classes/BlockBase.html">BlockBase</a></li>
+                                <li><a href="../classes/blockConstData.html">blockConstData</a></li>
+                                <li><a href="../classes/EditMap.html">EditMap</a></li>
+                                <li><a href="../classes/EditorBase.html">EditorBase</a></li>
+                                <li><a href="../classes/editorConstData.html">editorConstData</a></li>
+                                <li><a href="../classes/MainPage.html">MainPage</a></li>
+                                <li><a href="../classes/MapEditor.html">MapEditor</a></li>
+                                <li><a href="../classes/MapSqure.html">MapSqure</a></li>
+                                <li><a href="../classes/MenuBarLogged.html">MenuBarLogged</a></li>
+                                <li><a href="../classes/MenuBarUnlogged.html">MenuBarUnlogged</a></li>
+                                <li><a href="../classes/mutations.html">mutations</a></li>
+                                <li><a href="../classes/PageNotFound.html">PageNotFound</a></li>
+                                <li><a href="../classes/resetPasswordForm.html">resetPasswordForm</a></li>
+                                <li><a href="../classes/SelectLevel.html">SelectLevel</a></li>
+                                <li><a href="../classes/SigninForm.html">SigninForm</a></li>
+                                <li><a href="../classes/SignupForm.html">SignupForm</a></li>
+                                <li><a href="../classes/state.html">state</a></li>
+                                <li><a href="../classes/store.html">store</a></li>
+                                <li><a href="../classes/UserInfo.html">UserInfo</a></li>
+                                <li><a href="../classes/util.html">util</a></li>
+                                <li><a href="../classes/whiteListConstData.html">whiteListConstData</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1>EditMap Class</h1>
+<div class="box meta">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/src_components_EditMap.js.html#l46"><code>src&#x2F;components&#x2F;EditMap.js:46</code></a>
+        </div>
+
+
+</div>
+
+
+<div class="box intro">
+    <p>EditMap 组件中完成制作地图的功能</p>
+
+</div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_changePublishStatus">changePublishStatus</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_confirmDelete">confirmDelete</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_deleteClick">deleteClick</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_deleteMap">deleteMap</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_enterMap">enterMap</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_handleClick">handleClick</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_init">init</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mounted">mounted</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_publishClick">publishClick</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_readMyMapList">readMyMapList</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_activeName">activeName</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_myMapList">myMapList</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_changePublishStatus" class="method item">
+    <h3 class="name"><code>changePublishStatus</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>id</code>
+                </li>
+                <li class="arg">
+                        <code>status</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l175"><code>src&#x2F;components&#x2F;EditMap.js:175</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>更改发布状态</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">status</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_confirmDelete" class="method item">
+    <h3 class="name"><code>confirmDelete</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>id</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l207"><code>src&#x2F;components&#x2F;EditMap.js:207</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>删除地图提示确认的响应函数</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_deleteClick" class="method item">
+    <h3 class="name"><code>deleteClick</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>map</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l128"><code>src&#x2F;components&#x2F;EditMap.js:128</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>点击删除按钮的相应函数</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">map</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_deleteMap" class="method item">
+    <h3 class="name"><code>deleteMap</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>id</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l192"><code>src&#x2F;components&#x2F;EditMap.js:192</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>删除地图</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_enterMap" class="method item">
+    <h3 class="name"><code>enterMap</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>id</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l136"><code>src&#x2F;components&#x2F;EditMap.js:136</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>进入地图游戏界面</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">id</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_handleClick" class="method item">
+    <h3 class="name"><code>handleClick</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>tab</code>
+                </li>
+                <li class="arg">
+                        <code>event</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l111"><code>src&#x2F;components&#x2F;EditMap.js:111</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>切换标签页</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">tab</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>标签页</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">event</code>
+                        <span class="type">Event</span>
+
+
+                    <div class="param-description">
+                        <p>事件</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_init" class="method item">
+    <h3 class="name"><code>init</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l103"><code>src&#x2F;components&#x2F;EditMap.js:103</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>初始化函数, 调用readMyMapList函数</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_mounted" class="method item">
+    <h3 class="name"><code>mounted</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l84"><code>src&#x2F;components&#x2F;EditMap.js:84</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>vue组件的mounted函数, 判断登录状态, 调用初始化函数</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_publishClick" class="method item">
+    <h3 class="name"><code>publishClick</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>map</code>
+                </li>
+                <li class="arg">
+                        <code>status</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l118"><code>src&#x2F;components&#x2F;EditMap.js:118</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>点击发布按钮的相应函数</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">map</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">status</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_readMyMapList" class="method item">
+    <h3 class="name"><code>readMyMapList</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l153"><code>src&#x2F;components&#x2F;EditMap.js:153</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>读取数据库地图列表</p>
+
+    </div>
+
+
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_activeName" class="property item">
+    <h3 class="name"><code>activeName</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l63"><code>src&#x2F;components&#x2F;EditMap.js:63</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>激活的界面</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &#x27;map-editor&#x27;</p>
+
+
+</div>
+<div id="property_myMapList" class="property item">
+    <h3 class="name"><code>myMapList</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_EditMap.js.html#l71"><code>src&#x2F;components&#x2F;EditMap.js:71</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>我的地图列表</p>
+
+    </div>
+
+        <p><strong>Default:</strong> null</p>
+
+
+</div>
+            </div>
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -48,6 +48,11 @@
 </template>
 
 <script>
+/**
+* UserInfo 用户信息界面
+*
+* @class UserInfo
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -64,11 +69,35 @@ export default {
     },
     data: function () {
         return {
+            /**
+            *已经完成的关卡数
+            *
+            * @property finishedLevel
+            * @type {Number}
+            */
             finishedLevel: null,
+            /**
+            *未完成的关卡数
+            *
+            * @property remainedLevel
+            * @type {Number}
+            */
             remainedLevel: null,
+            /**
+            *昵称
+            *
+            * @property nickname
+            * @type {String}
+            */
             nickname: null
         }
     },
+    /**
+    *
+    *vue组件的mounted函数, 判断登录状态, 调用初始化函数
+    *
+    *@method mounted
+    */
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
@@ -83,11 +112,21 @@ export default {
         }
     },
     methods: {
+        /**
+        *初始化函数, 读取当前用户的昵称等信息
+        *
+        *@method init
+        */
         init: function () {
             this.finishedLevel = this.$store.state.userGameProgress
             this.remainedLevel = 15 - this.finishedLevel
             this.nickname = this.$store.state.userNickName
         },
+        /**
+        *更改昵称
+        *
+        *@method changeName
+        */
         changeName () {
             this.$prompt('请输入昵称', '修改昵称', {
                 confirmButtonText: '确定',
@@ -102,6 +141,11 @@ export default {
                 })
             })
         },
+        /**
+        *更改昵称提交
+        *
+        *@method nameSubmit
+        */
         nameSubmit: async function () {
             // Message.success({message: '修改成功'})
             let response = await simplePost('api/change-nickname', {
@@ -115,6 +159,11 @@ export default {
                 Message.error({message: this.$store.state._const.CHANGE_FALURE})
             }
         },
+        /**
+        *更改密码响应
+        *
+        *@method resetPasswordChange
+        */
         resetPasswordChange: function () {
             this.$store.commit('changePasswordWindow', true)
         }

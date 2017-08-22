@@ -24,6 +24,11 @@
 </template>
 
 <script>
+/**
+* SelectLevel 选择关卡
+*
+* @class SelectLevel
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -35,9 +40,21 @@ export default {
     store: store,
     data: function () {
         return {
+            /**
+            *关卡选择窗口显示状态
+            *
+            * @property selectlevelDialog
+            * @type {Boolean}
+            */
             selectlevelDialog: false
         }
     },
+    /**
+    *
+    *vue组件的mounted函数, 判断登录状态, 调用初始化函数
+    *
+    *@method mounted
+    */
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
@@ -48,6 +65,11 @@ export default {
         }
     },
     methods: {
+        /**
+        *选择关卡响应函数
+        *
+        *@method selectLevel
+        */
         selectLevel: function (level) {
             if (level <= this.$store.state.userGameProgress + 1) {
                 this.enterLevel(level)
@@ -55,6 +77,11 @@ export default {
                 this.$message('您还没玩到这关哦！您现在已经通过了第' + this.$store.state.userGameProgress + '关')
             }
         },
+        /**
+        *进入相应关卡
+        *
+        *@method enterLevel
+        */
         enterLevel: async function (id) {
             this.$store.commit('changeLevelMode', true)
             let response = await readMap(true, id)

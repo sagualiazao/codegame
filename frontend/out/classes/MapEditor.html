@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>MapEditor</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actions.html">actions</a></li>
+                                <li><a href="../classes/BlockBase.html">BlockBase</a></li>
+                                <li><a href="../classes/blockConstData.html">blockConstData</a></li>
+                                <li><a href="../classes/EditMap.html">EditMap</a></li>
+                                <li><a href="../classes/EditorBase.html">EditorBase</a></li>
+                                <li><a href="../classes/editorConstData.html">editorConstData</a></li>
+                                <li><a href="../classes/MainPage.html">MainPage</a></li>
+                                <li><a href="../classes/MapEditor.html">MapEditor</a></li>
+                                <li><a href="../classes/MapSqure.html">MapSqure</a></li>
+                                <li><a href="../classes/MenuBarLogged.html">MenuBarLogged</a></li>
+                                <li><a href="../classes/MenuBarUnlogged.html">MenuBarUnlogged</a></li>
+                                <li><a href="../classes/mutations.html">mutations</a></li>
+                                <li><a href="../classes/PageNotFound.html">PageNotFound</a></li>
+                                <li><a href="../classes/resetPasswordForm.html">resetPasswordForm</a></li>
+                                <li><a href="../classes/SelectLevel.html">SelectLevel</a></li>
+                                <li><a href="../classes/SigninForm.html">SigninForm</a></li>
+                                <li><a href="../classes/SignupForm.html">SignupForm</a></li>
+                                <li><a href="../classes/state.html">state</a></li>
+                                <li><a href="../classes/store.html">store</a></li>
+                                <li><a href="../classes/UserInfo.html">UserInfo</a></li>
+                                <li><a href="../classes/util.html">util</a></li>
+                                <li><a href="../classes/whiteListConstData.html">whiteListConstData</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1>MapEditor Class</h1>
+<div class="box meta">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/src_components_MapEditor.js.html#l31"><code>src&#x2F;components&#x2F;MapEditor.js:31</code></a>
+        </div>
+
+
+</div>
+
+
+<div class="box intro">
+    <p>MapEditor 实现地图编辑器，并可将地图转化成对应地图字符串存入数据库中</p>
+
+</div>
+
+
+<div id="classdocs" class="tabview">
+    <ul class="api-class-tabs">
+        <li class="api-class-tab index"><a href="#index">Index</a></li>
+
+            <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
+    </ul>
+
+    <div>
+        <div id="index" class="api-class-tabpanel index">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#method_addPic">addPic</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_clean">clean</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_draw">draw</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_init">init</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mapPost">mapPost</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mounted">mounted</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_mousedown">mousedown</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_pressmover">pressmover</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_pressup">pressup</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_remove">remove</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_shadowur">shadowur</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_shadowur">shadowur</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_submit">submit</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toMapX">toMapX</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_toMapY">toMapY</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_bias">bias</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_canvasHeight">canvasHeight</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_canvasWidth">canvasWidth</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_fzmx">fzmx</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_fzmy">fzmy</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_haveFlag">haveFlag</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_havePlayer">havePlayer</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_items">items</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mapContainer">mapContainer</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mapHeight">mapHeight</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mapID">mapID</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mapName">mapName</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_maps">maps</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mapTips">mapTips</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_mapx">mapx</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_player">player</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_randomColor">randomColor</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_scale">scale</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_sx">sx</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_sy">sy</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_transform">transform</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+        </div>
+
+            <div id="methods" class="api-class-tabpanel">
+                <h2 class="off-left">Methods</h2>
+
+<div id="method_addPic" class="method item">
+    <h3 class="name"><code>addPic</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>i</code>
+                </li>
+                <li class="arg">
+                        <code>ox</code>
+                </li>
+                <li class="arg">
+                        <code>oy</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l270"><code>src&#x2F;components&#x2F;MapEditor.js:270</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>添加道具到指定位置</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">i</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>道具序号</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">ox</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>道具放置的位置坐标x</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">oy</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>道具放置的位置坐标y</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_clean" class="method item">
+    <h3 class="name"><code>clean</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l484"><code>src&#x2F;components&#x2F;MapEditor.js:484</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>清空函数，清空地图上的所有元素</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_draw" class="method item">
+    <h3 class="name"><code>draw</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l294"><code>src&#x2F;components&#x2F;MapEditor.js:294</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>界面初始化时，将道具加载到右侧</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_init" class="method item">
+    <h3 class="name"><code>init</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l240"><code>src&#x2F;components&#x2F;MapEditor.js:240</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>初始化函数</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_mapPost" class="method item">
+    <h3 class="name"><code>mapPost</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>string</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l512"><code>src&#x2F;components&#x2F;MapEditor.js:512</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>将存储地图的字符串传入数据库</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">string</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                        <p>存储地图的字符串</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_mounted" class="method item">
+    <h3 class="name"><code>mounted</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l533"><code>src&#x2F;components&#x2F;MapEditor.js:533</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>vue组件加载过程中进行初始化地图编辑器界面</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_mousedown" class="method item">
+    <h3 class="name"><code>mousedown</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>event</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l306"><code>src&#x2F;components&#x2F;MapEditor.js:306</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>鼠标按下时的函数，为道具添加阴影并添加鼠标拖拽事件监听</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">event</code>
+                        <span class="type">Event</span>
+
+
+                    <div class="param-description">
+                        <p>事件</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_pressmover" class="method item">
+    <h3 class="name"><code>pressmover</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>event</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l320"><code>src&#x2F;components&#x2F;MapEditor.js:320</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>鼠标拖拽时的函数，道具随鼠标移动而移动，设置道具不会移出画布</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">event</code>
+                        <span class="type">Event</span>
+
+
+                    <div class="param-description">
+                        <p>事件</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_pressup" class="method item">
+    <h3 class="name"><code>pressup</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>event</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l342"><code>src&#x2F;components&#x2F;MapEditor.js:342</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>鼠标松开时的函数，取消道具阴影，如果道具位置在画布中，则将道具自动对齐在画布的格子中并替换掉该位置上的道具，否则移除道具，并在道具栏重新生成该道具</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">event</code>
+                        <span class="type">Event</span>
+
+
+                    <div class="param-description">
+                        <p>事件</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_remove" class="method item">
+    <h3 class="name"><code>remove</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l415"><code>src&#x2F;components&#x2F;MapEditor.js:415</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>清除指定位置的元素，如果该位置放置非传送门道具，则清除该道具，如果放置了传送门，则判断传送门是否已配对，已配对则清除这一对传送门，未配对则
+清除该传送门</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>二维数组的索引x</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>二维数组的索引y</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_shadowur" class="method item">
+    <h3 class="name"><code>shadowur</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>target</code>
+                </li>
+                <li class="arg">
+                        <code>x</code>
+                </li>
+                <li class="arg">
+                        <code>y</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l397"><code>src&#x2F;components&#x2F;MapEditor.js:397</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>在指定位置放置传送门，如果此时地图中传送门为单数，则target与最后一个传送门配对，并将两者对应的二维数组的值互相赋值为彼此，
+如果此时地图中传送门个数为双数，则不进行配对，target对应的二维数组的值赋值为target</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">target</code>
+                        <span class="type">Object</span>
+
+
+                    <div class="param-description">
+                        <p>需要放置的传送门</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">x</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>传送门位置对应的二维数组的索引x</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">y</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>传送门位置对应的二维数组的索引y</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_shadowur" class="method item">
+    <h3 class="name"><code>shadowur</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>bool</code>
+                </li>
+                <li class="arg">
+                        <code>con</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l383"><code>src&#x2F;components&#x2F;MapEditor.js:383</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>为容器对象添加或取消阴影</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">bool</code>
+                        <span class="type">Boolean</span>
+
+
+                    <div class="param-description">
+                        <p>true为添加阴影，false为去除阴影</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">con</code>
+                        <span class="type">Container</span>
+
+
+                    <div class="param-description">
+                        <p>待操作的容器对象</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_submit" class="method item">
+    <h3 class="name"><code>submit</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l455"><code>src&#x2F;components&#x2F;MapEditor.js:455</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>提交函数，将地图转换成可读取的地图字符串，并调用mapPost函数传入数据库中，并清空地图</p>
+
+    </div>
+
+
+
+
+</div>
+<div id="method_toMapX" class="method item">
+    <h3 class="name"><code>toMapX</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>screenX</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l220"><code>src&#x2F;components&#x2F;MapEditor.js:220</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>将舞台坐标x转化为二维数组的x</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">screenX</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>需要转换的坐标</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>返回转化后的坐标</p>
+
+            </div>
+        </div>
+
+
+</div>
+<div id="method_toMapY" class="method item">
+    <h3 class="name"><code>toMapY</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>screenY</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+        <span class="returns-inline">
+            <span class="type">Number</span>
+        </span>
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l230"><code>src&#x2F;components&#x2F;MapEditor.js:230</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        <p>将舞台坐标y转化为二维数组的y</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">screenY</code>
+                        <span class="type">Number</span>
+
+
+                    <div class="param-description">
+                        <p>需要转换的坐标</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                        <span class="type">Number</span>:
+                    <p>返回转化后的坐标</p>
+
+            </div>
+        </div>
+
+
+</div>
+            </div>
+
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_bias" class="property item">
+    <h3 class="name"><code>bias</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l136"><code>src&#x2F;components&#x2F;MapEditor.js:136</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>道具栏与画布两侧的距离</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 30</p>
+
+
+</div>
+<div id="property_canvasHeight" class="property item">
+    <h3 class="name"><code>canvasHeight</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l128"><code>src&#x2F;components&#x2F;MapEditor.js:128</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>画布标准高度</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 640</p>
+
+
+</div>
+<div id="property_canvasWidth" class="property item">
+    <h3 class="name"><code>canvasWidth</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l120"><code>src&#x2F;components&#x2F;MapEditor.js:120</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>画布标准宽度</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 900</p>
+
+
+</div>
+<div id="property_fzmx" class="property item">
+    <h3 class="name"><code>fzmx</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l152"><code>src&#x2F;components&#x2F;MapEditor.js:152</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>辅助变量，记录鼠标点击道具时的x坐标与道具的x坐标的差值</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 0</p>
+
+
+</div>
+<div id="property_fzmy" class="property item">
+    <h3 class="name"><code>fzmy</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l160"><code>src&#x2F;components&#x2F;MapEditor.js:160</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>辅助变量，记录鼠标点击道具时的y坐标与道具的y坐标的差值</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 0</p>
+
+
+</div>
+<div id="property_haveFlag" class="property item">
+    <h3 class="name"><code>haveFlag</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l192"><code>src&#x2F;components&#x2F;MapEditor.js:192</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来记录是否已经放置终点</p>
+
+    </div>
+
+        <p><strong>Default:</strong> false</p>
+
+
+</div>
+<div id="property_havePlayer" class="property item">
+    <h3 class="name"><code>havePlayer</code></h3>
+    <span class="type">Boolean</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l184"><code>src&#x2F;components&#x2F;MapEditor.js:184</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来记录是否已经放置主角</p>
+
+    </div>
+
+        <p><strong>Default:</strong> false</p>
+
+
+</div>
+<div id="property_items" class="property item">
+    <h3 class="name"><code>items</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l144"><code>src&#x2F;components&#x2F;MapEditor.js:144</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>道具个数</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 5</p>
+
+
+</div>
+<div id="property_mapContainer" class="property item">
+    <h3 class="name"><code>mapContainer</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l56"><code>src&#x2F;components&#x2F;MapEditor.js:56</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来存放地图的背景的容器</p>
+
+    </div>
+
+        <p><strong>Default:</strong> null</p>
+
+
+</div>
+<div id="property_mapHeight" class="property item">
+    <h3 class="name"><code>mapHeight</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l88"><code>src&#x2F;components&#x2F;MapEditor.js:88</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来存放地图高度</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 10</p>
+
+
+</div>
+<div id="property_mapID" class="property item">
+    <h3 class="name"><code>mapID</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l80"><code>src&#x2F;components&#x2F;MapEditor.js:80</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来标识地图ID</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 0</p>
+
+
+</div>
+<div id="property_mapName" class="property item">
+    <h3 class="name"><code>mapName</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l200"><code>src&#x2F;components&#x2F;MapEditor.js:200</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>地图名称</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &#x27;&#x27;</p>
+
+
+</div>
+<div id="property_maps" class="property item">
+    <h3 class="name"><code>maps</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l64"><code>src&#x2F;components&#x2F;MapEditor.js:64</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来存放地图信息</p>
+
+    </div>
+
+        <p><strong>Default:</strong> null</p>
+
+
+</div>
+<div id="property_mapTips" class="property item">
+    <h3 class="name"><code>mapTips</code></h3>
+    <span class="type">String</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l208"><code>src&#x2F;components&#x2F;MapEditor.js:208</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>地图简介</p>
+
+    </div>
+
+        <p><strong>Default:</strong> &#x27;&#x27;</p>
+
+
+</div>
+<div id="property_mapx" class="property item">
+    <h3 class="name"><code>mapx</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l96"><code>src&#x2F;components&#x2F;MapEditor.js:96</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来存放地图初始X坐标</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 0</p>
+
+
+</div>
+<div id="property_player" class="property item">
+    <h3 class="name"><code>player</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l72"><code>src&#x2F;components&#x2F;MapEditor.js:72</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来存放多个角色</p>
+
+    </div>
+
+        <p><strong>Default:</strong> []</p>
+
+
+</div>
+<div id="property_randomColor" class="property item">
+    <h3 class="name"><code>randomColor</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l112"><code>src&#x2F;components&#x2F;MapEditor.js:112</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来随机生成点击道具时产生阴影</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 0</p>
+
+
+</div>
+<div id="property_scale" class="property item">
+    <h3 class="name"><code>scale</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l104"><code>src&#x2F;components&#x2F;MapEditor.js:104</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来记录地图缩放比例</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 1</p>
+
+
+</div>
+<div id="property_sx" class="property item">
+    <h3 class="name"><code>sx</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l168"><code>src&#x2F;components&#x2F;MapEditor.js:168</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>辅助变量，记录鼠标点击道具时的x坐标</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 0</p>
+
+
+</div>
+<div id="property_sy" class="property item">
+    <h3 class="name"><code>sy</code></h3>
+    <span class="type">Number</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l176"><code>src&#x2F;components&#x2F;MapEditor.js:176</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>辅助变量，记录鼠标点击道具时的y坐标</p>
+
+    </div>
+
+        <p><strong>Default:</strong> 0</p>
+
+
+</div>
+<div id="property_transform" class="property item">
+    <h3 class="name"><code>transform</code></h3>
+    <span class="type">Object</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/src_components_MapEditor.js.html#l48"><code>src&#x2F;components&#x2F;MapEditor.js:48</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>用来记录地图上传送门的单双数</p>
+
+    </div>
+
+        <p><strong>Default:</strong> []</p>
+
+
+</div>
+            </div>
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -29,6 +29,11 @@
 </template>
 
 <script>
+/**
+* resetPasswordForm 修改页码界面
+*
+* @class resetPasswordForm
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -77,18 +82,71 @@ export default {
             }
         }
         return {
+            /**
+            *按钮的内容
+            *
+            * @property buttonMessage
+            * @type {String}
+            */
             buttonMessage: this.$store.state._const.SEND_CAPTCHA_EMAIL,
+            /**
+            *一次等待时间
+            *
+            * @property seconds
+            * @type {Number}
+            * @default 60
+            */
             seconds: 60,
+            /**
+            *验证码
+            *
+            * @property captchaKey
+            * @type {String}
+            * @default null
+            */
             captchaKey: null,
+            /**
+            *可以发送邮件状态
+            *
+            * @property sendEmailDisabled
+            * @type {Boolean}
+            * @default true
+            */
             sendEmailDisabled: true,
+            /**
+            *是否可以更改密码
+            *
+            * @property cannotResetPassword
+            * @type {Boolean}
+            * @default true
+            */
             cannotResetPassword: true,
+            /**
+            *发送邮件的倒计时
+            *
+            * @property timer
+            * @type {Object}
+            * @default null
+            */
             timer: null,
+            /**
+            *更改密码的表单
+            *
+            * @property resetPasswordForm
+            * @type {Object}
+            */
             resetPasswordForm: {
                 email: '',
                 password: '',
                 checkPassword: '',
                 captcha: ''
             },
+            /**
+            *更改密码的规则
+            *
+            * @property resetPasswordRules
+            * @type {Object}
+            */
             resetPasswordRules: {
                 email: [
                     { required: true, validator: validateEmail, trigger: 'change' }
@@ -106,6 +164,11 @@ export default {
         }
     },
     methods: {
+        /**
+        *提交更改密码表单
+        * @method submitForm
+        * @param {Object} formName
+        */
         submitForm: function (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -118,12 +181,23 @@ export default {
                 }
             })
         },
+        /**
+        *重置响应事件
+        * @method resetForm
+        * @param {Object} formName
+        */
         resetForm: function (formName) {
             this.$refs[formName].resetFields()
             this.captchaKey = null
             this.sendEmailDisabled = true
             this.cannotResetPassword = true
         },
+        /**
+        *检查邮箱格式
+        * @method checkEmail
+        * @param {String} email
+        * @param {function} callback
+        */
         checkEmail: async function (email, callback) {
             let response = await simpleGet('api/check-email?email=' + email)
             let obj = await response.json()
@@ -135,6 +209,10 @@ export default {
                 callback()
             }
         },
+        /**
+        *倒计时
+        * @method countTime
+        */
         countTime: function () {
             this.buttonMessage = this.seconds + 's后再次发送'
             this.seconds--
@@ -145,6 +223,10 @@ export default {
                 clearInterval(this.timer)
             }
         },
+        /**
+        *发送邮件
+        * @method sendEmail
+        */
         sendEmail: async function () {
             this.sendEmailDisabled = true
             let jsonObj = {
@@ -160,6 +242,12 @@ export default {
                 this.$message(this.$store.state._const.OPERATION_FAILURE)
             }
         },
+        /**
+        *检查验证码输入是否正确
+        * @method checkCaptcha
+        * @param {String} captcha
+        * @param {function} callback
+        */
         checkCaptcha: async function (captcha, callback) {
             let response = await simpleGet('api/check-email-captcha?captcha=' + captcha)
             let obj = await response.json()
@@ -169,6 +257,10 @@ export default {
                 callback()
             }
         },
+        /**
+        *更改密码执行函数
+        * @method resetPassword
+        */
         resetPassword: async function () {
             let password = cbcEncrypt(this.resetPasswordForm.captcha, this.resetPasswordForm.password)
             let jsonObj = {
