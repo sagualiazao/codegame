@@ -32,7 +32,7 @@
             <button class="game-btn" id="fail-replay" @click="replaySingle()">重玩</button>
         </div>
     </div>
-    <el-dialog :tittle="$store.state.mapName" :visible.sync="gameTips">
+    <el-dialog id="game-info" :title="$store.state.mapName" :visible.sync="gameTips">
         <a>{{ $store.state.mapTips }}</a>
     </el-dialog>
 </div>
@@ -1141,5 +1141,8 @@ export default {
     position: absolute;
     left: 40%;
     top: 30%;
+}
+#game-info {
+    white-space: pre;
 }
 </style>
