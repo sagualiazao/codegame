@@ -74,7 +74,7 @@ export default {
                 if (valid) {
                     this.login()
                 } else {
-                    alert(this.$store.state._const.CHECK_FORM)
+                    this.$message(this.$store.state._const.CHECK_FORM)
                     return false
                 }
             })
@@ -94,7 +94,7 @@ export default {
             let response = await simplePost('api/login', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                alert(this.$store.state._const.LOGIN_SUCCESS)
+                this.$message(this.$store.state._const.LOGIN_SUCCESS)
                 this.$store.commit('changeLoginStatus', true)
                 this.$store.commit('changeUserEmail', obj.email)
                 this.$store.commit('changeUserId', obj.id)
@@ -106,7 +106,7 @@ export default {
                 this.$store.commit('changeMenu', 'menu-bar-logged')
                 this.$router.push('/' + 'SelectLevel')
             } else {
-                alert(this.$store.state._const.LOGIN_FAILURE)
+                this.$message(this.$store.state._const.LOGIN_FAILURE)
             }
         },
         resetPasswordChange: function () {

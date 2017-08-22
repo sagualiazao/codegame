@@ -1,9 +1,6 @@
 <template>
 <div id="select-level">
-    <div id="continue-win">
-        <button id="continue-play" @click="selectlevelDialog = true">继续游戏</button>
-        <el-progress  id="progress" type="circle" :percentage="50"></el-progress>
-    </div>
+    <button id="continue-play" @click="selectlevelDialog = true">继续游戏</button>
     <el-dialog title="选择关卡" :visible.sync="selectlevelDialog" size="tiny" :before-close="handleClose">
         <el-button type="success" class="level-btn" @click="selectLevel(1)">1</el-button>
         <el-button type="success" class="level-btn" @click="selectLevel(2)">2</el-button>
@@ -83,17 +80,6 @@ h1 {
     margin-top: -38px;
     background: url(../assets/img/backg.jpg) center center no-repeat;
     background-size: cover;
-}
-#continue-win {
-    width: 40%;
-    height: 300px;
-    color: black;
-    background: url(../assets/img/desp2.jpg) center center no-repeat;
-    background-size: cover;
-    border-radius: 1em;
-    position: absolute;
-    left: 32%;
-    top: 30%;
 }
 #continue-play {
     width: 15%;

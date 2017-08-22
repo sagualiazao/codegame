@@ -130,7 +130,7 @@ export default {
                 if (valid) {
                     this.register()
                 } else {
-                    alert(this.$store.state._const.CHECK_FORM)
+                    this.$message(this.$store.state._const.CHECK_FORM)
                     return false
                 }
             })
