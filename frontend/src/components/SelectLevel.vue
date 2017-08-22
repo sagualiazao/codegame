@@ -1,8 +1,7 @@
 <template>
 <div id="select-level">
-    <div id="continue-win">
+    <div id="btn-container">
         <button id="continue-play" @click="selectlevelDialog = true">继续游戏</button>
-        <el-progress  id="progress" type="circle" :percentage="50"></el-progress>
     </div>
     <el-dialog title="选择关卡" :visible.sync="selectlevelDialog" size="tiny" :before-close="handleClose">
         <el-button type="success" class="level-btn" @click="selectLevel(1)">1</el-button>
@@ -85,25 +84,16 @@ h1 {
     background: url(../assets/img/backg.jpg) center center no-repeat;
     background-size: cover;
 }
-#continue-win {
-    width: 40%;
-    height: 300px;
-    color: black;
-    background: url(../assets/img/desp2.jpg) center center no-repeat;
-    background-size: cover;
-    border-radius: 1em;
-    position: absolute;
-    left: 32%;
-    top: 30%;
-}
 #continue-play {
-    width: 15%;
-    height: 26%;
-    margin-top: 100px;
-    border-radius: 10em;
-    border-width: 5px;
-    background-color: inherit;
-    border-color: #AFEEEE;
+    width: 200px;
+    height: 60px;
+    border-radius: 50em;
+    border-width: 0px;
+    background-color: #8FBC8F;
+    font-size: 1.7em;
+}
+#btn-container {
+    padding-top: 35%;
 }
 #progress {
     padding-top: 15%;

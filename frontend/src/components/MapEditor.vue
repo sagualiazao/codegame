@@ -8,20 +8,22 @@
             </canvas>
         </div>
         <div>
-            <button @click="submit">
+            <button @click="mapInfo = true">
                 {{ $store.state._const.SUBMIT }}
             </button>
             <button @click="clean">
                 {{ $store.state._const.RESET }}
             </button>
         </div>
-        <div>
+        <el-dialog title="请填写地图信息" :visible.sync="mapInfo" size="tiny">
             <label>{{ $store.state._const.MAP_NAME }}</label><br>
             <input v-model="mapName" :placeholder="$store.state._const.NEED_MAP_NAME">
             <br>
             <label>{{ $store.state._const.MAP_REMARKS }}</label><br>
-            <textarea v-model="mapTips" :placeholder="$store.state._const.NEED_MAP_REMARKS"></textarea>
-        </div>
+            <textarea v-model="mapTips" :placeholder="$store.state._const.NEED_MAP_REMARKS"></textarea><br>
+            <el-button type="primary" @click="submit">提交</el-button>
+            <el-button @click="mapInfo = false">取消</el-button>
+        </el-dialog>
     </div>
 </template>
 
@@ -210,7 +212,8 @@ export default {
             * @type {string}
             * @default ''
             */
-            mapTips: ''
+            mapTips: '',
+            mapInfo: false
         }
     },
     methods: {
