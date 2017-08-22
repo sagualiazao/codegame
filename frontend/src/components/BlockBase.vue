@@ -30,8 +30,7 @@
             <button class="game-btn" id="fail-replay" @click="replaySingle()">重玩</button>
         </div>
     </div>
-    <el-dialog :visible.sync="gameTips">
-        <a>{{ $store.state.mapName }}</a>
+    <el-dialog :tittle="$store.state.mapName" :visible.sync="gameTips">
         <a>{{ $store.state.mapTips }}</a>
     </el-dialog>
 </div>
