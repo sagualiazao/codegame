@@ -57,7 +57,7 @@ export default {
                 this.$router.push('/')
             }
             if (index === 'edit-map') {
-                alert(this.$store.state._const.LOGIN_FIRST)
+                this.$message(this.$store.state._const.LOGIN_FIRST)
             }
         },
         signupChange: function () {

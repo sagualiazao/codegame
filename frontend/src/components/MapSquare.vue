@@ -153,7 +153,7 @@ export default {
                     // map[5]: favorite 收藏状态
                 }
             } else if (await obj.status === '0') {
-                alert(this.$store.state._const.LOAD_FAILURE)
+                this.$message(this.$store.state._const.LOAD_FAILURE)
             }
         },
         readPublishedMapList: async function () {
@@ -171,7 +171,7 @@ export default {
                     // map[4]: published 发布状态
                 }
             } else if (await obj.status === '0') {
-                alert(this.$store.state._const.LOAD_FAILURE)
+                this.$message(this.$store.state._const.LOAD_FAILURE)
             }
         },
         readFavoriteMapList: async function () {
@@ -189,7 +189,7 @@ export default {
                     // map[4]: remarks 地图说明
                 }
             } else if (await obj.status === '0') {
-                alert(this.$store.state._const.LOAD_FAILURE)
+                this.$message(this.$store.state._const.LOAD_FAILURE)
             }
         },
         changeFavoriteMap: async function (id, status) {
@@ -198,8 +198,9 @@ export default {
                 'status': Number(status).toString()
             }
             await simplePost('api/change-favorite', jsonObj)
-            await this.readMapList()
-            await this.readFavoriteMapList()
+            await this.$router.go(0)
+            // await this.readMapList()
+            // await this.readFavoriteMapList()
         },
         cancelPublishStatus: async function (id) {
             let jsonObj = {

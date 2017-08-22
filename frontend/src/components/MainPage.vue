@@ -26,6 +26,7 @@ export default {
     store: store,
     methods: {
         routerTo: function (path) {
+            this.$store.commit('changeMap', null)
             this.$router.push('/' + path)
         },
         handleSelect: function (index) {
@@ -35,10 +36,7 @@ export default {
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
-            if (await this.$store.state.loginStatus === false) {
-                this.$message(this.$store.state._const.LOGIN_FIRST)
-                this.$router.push('/')
-            } else {
+            if (await this.$store.state.loginStatus === true) {
                 this.$router.push('/SelectLevel')
             }
         } else {

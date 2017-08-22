@@ -456,7 +456,7 @@ export default {
         */
         submit () {
             if (!(this.haveFlag && this.havePlayer)) {
-                alert('请放置角色或终点')
+                this.$message('请放置角色或终点')
                 return
             }
             var string = ''
@@ -471,7 +471,7 @@ export default {
                 }
             }
             if (this.mapName === '') {
-                alert(this.$store.state._const.NEED_MAP_NAME)
+                this.$message(this.$store.state._const.NEED_MAP_NAME)
             } else {
                 this.mapPost(string)
                 this.clean()
@@ -520,9 +520,9 @@ export default {
             let response = await simplePost('api/save-map', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                alert(this.$store.state._const.SAVE_SUCCESS)
+                this.$message(this.$store.state._const.SAVE_SUCCESS)
             } else if (await obj.status === '0') {
-                alert(this.$store.state._const.SAVE_FAILURE)
+                this.$message(this.$store.state._const.SAVE_FAILURE)
             }
         }
     },
@@ -538,7 +538,7 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert(this.$store.state._const.LOGIN_FIRST)
+                this.$message(this.$store.state._const.LOGIN_FIRST)
                 this.$router.push('/')
             } else {
                 this.init()

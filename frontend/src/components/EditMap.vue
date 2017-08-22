@@ -66,7 +66,7 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                alert(this.$store.state._const.LOGIN_FIRST)
+                this.$message(this.$store.state._const.LOGIN_FIRST)
                 this.$router.push('/')
             } else {
                 this.init()
@@ -114,7 +114,7 @@ export default {
                     // map[4]: favorite 收藏发布状态
                 }
             } else if (await obj.status === '0') {
-                alert(this.$store.state._const.LOAD_FAILURE)
+                this.$message(this.$store.state._const.LOAD_FAILURE)
             }
         },
         changePublishStatus: async function (id, status) {

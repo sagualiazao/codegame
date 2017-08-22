@@ -343,7 +343,7 @@ export default {
                 let safeCode = this.getSafeCode(commandList[i])
                 if (safeCode === false) {
                     safeCommandString = ''
-                    alert('wrong input!')
+                    this.$message('wrong input!')
                     break
                 } else {
                     safeCommandString += safeCode
@@ -367,7 +367,7 @@ export default {
             try {
                 eval(safeCommandString)
             } catch (e) {
-                alert(e)
+                this.$message(e)
             }
         },
         /**
@@ -632,12 +632,18 @@ export default {
         * @method victory
         */
         victory () {
-            var select = this.$store.state.levelMode
-            if (select === false) {
-                this.$store.commit('changegameinformation', '恭喜您过关!')
+            if (
+                this.$store.state.loginStatus === false &&
+                this.$store.state.mapId >= this.$store.state._const.LEVEL_LIMIT
+            ) {
+                this.$message(this.$store.state._const.NEED_LOGIN)
+                return
+            }
+            if (this.$store.state.levelMode === false) {
+                this.$store.commit('changegameinformation', this.$store.state._const.PASS_LEVEL)
                 this.$store.commit('changegamereplayModal', true)
             } else {
-                this.$store.commit('changegameinformation', '恭喜您过关!')
+                this.$store.commit('changegameinformation', this.$store.state._const.PASS_LEVEL)
                 this.$store.commit('changelevelpassModal', true)
             }
         },
@@ -988,7 +994,7 @@ export default {
         },
         NextLevel: async function () {
             let level = this.$store.state.mapId
-            if (level > this.$store.state.userGameProgress) {
+            if (level > this.$store.state.userGameProgress && this.$store.state.loginStatus) {
                 simplePost('/api/change-progress', {
                     progress: level
                 })

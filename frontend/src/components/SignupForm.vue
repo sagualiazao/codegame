@@ -130,7 +130,7 @@ export default {
                 if (valid) {
                     this.register()
                 } else {
-                    alert(this.$store.state._const.CHECK_FORM)
+                    this.$message(this.$store.state._const.CHECK_FORM)
                     return false
                 }
             })
@@ -149,10 +149,10 @@ export default {
             let response = await simplePost('api/register', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                alert(this.$store.state._const.REGISTER_SUCCESS)
+                this.$message(this.$store.state._const.REGISTER_SUCCESS)
                 this.$store.commit('signupWindow', false)
             } else {
-                alert(this.$store.state._const.REGISTER_FAILURE)
+                this.$message(this.$store.state._const.REGISTER_FAILURE)
             }
         },
         refreshCaptcha: async function () {
