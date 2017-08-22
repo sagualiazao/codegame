@@ -109,13 +109,12 @@ export default {
         handleClick: function (tab, event) {},
         enterMap: async function (id) {
             this.$store.commit('changeLevelMode', false)
-            this.$store.commit('changeGameID', id)
             let response = await readMap(false, id)
             let obj = await response.json()
             if (await obj.status === '1') {
                 this.$store.commit('changeMap', obj)
                 setCookie('levelMode', this.$store.state.levelMode.toString())
-                setCookie('gameId', this.$store.state.gameId.toString())
+                setCookie('mapId', this.$store.state.mapId.toString())
                 setCookie('mapString', this.$store.state.mapString)
                 this.$router.push('/BlockBase')
             }

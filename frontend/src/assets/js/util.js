@@ -97,7 +97,7 @@ export async function simplePost (url, obj) {
 *
 * @method readMap
 * @for util
-* @param {Object}  levelMode
+* @param {Boolean}  levelMode
 * @param {Number}  id
 * @return {Object}
 */

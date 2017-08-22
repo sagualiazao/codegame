@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^api/change-favorite$', views.change_favorite_map),
     url(r'^api/change-publish$', views.change_publish_status),
     url(r'^api/delete-map$', views.delete_map),
+    url(r'^api/change-progress$', views.change_progress),
 ]

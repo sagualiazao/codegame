@@ -612,6 +612,7 @@ def delete_map(request):
 
     return SimpleResponse.post_only(request, delete_map_function, True)
 
+
 @csrf_exempt
 def change_nickname(request):
     """
@@ -629,6 +630,29 @@ def change_nickname(request):
         req = simplejson.load(request)
         nickname = req['nickname']
         user.nickname = nickname
+        user.save()
+        return SimpleResponse.success_json_response
+
+    return SimpleResponse.post_only(request, change_nickname_function, True)
+
+
+@csrf_exempt
+def change_progress(request):
+    """
+    修改昵称
+
+    Parameters:
+        :request: 指向'/api/change-progress'的POST请求,需要服务器保存session信息(已登录)才能访问\n
+
+    Returns:
+        JsonResponse:\n
+        :'status': 修改失败'0',修改成功'1'\n
+    """
+    def change_nickname_function(request, email):
+        user = User.objects.get(email=email)
+        req = simplejson.load(request)
+        progress = int(req['progress'])
+        user.game_progress = progress
         user.save()
         return SimpleResponse.success_json_response
 
