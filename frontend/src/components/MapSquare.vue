@@ -31,7 +31,7 @@
             <div class="page-block">
                 <el-pagination @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
-                :current-page="currentPage4"
+                :current-page="currentPages"
                 :page-sizes="[8, 10, 12, 16]"
                 :page-size="8"
                 layout="total, sizes, prev, pager, next, jumper"
@@ -127,7 +127,7 @@ export default {
             * @default null
             */
             favoriteMapList: null,
-            currentPage4: 1
+            currentPages: 1
         }
     },
     /**
@@ -281,9 +281,8 @@ export default {
                 'status': Number(status).toString()
             }
             await simplePost('api/change-favorite', jsonObj)
-            await this.$router.go(0)
-            // await this.readMapList()
-            // await this.readFavoriteMapList()
+            await this.readMapList()
+            await this.readFavoriteMapList()
         },
         /**
         *更改数据库发布地图列表

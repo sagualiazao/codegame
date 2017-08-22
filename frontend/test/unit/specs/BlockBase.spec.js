@@ -3,10 +3,10 @@
 // import Blockly from '@/blockly'
 // global.Blockly = Blockly
 
-// describe('BlockBase.vue', () => {
+// describe('BlockBase.vue', function () {
 //     let vm
 
-//     beforeEach(() => {
+//     beforeEach(function () {
 //         vm = createVue(BlockBase, true)
 //         vm.maps = [
 //             ['6', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
@@ -22,10 +22,10 @@
 //         ]
 //     })
 
-//     afterEach(() => {
+//     afterEach(function () {
 //         destroyVM(vm)
 //     })
-//     it('mounted挂载成功', () => {
+//     it('mounted挂载成功', function () {
 //         expect(vm.functionSet).to.deep.equal({})
 //         let workspace = vm.workspace.getAllBlocks()
 //         expect(workspace).to.deep.equal([])
@@ -38,8 +38,8 @@
 //         expect(vm.tween).to.not.equal([])
 //         expect(vm.direct).to.not.equal([])
 //     })
-    
-//     it('go函数正常运行', () => {
+
+//     it('go函数正常运行', function () {
 //         vm.direct[0] = 2
 //         vm.go(0, 3)
 //         expect(vm.player[0].x).to.equal(vm.toScreenX(5))
@@ -59,7 +59,7 @@
 //         // TODO 动画执行成功的测试 争取对各个运行函数更高的覆盖率
 //     })
 
-//     it('点击运行按钮正常执行动画', () => {
+//     it('点击运行按钮正常执行动画', function () {
 //         vm.direct[0] = 2
 //         vm.turn(0, 'right')
 //         expect(vm.direct[0]).to.equal(3)
@@ -80,7 +80,7 @@
 //         // TODO 动画执行成功的测试 争取对各个运行函数更高的覆盖率
 
 //     })
-//     it('fly函数可以运行', () => {
+//     it('fly函数可以运行', function () {
 //         vm.direct[0] = 2
 //         vm.go(0, 3)
 //         vm.fly(0)
@@ -99,7 +99,7 @@
 //         expect(vm.player[0].y).to.equal(vm.toScreenY(0))
 //     })
 
-//     it('say wait函数可以运行', () => {
+//     it('say wait函数可以运行', function () {
 //         let cc = vm.stage.numChildren
 //         vm.saywords(0, 'hello')
 //         expect(vm.stage.numChildren).to.equal(cc + 2)
@@ -113,7 +113,7 @@
 //         expect(vm.player[0].x).to.equal(vm.toScreenX(5))
 //         expect(vm.player[0].y).to.equal(vm.toScreenY(6))
 //     })
-//     it('collect drop 位置正确时可以运行', () => {
+//     it('collect drop 位置正确时可以运行', function () {
 //         vm.direct[1] = 2
 //         vm.go(1, 1)
 //         expect(vm.player[1].x).to.equal(vm.toScreenX(1))
@@ -136,7 +136,7 @@
 //         expect(vm.maps[4][0] === '0').to.equal(true)
 //     })
 
-//     it('collect drop 位置不正确时可以运行', () => {
+//     it('collect drop 位置不正确时可以运行', function () {
 //         vm.direct[1] = 2
 //         vm.collect(1, 'key')
 //         expect(vm.player[1].x).to.equal(vm.toScreenX(0))
@@ -184,5 +184,4 @@
 //         expect(vm.maps[2][0] === '0').to.equal(true)
 //         expect(vm.maps[4][0] === '0').to.equal(true)
 //     })
-
 // })

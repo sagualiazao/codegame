@@ -19,7 +19,7 @@ Mock.mock(
     'get',
     {
         status: '1',
-        url: '123'
+        url: 'test'
     }
 )
 
