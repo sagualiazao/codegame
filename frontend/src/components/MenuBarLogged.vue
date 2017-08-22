@@ -32,6 +32,11 @@
 </template>
 
 <script>
+/**
+* MenuBarLogged 登录菜单
+*
+* @class MenuBarLogged
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -43,10 +48,22 @@ export default {
     store: store,
     data: function () {
         return {
+            /**
+            *激活的界面
+            *
+            * @property activeName
+            * @type {String}
+            * @default 'main-page'
+            */
             activeIndex: 'main-page'
         }
     },
     methods: {
+        /**
+        *点击菜单栏切换路由
+        * @method handleSelect
+        * @param {String} index
+        */
         handleSelect: function (index) {
             if (index === 'SelectLevel') {
                 this.$router.push('/' + index)
@@ -58,11 +75,19 @@ export default {
                 this.$router.push('/' + index)
             }
         },
+        /**
+        *注销
+        * @method signout
+        */
         signout: function () {
             this.$store.commit('changeMenu', 'menu-bar-unlogged')
             this.$router.push('/')
             this.$store.dispatch('signout')
         },
+        /**
+        *支付
+        * @method pay
+        */
         pay: async function () {
             let response = await simpleGet('api/pay')
             let obj = await response.json()

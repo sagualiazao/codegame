@@ -43,6 +43,11 @@
 
 
 <script>
+/**
+* EditMap 组件中完成制作地图的功能
+*
+* @class EditMap
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -55,13 +60,32 @@ export default {
     store: store,
     data: function () {
         return {
+            /**
+            *激活的界面
+            *
+            * @property activeName
+            * @type {String}
+            * @default 'map-editor'
+            */
             activeName: 'map-editor',
+            /**
+            *我的地图列表
+            *
+            * @property myMapList
+            * @type {Object}
+            * @default null
+            */
             myMapList: null
         }
     },
     components: {
         MapEditor
     },
+    /**
+    *vue组件的mounted函数, 判断登录状态, 调用初始化函数
+    *
+    *@method mounted
+    */
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
@@ -76,17 +100,44 @@ export default {
         }
     },
     methods: {
+        /**
+        *初始化函数, 调用readMyMapList函数
+        *
+        *@method init
+        */
         init: function () {
             this.readMyMapList()
         },
+        /**
+        *切换标签页
+        * @method handleClick
+        * @param {Object} tab 标签页
+        * @param {Event} event 事件
+        */
         handleClick: function (tab, event) {},
+        /**
+        *点击发布按钮的相应函数
+        * @method publishClick
+        * @param {Object} map
+        * @param {Boolean} status
+        */
         publishClick: function (map, status) {
             map[4] = status
             this.changePublishStatus(map[0], status)
         },
+        /**
+        *点击删除按钮的相应函数
+        * @method deleteClick
+        * @param {Object} map
+        */
         deleteClick (map) {
             this.confirmDelete(map[0])
         },
+        /**
+        *进入地图游戏界面
+        * @method enterMap
+        * @param {Number} id
+        */
         enterMap: async function (id) {
             this.$store.commit('changeLevelMode', false)
             let response = await readMap(false, id)
@@ -99,6 +150,10 @@ export default {
                 this.$router.push('/BlockBase')
             }
         },
+        /**
+        *读取数据库地图列表
+        * @method readMyMapList
+        */
         readMyMapList: async function () {
             let response = await simpleGet('api/read-my-map-list')
             let obj = await response.json()
@@ -117,6 +172,12 @@ export default {
                 this.$message(this.$store.state._const.LOAD_FAILURE)
             }
         },
+        /**
+        *更改发布状态
+        * @method changePublishStatus
+        * @param {Number} id
+        * @param {Boolean} status
+        */
         changePublishStatus: async function (id, status) {
             let jsonObj = {
                 'mapid': id,
@@ -128,6 +189,11 @@ export default {
                 this.readMyMapList()
             }
         },
+        /**
+        *删除地图
+        * @method deleteMap
+        * @param {Number} id
+        */
         deleteMap: async function (id) {
             let jsonObj = {
                 'mapid': id
@@ -138,6 +204,11 @@ export default {
                 this.readMyMapList()
             }
         },
+        /**
+        *删除地图提示确认的响应函数
+        * @method confirmDelete
+        * @param {Number} id
+        */
         confirmDelete: function (id) {
             let successMsg = this.$store.state._const.DELETE_SUCCESS
             let failureMsg = this.$store.state._const.DELETE_FAILURE

@@ -33,6 +33,11 @@
     </div>
 </template>
 <script>
+/**
+* SignupForm 注册界面
+*
+* @class SignupForm
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -86,8 +91,28 @@ export default {
             }
         }
         return {
+            /**
+            *验证码图片
+            *
+            * @property captchaImage
+            * @type {Object}
+            * @default null
+            */
             captchaImage: null,
+            /**
+            *验证码
+            *
+            * @property captchaKey
+            * @type {String}
+            * @default null
+            */
             captchaKey: null,
+            /**
+            *注册表单
+            *
+            * @property registerForm
+            * @type {Object}
+            */
             registerForm: {
                 email: '',
                 nickname: '',
@@ -95,6 +120,12 @@ export default {
                 checkpassword: '',
                 captcha: ''
             },
+            /**
+            *注册规则
+            *
+            * @property registerRules
+            * @type {Object}
+            */
             registerRules: {
                 email: [
                     { required: true, validator: validateEmail, trigger: 'blur' }
@@ -112,10 +143,22 @@ export default {
             }
         }
     },
+    /**
+    *
+    *vue组件的mounted函数
+    *
+    *@method mounted
+    */
     mounted: async function () {
         this.refreshCaptcha()
     },
     methods: {
+        /**
+        *检查邮箱格式
+        * @method checkEmail
+        * @param {String} email
+        * @param {function} callback
+        */
         checkEmail: async function (email, callback) {
             let response = await simpleGet('api/check-email?email=' + email.toLowerCase())
             let obj = await response.json()
@@ -125,6 +168,11 @@ export default {
                 callback(new Error(this.$store.state._const.USED_EMAIL))
             }
         },
+        /**
+        *提交注册表单
+        * @method submitForm
+        * @param {Object} formName
+        */
         submitForm: function (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -135,9 +183,18 @@ export default {
                 }
             })
         },
+        /**
+        *重置表单
+        * @method resetForm
+        * @param {Object} formName
+        */
         resetForm: function (formName) {
             this.$refs[formName].resetFields()
         },
+        /**
+        *注册执行
+        * @method register
+        */
         register: async function () {
             let password = cbcEncrypt(this.registerForm.captcha, this.registerForm.password)
             let jsonObj = {
@@ -155,6 +212,10 @@ export default {
                 this.$message(this.$store.state._const.REGISTER_FAILURE)
             }
         },
+        /**
+        *更新验证码
+        * @method refreshCaptcha
+        */
         refreshCaptcha: async function () {
             let response = await simpleGet('/api/captcha')
             let obj = await response.json()

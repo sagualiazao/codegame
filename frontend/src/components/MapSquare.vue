@@ -79,6 +79,11 @@
 </template>
 
 <script>
+/**
+* MapSqure 地图广场
+*
+* @class MapSqure
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -90,13 +95,47 @@ export default {
     store: store,
     data: function () {
         return {
+            /**
+            *激活的界面
+            *
+            * @property activeName
+            * @type {String}
+            * @default 'first'
+            */
             activeName: 'first',
+            /**
+            *所有地图列表
+            *
+            * @property mapList
+            * @type {Object}
+            * @default null
+            */
             mapList: null,
+            /**
+            *已发布地图列表
+            *
+            * @property publishedMapList
+            * @type {Object}
+            * @default null
+            */
             publishedMapList: null,
+            /**
+            *收藏地图列表
+            *
+            * @property favoriteMapList
+            * @type {Object}
+            * @default null
+            */
             favoriteMapList: null,
             currentPage4: 1
         }
     },
+    /**
+    *
+    *vue组件的mounted函数, 判断登录状态, 调用初始化函数
+    *
+    *@method mounted
+    */
     mounted: async function () {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
@@ -111,12 +150,28 @@ export default {
         }
     },
     methods: {
+        /**
+        *初始化函数, 读取所有地图, 收藏地图, 已发布地图
+        *
+        *@method init
+        */
         init: function () {
             this.readMapList()
             this.readFavoriteMapList()
             this.readPublishedMapList()
         },
+        /**
+        *切换标签页
+        * @method handleClick
+        * @param {Object} tab 标签页
+        * @param {Event} event 事件
+        */
         handleClick: function (tab, event) {},
+        /**
+        *进入地图游戏界面
+        * @method enterMap
+        * @param {Number} id
+        */
         enterMap: async function (id) {
             this.$store.commit('changeLevelMode', false)
             let response = await readMap(false, id)
@@ -129,14 +184,30 @@ export default {
                 this.$router.push('/BlockBase')
             }
         },
+        /**
+        *点击发布按钮的相应函数
+        * @method publishClick
+        * @param {Object} map
+        * @param {Boolean} status
+        */
         publishClick: function (map) {
             map[4] = false
             this.cancelPublishStatus(map[0])
         },
+        /**
+        *改变收藏状态
+        * @method changeFavor
+        * @param {Object} map
+        * @param {Boolean} status
+        */
         changeFavor (map, status) {
             map[5] = status
             this.changeFavoriteMap(map[0], status)
         },
+        /**
+        *读取数据库所有地图列表
+        * @method readMyMapList
+        */
         readMapList: async function () {
             let response = await simpleGet('api/read-map-list')
             let obj = await response.json()
@@ -156,6 +227,10 @@ export default {
                 this.$message(this.$store.state._const.LOAD_FAILURE)
             }
         },
+        /**
+        *读取数据库所有已发布地图列表
+        * @method readPublishedMapList
+        */
         readPublishedMapList: async function () {
             let response = await simpleGet('api/read-published-map-list')
             let obj = await response.json()
@@ -174,6 +249,10 @@ export default {
                 this.$message(this.$store.state._const.LOAD_FAILURE)
             }
         },
+        /**
+        *读取数据库所有收藏地图列表
+        * @method readFavoriteMapList
+        */
         readFavoriteMapList: async function () {
             let response = await simpleGet('api/read-favorite-map-list')
             let obj = await response.json()
@@ -192,6 +271,10 @@ export default {
                 this.$message(this.$store.state._const.LOAD_FAILURE)
             }
         },
+        /**
+        *更改数据库收藏地图列表
+        * @method changeFavoriteMap
+        */
         changeFavoriteMap: async function (id, status) {
             let jsonObj = {
                 'mapid': id,
@@ -202,6 +285,10 @@ export default {
             // await this.readMapList()
             // await this.readFavoriteMapList()
         },
+        /**
+        *更改数据库发布地图列表
+        * @method cancelPublishStatus
+        */
         cancelPublishStatus: async function (id) {
             let jsonObj = {
                 'mapid': id,
@@ -211,9 +298,17 @@ export default {
             await this.readPublishedMapList()
             await this.readMapList()
         },
+        /**
+        *更改每页数据
+        * @method handleSizeChange
+        */
         handleSizeChange (val) {
             console.log(`每页 ${val} 条`)
         },
+        /**
+        *更改当前页数据
+        * @method handleCurrentChange
+        */
         handleCurrentChange (val) {
             console.log(`当前页: ${val}`)
         }

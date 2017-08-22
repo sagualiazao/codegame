@@ -41,6 +41,11 @@ let whiteListConstData = {
             []
         ]
     },
+    /**
+    *白名单清空变量和函数列表的函数
+    *
+    * @method clean
+    */
     clean: function () {
         this.commandCodeLibrary[4] = ''
         this.commandCodeLibrary[5] = ''

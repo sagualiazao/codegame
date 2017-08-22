@@ -24,6 +24,11 @@
     </div>
 </template>
 <script>
+/**
+* SigninForm 登录界面
+*
+* @class SigninForm
+*/
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -54,10 +59,22 @@ export default {
             }
         }
         return {
+            /**
+            *登录表单
+            *
+            * @property loginForm
+            * @type {Object}
+            */
             loginForm: {
                 email: '',
                 password: ''
             },
+            /**
+            *登录规则
+            *
+            * @property loginRules
+            * @type {Object}
+            */
             loginRules: {
                 email: [
                     { required: true, validator: validateEmail, trigger: 'blur' }
@@ -69,6 +86,11 @@ export default {
         }
     },
     methods: {
+        /**
+        *提交登录表单
+        * @method submitForm
+        * @param {Object} formName
+        */
         submitForm: function (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -79,9 +101,18 @@ export default {
                 }
             })
         },
+        /**
+        *重置表单
+        * @method resetForm
+        * @param {Object} formName
+        */
         resetForm: function (formName) {
             this.$refs[formName].resetFields()
         },
+        /**
+        *登录事件
+        * @method login
+        */
         login: async function () {
             let captcha = parseInt(Math.random() * 9000, 10) + 1000
             captcha = captcha.toString()
@@ -109,6 +140,10 @@ export default {
                 this.$message(this.$store.state._const.LOGIN_FAILURE)
             }
         },
+        /**
+        *点击重置密码的相应函数
+        * @method resetPasswordChange
+        */
         resetPasswordChange: function () {
             this.$store.commit('resetPasswordWindow', true)
         }

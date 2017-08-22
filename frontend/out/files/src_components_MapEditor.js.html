@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/components/MapEditor.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actions.html">actions</a></li>
+                                <li><a href="../classes/BlockBase.html">BlockBase</a></li>
+                                <li><a href="../classes/blockConstData.html">blockConstData</a></li>
+                                <li><a href="../classes/EditMap.html">EditMap</a></li>
+                                <li><a href="../classes/EditorBase.html">EditorBase</a></li>
+                                <li><a href="../classes/editorConstData.html">editorConstData</a></li>
+                                <li><a href="../classes/MainPage.html">MainPage</a></li>
+                                <li><a href="../classes/MapEditor.html">MapEditor</a></li>
+                                <li><a href="../classes/MapSqure.html">MapSqure</a></li>
+                                <li><a href="../classes/MenuBarLogged.html">MenuBarLogged</a></li>
+                                <li><a href="../classes/MenuBarUnlogged.html">MenuBarUnlogged</a></li>
+                                <li><a href="../classes/mutations.html">mutations</a></li>
+                                <li><a href="../classes/PageNotFound.html">PageNotFound</a></li>
+                                <li><a href="../classes/resetPasswordForm.html">resetPasswordForm</a></li>
+                                <li><a href="../classes/SelectLevel.html">SelectLevel</a></li>
+                                <li><a href="../classes/SigninForm.html">SigninForm</a></li>
+                                <li><a href="../classes/SignupForm.html">SignupForm</a></li>
+                                <li><a href="../classes/state.html">state</a></li>
+                                <li><a href="../classes/store.html">store</a></li>
+                                <li><a href="../classes/UserInfo.html">UserInfo</a></li>
+                                <li><a href="../classes/util.html">util</a></li>
+                                <li><a href="../classes/whiteListConstData.html">whiteListConstData</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/components/MapEditor.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&lt;template&gt;
+    &lt;div class=&quot;map-editor&quot;&gt;
+        &lt;h1&gt;
+            {{ $store.state._const.MAP_EDITOR_INFORMATION }}
+        &lt;/h1&gt;
+        &lt;div&gt;
+            &lt;canvas id=&quot;my-map&quot; width=&quot;900&quot; height=&quot;640&quot;&gt;
+            &lt;/canvas&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;button @click=&quot;mapInfo = true&quot;&gt;
+                {{ $store.state._const.SUBMIT }}
+            &lt;/button&gt;
+            &lt;button @click=&quot;clean&quot;&gt;
+                {{ $store.state._const.RESET }}
+            &lt;/button&gt;
+        &lt;/div&gt;
+        &lt;el-dialog title=&quot;请填写地图信息&quot; :visible.sync=&quot;mapInfo&quot; size=&quot;tiny&quot;&gt;
+            &lt;label&gt;{{ $store.state._const.MAP_NAME }}&lt;/label&gt;&lt;br&gt;
+            &lt;input v-model=&quot;mapName&quot; :placeholder=&quot;$store.state._const.NEED_MAP_NAME&quot;&gt;
+            &lt;br&gt;
+            &lt;label&gt;{{ $store.state._const.MAP_REMARKS }}&lt;/label&gt;&lt;br&gt;
+            &lt;textarea v-model=&quot;mapTips&quot; :placeholder=&quot;$store.state._const.NEED_MAP_REMARKS&quot;&gt;&lt;/textarea&gt;&lt;br&gt;
+            &lt;el-button type=&quot;primary&quot; @click=&quot;submit&quot;&gt;{{ $store.state._const.SUBMIT }}&lt;/el-button&gt;
+            &lt;el-button @click=&quot;mapInfo = false&quot;&gt;{{ $store.state._const.CANCEL }}&lt;/el-button&gt;
+        &lt;/el-dialog&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+/**
+* MapEditor 实现地图编辑器，并可将地图转化成对应地图字符串存入数据库中
+*
+* @class MapEditor
+*/
+import Vue from &#x27;vue&#x27;
+import Vuex from &#x27;vuex&#x27;
+Vue.use(Vuex)
+import store from &#x27;@/assets/js/store.js&#x27;
+import &#x27;yuki-createjs&#x27;
+import { simplePost } from &#x27;@/assets/js/util.js&#x27;
+
+export default {
+    name: &#x27;map-editor&#x27;,
+    store: store,
+    data: function () {
+        return {
+            /**
+            *用来记录地图上传送门的单双数
+            *
+            * @property transform
+            * @type {Object}
+            * @default []
+            */
+            transform: [],
+            /**
+            *用来存放地图的背景的容器
+            *
+            * @property mapContainer
+            * @type {Object}
+            * @default null
+            */
+            mapContainer: null,
+            /**
+            *用来存放地图信息
+            *
+            * @property maps
+            * @type {Object}
+            * @default null
+            */
+            maps: null,
+            /**
+            *用来存放多个角色
+            *
+            * @property player
+            * @type {Object}
+            * @default []
+            */
+            stage: null,
+            /**
+            *用来标识地图ID
+            *
+            * @property mapID
+            * @type {Number}
+            * @default 0
+            */
+            mapWidth: 10,
+            /**
+            *用来存放地图高度
+            *
+            * @property mapHeight
+            * @type {Number}
+            * @default 10
+            */
+            mapHeight: 10,
+            /**
+            *用来存放地图初始X坐标
+            *
+            * @property mapx
+            * @type {Number}
+            * @default 0
+            */
+            div: 64,
+            /**
+            *用来记录地图缩放比例
+            *
+            * @property scale
+            * @type {Number}
+            * @default 1
+            */
+            scale: 1,
+            /**
+            *用来随机生成点击道具时产生阴影
+            *
+            * @property randomColor
+            * @type {Number}
+            * @default 0
+            */
+            randomColor: 0,
+            /**
+            *画布标准宽度
+            *
+            * @property canvasWidth
+            * @type {Number}
+            * @default 900
+            */
+            canvasWidth: 900,
+            /**
+            *画布标准高度
+            *
+            * @property canvasHeight
+            * @type {Number}
+            * @default 640
+            */
+            canvasHeight: 640,
+            /**
+            *道具栏与画布两侧的距离
+            *
+            * @property bias
+            * @type {Number}
+            * @default 30
+            */
+            bias: 30,
+            /**
+            *道具个数
+            *
+            * @property items
+            * @type {Number}
+            * @default 5
+            */
+            items: 5,
+            /**
+            *辅助变量，记录鼠标点击道具时的x坐标与道具的x坐标的差值
+            *
+            * @property fzmx
+            * @type {Number}
+            * @default 0
+            */
+            fzmx: 0,
+            /**
+            *辅助变量，记录鼠标点击道具时的y坐标与道具的y坐标的差值
+            *
+            * @property fzmy
+            * @type {Number}
+            * @default 0
+            */
+            fzmy: 0,
+            /**
+            *辅助变量，记录鼠标点击道具时的x坐标
+            *
+            * @property sx
+            * @type {Number}
+            * @default 0
+            */
+            sx: 0,
+            /**
+            *辅助变量，记录鼠标点击道具时的y坐标
+            *
+            * @property sy
+            * @type {Number}
+            * @default 0
+            */
+            sy: 0,
+            /**
+            *用来记录是否已经放置主角
+            *
+            * @property havePlayer
+            * @type {Boolean}
+            * @default false
+            */
+            havePlayer: false,
+            /**
+            *用来记录是否已经放置终点
+            *
+            * @property haveFlag
+            * @type {Boolean}
+            * @default false
+            */
+            haveFlag: false,
+            /**
+            *地图名称
+            *
+            * @property mapName
+            * @type {string}
+            * @default &#x27;&#x27;
+            */
+            mapName: &#x27;&#x27;,
+            /**
+            *地图简介
+            *
+            * @property mapTips
+            * @type {string}
+            * @default &#x27;&#x27;
+            */
+            mapTips: &#x27;&#x27;,
+            mapInfo: false
+        }
+    },
+    methods: {
+        /**
+        *将舞台坐标x转化为二维数组的x
+        *
+        * @method toMapX
+        * @param {Number} screenX 需要转换的坐标
+        * @return {Number} 返回转化后的坐标
+        */
+        toMapX (screenX) {
+            return Math.floor((screenX - this.mapContainer.x) / this.div)
+        },
+        /**
+        *将舞台坐标y转化为二维数组的y
+        *
+        * @method toMapY
+        * @param {Number} screenY 需要转换的坐标
+        * @return {Number} 返回转化后的坐标
+        */
+        toMapY (screenY) {
+            return Math.floor((screenY - this.mapContainer.y) / this.div)
+        },
+        /**
+        *初始化函数
+        *
+        * @method init
+        */
+        init () {
+            let canvas = document.getElementById(&#x27;my-map&#x27;)
+            this.stage = new createjs.Stage(canvas)
+            this.scale = Math.min(canvas.width / 900, canvas.height / 640)
+            this.stage.scaleX = this.scale
+            this.stage.scaleY = this.scale
+            createjs.Touch.enable(this.stage)
+            this.mapContainer = new createjs.Container()
+            let background = new createjs.Bitmap(&#x27;../../static/map/background.png&#x27;)
+            this.mapContainer.x = this.stage.x
+            this.mapContainer.y = this.stage.y
+            this.mapContainer.addChild(background)
+            this.stage.addChild(this.mapContainer)
+            this.draw()
+            this.maps = new Array(this.mapWidth)
+            for (let ii = 0; ii &lt; this.mapWidth; ii++) {
+                this.maps[ii] = new Array(this.mapHeight)
+            }
+            for (let i = 0; i &lt; this.mapWidth; i++) {
+                for (let j = 0; j &lt; this.mapHeight; j++) {
+                    this.maps[i][j] = 0
+                }
+            }
+            createjs.Ticker.addEventListener(&#x27;tick&#x27;, this.stage)
+        },
+        /**
+        *添加道具到指定位置
+        *
+        * @method addPic
+        * @param {Number} i 道具序号
+        * @param {Number} ox 道具放置的位置坐标x
+        * @param {Number} oy 道具放置的位置坐标y
+        */
+        addPic (i, ox, oy) {
+            if (i === 3 &amp;&amp; this.havePlayer) {
+                return
+            } else if (i === 4 &amp;&amp; this.haveFlag) {
+                return
+            }
+            let con = new createjs.Container()
+            let bitmap = new createjs.Bitmap(&#x27;../../static/map/&#x27; + i + &#x27;.png&#x27;)
+            con.x = ox
+            con.y = oy
+            con.name = i
+            con.addChild(bitmap)
+            con.addEventListener(&#x27;mousedown&#x27;, this.mousedown)
+            con.addEventListener(&#x27;pressup&#x27;, this.pressup)
+            this.stage.addChild(con)
+        },
+        /**
+        *界面初始化时，将道具加载到右侧
+        *
+        * @method draw
+        */
+        draw () {
+            let ox = this.stage.x + this.canvasWidth - this.div - this.bias
+            this.randomColor = Math.floor(Math.random() * 16777215).toString(16)
+            for (let i = 0; i &lt;= this.items; i++) {
+                this.addPic(i, ox, this.bias + this.div * i)
+            }
+        },
+        /**
+        *鼠标按下时的函数，为道具添加阴影并添加鼠标拖拽事件监听
+        *
+        * @method mousedown
+        * @param {Event} event 事件
+        */
+        mousedown (event) {
+            this.shadowur(true, event.target.parent)
+            this.sx = event.stageX / this.scale
+            this.sy = event.stageY / this.scale
+            this.fzmx = event.stageX / this.scale - event.target.parent.x
+            this.fzmy = event.stageY / this.scale - event.target.parent.y
+            event.target.parent.addEventListener(&#x27;pressmove&#x27;, this.pressmove, false)
+        },
+        /**
+        *鼠标拖拽时的函数，道具随鼠标移动而移动，设置道具不会移出画布
+        *
+        * @method pressmover
+        * @param {Event} event 事件
+        */
+        pressmove (event) {
+            let self = event.target.parent
+            let mapH = this.div * this.mapHeight
+            if (event.stageX / this.scale - this.fzmx &lt; this.mapContainer.x) {
+                self.x = this.mapContainer.x
+            } else {
+                self.x = event.stageX / this.scale - this.fzmx
+            }
+            if (event.stageY / this.scale - this.fzmy &lt; this.mapContainer.y) {
+                self.y = this.mapContainer.y
+            } else if (event.stageY / this.scale - this.fzmy + self.getBounds().height &gt; (this.mapContainer.y + mapH)) {
+                self.y = this.mapContainer.y + mapH - self.getBounds().height
+            } else {
+                self.y = event.stageY / this.scale - this.fzmy
+            }
+        },
+        /**
+        *鼠标松开时的函数，取消道具阴影，如果道具位置在画布中，则将道具自动对齐在画布的格子中并替换掉该位置上的道具，否则移除道具，并在道具栏重新生成该道具
+        *
+        * @method pressup
+        * @param {Event} event 事件
+        */
+        pressup (event) {
+            let ox = this.stage.x + this.canvasWidth - this.div - this.bias
+            this.shadowur(false, event.target.parent)
+            let mapW = this.div * this.mapWidth
+            let mapH = this.div * this.mapHeight
+            let x
+            let y
+            if (event.target.parent.x &gt;= this.stage.x &amp;&amp; event.target.parent.x &lt;= this.stage.x + mapW - this.div / 2) {
+                if (event.target.parent.y &gt;= this.stage.y &amp;&amp; event.target.parent.y &lt; this.stage.y + mapH) {
+                    event.target.parent.x = event.target.parent.x - (event.target.parent.x - this.stage.x) % this.div + Math.round((event.target.parent.x - this.stage.x) % this.div / this.div) * this.div
+                    event.target.parent.y = event.target.parent.y - (event.target.parent.y - this.stage.y) % this.div + Math.round((event.target.parent.y - this.stage.y) % this.div / this.div) * this.div
+                    x = Math.floor((event.target.parent.x - this.mapContainer.x) / this.div)
+                    y = Math.floor((event.target.parent.y - this.mapContainer.y) / this.div)
+                    this.remove(x, y)
+                    if (event.target.parent.name === 3) {
+                        this.havePlayer = true
+                    } else if (event.target.parent.name === 4) {
+                        this.haveFlag = true
+                    }
+                    if (event.target.parent.name === 0) {
+                        this.stage.removeChild(event.target.parent)
+                    } else {
+                        if (event.target.parent.name === 5) {
+                            this.setTransform(event.target.parent, x, y)
+                        } else {
+                            this.maps[x][y] = event.target.parent
+                        }
+                    }
+                }
+            } else {
+                this.stage.removeChild(event.target.parent)
+            }
+            event.target.parent.removeAllEventListeners()
+            this.addPic(event.target.parent.name, ox, this.bias + this.div * event.target.parent.name)
+        },
+        /**
+        *为容器对象添加或取消阴影
+        *
+        * @method shadowur
+        * @param {Boolean} bool true为添加阴影，false为去除阴影
+        * @param {Container} con 待操作的容器对象
+        */
+        shadowur (bool, con) {
+            if (bool) {
+                con.shadow = new createjs.Shadow(&#x27;#&#x27; + this.randomColor, 0, 0, 10)
+            } else {
+                con.shadow = null
+            }
+        },
+        /**
+        *在指定位置放置传送门，如果此时地图中传送门为单数，则target与最后一个传送门配对，并将两者对应的二维数组的值互相赋值为彼此，
+        *如果此时地图中传送门个数为双数，则不进行配对，target对应的二维数组的值赋值为target
+        * @method shadowur
+        * @param {Object} target 需要放置的传送门
+        * @param {Number} x 传送门位置对应的二维数组的索引x
+        * @param {Number} y 传送门位置对应的二维数组的索引y
+        */
+        setTransform (target, x, y) {
+            if (this.transform.length === 0) {
+                this.maps[x][y] = target
+                this.transform.push(target)
+            } else {
+                this.maps[x][y] = this.transform[0]
+                this.maps[this.toMapX(this.transform[0].x)][this.toMapY(this.transform[0].y)] = target
+                this.transform.pop()
+            }
+        },
+        /**
+        *清除指定位置的元素，如果该位置放置非传送门道具，则清除该道具，如果放置了传送门，则判断传送门是否已配对，已配对则清除这一对传送门，未配对则
+        *清除该传送门
+        * @method remove
+        * @param {Number} x 二维数组的索引x
+        * @param {Number} y 二维数组的索引y
+        */
+        remove (x, y) {
+            let ox = this.stage.x + this.canvasWidth - this.div - this.bias
+            if (this.maps[x][y].name === 3) {
+                this.havePlayer = false
+                this.addPic(3, ox, this.bias + this.div * 3)
+            } else if (this.maps[x][y].name === 4) {
+                this.haveFlag = false
+                this.addPic(4, ox, this.bias + this.div * 4)
+            }
+            if (this.maps[x][y] === 0) {
+                return
+            }
+            if (this.maps[x][y].name !== 5) {
+                this.stage.removeChild(this.maps[x][y])
+                this.maps[x][y] = 0
+                return
+            }
+            if (this.maps[x][y].name === 5) {
+                if (!((x === this.toMapX(this.maps[x][y].x)) &amp;&amp; (y === this.toMapY(this.maps[x][y].y)))) {
+                    let temp = this.maps[x][y]
+                    let tempp = this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)]
+                    this.maps[x][y] = 0
+                    this.maps[this.toMapX(temp.x)][this.toMapY(temp.y)] = 0
+                    this.stage.removeChild(temp)
+                    this.stage.removeChild(tempp)
+                } else {
+                    this.stage.removeChild(this.maps[x][y])
+                    this.maps[x][y] = 0
+                    this.transform.pop()
+                }
+            }
+            return
+        },
+        /**
+        *提交函数，将地图转换成可读取的地图字符串，并调用mapPost函数传入数据库中，并清空地图
+        *
+        * @method submit
+        */
+        submit () {
+            if (!(this.haveFlag &amp;&amp; this.havePlayer)) {
+                this.$message(&#x27;请放置角色或终点&#x27;)
+                return
+            }
+            let string = &#x27;&#x27;
+            for (let i = 0; i &lt; this.mapWidth; i++) {
+                for (let j = 0; j &lt; this.mapHeight; j++) {
+                    if (this.maps[i][j].name === 5) {
+                        this.maps[i][j] = &#x27;!&#x27; + this.toMapX(this.maps[i][j].x) + &#x27;&#x27; + this.toMapY(this.maps[i][j].y) + &#x27;!&#x27;
+                    } else if (this.maps[i][j] !== 0) {
+                        this.maps[i][j] = this.maps[i][j].name
+                    }
+                    string += this.maps[i][j]
+                }
+            }
+            if (this.mapName === &#x27;&#x27;) {
+                this.$message(this.$store.state._const.NEED_MAP_NAME)
+            } else {
+                this.mapPost(string)
+                this.clean()
+                this.mapInfo = false
+            }
+        },
+        /**
+        *清空函数，清空地图上的所有元素
+        *
+        * @method clean
+        */
+        clean () {
+            this.stage.removeAllChildren()
+            this.stage = null
+            this.mapContainer = null
+            this.maps = []
+            this.randomColor = 0
+            this.canvasWidth = 900
+            this.canvasHeight = 640
+            this.div = 64
+            this.bias = 30
+            this.items = 5
+            this.mapWidth = 10
+            this.mapHeight = 10
+            this.fzmx = 0
+            this.fzmy = 0
+            this.sx = 0
+            this.sy = 0
+            this.haveFlag = false
+            this.havePlayer = false
+            this.mapName = &#x27;&#x27;
+            this.mapTips = &#x27;&#x27;
+            this.init()
+        },
+        /**
+        *将存储地图的字符串传入数据库
+        *
+        * @method mapPost
+        * @param {string} string 存储地图的字符串
+        */
+        mapPost: async function (string) {
+            let jsonObj = {
+                &#x27;mapString&#x27;: string,
+                &#x27;name&#x27;: this.mapName,
+                &#x27;remarks&#x27;: this.mapTips
+            }
+            let response = await simplePost(&#x27;api/save-map&#x27;, jsonObj)
+            let obj = await response.json()
+            if (await obj.status === &#x27;1&#x27;) {
+                this.$message(this.$store.state._const.SAVE_SUCCESS)
+            } else if (await obj.status === &#x27;0&#x27;) {
+                this.$message(this.$store.state._const.SAVE_FAILURE)
+            }
+        }
+    },
+    /**
+    *
+    vue组件加载过程中进行初始化地图编辑器界面
+    *
+    @method mounted
+    *
+    @for MapEditor
+    */
+    mounted: async function () {
+        if (this.$store.state.loginStatus === false) {
+            await this.$store.dispatch(&#x27;signin&#x27;)
+            if (await this.$store.state.loginStatus === false) {
+                this.$message(this.$store.state._const.LOGIN_FIRST)
+                this.$router.push(&#x27;/&#x27;)
+            } else {
+                this.init()
+            }
+        } else {
+            this.init()
+        }
+    }
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+h1 {
+    font-size: 30px;
+    color: #D8FA2A;
+}
+canvas {
+    border: ridge 2px #ADD8E6;
+}
+input, textarea {
+    border: ridge 2px #ADD8E6;
+    width: 200px;
+    vertical-align: middle;
+}
+label {
+    vertical-align: middle;
+    display: inline;
+}
+button {
+    display: inline-block;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: white;
+    background-color: #8FBC8F;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px #333;
+}
+button:hover {
+    background-color: #FFE4B5;
+    color: black;
+}
+button:active {
+    background-color: #D19275;
+    color: black;
+    box-shadow: 3px 5px #333;
+    transform: translateY(4px);
+}
+&lt;/style&gt;
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/components/MapSquare.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/actions.html">actions</a></li>
+                                <li><a href="../classes/BlockBase.html">BlockBase</a></li>
+                                <li><a href="../classes/blockConstData.html">blockConstData</a></li>
+                                <li><a href="../classes/EditMap.html">EditMap</a></li>
+                                <li><a href="../classes/EditorBase.html">EditorBase</a></li>
+                                <li><a href="../classes/editorConstData.html">editorConstData</a></li>
+                                <li><a href="../classes/MainPage.html">MainPage</a></li>
+                                <li><a href="../classes/MapEditor.html">MapEditor</a></li>
+                                <li><a href="../classes/MapSqure.html">MapSqure</a></li>
+                                <li><a href="../classes/MenuBarLogged.html">MenuBarLogged</a></li>
+                                <li><a href="../classes/MenuBarUnlogged.html">MenuBarUnlogged</a></li>
+                                <li><a href="../classes/mutations.html">mutations</a></li>
+                                <li><a href="../classes/PageNotFound.html">PageNotFound</a></li>
+                                <li><a href="../classes/resetPasswordForm.html">resetPasswordForm</a></li>
+                                <li><a href="../classes/SelectLevel.html">SelectLevel</a></li>
+                                <li><a href="../classes/SigninForm.html">SigninForm</a></li>
+                                <li><a href="../classes/SignupForm.html">SignupForm</a></li>
+                                <li><a href="../classes/state.html">state</a></li>
+                                <li><a href="../classes/store.html">store</a></li>
+                                <li><a href="../classes/UserInfo.html">UserInfo</a></li>
+                                <li><a href="../classes/util.html">util</a></li>
+                                <li><a href="../classes/whiteListConstData.html">whiteListConstData</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/components/MapSquare.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&lt;template&gt;
+&lt;div class=&quot;map-square&quot;&gt;
+    &lt;el-tabs ref=&quot;tabs&quot; v-model=&quot;activeName&quot; @tab-click=&quot;handleClick&quot;&gt;
+        &lt;el-tab-pane :label=&quot;$store.state._const.MAP_SQUARE&quot; name=&quot;first&quot; class=&quot;map-square-tab&quot;&gt;
+            &lt;div v-for=&quot;(map, index) in mapList&quot;&gt;
+                &lt;div class=&quot;map-picture&quot;&gt;
+                    &lt;a @click=&quot;enterMap(map[0])&quot;&gt;&lt;img :src=&quot;map[3]&quot; class=&quot;image&quot; :alt=&quot;$store.state._const.WRONG_DISPLAY&quot;&gt;&lt;/a&gt;
+                    &lt;div class=&quot;caption&quot;&gt;
+                        &lt;p class=&quot;mapname&quot;&gt;
+                            {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
+                        &lt;/p&gt;
+                        &lt;p class=&quot;author&quot;&gt;
+                            {{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}
+                        &lt;/p&gt;
+                        &lt;p class=&quot;remarks&quot;&gt;
+                            {{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}
+                        &lt;/p&gt;
+                        &lt;div v-if=&quot;map[5] === true&quot;&gt;
+                            &lt;i class=&quot;el-icon-star-on&quot; @click=&quot;changeFavor(map, false)&quot; :title=&quot;$store.state._const.CLICK_TO_CANCEL_FAVORITE&quot;&gt;
+                                {{ $store.state._const.IS_FAVORITE }}
+                            &lt;/i&gt;
+                        &lt;/div&gt;
+                        &lt;div v-else&gt;
+                            &lt;i class=&quot;el-icon-star-off&quot; @click=&quot;changeFavor(map, true)&quot; :title=&quot;$store.state._const.CLICK_TO_FAVORITE&quot;&gt;
+                                {{ $store.state._const.IS_NOT_FAVORITE }}
+                            &lt;/i&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;&lt;br&gt;
+            &lt;div class=&quot;page-block&quot;&gt;
+                &lt;el-pagination @size-change=&quot;handleSizeChange&quot;
+                @current-change=&quot;handleCurrentChange&quot;
+                :current-page=&quot;currentPage4&quot;
+                :page-sizes=&quot;[8, 10, 12, 16]&quot;
+                :page-size=&quot;8&quot;
+                layout=&quot;total, sizes, prev, pager, next, jumper&quot;
+                :total=&quot;100&quot;&gt;
+                &lt;/el-pagination&gt;
+            &lt;/div&gt;
+        &lt;/el-tab-pane&gt;
+        &lt;el-tab-pane :label=&quot;$store.state._const.MY_PUBLISHED_MAPS&quot; name=&quot;second&quot; class=&quot;published-map-tab&quot;&gt;
+            &lt;div v-for=&quot;map in publishedMapList&quot;&gt;
+                &lt;div class=&quot;map-picture&quot;&gt;
+                    &lt;a @click=&quot;enterMap(map[0])&quot;&gt;&lt;img :src=&quot;map[2]&quot; :alt=&quot;$store.state._const.WRONG_DISPLAY&quot;&gt;&lt;/a&gt;
+                    &lt;div class=&quot;caption&quot;&gt;
+                        &lt;p class=&quot;mapname&quot;&gt;
+                            {{ $store.state._const.MAP_NAME }}: {{ map[1] }}
+                        &lt;/p&gt;
+                        &lt;p class=&quot;remarks&quot;&gt;
+                            {{ $store.state._const.MAP_REMARKS }}: {{ map[3] }}
+                        &lt;/p&gt;
+                        &lt;p&gt;
+                            &lt;i class=&quot;el-icon-circle-check&quot; @click=&quot;publishClick(map)&quot; :title=&quot;$store.state._const.CLICK_TO_CANCEL_PUBLISH&quot;&gt;
+                                {{ $store.state._const.MAP_PUBLISHED }}
+                            &lt;/i&gt;
+                        &lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/el-tab-pane&gt;
+        &lt;el-tab-pane :label=&quot;$store.state._const.MY_FAVORITE_MAPS&quot; name=&quot;third&quot; class=&quot;favorite-map-tab&quot;&gt;
+            &lt;div v-for=&quot;map in favoriteMapList&quot;&gt;
+                &lt;div class=&quot;map-picture&quot;&gt;
+                    &lt;a @click=&quot;enterMap(map[0])&quot;&gt;&lt;img :src=&quot;map[3]&quot; class=&quot;image&quot; :alt=&quot;$store.state._const.WRONG_DISPLAY&quot;&gt;&lt;/a&gt;
+                    &lt;div class=&quot;caption&quot;&gt;
+                        &lt;p class=&quot;mapname&quot;&gt;{{ $store.state._const.MAP_NAME }}: {{ map[1] }}&lt;/p&gt;
+                        &lt;p class=&quot;author&quot;&gt;{{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}&lt;/p&gt;
+                        &lt;p class=&quot;remarks&quot;&gt;{{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}&lt;/p&gt;
+                        &lt;i class=&quot;el-icon-star-on&quot; @click=&quot;changeFavor(map, false)&quot; :title=&quot;$store.state._const.CLICK_TO_CANCEL_FAVORITE&quot;&gt;
+                            {{ $store.state._const.IS_FAVORITE }}
+                        &lt;/i&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/el-tab-pane&gt;
+    &lt;/el-tabs&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+/**
+* MapSqure 地图广场
+*
+* @class MapSqure
+*/
+import Vue from &#x27;vue&#x27;
+import Vuex from &#x27;vuex&#x27;
+Vue.use(Vuex)
+import store from &#x27;@/assets/js/store.js&#x27;
+import { simpleGet, simplePost, readMap, setCookie } from &#x27;@/assets/js/util.js&#x27;
+
+export default {
+    name: &#x27;map-square&#x27;,
+    store: store,
+    data: function () {
+        return {
+            /**
+            *激活的界面
+            *
+            * @property activeName
+            * @type {String}
+            * @default &#x27;first&#x27;
+            */
+            activeName: &#x27;first&#x27;,
+            /**
+            *所有地图列表
+            *
+            * @property mapList
+            * @type {Object}
+            * @default null
+            */
+            mapList: null,
+            /**
+            *已发布地图列表
+            *
+            * @property publishedMapList
+            * @type {Object}
+            * @default null
+            */
+            publishedMapList: null,
+            /**
+            *收藏地图列表
+            *
+            * @property favoriteMapList
+            * @type {Object}
+            * @default null
+            */
+            favoriteMapList: null,
+            currentPage4: 1
+        }
+    },
+    /**
+    *
+    *vue组件的mounted函数, 判断登录状态, 调用初始化函数
+    *
+    *@method mounted
+    */
+    mounted: async function () {
+        if (this.$store.state.loginStatus === false) {
+            await this.$store.dispatch(&#x27;signin&#x27;)
+            if (await this.$store.state.loginStatus === false) {
+                this.$message(this.$store.state._const.LOGIN_FIRST)
+                this.$router.push(&#x27;/&#x27;)
+            } else {
+                this.init()
+            }
+        } else {
+            this.init()
+        }
+    },
+    methods: {
+        /**
+        *初始化函数, 读取所有地图, 收藏地图, 已发布地图
+        *
+        *@method init
+        */
+        init: function () {
+            this.readMapList()
+            this.readFavoriteMapList()
+            this.readPublishedMapList()
+        },
+        /**
+        *切换标签页
+        * @method handleClick
+        * @param {Object} tab 标签页
+        * @param {Event} event 事件
+        */
+        handleClick: function (tab, event) {},
+        /**
+        *进入地图游戏界面
+        * @method enterMap
+        * @param {Number} id
+        */
+        enterMap: async function (id) {
+            this.$store.commit(&#x27;changeLevelMode&#x27;, false)
+            let response = await readMap(false, id)
+            let obj = await response.json()
+            if (await obj.status === &#x27;1&#x27;) {
+                this.$store.commit(&#x27;changeMap&#x27;, obj)
+                setCookie(&#x27;levelMode&#x27;, this.$store.state.levelMode.toString())
+                setCookie(&#x27;mapId&#x27;, this.$store.state.mapId.toString())
+                setCookie(&#x27;mapString&#x27;, this.$store.state.mapString)
+                this.$router.push(&#x27;/BlockBase&#x27;)
+            }
+        },
+        /**
+        *点击发布按钮的相应函数
+        * @method publishClick
+        * @param {Object} map
+        * @param {Boolean} status
+        */
+        publishClick: function (map) {
+            map[4] = false
+            this.cancelPublishStatus(map[0])
+        },
+        /**
+        *改变收藏状态
+        * @method changeFavor
+        * @param {Object} map
+        * @param {Boolean} status
+        */
+        changeFavor (map, status) {
+            map[5] = status
+            this.changeFavoriteMap(map[0], status)
+        },
+        /**
+        *读取数据库所有地图列表
+        * @method readMyMapList
+        */
+        readMapList: async function () {
+            let response = await simpleGet(&#x27;api/read-map-list&#x27;)
+            let obj = await response.json()
+            if (await obj.status === &#x27;1&#x27;) {
+                if (obj.number &gt; 0) {
+                    let list = JSON.parse(obj.data)
+                    this.mapList = list
+                    // 返回一个数组对象, for map in mapList
+                    // map[0]: id 地图id
+                    // map[1]: name 地图名称
+                    // map[2]: author 地图作者
+                    // map[3]: img 地图缩略图
+                    // map[4]: remarks 地图说明
+                    // map[5]: favorite 收藏状态
+                }
+            } else if (await obj.status === &#x27;0&#x27;) {
+                this.$message(this.$store.state._const.LOAD_FAILURE)
+            }
+        },
+        /**
+        *读取数据库所有已发布地图列表
+        * @method readPublishedMapList
+        */
+        readPublishedMapList: async function () {
+            let response = await simpleGet(&#x27;api/read-published-map-list&#x27;)
+            let obj = await response.json()
+            if (await obj.status === &#x27;1&#x27;) {
+                if (obj.number &gt; 0) {
+                    let list = JSON.parse(obj.data)
+                    this.publishedMapList = list
+                    // 返回一个数组对象, for map in mapList
+                    // map[0]: id 地图id
+                    // map[1]: name 地图名称
+                    // map[2]: img 地图缩略图
+                    // map[3]: remarks 地图说明
+                    // map[4]: published 发布状态
+                }
+            } else if (await obj.status === &#x27;0&#x27;) {
+                this.$message(this.$store.state._const.LOAD_FAILURE)
+            }
+        },
+        /**
+        *读取数据库所有收藏地图列表
+        * @method readFavoriteMapList
+        */
+        readFavoriteMapList: async function () {
+            let response = await simpleGet(&#x27;api/read-favorite-map-list&#x27;)
+            let obj = await response.json()
+            if (await obj.status === &#x27;1&#x27;) {
+                if (obj.number &gt; 0) {
+                    let list = JSON.parse(obj.data)
+                    this.favoriteMapList = list
+                    // 返回一个数组对象, for map in mapList
+                    // map[0]: id 地图id
+                    // map[1]: name 地图名称
+                    // map[2]: author 地图作者
+                    // map[3]: img 地图缩略图
+                    // map[4]: remarks 地图说明
+                }
+            } else if (await obj.status === &#x27;0&#x27;) {
+                this.$message(this.$store.state._const.LOAD_FAILURE)
+            }
+        },
+        /**
+        *更改数据库收藏地图列表
+        * @method changeFavoriteMap
+        */
+        changeFavoriteMap: async function (id, status) {
+            let jsonObj = {
+                &#x27;mapid&#x27;: id,
+                &#x27;status&#x27;: Number(status).toString()
+            }
+            await simplePost(&#x27;api/change-favorite&#x27;, jsonObj)
+            await this.$router.go(0)
+            // await this.readMapList()
+            // await this.readFavoriteMapList()
+        },
+        /**
+        *更改数据库发布地图列表
+        * @method cancelPublishStatus
+        */
+        cancelPublishStatus: async function (id) {
+            let jsonObj = {
+                &#x27;mapid&#x27;: id,
+                &#x27;status&#x27;: Number(status).toString()
+            }
+            await simplePost(&#x27;api/change-publish&#x27;, jsonObj)
+            await this.readPublishedMapList()
+            await this.readMapList()
+        },
+        /**
+        *更改每页数据
+        * @method handleSizeChange
+        */
+        handleSizeChange (val) {
+            console.log(&#x60;每页 ${val} 条&#x60;)
+        },
+        /**
+        *更改当前页数据
+        * @method handleCurrentChange
+        */
+        handleCurrentChange (val) {
+            console.log(&#x60;当前页: ${val}&#x60;)
+        }
+    }
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+h1 {
+    font-weight: normal;
+}
+.el-icon-star-on {
+    color: orange;
+    cursor: pointer;
+}
+.el-icon-star-off {
+    cursor: pointer;
+}
+.el-tab-pane {
+    width: 100%;
+}
+div.map-picture {
+    border: 1px solid #BFBFBF;
+    text-align: center;
+    float: left;
+    width: 20%;
+    height: auto;
+    margin: 2%;
+    display: block;
+    /*box-sizing: border-box;*/
+    overflow: hidden;
+}
+div.map-picture:hover {
+    border: 1px solid #777;
+}
+.caption {
+    text-align: center;
+    font-weight: normal;
+    width: 100%;
+    font-size: 0.7em;
+    margin: 10px 5px 10px 5px;
+  }
+  .map-picture a {
+      display: block;
+  }
+  /*.map-picture a p {
+      display: none;
+      transform: scale(1);
+  }*/
+.map-picture img {
+    width: 80%;
+    height: auto;
+    display: block;
+    margin: 10%;
+}
+img {
+    opacity: 0.8;
+    filter: alpha(opacity = 40); /* For IE8 and earlier */
+    transition: all 0.5s;
+}
+img:hover {
+    opacity: 1.0;
+    filter: alpha(opacity = 100); /* For IE8 and earlier */
+    transform: scale(1.2);
+    /*border: 1px solid #333333;*/
+    /*box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);*/
+    overflow: hidden;
+}
+@media only screen and (max-width: 700px){
+    .map-picture {
+        width: 49.99999%;
+        margin: 6px 0;
+    }
+}
+.el-icon-circle-check {
+    color:#FFA07A;
+}
+.el-pagination {
+    vertical-align: center;
+    position: absolute;
+    bottom: 5%;
+}
+&lt;/style&gt;
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
