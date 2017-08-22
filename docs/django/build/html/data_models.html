@@ -1,0 +1,763 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>数据库模型 &mdash; Code Game 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Code Game 0.1 documentation" href="index.html"/>
+        <link rel="next" title="工具包" href="api_utils.html"/>
+        <link rel="prev" title="仨瓜俩枣小组" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Code Game
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">数据库模型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.test_models">模型测试</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_utils.html">工具包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apis.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Code Game</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>数据库模型</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/data_models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="module-api.models">
+<span id="id1"></span><h1>数据库模型<a class="headerlink" href="#module-api.models" title="Permalink to this headline">¶</a></h1>
+<p>定义了项目中使用的的数据模型</p>
+<dl class="class">
+<dt id="api.models.DesignedMaps">
+<em class="property">class </em><code class="descclassname">api.models.</code><code class="descname">DesignedMaps</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#DesignedMaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.DesignedMaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>存储用户编辑的地图</p>
+<dl class="exception">
+<dt id="api.models.DesignedMaps.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#api.models.DesignedMaps.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.DesignedMaps.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.DesignedMaps.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.author">
+<code class="descname">author</code><a class="headerlink" href="#api.models.DesignedMaps.author" title="Permalink to this definition">¶</a></dt>
+<dd><p>地图发布状态</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.author_id">
+<code class="descname">author_id</code><a class="headerlink" href="#api.models.DesignedMaps.author_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.models.DesignedMaps.cancel_publish">
+<code class="descname">cancel_publish</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#DesignedMaps.cancel_publish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.DesignedMaps.cancel_publish" title="Permalink to this definition">¶</a></dt>
+<dd><p>取消发布地图</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.favoritemaps_set">
+<code class="descname">favoritemaps_set</code><a class="headerlink" href="#api.models.DesignedMaps.favoritemaps_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.is_published">
+<code class="descname">is_published</code><a class="headerlink" href="#api.models.DesignedMaps.is_published" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.map">
+<code class="descname">map</code><a class="headerlink" href="#api.models.DesignedMaps.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>地图名称</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.map_id">
+<code class="descname">map_id</code><a class="headerlink" href="#api.models.DesignedMaps.map_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>存储地图内容的字符串,最大长度1000</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.name">
+<code class="descname">name</code><a class="headerlink" href="#api.models.DesignedMaps.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>地图说明</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.objects">
+<code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.DesignedMaps.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.models.DesignedMaps.publish">
+<code class="descname">publish</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#DesignedMaps.publish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.DesignedMaps.publish" title="Permalink to this definition">¶</a></dt>
+<dd><p>发布地图</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.DesignedMaps.remarks">
+<code class="descname">remarks</code><a class="headerlink" href="#api.models.DesignedMaps.remarks" title="Permalink to this definition">¶</a></dt>
+<dd><p>地图作者</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.FavoriteMaps">
+<em class="property">class </em><code class="descclassname">api.models.</code><code class="descname">FavoriteMaps</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#FavoriteMaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.FavoriteMaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>存储用户收藏的地图列表</p>
+<dl class="exception">
+<dt id="api.models.FavoriteMaps.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#api.models.FavoriteMaps.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.FavoriteMaps.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.FavoriteMaps.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.FavoriteMaps.id">
+<code class="descname">id</code><a class="headerlink" href="#api.models.FavoriteMaps.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.FavoriteMaps.map">
+<code class="descname">map</code><a class="headerlink" href="#api.models.FavoriteMaps.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.FavoriteMaps.map_id">
+<code class="descname">map_id</code><a class="headerlink" href="#api.models.FavoriteMaps.map_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.FavoriteMaps.objects">
+<code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.FavoriteMaps.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.FavoriteMaps.user">
+<code class="descname">user</code><a class="headerlink" href="#api.models.FavoriteMaps.user" title="Permalink to this definition">¶</a></dt>
+<dd><p>地图,使用DesignedMaps模型中的对象作为外键</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.FavoriteMaps.user_id">
+<code class="descname">user_id</code><a class="headerlink" href="#api.models.FavoriteMaps.user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.GameLevels">
+<em class="property">class </em><code class="descclassname">api.models.</code><code class="descname">GameLevels</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#GameLevels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.GameLevels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>存储系统游戏关卡</p>
+<dl class="exception">
+<dt id="api.models.GameLevels.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#api.models.GameLevels.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.GameLevels.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.GameLevels.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.GameLevels.codes">
+<code class="descname">codes</code><a class="headerlink" href="#api.models.GameLevels.codes" title="Permalink to this definition">¶</a></dt>
+<dd><p>权限控制</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.GameLevels.map">
+<code class="descname">map</code><a class="headerlink" href="#api.models.GameLevels.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>关卡名称</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.GameLevels.map_id">
+<code class="descname">map_id</code><a class="headerlink" href="#api.models.GameLevels.map_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>存储地图内容的字符串,最大长度1000</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.GameLevels.mode">
+<code class="descname">mode</code><a class="headerlink" href="#api.models.GameLevels.mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.GameLevels.name">
+<code class="descname">name</code><a class="headerlink" href="#api.models.GameLevels.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>关卡提示</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.GameLevels.objects">
+<code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#api.models.GameLevels.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.GameLevels.tips">
+<code class="descname">tips</code><a class="headerlink" href="#api.models.GameLevels.tips" title="Permalink to this definition">¶</a></dt>
+<dd><p>初始代码</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.User">
+<em class="property">class </em><code class="descclassname">api.models.</code><code class="descname">User</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#User"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.User" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.base_user.AbstractBaseUser</span></code></p>
+<p>继承django抽象用户模型的用户数据模型</p>
+<dl class="exception">
+<dt id="api.models.User.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#api.models.User.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="api.models.User.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#api.models.User.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.USERNAME_FIELD">
+<code class="descname">USERNAME_FIELD</code><em class="property"> = 'email'</em><a class="headerlink" href="#api.models.User.USERNAME_FIELD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.created_at">
+<code class="descname">created_at</code><a class="headerlink" href="#api.models.User.created_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>用户付费状态</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.designedmaps_set">
+<code class="descname">designedmaps_set</code><a class="headerlink" href="#api.models.User.designedmaps_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.email">
+<code class="descname">email</code><a class="headerlink" href="#api.models.User.email" title="Permalink to this definition">¶</a></dt>
+<dd><p>用户昵称,可重复,最大长度为32位</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.favoritemaps_set">
+<code class="descname">favoritemaps_set</code><a class="headerlink" href="#api.models.User.favoritemaps_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.game_progress">
+<code class="descname">game_progress</code><a class="headerlink" href="#api.models.User.game_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p>指定用户管理器</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.models.User.get_full_name">
+<code class="descname">get_full_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#User.get_full_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.User.get_full_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.models.User.get_next_by_created_at">
+<code class="descname">get_next_by_created_at</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.User.get_next_by_created_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.models.User.get_previous_by_created_at">
+<code class="descname">get_previous_by_created_at</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#api.models.User.get_previous_by_created_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.models.User.get_short_name">
+<code class="descname">get_short_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#User.get_short_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.User.get_short_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.has_paied">
+<code class="descname">has_paied</code><a class="headerlink" href="#api.models.User.has_paied" title="Permalink to this definition">¶</a></dt>
+<dd><p>用户游戏进程,保存当前已经通过的关卡数量</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.id">
+<code class="descname">id</code><a class="headerlink" href="#api.models.User.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.logentry_set">
+<code class="descname">logentry_set</code><a class="headerlink" href="#api.models.User.logentry_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.nickname">
+<code class="descname">nickname</code><a class="headerlink" href="#api.models.User.nickname" title="Permalink to this definition">¶</a></dt>
+<dd><p>用户创建时间,注册用户对象时自动生成</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="api.models.User.objects">
+<code class="descname">objects</code><em class="property"> = &lt;api.models.UserManager object&gt;</em><a class="headerlink" href="#api.models.User.objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>指定用户身份标识字段</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.models.UserManager">
+<em class="property">class </em><code class="descclassname">api.models.</code><code class="descname">UserManager</code><a class="reference internal" href="_modules/api/models.html#UserManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.UserManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.base_user.BaseUserManager</span></code></p>
+<p>继承django框架的用户管理器</p>
+<dl class="method">
+<dt id="api.models.UserManager.create_user">
+<code class="descname">create_user</code><span class="sig-paren">(</span><em>email</em>, <em>nickname</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/models.html#UserManager.create_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.models.UserManager.create_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>创建新用户</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">email:</th><td class="field-body">用户邮件地址</td>
+</tr>
+<tr class="field-even field"><th class="field-name">nickname:</th><td class="field-body">昵称</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">password:</th><td class="field-body">密码明文字符串,django将自动对密码进行加密</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">user:</th><td class="field-body">返回新创建的User对象</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="module-api.test_models">
+<span id="id2"></span><h2>模型测试<a class="headerlink" href="#module-api.test_models" title="Permalink to this headline">¶</a></h2>
+<p>对数据模型进行单元测试的测试文件</p>
+<dl class="class">
+<dt id="api.test_models.DesignedMapsTestCase">
+<em class="property">class </em><code class="descclassname">api.test_models.</code><code class="descname">DesignedMapsTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#DesignedMapsTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.DesignedMapsTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>测试DesignedMaps对象</p>
+<dl class="method">
+<dt id="api.test_models.DesignedMapsTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#DesignedMapsTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.DesignedMapsTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_created">
+<code class="descname">test_designed_maps_can_be_created</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#DesignedMapsTestCase.test_designed_maps_can_be_created"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_created" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试DesignedMaps对象是否能被正确创建</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_deleted">
+<code class="descname">test_designed_maps_can_be_deleted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#DesignedMapsTestCase.test_designed_maps_can_be_deleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试DesignedMaps对象被删除是否正常</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_published">
+<code class="descname">test_designed_maps_can_be_published</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#DesignedMapsTestCase.test_designed_maps_can_be_published"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_published" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试DesignedMaps对象使用publish()函数是否正常</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.DesignedMapsTestCase.test_designed_maps_can_cancel_publish">
+<code class="descname">test_designed_maps_can_cancel_publish</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#DesignedMapsTestCase.test_designed_maps_can_cancel_publish"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.DesignedMapsTestCase.test_designed_maps_can_cancel_publish" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试DesignedMaps对象使用cancel_publish()函数是否正常</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_models.FavoriteMapsTestCase">
+<em class="property">class </em><code class="descclassname">api.test_models.</code><code class="descname">FavoriteMapsTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#FavoriteMapsTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.FavoriteMapsTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>测试FavoriteMaps对象</p>
+<dl class="method">
+<dt id="api.test_models.FavoriteMapsTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#FavoriteMapsTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.FavoriteMapsTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.FavoriteMapsTestCase.test_delete_designed_maps_can_remove_favorite_maps">
+<code class="descname">test_delete_designed_maps_can_remove_favorite_maps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#FavoriteMapsTestCase.test_delete_designed_maps_can_remove_favorite_maps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.FavoriteMapsTestCase.test_delete_designed_maps_can_remove_favorite_maps" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试删除DesignedMaps对象是否会导致相关的FavoriteMaps被删除</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.FavoriteMapsTestCase.test_favorite_maps_can_be_created">
+<code class="descname">test_favorite_maps_can_be_created</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#FavoriteMapsTestCase.test_favorite_maps_can_be_created"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.FavoriteMapsTestCase.test_favorite_maps_can_be_created" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试FavoriteMaps对象是否能正确被创建</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.FavoriteMapsTestCase.test_favorite_maps_can_be_deleted">
+<code class="descname">test_favorite_maps_can_be_deleted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#FavoriteMapsTestCase.test_favorite_maps_can_be_deleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.FavoriteMapsTestCase.test_favorite_maps_can_be_deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试DesignedMaps对象被删除是否正常</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_models.GameLevelsTestCase">
+<em class="property">class </em><code class="descclassname">api.test_models.</code><code class="descname">GameLevelsTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#GameLevelsTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.GameLevelsTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>测试GameLevels模型</p>
+<dl class="method">
+<dt id="api.test_models.GameLevelsTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#GameLevelsTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.GameLevelsTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.GameLevelsTestCase.test_game_level_can_be_created">
+<code class="descname">test_game_level_can_be_created</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#GameLevelsTestCase.test_game_level_can_be_created"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.GameLevelsTestCase.test_game_level_can_be_created" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试GameLevels对象是否能被正确创建</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_models.UserTestCase">
+<em class="property">class </em><code class="descclassname">api.test_models.</code><code class="descname">UserTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#UserTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.UserTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>测试User模型</p>
+<dl class="method">
+<dt id="api.test_models.UserTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#UserTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.UserTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.UserTestCase.test_create_user_without_email">
+<code class="descname">test_create_user_without_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#UserTestCase.test_create_user_without_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.UserTestCase.test_create_user_without_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试创建没有email字段的用户是否抛出异常</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.UserTestCase.test_user_can_be_created">
+<code class="descname">test_user_can_be_created</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#UserTestCase.test_user_can_be_created"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.UserTestCase.test_user_can_be_created" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试user对象是否能正确被创建</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.UserTestCase.test_user_default_values">
+<code class="descname">test_user_default_values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#UserTestCase.test_user_default_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.UserTestCase.test_user_default_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试user用户的默认值</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.UserTestCase.test_user_get_name">
+<code class="descname">test_user_get_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#UserTestCase.test_user_get_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.UserTestCase.test_user_get_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试继承的get_full_name()和get_short_name()函数是否能正确工作</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="api.test_models.UserTestCase.test_user_reset_password">
+<code class="descname">test_user_reset_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_models.html#UserTestCase.test_user_reset_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_models.UserTestCase.test_user_reset_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>测试user用户修改密码操作</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api_utils.html" class="btn btn-neutral float-right" title="工具包" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="仨瓜俩枣小组" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Group Sagualiazao.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

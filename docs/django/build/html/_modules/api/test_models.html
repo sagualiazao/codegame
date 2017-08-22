@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>api.test_models &mdash; Code Game 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Code Game 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Code Game
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../data_models.html">数据库模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_utils.html">工具包</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../apis.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Code Game</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>api.test_models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for api.test_models</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding=utf-8</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">对数据模型进行单元测试的测试文件</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">django.test</span> <span class="k">import</span> <span class="n">TestCase</span>
+<span class="kn">from</span> <span class="nn">api.models</span> <span class="k">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">GameLevels</span><span class="p">,</span> <span class="n">DesignedMaps</span><span class="p">,</span> <span class="n">FavoriteMaps</span>
+
+
+<div class="viewcode-block" id="UserTestCase"><a class="viewcode-back" href="../../data_models.html#api.test_models.UserTestCase">[docs]</a><span class="k">class</span> <span class="nc">UserTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    测试User模型</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="UserTestCase.setUp"><a class="viewcode-back" href="../../data_models.html#api.test_models.UserTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tom@123.com&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">,</span> <span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
+        <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;jerry@123.com&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;就是汉字密码&#39;</span><span class="p">,</span> <span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;杰瑞&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UserTestCase.test_user_can_be_created"><a class="viewcode-back" href="../../data_models.html#api.test_models.UserTestCase.test_user_can_be_created">[docs]</a>    <span class="k">def</span> <span class="nf">test_user_can_be_created</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试user对象是否能正确被创建</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tom</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tom@123.com&#39;</span><span class="p">)</span>
+        <span class="n">jerry</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;jerry@123.com&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tom</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">jerry</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">tom</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="s1">&#39;123456&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">jerry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="s1">&#39;就是汉字密码&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">tom</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nickname</span><span class="p">,</span> <span class="s1">&#39;Tom&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">jerry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nickname</span><span class="p">,</span> <span class="s1">&#39;杰瑞&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UserTestCase.test_user_get_name"><a class="viewcode-back" href="../../data_models.html#api.test_models.UserTestCase.test_user_get_name">[docs]</a>    <span class="k">def</span> <span class="nf">test_user_get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试继承的get_full_name()和get_short_name()函数是否能正确工作</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tom</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tom@123.com&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">tom</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_full_name</span><span class="p">(),</span> <span class="s1">&#39;tom@123.com&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">tom</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_short_name</span><span class="p">(),</span> <span class="s1">&#39;tom@123.com&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UserTestCase.test_create_user_without_email"><a class="viewcode-back" href="../../data_models.html#api.test_models.UserTestCase.test_create_user_without_email">[docs]</a>    <span class="k">def</span> <span class="nf">test_create_user_without_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试创建没有email字段的用户是否抛出异常</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">,</span> <span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;Tom&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UserTestCase.test_user_default_values"><a class="viewcode-back" href="../../data_models.html#api.test_models.UserTestCase.test_user_default_values">[docs]</a>    <span class="k">def</span> <span class="nf">test_user_default_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试user用户的默认值</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tom</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tom@123.com&#39;</span><span class="p">)</span>
+        <span class="n">jerry</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;jerry@123.com&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">tom</span><span class="o">.</span><span class="n">has_paied</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">jerry</span><span class="o">.</span><span class="n">has_paied</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">tom</span><span class="o">.</span><span class="n">game_progress</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">jerry</span><span class="o">.</span><span class="n">game_progress</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="UserTestCase.test_user_reset_password"><a class="viewcode-back" href="../../data_models.html#api.test_models.UserTestCase.test_user_reset_password">[docs]</a>    <span class="k">def</span> <span class="nf">test_user_reset_password</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试user用户修改密码操作</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tom</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;tom@123.com&#39;</span><span class="p">)</span>
+        <span class="n">jerry</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;jerry@123.com&#39;</span><span class="p">)</span>
+        <span class="n">tom</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="s1">&#39;654321&#39;</span><span class="p">)</span>
+        <span class="n">jerry</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="s1">&#39;新的汉字密码&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">tom</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="s1">&#39;654321&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">jerry</span><span class="o">.</span><span class="n">check_password</span><span class="p">(</span><span class="s1">&#39;新的汉字密码&#39;</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="GameLevelsTestCase"><a class="viewcode-back" href="../../data_models.html#api.test_models.GameLevelsTestCase">[docs]</a><span class="k">class</span> <span class="nc">GameLevelsTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    测试GameLevels模型</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="GameLevelsTestCase.setUp"><a class="viewcode-back" href="../../data_models.html#api.test_models.GameLevelsTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">GameLevels</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">map_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="nb">map</span><span class="o">=</span><span class="s1">&#39;0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000&#39;</span><span class="p">,</span>
+            <span class="n">tips</span><span class="o">=</span><span class="s1">&#39;XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！&#39;</span><span class="p">,</span>
+            <span class="n">codes</span><span class="o">=</span><span class="s1">&#39;go(3)&#39;</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;XXX要回家&#39;</span>
+        <span class="p">)</span>
+        <span class="n">GameLevels</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">map_id</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="nb">map</span><span class="o">=</span><span class="s1">&#39;0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000&#39;</span><span class="p">,</span>
+            <span class="n">tips</span><span class="o">=</span><span class="s1">&#39;XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！&#39;</span><span class="p">,</span>
+            <span class="n">codes</span><span class="o">=</span><span class="s1">&#39;go(3)&#39;</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;XXX要回家2&#39;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="GameLevelsTestCase.test_game_level_can_be_created"><a class="viewcode-back" href="../../data_models.html#api.test_models.GameLevelsTestCase.test_game_level_can_be_created">[docs]</a>    <span class="k">def</span> <span class="nf">test_game_level_can_be_created</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试GameLevels对象是否能被正确创建</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">level_one</span> <span class="o">=</span> <span class="n">GameLevels</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">map_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">level_two</span> <span class="o">=</span> <span class="n">GameLevels</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">map_id</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_one</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="s1">&#39;0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_two</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="s1">&#39;0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_one</span><span class="o">.</span><span class="n">tips</span><span class="p">,</span> <span class="s1">&#39;XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_two</span><span class="o">.</span><span class="n">tips</span><span class="p">,</span> <span class="s1">&#39;XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_one</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span> <span class="s1">&#39;go(3)&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_two</span><span class="o">.</span><span class="n">codes</span><span class="p">,</span> <span class="s1">&#39;go(3)&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_one</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="s1">&#39;[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_two</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="s1">&#39;[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_one</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;XXX要回家&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">level_two</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;XXX要回家2&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DesignedMapsTestCase"><a class="viewcode-back" href="../../data_models.html#api.test_models.DesignedMapsTestCase">[docs]</a><span class="k">class</span> <span class="nc">DesignedMapsTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    测试DesignedMaps对象</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DesignedMapsTestCase.setUp"><a class="viewcode-back" href="../../data_models.html#api.test_models.DesignedMapsTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;author@123.com&#39;</span><span class="p">,</span> <span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">)</span>
+        <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="nb">map</span><span class="o">=</span><span class="s1">&#39;111111&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;new map&#39;</span><span class="p">,</span>
+            <span class="n">remarks</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+            <span class="n">author</span><span class="o">=</span><span class="n">author</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DesignedMapsTestCase.test_designed_maps_can_be_created"><a class="viewcode-back" href="../../data_models.html#api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_created">[docs]</a>    <span class="k">def</span> <span class="nf">test_designed_maps_can_be_created</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试DesignedMaps对象是否能被正确创建</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;author@123.com&#39;</span><span class="p">)</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">map_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">map_one</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="s1">&#39;111111&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">map_one</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;new map&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">map_one</span><span class="o">.</span><span class="n">remarks</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">map_one</span><span class="o">.</span><span class="n">author</span><span class="p">,</span> <span class="n">author</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">map_one</span><span class="o">.</span><span class="n">is_published</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DesignedMapsTestCase.test_designed_maps_can_be_published"><a class="viewcode-back" href="../../data_models.html#api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_published">[docs]</a>    <span class="k">def</span> <span class="nf">test_designed_maps_can_be_published</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试DesignedMaps对象使用publish()函数是否正常</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">map_one</span><span class="o">.</span><span class="n">publish</span><span class="p">()</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">map_one</span><span class="o">.</span><span class="n">is_published</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DesignedMapsTestCase.test_designed_maps_can_cancel_publish"><a class="viewcode-back" href="../../data_models.html#api.test_models.DesignedMapsTestCase.test_designed_maps_can_cancel_publish">[docs]</a>    <span class="k">def</span> <span class="nf">test_designed_maps_can_cancel_publish</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试DesignedMaps对象使用cancel_publish()函数是否正常</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">map_one</span><span class="o">.</span><span class="n">is_published</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">map_one</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">map_one</span><span class="o">.</span><span class="n">cancel_publish</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="n">map_one</span><span class="o">.</span><span class="n">is_published</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DesignedMapsTestCase.test_designed_maps_can_be_deleted"><a class="viewcode-back" href="../../data_models.html#api.test_models.DesignedMapsTestCase.test_designed_maps_can_be_deleted">[docs]</a>    <span class="k">def</span> <span class="nf">test_designed_maps_can_be_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试DesignedMaps对象被删除是否正常</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">map_one</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">map_one</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="FavoriteMapsTestCase"><a class="viewcode-back" href="../../data_models.html#api.test_models.FavoriteMapsTestCase">[docs]</a><span class="k">class</span> <span class="nc">FavoriteMapsTestCase</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试FavoriteMaps对象</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FavoriteMapsTestCase.setUp"><a class="viewcode-back" href="../../data_models.html#api.test_models.FavoriteMapsTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">author</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;author@123.com&#39;</span><span class="p">,</span> <span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">)</span>
+        <span class="n">player</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;player@123.com&#39;</span><span class="p">,</span> <span class="n">nickname</span><span class="o">=</span><span class="s1">&#39;player&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">)</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="nb">map</span><span class="o">=</span><span class="s1">&#39;111111&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;new map&#39;</span><span class="p">,</span>
+            <span class="n">remarks</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+            <span class="n">author</span><span class="o">=</span><span class="n">author</span>
+        <span class="p">)</span>
+        <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">player</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="n">map_one</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FavoriteMapsTestCase.test_favorite_maps_can_be_created"><a class="viewcode-back" href="../../data_models.html#api.test_models.FavoriteMapsTestCase.test_favorite_maps_can_be_created">[docs]</a>    <span class="k">def</span> <span class="nf">test_favorite_maps_can_be_created</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试FavoriteMaps对象是否能正确被创建</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">favorite</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">player</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="s1">&#39;player@123.com&#39;</span><span class="p">)</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">favorite</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">favorite</span><span class="o">.</span><span class="n">map</span><span class="p">,</span> <span class="n">map_one</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FavoriteMapsTestCase.test_favorite_maps_can_be_deleted"><a class="viewcode-back" href="../../data_models.html#api.test_models.FavoriteMapsTestCase.test_favorite_maps_can_be_deleted">[docs]</a>    <span class="k">def</span> <span class="nf">test_favorite_maps_can_be_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试DesignedMaps对象被删除是否正常</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">favorite</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">favorite</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">favorite</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">favorite</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FavoriteMapsTestCase.test_delete_designed_maps_can_remove_favorite_maps"><a class="viewcode-back" href="../../data_models.html#api.test_models.FavoriteMapsTestCase.test_delete_designed_maps_can_remove_favorite_maps">[docs]</a>    <span class="k">def</span> <span class="nf">test_delete_designed_maps_can_remove_favorite_maps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        测试删除DesignedMaps对象是否会导致相关的FavoriteMaps被删除</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">map_one</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="n">map_one</span> <span class="o">=</span> <span class="n">DesignedMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">map_one</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">favorite</span> <span class="o">=</span> <span class="n">FavoriteMaps</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">favorite</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Group Sagualiazao.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

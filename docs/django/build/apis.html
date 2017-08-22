@@ -1,0 +1,1470 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API &mdash; Code Game 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Code Game 0.1 documentation" href="index.html"/>
+        <link rel="prev" title="工具包" href="api_utils.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Code Game
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="data_models.html">数据库模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_utils.html">工具包</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-api.test_apis">API测试</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Code Game</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/apis.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="module-api.views">
+<span id="api"></span><h1>API<a class="headerlink" href="#module-api.views" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="api.views.change_favorite_map">
+<code class="descclassname">api.views.</code><code class="descname">change_favorite_map</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#change_favorite_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.change_favorite_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>修改地图收藏状态</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/change-favorite-map’的POST请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">修改失败‘0’,修改成功‘1’</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.change_nickname">
+<code class="descclassname">api.views.</code><code class="descname">change_nickname</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#change_nickname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.change_nickname" title="Permalink to this definition">¶</a></dt>
+<dd><p>修改昵称</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/change-nickname’的POST请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">修改失败‘0’,修改成功‘1’</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.change_progress">
+<code class="descclassname">api.views.</code><code class="descname">change_progress</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#change_progress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.change_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p>修改昵称</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/change-progress’的POST请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">修改失败‘0’,修改成功‘1’</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.change_publish_status">
+<code class="descclassname">api.views.</code><code class="descname">change_publish_status</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#change_publish_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.change_publish_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>修改地图发布状态</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/change-publish’的POST请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">修改失败‘0’,修改成功‘1’</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.check_email">
+<code class="descclassname">api.views.</code><code class="descname">check_email</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#check_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.check_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>检验邮箱是否已被注册</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/check-email’的GET请求</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body"><ul class="first last simple">
+<li>未被注册‘0’, 已被注册‘1’</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个GET请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.check_email_captcha">
+<code class="descclassname">api.views.</code><code class="descname">check_email_captcha</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#check_email_captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.check_email_captcha" title="Permalink to this definition">¶</a></dt>
+<dd><p>建议输入的邮件验证码是否正确</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/check-email’的GET请求</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">未被注册‘0’, 已被注册‘1’</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个GET请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.delete_map">
+<code class="descclassname">api.views.</code><code class="descname">delete_map</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#delete_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.delete_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>删除地图</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/delete-map’的POST请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">修改失败‘0’,修改成功‘1’</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.get_captcha">
+<code class="descclassname">api.views.</code><code class="descname">get_captcha</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#get_captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.get_captcha" title="Permalink to this definition">¶</a></dt>
+<dd><p>向web前端发送图片验证码</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/captcha’的GET请求</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘img’:</th><td class="field-body">图片验证码的base64编码</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘capthca’:</th><td class="field-body">验证码的小写字符串</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个GET请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.login">
+<code class="descclassname">api.views.</code><code class="descname">login</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.login" title="Permalink to this definition">¶</a></dt>
+<dd><p>登录</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/login’的POST请求或GET请求</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body"><p class="first">登录失败‘0’, 登录成功‘1’</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘email’:</th><td class="field-body"><p class="first">用户的电子邮件</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘nickname’:</th><td class="field-body"><p class="first">用户的昵称</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘id’:</th><td class="field-body"><ul class="first simple">
+<li>用户的id</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘gameProgress’:</th><td class="field-body"><p class="first">用户的游戏进度</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘hasPaied’:</th><td class="field-body"><p class="first last">用户是否已经付费</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个POSTGET请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.logout">
+<code class="descclassname">api.views.</code><code class="descname">logout</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#logout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.logout" title="Permalink to this definition">¶</a></dt>
+<dd><p>注销</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/logout’的GET请求</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">注销失败‘0’, 注销成功‘1’</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个GET请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.pay">
+<code class="descclassname">api.views.</code><code class="descname">pay</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#pay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.pay" title="Permalink to this definition">¶</a></dt>
+<dd><p>发送支付请求</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/pay’的GET请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">发送支付请求失败‘0’,发送成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘url’:</th><td class="field-body">成功发送支付请求打开的页面</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.read_favorite_map_list">
+<code class="descclassname">api.views.</code><code class="descname">read_favorite_map_list</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#read_favorite_map_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.read_favorite_map_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>读取用户收藏的地图列表</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/read-favorite-map-list’的GET请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">读取失败‘0’,读取成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘data’:</th><td class="field-body">读取的地图信息列表</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.read_level">
+<code class="descclassname">api.views.</code><code class="descname">read_level</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#read_level"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.read_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>读取系统关卡</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/read-level’的GET请求</td>
+</tr>
+<tr class="field-even field"><th class="field-name">mapid:</th><td class="field-body">要读取的level的id</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">读取失败‘0’, 读取成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘map’:</th><td class="field-body">地图字符串</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘name’:</th><td class="field-body">地图名</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘remarks’:</th><td class="field-body">地图说明</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘author’:</th><td class="field-body">地图作者</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘is_published’:</th><td class="field-body">地图发布状态</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个GET请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.read_map">
+<code class="descclassname">api.views.</code><code class="descname">read_map</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#read_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.read_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>读取用户编辑的地图</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/read-map’的GET请求</td>
+</tr>
+<tr class="field-even field"><th class="field-name">mapid:</th><td class="field-body">要读取的map的id</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">读取失败‘0’, 读取成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘map’:</th><td class="field-body">地图字符串</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘name’:</th><td class="field-body">地图名</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘remarks’:</th><td class="field-body">地图说明</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">‘author’:</th><td class="field-body">地图作者</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘is_published’:</th><td class="field-body">地图发布状态</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个GET请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.read_map_list">
+<code class="descclassname">api.views.</code><code class="descname">read_map_list</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#read_map_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.read_map_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>读取地图广场</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/read-map-list’的GET请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">读取失败‘0’,读取成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘data’:</th><td class="field-body">读取的地图信息列表</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.read_my_map_list">
+<code class="descclassname">api.views.</code><code class="descname">read_my_map_list</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#read_my_map_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.read_my_map_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>读取用户的地图</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/read-my-map-list’的GET请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">读取失败‘0’,读取成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘data’:</th><td class="field-body">读取的地图信息列表</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.read_published_map_list">
+<code class="descclassname">api.views.</code><code class="descname">read_published_map_list</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#read_published_map_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.read_published_map_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>读取用户制作的地图列表</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/read-published-map-list’的GET请求,需要服务器保存session信息(已登录)才能访问</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">读取失败‘0’,读取成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘data’:</th><td class="field-body">读取的地图信息列表</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.register">
+<code class="descclassname">api.views.</code><code class="descname">register</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>执行注册用户操作</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/register’的POST请求</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">注册失败‘0’, 注册成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘capthca’:</th><td class="field-body">验证码的小写字符串</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个POST请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.reset_password">
+<code class="descclassname">api.views.</code><code class="descname">reset_password</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#reset_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.reset_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>重置密码</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/reset-password’的POST请求</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">修改失败‘0’, 修改成功‘1’</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个POST请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.reset_password_email">
+<code class="descclassname">api.views.</code><code class="descname">reset_password_email</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#reset_password_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.reset_password_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>发送重置密码的邮件验证码</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/reset-password-email’的POST请求</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">发送失败‘0’, 发送成功‘1’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">‘capthca’:</th><td class="field-body">验证码的小写字符串</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个POST请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="api.views.save_map">
+<code class="descclassname">api.views.</code><code class="descname">save_map</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/views.html#save_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.views.save_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>保存用户编辑的地图</p>
+<dl class="docutils">
+<dt>Parameters:</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">request:</th><td class="field-body">指向’/api/save-map’的POST请求</td>
+</tr>
+<tr class="field-even field"><th class="field-name">mapString:</th><td class="field-body">要存储的地图信息</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">name:</th><td class="field-body">地图的名称</td>
+</tr>
+<tr class="field-even field"><th class="field-name">remarks:</th><td class="field-body">地图的说明</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>Returns:</dt>
+<dd><p class="first">JsonResponse:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">‘status’:</th><td class="field-body">保存失败‘0’, 保存成功‘1’</td>
+</tr>
+</tbody>
+</table>
+<p class="last">HttpResponseNotFound(): 如果request不是一个POST请求</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="section" id="module-api.test_apis">
+<span id="id1"></span><h2>API测试<a class="headerlink" href="#module-api.test_apis" title="Permalink to this headline">¶</a></h2>
+<p>对views中的服务端api进行单元测试</p>
+<dl class="class">
+<dt id="api.test_apis.ChangeNicknameTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ChangeNicknameTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ChangeNicknameTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ChangeNicknameTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对修改昵称功能进行测试,当用户发送的请求包含完整规范的信息时,成功修改昵称,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ChangeNicknameTestCase.test_change_nickname">
+<code class="descname">test_change_nickname</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ChangeNicknameTestCase.test_change_nickname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ChangeNicknameTestCase.test_change_nickname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ChangePublishStatus">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ChangePublishStatus</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ChangePublishStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ChangePublishStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对修改发布状态功能进行测试,当用户发送的请求包含完整规范的信息时,成功修改发布状态,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ChangePublishStatus.test_change_publish_status">
+<code class="descname">test_change_publish_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ChangePublishStatus.test_change_publish_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ChangePublishStatus.test_change_publish_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.CheckEmailCaptchaTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">CheckEmailCaptchaTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailCaptchaTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailCaptchaTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对检验验证码功能进行测试,当验证码正确时返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.CheckEmailCaptchaTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailCaptchaTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailCaptchaTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.CheckEmailCaptchaTestCase.test_check_email_captcha_false">
+<code class="descname">test_check_email_captcha_false</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailCaptchaTestCase.test_check_email_captcha_false"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailCaptchaTestCase.test_check_email_captcha_false" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.CheckEmailCaptchaTestCase.test_check_email_captcha_post_method">
+<code class="descname">test_check_email_captcha_post_method</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailCaptchaTestCase.test_check_email_captcha_post_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailCaptchaTestCase.test_check_email_captcha_post_method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.CheckEmailCaptchaTestCase.test_check_email_captcha_true">
+<code class="descname">test_check_email_captcha_true</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailCaptchaTestCase.test_check_email_captcha_true"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailCaptchaTestCase.test_check_email_captcha_true" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.CheckEmailCaptchaTestCase.test_check_email_captcha_without_sesion">
+<code class="descname">test_check_email_captcha_without_sesion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailCaptchaTestCase.test_check_email_captcha_without_sesion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailCaptchaTestCase.test_check_email_captcha_without_sesion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.CheckEmailTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">CheckEmailTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对邮箱查重功能进行测试,当用户检验的邮箱已经被注册时,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.CheckEmailTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.CheckEmailTestCase.test_check_email_post_request">
+<code class="descname">test_check_email_post_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailTestCase.test_check_email_post_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailTestCase.test_check_email_post_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.CheckEmailTestCase.test_check_email_unused">
+<code class="descname">test_check_email_unused</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailTestCase.test_check_email_unused"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailTestCase.test_check_email_unused" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.CheckEmailTestCase.test_check_email_used">
+<code class="descname">test_check_email_used</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailTestCase.test_check_email_used"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailTestCase.test_check_email_used" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.CheckEmailTestCase.test_check_email_without_mail">
+<code class="descname">test_check_email_without_mail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#CheckEmailTestCase.test_check_email_without_mail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.CheckEmailTestCase.test_check_email_without_mail" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.DeleteMapTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">DeleteMapTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#DeleteMapTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.DeleteMapTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对删除地图功能进行测试,当用户发送的请求包含完整规范的信息时,成功删除地图,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.DeleteMapTestCase.test_delete_map">
+<code class="descname">test_delete_map</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#DeleteMapTestCase.test_delete_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.DeleteMapTestCase.test_delete_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.GetCaptchaTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">GetCaptchaTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#GetCaptchaTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.GetCaptchaTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对生成验证码函数进行测试,预期得到指定长度的验证码</p>
+<dl class="method">
+<dt id="api.test_apis.GetCaptchaTestCase.test_get_captcha_get_request">
+<code class="descname">test_get_captcha_get_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#GetCaptchaTestCase.test_get_captcha_get_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.GetCaptchaTestCase.test_get_captcha_get_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.GetCaptchaTestCase.test_get_captcha_post_request">
+<code class="descname">test_get_captcha_post_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#GetCaptchaTestCase.test_get_captcha_post_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.GetCaptchaTestCase.test_get_captcha_post_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.LoginTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">LoginTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对登录功能进行测试,当用户发送的请求包含完整规范正确的信息或本地有cookie时,成功登录,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_get_with_session">
+<code class="descname">test_login_get_with_session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_get_with_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_get_with_session" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_get_without_session">
+<code class="descname">test_login_get_without_session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_get_without_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_get_without_session" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_not_exist_user">
+<code class="descname">test_login_not_exist_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_not_exist_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_not_exist_user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_not_with_wrong_crypted_password">
+<code class="descname">test_login_not_with_wrong_crypted_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_not_with_wrong_crypted_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_not_with_wrong_crypted_password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_not_with_wrong_password">
+<code class="descname">test_login_not_with_wrong_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_not_with_wrong_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_not_with_wrong_password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_not_without_captcha">
+<code class="descname">test_login_not_without_captcha</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_not_without_captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_not_without_captcha" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_not_without_email">
+<code class="descname">test_login_not_without_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_not_without_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_not_without_email" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_not_without_password">
+<code class="descname">test_login_not_without_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_not_without_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_not_without_password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_other_method">
+<code class="descname">test_login_other_method</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_other_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_other_method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_post_success">
+<code class="descname">test_login_post_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_post_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_post_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LoginTestCase.test_login_post_without_body">
+<code class="descname">test_login_post_without_body</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LoginTestCase.test_login_post_without_body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LoginTestCase.test_login_post_without_body" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.LogoutTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">LogoutTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LogoutTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LogoutTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对注销功能进行测试,成功注销返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.LogoutTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LogoutTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LogoutTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LogoutTestCase.test_logout_post_request">
+<code class="descname">test_logout_post_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LogoutTestCase.test_logout_post_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LogoutTestCase.test_logout_post_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LogoutTestCase.test_logout_success">
+<code class="descname">test_logout_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LogoutTestCase.test_logout_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LogoutTestCase.test_logout_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.LogoutTestCase.test_logout_without_session">
+<code class="descname">test_logout_without_session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#LogoutTestCase.test_logout_without_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.LogoutTestCase.test_logout_without_session" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ModifySessionMixin">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ModifySessionMixin</code><a class="reference internal" href="_modules/api/test_apis.html#ModifySessionMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ModifySessionMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>支持test模拟session功能的基类</p>
+<dl class="attribute">
+<dt id="api.test_apis.ModifySessionMixin.client">
+<code class="descname">client</code><em class="property"> = &lt;django.test.client.Client object&gt;</em><a class="headerlink" href="#api.test_apis.ModifySessionMixin.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ModifySessionMixin.create_session">
+<code class="descname">create_session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ModifySessionMixin.create_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ModifySessionMixin.create_session" title="Permalink to this definition">¶</a></dt>
+<dd><p>为当前类创建模拟session功能</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.PayTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">PayTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#PayTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.PayTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对支付功能进行测试,成功弹窗返回‘1’和url,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.PayTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#PayTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.PayTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.PayTestCase.test_pauy_post_method">
+<code class="descname">test_pauy_post_method</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#PayTestCase.test_pauy_post_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.PayTestCase.test_pauy_post_method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.PayTestCase.test_pay_get_success">
+<code class="descname">test_pay_get_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#PayTestCase.test_pay_get_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.PayTestCase.test_pay_get_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.PayTestCase.test_pay_without_session">
+<code class="descname">test_pay_without_session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#PayTestCase.test_pay_without_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.PayTestCase.test_pay_without_session" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ReadFavoriteMapListTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ReadFavoriteMapListTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadFavoriteMapListTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadFavoriteMapListTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对读取收藏地图功能进行测试,当用户发送的请求包含完整规范的信息时,成功读取收藏的地图,返回‘1’和关卡列表,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ReadFavoriteMapListTestCase.test_read_favorite_map_list">
+<code class="descname">test_read_favorite_map_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadFavoriteMapListTestCase.test_read_favorite_map_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadFavoriteMapListTestCase.test_read_favorite_map_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ReadLevelTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ReadLevelTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadLevelTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadLevelTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对读取关卡功能进行测试,当用户发送的请求包含完整规范的信息时,成功读取关卡,返回‘1’和关卡信息,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ReadLevelTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadLevelTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadLevelTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadLevelTestCase.test_read_level_get_success">
+<code class="descname">test_read_level_get_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadLevelTestCase.test_read_level_get_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadLevelTestCase.test_read_level_get_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadLevelTestCase.test_read_level_not_exist">
+<code class="descname">test_read_level_not_exist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadLevelTestCase.test_read_level_not_exist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadLevelTestCase.test_read_level_not_exist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ReadMapListTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ReadMapListTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapListTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapListTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对读取关卡广场功能进行测试,当用户发送的请求包含完整规范的信息时,成功读取关卡广场,返回‘1’和关卡列表,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ReadMapListTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapListTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapListTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadMapListTestCase.test_read_map_list_get_success">
+<code class="descname">test_read_map_list_get_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapListTestCase.test_read_map_list_get_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapListTestCase.test_read_map_list_get_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadMapListTestCase.test_read_map_list_without_maps">
+<code class="descname">test_read_map_list_without_maps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapListTestCase.test_read_map_list_without_maps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapListTestCase.test_read_map_list_without_maps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ReadMapTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ReadMapTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对读取地图功能进行测试,当用户发送的请求包含完整规范的信息时,成功读取地图,返回‘1’和地图信息,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ReadMapTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadMapTestCase.test_get_map_not_exist">
+<code class="descname">test_get_map_not_exist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapTestCase.test_get_map_not_exist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapTestCase.test_get_map_not_exist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadMapTestCase.test_get_map_success">
+<code class="descname">test_get_map_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapTestCase.test_get_map_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapTestCase.test_get_map_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadMapTestCase.test_get_map_without_map_id">
+<code class="descname">test_get_map_without_map_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapTestCase.test_get_map_without_map_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapTestCase.test_get_map_without_map_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadMapTestCase.test_read_map_post_method">
+<code class="descname">test_read_map_post_method</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMapTestCase.test_read_map_post_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMapTestCase.test_read_map_post_method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ReadMyMapList">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ReadMyMapList</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMyMapList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMyMapList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对读取我的关卡功能进行测试,当用户发送的请求包含完整规范的信息时,成功读取我的关卡,返回‘1’和关卡列表,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ReadMyMapList.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMyMapList.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMyMapList.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadMyMapList.test_read_my_map_list_get_success">
+<code class="descname">test_read_my_map_list_get_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMyMapList.test_read_my_map_list_get_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMyMapList.test_read_my_map_list_get_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ReadMyMapList.test_read_my_map_list_without_maps">
+<code class="descname">test_read_my_map_list_without_maps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadMyMapList.test_read_my_map_list_without_maps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadMyMapList.test_read_my_map_list_without_maps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ReadPublishedMapListTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ReadPublishedMapListTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadPublishedMapListTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadPublishedMapListTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对读取我发布的地图功能进行测试,当用户发送的请求包含完整规范的信息时,成功读取我发布的地图,返回‘1’和关卡列表,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ReadPublishedMapListTestCase.test_read_published_map_list">
+<code class="descname">test_read_published_map_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ReadPublishedMapListTestCase.test_read_published_map_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ReadPublishedMapListTestCase.test_read_published_map_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.RegisterTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">RegisterTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对注册功能进行测试,当用户发送的请求包含完整规范的信息时,成功注册用户,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_get_request">
+<code class="descname">test_register_get_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_get_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_get_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_repeated_email">
+<code class="descname">test_register_repeated_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_repeated_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_repeated_email" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_success">
+<code class="descname">test_register_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_with_wrong_crypted_password">
+<code class="descname">test_register_with_wrong_crypted_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_with_wrong_crypted_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_with_wrong_crypted_password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_with_wrong_email_format">
+<code class="descname">test_register_with_wrong_email_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_with_wrong_email_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_with_wrong_email_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_without_body">
+<code class="descname">test_register_without_body</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_without_body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_without_body" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_without_captcha">
+<code class="descname">test_register_without_captcha</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_without_captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_without_captcha" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_without_email">
+<code class="descname">test_register_without_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_without_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_without_email" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_without_nickname">
+<code class="descname">test_register_without_nickname</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_without_nickname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_without_nickname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.RegisterTestCase.test_register_without_password">
+<code class="descname">test_register_without_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#RegisterTestCase.test_register_without_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.RegisterTestCase.test_register_without_password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ResetPasswordEmailTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ResetPasswordEmailTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordEmailTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordEmailTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对发送重置密码验证码功能进行测试,当用户发送的请求包含完整规范的信息时,成功发送邮件,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordEmailTestCase.test_reset_password_email_get_request">
+<code class="descname">test_reset_password_email_get_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordEmailTestCase.test_reset_password_email_get_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordEmailTestCase.test_reset_password_email_get_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordEmailTestCase.test_reset_password_email_not_exist_user">
+<code class="descname">test_reset_password_email_not_exist_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordEmailTestCase.test_reset_password_email_not_exist_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordEmailTestCase.test_reset_password_email_not_exist_user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordEmailTestCase.test_reset_password_email_success">
+<code class="descname">test_reset_password_email_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordEmailTestCase.test_reset_password_email_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordEmailTestCase.test_reset_password_email_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordEmailTestCase.test_reset_password_email_without_body">
+<code class="descname">test_reset_password_email_without_body</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordEmailTestCase.test_reset_password_email_without_body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordEmailTestCase.test_reset_password_email_without_body" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.ResetPasswordTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">ResetPasswordTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对重置密码功能进行测试,当用户发送的请求包含完整规范的信息时,成功重置密码,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordTestCase.test_reset_password_get_request">
+<code class="descname">test_reset_password_get_request</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase.test_reset_password_get_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase.test_reset_password_get_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordTestCase.test_reset_password_not_exist_user">
+<code class="descname">test_reset_password_not_exist_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase.test_reset_password_not_exist_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase.test_reset_password_not_exist_user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordTestCase.test_reset_password_success">
+<code class="descname">test_reset_password_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase.test_reset_password_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase.test_reset_password_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordTestCase.test_reset_password_with_wrong_crypted_password">
+<code class="descname">test_reset_password_with_wrong_crypted_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase.test_reset_password_with_wrong_crypted_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase.test_reset_password_with_wrong_crypted_password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordTestCase.test_reset_password_without_body">
+<code class="descname">test_reset_password_without_body</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase.test_reset_password_without_body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase.test_reset_password_without_body" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordTestCase.test_reset_password_without_captcha">
+<code class="descname">test_reset_password_without_captcha</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase.test_reset_password_without_captcha"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase.test_reset_password_without_captcha" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordTestCase.test_reset_password_without_email">
+<code class="descname">test_reset_password_without_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase.test_reset_password_without_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase.test_reset_password_without_email" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.ResetPasswordTestCase.test_reset_password_without_password">
+<code class="descname">test_reset_password_without_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#ResetPasswordTestCase.test_reset_password_without_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.ResetPasswordTestCase.test_reset_password_without_password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="api.test_apis.SaveMapTestCase">
+<em class="property">class </em><code class="descclassname">api.test_apis.</code><code class="descname">SaveMapTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#SaveMapTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.SaveMapTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#api.test_apis.ModifySessionMixin" title="api.test_apis.ModifySessionMixin"><code class="xref py py-class docutils literal"><span class="pre">api.test_apis.ModifySessionMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">django.test.testcases.TestCase</span></code></p>
+<p>对保存地图功能进行测试,当用户发送的请求包含完整规范的信息时,成功保存地图,返回‘1’,否则返回‘0’</p>
+<dl class="method">
+<dt id="api.test_apis.SaveMapTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#SaveMapTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.SaveMapTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.SaveMapTestCase.test_save_map_get_method">
+<code class="descname">test_save_map_get_method</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#SaveMapTestCase.test_save_map_get_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.SaveMapTestCase.test_save_map_get_method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.SaveMapTestCase.test_save_map_success">
+<code class="descname">test_save_map_success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#SaveMapTestCase.test_save_map_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.SaveMapTestCase.test_save_map_success" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.SaveMapTestCase.test_save_map_without_body">
+<code class="descname">test_save_map_without_body</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#SaveMapTestCase.test_save_map_without_body"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.SaveMapTestCase.test_save_map_without_body" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="api.test_apis.SaveMapTestCase.test_save_map_without_map_string">
+<code class="descname">test_save_map_without_map_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/api/test_apis.html#SaveMapTestCase.test_save_map_without_map_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#api.test_apis.SaveMapTestCase.test_save_map_without_map_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="api_utils.html" class="btn btn-neutral" title="工具包" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Group Sagualiazao.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
