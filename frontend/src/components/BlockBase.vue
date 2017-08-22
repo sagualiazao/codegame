@@ -31,7 +31,7 @@
         </div>
     </div>
     <el-dialog :tittle="$store.state.mapName" :visible.sync="gameTips">
-        <a>{{ $store.state.mapTips }}</a>
+        <a id="game-info">{{ $store.state.mapTips }}</a>
     </el-dialog>
 </div>
 </template>
@@ -1176,5 +1176,8 @@ export default {
     position: absolute;
     left: 40%;
     top: 30%;
+}
+#game-info {
+    white-space: pre;
 }
 </style>
