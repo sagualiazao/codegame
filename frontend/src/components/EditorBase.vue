@@ -32,6 +32,10 @@
             <button class="game-btn" id="fail-replay" @click="replaySingle()">重玩</button>
         </div>
     </div>
+    <el-dialog :visible.sync="gameTips">
+        <a>{{ $store.state.mapName }}</a>
+        <a>{{ $store.state.mapTips }}</a>
+    </el-dialog>
 </div>
 </template>
 
@@ -220,7 +224,8 @@ export default {
             * @type {Object}
             * @default {}
             */
-            whiteListConstData: require('../assets/js/white_list.js')
+            whiteListConstData: require('../assets/js/white_list.js'),
+            gameTips: false
         }
     },
     methods: {
@@ -999,6 +1004,7 @@ export default {
         this.jsEditor.setHighlightActiveLine(true)
         this.jsEditor.setValue('go(3)')
         this.jsEditor.resize()
+        this.gameTips = true
         this.init()
     }
 }
@@ -1020,8 +1026,7 @@ export default {
     width: 50%;
     height: 600px;
     padding: 10px;
-    border: solid 1px;
-    border-right: solid 3px;
+    border: solid 1.4px;
 }
 #game-canval {
     width: 100%;
@@ -1034,12 +1039,13 @@ export default {
     right: 1%;
     width: 48%;
     height: 600px;
+    border: solid 1.5px;
 }
 .tab-plugin .tab-container {
     position: absolute;
-    top: 10px;
-    left: 0;
-    width: 98%;
+    top: -0.5%;
+    left: -1.5%;
+    width: 99%;
     height: 540px;
     opacity: 1;
 }
@@ -1050,6 +1056,7 @@ export default {
     width: 100%;
     height: 525px;
     opacity: 1;
+    border-top: solid 1px;
 }
 .tab {
     position: absolute;
@@ -1063,11 +1070,11 @@ export default {
     border: solid 1px;
 }
 .block-tab {
-    left: 10px;
+    left: 0px;
     background: #D1EEEE;
 }
 .editor-tab {
-    left: 70px;
+    left: 60px;
     background: #FFEC8B;
 }
 .run-button {

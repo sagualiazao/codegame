@@ -30,6 +30,10 @@
             <button class="game-btn" id="fail-replay" @click="replaySingle()">重玩</button>
         </div>
     </div>
+    <el-dialog :visible.sync="gameTips">
+        <a>{{ $store.state.mapName }}</a>
+        <a>{{ $store.state.mapTips }}</a>
+    </el-dialog>
 </div>
 </template>
 
@@ -224,7 +228,8 @@ export default {
             * @property whiteListConstData
             * @type {Object}
             */
-            whiteListConstData: require('../assets/js/white_list.js')
+            whiteListConstData: require('../assets/js/white_list.js'),
+            gameTips: false
         }
     },
     methods: {
@@ -1039,6 +1044,7 @@ export default {
             }
         })
         this.workspace.addChangeListener(this.updateFunction)
+        this.gameTips = true
         this.init()
     }
 }
