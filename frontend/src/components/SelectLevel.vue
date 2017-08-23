@@ -89,11 +89,15 @@ export default {
             let response = await readMap(true, id)
             let obj = await response.json()
             if (await obj.status === '1') {
-                this.selectLevelDialog = false
                 this.$store.commit('changeMap', obj)
                 setCookie('levelMode', this.$store.state.levelMode.toString())
                 setCookie('mapId', this.$store.state.mapId.toString())
                 setCookie('mapString', this.$store.state.mapString)
+                setCookie('mapName', this.$store.state.mapName)
+                setCookie('mapTips', this.$store.state.mapTips)
+                setCookie('mapCodes', this.$store.state.mapCodes)
+                setCookie('mapMode', JSON.stringify(this.$store.state.mapMode))
+                setCookie('mapAuthor', this.$store.state.mapAuthor)
                 this.$router.push('/BlockBase')
             }
         },

@@ -38,8 +38,8 @@
             </button>
         </div>
     </div>
-    <el-dialog :title="$store.state.mapName" :visible.sync="gameTips">
-        <a class="game-info">{{ $store.state.mapTips }}</a>
+    <el-dialog :title="getCookie('mapName')" :visible.sync="gameTips">
+        <a class="game-info">{{ getCookie('mapTips') }}</a>
     </el-dialog>
 </div>
 </template>
@@ -462,6 +462,14 @@ export default {
             var levelMode = getCookie('levelMode')
             if (string === '') {
                 string = this.$store.state.mapString
+                setCookie('levelMode', this.$store.state.levelMode.toString())
+                setCookie('mapId', this.$store.state.mapId)
+                setCookie('mapString', this.$store.state.mapString)
+                setCookie('mapName', this.$store.state.mapName)
+                setCookie('mapTips', this.$store.state.mapTips)
+                setCookie('mapCodes', this.$store.state.mapCodes)
+                setCookie('mapMode', JSON.stringify(this.$store.state.mapMode))
+                setCookie('mapAuthor', this.$store.state.mapAuthor)
             } else {
                 if (getCookie('levelMode') === 'false') {
                     levelMode = false
@@ -1038,13 +1046,14 @@ export default {
         */
         chooseRightToolBox () {
             let toolBoxTest = ''
-            let currentMapId = this.$store.state.mapId
+            let currentMapId = getCookie('mapId')
             if (currentMapId > 10) {
                 toolBoxTest = this.toolBoxTextLibrary.toolBoxTextDefault
             } else {
                 let expression = 'this.toolBoxTextLibrary.toolBoxText' + currentMapId
                 toolBoxTest = eval(expression)
             }
+            this.workspace = null
             this.workspace = global.Blockly.inject('block-area', {
                 toolbox: toolBoxTest,
                 media: '../static/media/',
@@ -1072,7 +1081,7 @@ export default {
         */
         nextLevel: async function () {
             /* eslint no-eval: 0 */
-            let level = this.$store.state.mapId
+            let level = parseInt(getCookie('mapId'))
             if (level > this.$store.state.userGameProgress && this.$store.state.loginStatus) {
                 simplePost('/api/change-progress', {
                     progress: level
@@ -1087,12 +1096,23 @@ export default {
                 setCookie('levelMode', this.$store.state.levelMode.toString())
                 setCookie('mapId', this.$store.state.mapId.toString())
                 setCookie('mapString', this.$store.state.mapString)
+                setCookie('mapName', this.$store.state.mapName)
+                setCookie('mapTips', this.$store.state.mapTips)
+                setCookie('mapCodes', this.$store.state.mapCodes)
+                setCookie('mapMode', JSON.stringify(this.$store.state.mapMode))
+                setCookie('mapAuthor', this.$store.state.mapAuthor)
                 this.$store.commit('changeLevelPassModal', false)
-                this.init()
-                this.chooseRightToolBox()
-                this.workspace.addChangeListener(this.updateFunction)
-                this.cleanWorkspace()
+                this.gameTips = true
             }
+            // await this.chooseRightToolBox()
+            // this.workspace.addChangeListener(this.updateFunction)
+            // this.gameTips = true
+            // this.init()
+            // this.cleanWorkspace()
+            await this.$router.go(0)
+        },
+        getCookie (cname) {
+            return getCookie(cname)
         }
     },
     /**

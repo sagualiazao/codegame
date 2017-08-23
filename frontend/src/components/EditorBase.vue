@@ -40,8 +40,8 @@
             </button>
         </div>
     </div>
-    <el-dialog :title="$store.state.mapName" :visible.sync="gameTips">
-        <a class="game-info">{{ $store.state.mapTips }}</a>
+    <el-dialog :title="getCookie('mapName')" :visible.sync="gameTips">
+        <a class="game-info">{{ getCookie('mapTips') }}</a>
     </el-dialog>
 </div>
 </template>
@@ -434,8 +434,24 @@ export default {
         */
         read () {
             var string = getCookie('mapString')
+            var levelMode = getCookie('levelMode')
             if (string === '') {
                 string = this.$store.state.mapString
+                setCookie('levelMode', this.$store.state.levelMode.toString())
+                setCookie('mapId', this.$store.state.mapId)
+                setCookie('mapString', this.$store.state.mapString)
+                setCookie('mapName', this.$store.state.mapName)
+                setCookie('mapTips', this.$store.state.mapTips)
+                setCookie('mapCodes', this.$store.state.mapCodes)
+                setCookie('mapMode', JSON.stringify(this.$store.state.mapMode))
+                setCookie('mapAuthor', this.$store.state.mapAuthor)
+            } else {
+                if (getCookie('levelMode') === 'false') {
+                    levelMode = false
+                } else {
+                    levelMode = true
+                }
+                this.$store.commit('changeLevelMode', levelMode)
             }
             var k = 0
             var i
@@ -1007,7 +1023,10 @@ export default {
         */
         addCodeLibraryConstraint () {
             this.whiteListConstData.init()
-            let inactiveIndex = this.$store.state.mapMode
+            let inactiveIndex = []
+            if (getCookie('levelMode') !== 'false') {
+                inactiveIndex = JSON.parse(getCookie('mapMode'))
+            }
             for (let i = 0; i < inactiveIndex.length; i++) {
                 let indexX = inactiveIndex[i][0]
                 let indexY = inactiveIndex[i][1]
@@ -1020,10 +1039,11 @@ export default {
         */
         nextLevel: async function () {
             let level = this.$store.state.mapId
-            if (level > this.$store.state.userGameProgress) {
+            if (level > this.$store.state.userGameProgress && this.$store.state.loginStatus) {
                 simplePost('/api/change-progress', {
                     progress: level
                 })
+                this.$store.commit('changeUserGameProgress', level)
             }
             level = level + 1
             let response = await readMap(true, level)
@@ -1033,13 +1053,22 @@ export default {
                 setCookie('levelMode', this.$store.state.levelMode.toString())
                 setCookie('mapId', this.$store.state.mapId.toString())
                 setCookie('mapString', this.$store.state.mapString)
+                setCookie('mapName', this.$store.state.mapName)
+                setCookie('mapTips', this.$store.state.mapTips)
+                setCookie('mapCodes', this.$store.state.mapCodes)
+                setCookie('mapMode', JSON.stringify(this.$store.state.mapMode))
+                setCookie('mapAuthor', this.$store.state.mapAuthor)
                 this.$store.commit('changeLevelPassModal', false)
                 this.init()
                 // 代码库限制
                 this.addCodeLibraryConstraint()
                 // 代码提示
-                this.jsEditor.setValue(this.$store.state.mapCodes)
+                this.jsEditor.setValue(getCookie('mapCodes'))
+                this.gameTips = true
             }
+        },
+        getCookie (cname) {
+            return getCookie(cname)
         }
     },
     /**
@@ -1065,7 +1094,7 @@ export default {
         // 代码库限制
         this.addCodeLibraryConstraint()
         // 代码提示
-        this.jsEditor.setValue(this.$store.state.mapCodes)
+        this.jsEditor.setValue(getCookie('mapCodes'))
     }
 }
 </script>
