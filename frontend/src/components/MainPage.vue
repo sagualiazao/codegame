@@ -60,8 +60,8 @@ h1 {
     width: 100%;
     height: 600px;
     margin-top: -22px;
-    background: url(../assets/img/backg.jpg) center center no-repeat;
-    background-size: cover;
+    background: url(../assets/img/back7.jpg) center center no-repeat;
+    background-size: 100% 100%;
 }
 #intro {
     width: 100%;

@@ -281,7 +281,11 @@ export default {
 </script>
 
 <style scoped>
+.el-form {
+    width: 100%;
+}
 .send-ver {
-	margin-left: 100px;
+    width: 60%;
+	margin-left: 40%;
 }
 </style>

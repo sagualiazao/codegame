@@ -156,4 +156,8 @@ export default {
     padding-left: 200px;
     margin-bottom: 0px;
 }
+.el-form {
+    width: 100%;
+    height: 100%;
+}
 </style>

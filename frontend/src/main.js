@@ -1,10 +1,10 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
 import ElementUI from 'element-ui'
-import Router from 'vue-router'
 import 'element-ui/lib/theme-default/index.css'
+import App from './App'
+import Router from 'vue-router'
 import Blockly from './blockly'
 import MainPage from './components/MainPage'
 import SelectLevel from './components/SelectLevel'

@@ -563,7 +563,8 @@ canvas {
     border: ridge 2px #ADD8E6;
 }
 input, textarea {
-    border: ridge 2px #ADD8E6;
+    border: solid 1px #778899;
+    border-radius: 3px;
     width: 200px;
     vertical-align: middle;
 }
@@ -596,5 +597,11 @@ button:active {
     color: black;
     box-shadow: 3px 5px #333;
     transform: translateY(4px);
+}
+.map-editor {
+    background: url(../assets/img/back8.png);
+    background-position: 2% 3px;
+    background-size: 5%;
+    background-repeat: no-repeat;
 }
 </style>

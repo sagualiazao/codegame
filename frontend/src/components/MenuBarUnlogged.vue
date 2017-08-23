@@ -1,6 +1,6 @@
 <template>
 <div class="menu-bar-unlogged">
-    <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+    <el-menu theme="light" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
         <el-menu-item index="main-page">
             {{ $store.state._const.HOME_PAGE }}
         </el-menu-item>
@@ -93,14 +93,31 @@ export default {
 </script>
 
 <style>
-.el-dialog--tiny {
-    width: 400px;
+.el-dialog {
+    width: 30%;
+    height: auto;
+    background-image: url(../assets/img/border2.png);
+    background-position: 2% -38px;
+    /*background-position: 2% 50px;*/
+    background-size: 50%;
+    background-repeat: no-repeat;
+    border: 18px solid transparent;
+    /*border: 2px solid #888888;*/
+    border-radius:25px;
+    font-weight: 600;
+    background-color: #F0FFFF;
 }
 .el-menu {
     height: 60px;
-    color: #48D1CC;
-    font-size: 60px;
-    background-image: url(../assets/img/m1.png);
-    background-size: auto;
+    background-color: #FFFACD;
+    /*background-color: #E6E6FA;*/
+    font-size: 2em;
+    background-image: url(../assets/img/border2.png), url(../assets/img/back2.png);
+    background-repeat: no-repeat, no-repeat;
+    background-position: 85%, 95%;
+    background-size: 10% 100%, 10%;
+    border-bottom: 1px solid #F0E68C;
+    box-shadow: 2px 1px 3px #888888;
+
 }
 </style>
