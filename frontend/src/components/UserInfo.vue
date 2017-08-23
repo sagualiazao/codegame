@@ -6,14 +6,16 @@
     <div>
         <div class="base-info">
             <img src="../assets/img/h1.jpg" id="img-id">
-            <i class="el-icon-date"></i>
+            <i class="el-icon-time"></i>
             <span>
                 {{ $store.state._const.NICKNAME }}
             </span>
             <p>{{ this.$store.state.userNickName }}</p>
+            <i class="el-icon-edit"></i>
             <el-button type="text" @click="changeName()" :title="$store.state._const.CLICK_TO_CHANGE_NICKNAME">
                 {{ $store.state._const.CHANGE_NICKNAME }}
             </el-button><br>
+            <i class="el-icon-message"></i>
             <span>
                 {{ $store.state._const.EMAIL }}
             </span>
@@ -27,15 +29,18 @@
             </p>
         </div>
         <div class="game-info">
+            <i class="el-icon-check"></i>
             <span>
                 {{ $store.state._const.GAME_PROGRESS }}
             </span>
             <p>{{ finishedLevel }}</p>
+            <i class="el-icon-close"></i>
             <span>
                 {{ $store.state._const.REMAINED_LEVELS }}
             </span>
             <p>{{ remainedLevel }}</p>
         </div>
+        <i class="el-icon-edit"></i>
         <el-button type="text" @click="resetPasswordChange()" :title="$store.state._const.CLICK_TO_CHANGE_PASSWORD">
             {{ $store.state._const.RESET_PASSWORD }}
         </el-button>
@@ -169,18 +174,15 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 h1 {
     font-weight: normal;
     color: #A0522D;
     text-align: center;
+    margin-top: 70px;
 }
 .user-info {
     margin-top: -30px;
-    background: url(../assets/img/infobackgro1.png) no-repeat 0px center;
-    background-size: cover;
     width: 100%;
     text-align: justify;
 }
@@ -197,7 +199,8 @@ h2, p, span, i, input, .el-button {
 }
 span {
     font-size: 20px;
-    color: #FA2D6A;
+    color: 	#2F4F4F;
+    font-weight: 600;
 }
 p {
     font-size: 20px;
@@ -216,8 +219,6 @@ img {
     border-radius: 30px;
     border: 18px solid transparent;
     border-image: url(../assets/img/border10.png) 100 120 round;
-    /*border: 2px solid #708090;*/
-    /*margin-right: 600px;*/
     width: 35%;
 }
 #img-id {
@@ -237,5 +238,26 @@ img {
     from {background:#F0E6BC;}
     to {background:#7FFFD4;}
 }
-
+.el-icon-time, .el-icon-message, .el-icon-date {
+    color: #FA8072;
+}
+.el-icon-check, .el-icon-close {
+    color: #E9967A;
+}
+.el-icon-edit {
+    color: #FF8C00;
+}
+.el-dialog {
+    width: 30%;
+    height: auto;
+    background-image: url(../assets/img/border2.png);
+    background-position: 2% -38px;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    border: 18px solid transparent;
+    border-radius:25px;
+    font-weight: 600;
+    /*background-color: #E6E6FA;*/
+    background-color: #F0FFFF;
+}
 </style>

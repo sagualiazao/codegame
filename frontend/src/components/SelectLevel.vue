@@ -5,7 +5,7 @@
             {{ $store.state._const.CONTINUE_GAME }}
         </button>
     </div>
-    <el-dialog :title="$store.state._const.SELECT_LEVEL" :visible.sync="selectLevelDialog" size="tiny" :before-close="handleClose">
+    <el-dialog class="select-demo" :title="$store.state._const.SELECT_LEVEL" :visible.sync="selectLevelDialog" size="tiny" :before-close="handleClose">
         <el-button type="success" class="level-btn" @click="selectLevel(1)">1</el-button>
         <el-button type="success" class="level-btn" @click="selectLevel(2)">2</el-button>
         <el-button type="success" class="level-btn" @click="selectLevel(3)">3</el-button>
@@ -120,26 +120,44 @@ h1 {
 }
 #select-level {
     width: 100%;
-    height: 700px;
-    margin-top: -38px;
-    background: url(../assets/img/backg.jpg) center center no-repeat;
-    background-size: cover;
-}
-#continue-play {
-    width: 200px;
-    height: 60px;
-    border-radius: 50em;
-    border-width: 0px;
-    background-color: #8FBC8F;
-    font-size: 1.7em;
+    height: 600px;
+    margin-top: -22px;
+    background: url(../assets/img/back7.jpg) center center no-repeat;
+    background-size: 100% 100%;
+
 }
 #btn-container {
-    padding-top: 35%;
+    width: 40%;
+    height: 300px;
+    color: black;
+    border-radius: 1em;
+    position: absolute;
+    left: 32%;
+    top: 30%;
 }
-#progress {
-    padding-top: 15%;
+#continue-play {
+    width: 20%;
+    height: 20%;
+    margin-top: 100px;
+    border-radius: 10em;
+    border-width: 8px;
+    background-color: #FFE4E1;
+    border-color: #00FF7F;
+    cursor: pointer;
 }
 .level-btn {
     margin-top: 20px;
+}
+.el-dialog {
+    width: 20%;
+    height: auto;
+    background-image: url(../assets/img/back3.png);
+    background-position: -70px;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    border: 18px solid transparent;
+    border-radius:25px;
+    font-weight: 600;
+    background-color: #FFE4E1;
 }
 </style>
