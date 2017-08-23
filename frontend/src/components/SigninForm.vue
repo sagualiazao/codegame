@@ -96,7 +96,7 @@ export default {
                 if (valid) {
                     this.login()
                 } else {
-                    this.$message(this.$store.state._const.CHECK_FORM)
+                    alert(this.$store.state._const.CHECK_FORM)
                     return false
                 }
             })
@@ -125,7 +125,7 @@ export default {
             let response = await simplePost('api/login', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                this.$message(this.$store.state._const.LOGIN_SUCCESS)
+                alert(this.$store.state._const.LOGIN_SUCCESS)
                 this.$store.commit('changeLoginStatus', true)
                 this.$store.commit('changeUserEmail', obj.email)
                 this.$store.commit('changeUserId', obj.id)
@@ -137,7 +137,7 @@ export default {
                 this.$store.commit('changeMenu', 'menu-bar-logged')
                 this.$router.push('/' + 'SelectLevel')
             } else {
-                this.$message(this.$store.state._const.LOGIN_FAILURE)
+                alert(this.$store.state._const.LOGIN_FAILURE)
             }
         },
         /**
@@ -155,4 +155,14 @@ export default {
     padding-left: 200px;
     margin-bottom: 0px;
 }
+.el-form {
+    width: 100%;
+    height: 100%;
+}
+/*.form-forget-password-item, .el-input, .form-commit-item {
+    left: 10%;
+}
+.el-input {
+    padding-left: 0px;
+}*/
 </style>

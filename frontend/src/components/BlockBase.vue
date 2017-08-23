@@ -4,14 +4,12 @@
         <canvas id="game-canval" height="640" width="640"></canvas>
     </div>
     <div class="tab-plugin">
-        <a class="block-tab tab" id="block-tab">
+        <el-button class="block-tab tab" id="block-tab">
             {{ $store.state._const.BLOCK }}
-        </a>
-        <a class="editor-tab tab" @click="editorClick('EditorBase')" id="editor-tab">
-            {{ $store.state._const.EDITOR }}
-        </a>
+        </el-button>
+        <el-button class="editor-tab tab" @click="editorClick('EditorBase')" id="editor-tab">Editor</el-button>
         <div class="tab-container" id="block-area"></div>
-        <textarea id="code-area" class="code-area" rows="3" cols="20"></textarea>
+        <textarea id="code-area" class="code-area" rows="3" cols="18"></textarea>
         <button class="clean-button" @click="cleanWorkspace()">
             {{ $store.state._const.CLEAN}}
         </button>
@@ -1105,9 +1103,10 @@ export default {
 .block-base {
     margin: 0 auto;
     width: 100%;
-    height: 600px;
+    height: 700px;
     background-color: #FFEC8B;
     display: inline-flex;
+    border: ridge 2px #ADD8E6;
 }
 .game-area {
     box-sizing: border-box;
@@ -1116,9 +1115,9 @@ export default {
     position: absolute;
     left: 1%;
     width: 50%;
-    height: 600px;
+    height: 700px;
     padding: 10px;
-    border: solid 1px;
+    border-right: 1px solid #7B68EE;
 }
 #game-canval {
     width: 100%;
@@ -1130,37 +1129,31 @@ export default {
     position: absolute;
     right: 1%;
     width: 48%;
-    height: 600px;
-    border: solid 1px;
+    height: 700px;
 }
 .tab-plugin .tab-container {
     position: absolute;
-    top: 30px;
+    top: 46px;
     left: 0;
     width: 100%;
     height: 400px;
     opacity: 1;
-    border: solid 1px;
 }
 .tab-plugin .code-area {
     position: absolute;
-    top: 430px;
+    top: 530px;
     left: 0;
     width: 100%;
     height: 140px;
     opacity: 1;
-    border: solid 1px;
 }
 .tab {
     position: absolute;
     display: inline-block;
-    height: 30px;
-    weight: 50px;
-    line-height: 30px;
+    top: 10px;
+    height: 35px;
     text-align: center;
-    color: black;
     cursor: pointer;
-    border: solid 1px;
 }
 .block-tab {
     left: 0;
@@ -1169,27 +1162,6 @@ export default {
 .editor-tab {
     left: 60px;
     background: #D1EEEE;
-}
-.run-button {
-    position: absolute;
-    top: 570px;
-    right: 0;
-    height:30px;
-    width: 40px;
-    text-align: center;
-    background: #272822;
-    color: #fff;
-    cursor: pointer;
-}
-.clean-button {
-    position: absolute;
-    top: 570px;
-    right: 50px;
-    height:30px;
-    text-align: center;
-    background: #272822;
-    color: #fff;
-    cursor: pointer;
 }
 .game-background {
     width: 100%;
@@ -1205,28 +1177,79 @@ export default {
     z-index: 10000;
     width: 40%;
     height: 350px;
-    background-color: grey;
+    background-image: url(../assets/img/back6.png), url(../assets/img/back5.png), url(../assets/img/back4.png);
+    background-position: 20% 20px, 3% 150px, 90% 10px;
+    background-size: 20%, 40%, 20%;
+    background-repeat: no-repeat;
+    background-color: #E0FFFF;
+    border: 2px solid #E6E6FA;
+    border-radius:25px;
+}
+.btn-container p {
+    margin-top: 53px;
+    margin-left: 8%;
+    font-size: 1.3em;
+    color: #FA8072;
 }
 .game-btn {
-    width: 20%;
-    height: 100px;
+    width: 18%;
+    height: 90px;
     border-width: 0px;
     border-radius: 10em;
+    cursor: pointer;
+    background-color: #F0E68C;
+    font-size: 1em;
 }
 #replay {
     position: absolute;
-    left: 15%;
-    top: 30%;
+    /*left: 15%;*/
+    top: 54%;
+    left: 40%;
 }
 #next-level {
     position: absolute;
     left: 70%;
-    top: 30%;
+    top: 54%;
 }
 #fail-replay {
     position: absolute;
-    left: 40%;
-    top: 30%;
+    left: 70%;
+    top: 50%;
+}
+.clean-button, .run-button {
+    position: absolute;
+    top: 460px;
+    /*margin-top: 30px;
+    margin-bottom: 10px;
+    padding: 10px 20px;*/
+    height: 40px;
+    width: 60px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: white;
+    background-color: #8FBC8F;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 3px 3px 3px #333;
+}
+.clean-button:hover, .run-button:hover {
+    background-color: #FFE4B5;
+    color: black;
+}
+.clean-button:active, .run-button:active {
+    background-color: #D19275;
+    color: black;
+    box-shadow: 3px 5px #333;
+    transform: translateY(2px);
+}
+.run-button {
+    left: 30%;
+}
+.clean-button {
+    right: 20%;
 }
 .game-info {
     white-space: pre;

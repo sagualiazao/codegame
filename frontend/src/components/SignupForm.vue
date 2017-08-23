@@ -233,9 +233,12 @@ export default {
     margin-left: 120px;
 }
 #ver-code {
-    width: 150px;
+    width: 100%;
 }
 #ver-area {
         display: inline-flex;
+}
+.el-form {
+    width: 100%;
 }
 </style>

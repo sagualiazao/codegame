@@ -105,10 +105,20 @@ export default {
 .el-menu {
     width: 100%;
     height: 60px;
-    color: #48D1CC;
     font-size: 60px;
-    background-image: url(../assets/img/m1.png);
-    background-size: auto;
+    height: 60px;
+    /*position: fixed;*/
+    background-color: #FFFACD;
+    font-size: 60px;
+    background-image: url(../assets/img/back1.png), url(../assets/img/back2.png);
+    background-repeat: no-repeat, no-repeat;
+    background-position: 85%, 100%;
+    background-size: 10% 100%, 10%;
+    /*border-bottom: 1px solid #BFBFBF;*/
+    border-bottom: 1px solid #F0E68C;
+    box-shadow: 2px 1px 3px #888888;
+
 }
+
 
 </style>
