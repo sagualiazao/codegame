@@ -1,27 +1,43 @@
+import Vue from 'vue'
+import ElementUI from 'element-ui'
 import MainPage from '@/components/MainPage'
 import { createVue, destroyVM } from '../util'
+Vue.use(ElementUI)
+import Mock from 'mockjs'
+import 'whatwg-fetch'
 
-describe('MainPage.vue', () => {
+Mock.mock(
+    'api/login',
+    'get',
+    function (request) {
+        let date = new Date(null)
+        date = date.toLocaleString()
+        return {
+            status: '1',
+            email: 'tom@123.com',
+            id: 1,
+            nickname: 'tom',
+            gameProgress: 13,
+            hasPaied: false,
+            createdAt: date
+        }
+    }
+)
+
+describe('MainPage.vue', function () {
     let vm
 
-    beforeEach(() => {
+    beforeEach(async function () {
         vm = createVue(MainPage, true)
+        vm.$store.dispatch('init')
+        await vm.$store.dispatch('signin')
     })
 
-    afterEach(() => {
-        vm.$store.dispatch('init')
+    afterEach(function () {
         destroyVM(vm)
     })
 
-    it('should render correct button content', () => {
-        expect(vm.$el.querySelector('#start-game').textContent).to.equal('开始游戏')
-    })
-
-    it('should render correct text content', () => {
-        expect(vm.$el.querySelector('#game-wordintro').textContent).to.equal('让孩子在游戏中走进编程世界，没有压力，开启头脑风暴')
-        expect(vm.$el.querySelector('#intro1').textContent).to.equal('description1')
-        expect(vm.$el.querySelector('#intro2').textContent).to.equal('description2')
-        expect(vm.$el.querySelector('#intro3').textContent).to.equal('description3')
-        expect(vm.$el.querySelector('#intro4').textContent).to.equal('description4')
+    it('挂载成功', function () {
+        expect(vm.$store.state.loginStatus).to.equal(true)
     })
 })

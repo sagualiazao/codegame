@@ -4,19 +4,42 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'yuki-createjs'
 Vue.use(ElementUI)
+import Mock from 'mockjs'
+import 'whatwg-fetch'
 
-describe('MapEditor.vue', () => {
+Mock.mock(
+    'api/login',
+    'get',
+    function (request) {
+        let date = new Date(null)
+        date = date.toLocaleString()
+        return {
+            status: '1',
+            email: 'tom@123.com',
+            id: 1,
+            nickname: 'tom',
+            gameProgress: 13,
+            hasPaied: false,
+            createdAt: date
+        }
+    }
+)
+
+describe('MapEditor.vue', function () {
     let vm
 
-    beforeEach(() => {
+    beforeEach(async function () {
         vm = createVue(MapEditor, true)
-        vm.init()
+        vm.$store.dispatch('init')
+        await vm.$store.dispatch('signin')
+        await vm.init()
     })
 
-    afterEach(() => {
+    afterEach(function () {
         destroyVM(vm)
     })
-    it('mounted挂载成功', () => {
+
+    it('mounted挂载成功', function () {
         expect(vm.mapWidth).to.equal(10)
         expect(vm.mapHeight).to.equal(10)
         expect(vm.div).to.equal(64)
@@ -29,12 +52,12 @@ describe('MapEditor.vue', () => {
         expect(vm.randomColor).to.not.equal(0)
     })
 
-    it('坐标函数执行成功', () => {
+    it('坐标函数执行成功', function () {
         expect(vm.toMapX(0)).to.equal(0)
         expect(vm.toMapY(200)).to.equal(3)
     })
 
-    it('addPic函数执行', () => {
+    it('addPic函数执行', function () {
         let ox = vm.stage.x + vm.canvasWidth - vm.div - vm.bias
         let cc = vm.stage.numChildren
         vm.addPic(3, ox, vm.bias + vm.div * 3)
@@ -56,10 +79,9 @@ describe('MapEditor.vue', () => {
         cc = vm.stage.numChildren
         vm.addPic(1, ox, vm.bias + vm.div * 1)
         expect(vm.stage.numChildren).to.equal(cc + 1)
-
     })
 
-    it('remove函数对非传送门执行成功', () => {
+    it('remove函数对非传送门执行成功', function () {
         function create (i, x, y) {
             var con = new createjs.Container()
             var bitmap = new createjs.Bitmap('../../static/map/' + i + '.png')
@@ -70,24 +92,24 @@ describe('MapEditor.vue', () => {
             vm.stage.addChild(con)
             return con
         }
-        vm.maps[2][2] = create (1, 0, 0)
+        vm.maps[2][2] = create(1, 0, 0)
         vm.remove(2, 2)
         expect(vm.maps[2][2]).to.equal(0)
         vm.maps[2][2] = 0
         vm.remove(2, 2)
         expect(vm.maps[2][2]).to.equal(0)
-        vm.maps[2][2] = create (2, 0, 0)
+        vm.maps[2][2] = create(2, 0, 0)
         vm.remove(2, 2)
         expect(vm.maps[2][2]).to.equal(0)
-        vm.maps[2][2] = create (3, 0, 0)
+        vm.maps[2][2] = create(3, 0, 0)
         vm.remove(2, 2)
         expect(vm.maps[2][2]).to.equal(0)
         expect(vm.havePlayer).to.equal(false)
-        vm.maps[2][2] = create (4, 0, 0)
+        vm.maps[2][2] = create(4, 0, 0)
         vm.remove(2, 2)
         expect(vm.maps[2][2]).to.equal(0)
         expect(vm.haveFlag).to.equal(false)
-        vm.maps[2][2] = create (5, 0, 0)
+        vm.maps[2][2] = create(5, 0, 0)
         vm.remove(2, 2)
         expect(vm.maps[2][2]).to.equal(0)
         expect(vm.haveFlag).to.equal(false)

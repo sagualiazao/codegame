@@ -1,17 +1,12 @@
 import Vue from 'vue'
 import ResetPasswordForm from '@/components/ResetPasswordForm'
 import ElementUI from 'element-ui'
-
 Vue.use(ElementUI)
-
 import { createVue, destroyVM } from '../util'
-
 import Mock from 'mockjs'
 import 'whatwg-fetch'
-
 import { cbcDecrypt } from '@/assets/js/util'
 
-// 假设已经注册了1234@qq.com
 Mock.mock(
     'api/check-email?email=1234@qq.com',
     'get',
@@ -34,7 +29,6 @@ Mock.mock(
     function (request) {
         let json = JSON.parse(request.body)
         let email = json.email
-        console.log(email)
         if (email === '1234@qq.com') {
             return {
                 status: '1',
@@ -54,11 +48,6 @@ Mock.mock(
     function (request) {
         let json = JSON.parse(request.body)
         let email = json.email
-        let password = json.password
-        let captcha = json.captcha
-        console.log(email)
-        console.log(password)
-        console.log(captcha)
         if (email === '1234@qq.com') {
             return {
                 status: '1'
@@ -97,34 +86,17 @@ Mock.mock(
 
 describe('ResetPasswordForm.vue', function () {
     let vm
-    beforeEach(() => {
+    beforeEach(function () {
         vm = createVue(ResetPasswordForm, true)
-    })
-
-    afterEach(() => {
         vm.$store.dispatch('init')
         vm.$store.commit('resetPasswordWindow', true)
+    })
+
+    afterEach(function () {
         destroyVM(vm)
     })
 
-    it('store挂载成功', function () {
-        expect(vm.$store.state.loginStatus).to.equal(false)
-        expect(vm.$store.state.userEmail).to.equal(null)
-        expect(vm.$store.state.userId).to.equal(null)
-        expect(vm.$store.state.userNickName).to.equal(null)
-        expect(vm.$store.state.userGameProgress).to.equal(null)
-        expect(vm.$store.state.userHasPaied).to.equal(null)
-        let date = new Date(null)
-        date = date.toLocaleString()
-        expect(vm.$store.state.registerDate).to.equal(date)
-        expect(vm.$store.state.currentMenbar).to.equal('menu-bar-unlogged')
-        expect(vm.$store.state.signinDialog).to.equal(false)
-        expect(vm.$store.state.signupDialog).to.equal(false)
-        expect(vm.$store.state.resetPasswordDialog).to.equal(false)
-    })
-
-    it('vue组件挂载成功', function () {
-        expect(vm.buttonMessage).to.equal('发送验证码邮件')
+    it('挂载成功', function () {
         expect(vm.seconds).to.equal(60)
         expect(vm.captchaKey).to.equal(null)
         expect(vm.sendEmailDisabled).to.equal(true)

@@ -79,10 +79,9 @@ export default {
         *注销
         * @method signout
         */
-        signout: function () {
-            this.$store.commit('changeMenu', 'menu-bar-unlogged')
-            this.$router.push('/')
-            this.$store.dispatch('signout')
+        signout: async function () {
+            await this.$store.dispatch('signout')
+            await this.$router.push('/')
         },
         /**
         *支付

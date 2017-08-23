@@ -1,43 +1,46 @@
 import EditorBase from '@/components/EditorBase'
 import { createVue, destroyVM } from '../util'
+require('brace')
+require('brace/mode/cirru')
+require('brace/theme/xcode')
 
-describe('EditorBase.vue', () => {
+describe('EditorBase.vue', function () {
     let vm
 
-    beforeEach(() => {
+    beforeEach(function () {
         vm = createVue(EditorBase, true)
     })
 
-    afterEach(() => {
+    afterEach(function () {
         destroyVM(vm)
     })
 
-    it('getCommandCodeList函数执行成功', () => {
+    it('getCommandCodeList函数执行成功', function () {
         let initialValue = require('../../../src/assets/js/editor_const_list.js').initialValue
         vm.jsEditor.setValue(initialValue)
         let commandList = vm.getCommandCodeList()
-         expect(commandList).to.deep.equal([
-             'go(5)',
-             'repeat 3 times',
-             ' go(4)',
-             '    turn("left")',
-             '    repeat 4 times',
-             '        turn("right")',
-             '    repeat-end',
-             'repeat-end',
-             'drop("key")',
-             'function run',
-             '    go(5)',
-             '    repeat 3 times',
-             '        go(3)',
-             '    repeat-end',
-             'function-end',
-             'var x=3',
-             'nancy.go(x)'
-         ])
+        expect(commandList).to.deep.equal([
+            'go(5)',
+            'repeat 3 times',
+            ' go(4)',
+            '    turn("left")',
+            '    repeat 4 times',
+            '        turn("right")',
+            '    repeat-end',
+            'repeat-end',
+            'drop("key")',
+            'function run',
+            '    go(5)',
+            '    repeat 3 times',
+            '        go(3)',
+            '    repeat-end',
+            'function-end',
+            'var x=3',
+            'nancy.go(x)'
+        ])
     })
 
-    it('isSameFormat函数执行成功', () => {
+    it('isSameFormat函数执行成功', function () {
         expect(vm.isSameFormat(/^\s*\w*\.collect\("\w*"\)\s*$/, '   nancy.collect("key")  ')).to.equal(true)
         expect(vm.isSameFormat(/^\s*\w*\.collect\("\w*"\)\s*$/, '   collect("key")')).to.equal(false)
         expect(vm.isSameFormat(/^\s*\w*\.collect\("\w*"\)\s*$/, 'nancy.hhcollect("key")')).to.equal(false)
@@ -49,8 +52,8 @@ describe('EditorBase.vue', () => {
         expect(vm.isSameFormat(/^\s*repeat \w+ times\s*$/, 'repeat 33 times')).to.equal(true)
         expect(vm.isSameFormat(/^\s*repeat \w+ times\s*$/, 'repeat aa times')).to.equal(true)
         expect(vm.isSameFormat(/^\s*repeat \w+ times\s*$/, 'repeataatimes')).to.equal(false)
-        expect(vm.isSameFormat( /^\s*repeat-end\s*$/, ' repeat-end ')).to.equal(true)
-        expect(vm.isSameFormat( /^\s*repeat-end\s*$/, ' ss repeat -end ')).to.equal(false)
+        expect(vm.isSameFormat(/^\s*repeat-end\s*$/, ' repeat-end ')).to.equal(true)
+        expect(vm.isSameFormat(/^\s*repeat-end\s*$/, ' ss repeat -end ')).to.equal(false)
         expect(vm.isSameFormat(/^\s*function \w+$/, '   function run')).to.equal(true)
         expect(vm.isSameFormat(/^\s*function \w+$/, 'function   run')).to.equal(false)
         expect(vm.isSameFormat(/^\s*var\s+[A-Za-z]\w*\s*=\s*(\d+|[A-Za-z]\w*)\s*$/, '   var xx=33')).to.equal(true)
@@ -62,7 +65,7 @@ describe('EditorBase.vue', () => {
         expect(vm.isSameFormat(/^\s*var\s+[A-Za-z]\w*\s*/, 'var 3d')).to.equal(false)
     })
 
-    it('indexInCommandLibrary', () => {
+    it('indexInCommandLibrary', function () {
         expect(vm.indexInCommandLibrary('  nancy.collect("key")')).to.deep.equal('00')
         expect(vm.indexInCommandLibrary('nancy.collect(key)')).to.equal(false)
         expect(vm.indexInCommandLibrary('nancy.drop("key")')).to.deep.equal('01')
@@ -94,7 +97,7 @@ describe('EditorBase.vue', () => {
         expect(vm.indexInCommandLibrary('wait(\'hha\')')).to.equal(false)
     })
 
-    it('getSafeCode', () => {
+    it('getSafeCode', function () {
         expect(vm.getSafeCode('Nancy.collect("key")')).to.equal('this.collect(0, "key");')
         expect(vm.getSafeCode('Carla.collect("key")')).to.equal('this.collect(1, "key");')
         expect(vm.getSafeCode('collect("key")')).to.equal('this.collect(0, "key");')

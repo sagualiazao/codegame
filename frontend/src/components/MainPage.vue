@@ -7,11 +7,6 @@
             </button>
         </div>
     </div>
-    <div id="intro">
-        <p id="game-wordintro">
-            {{ $store.state._const.MAIN_PAGE_INFORMATION }}
-        </p>
-    </div>
 </div>
 </template>
 
@@ -84,21 +79,5 @@ h1 {
 }
 #button-container {
     padding-top: 400px;
-}
-
-#game-wordintro {
-    color: #00CED1;
-    font-size: 1.5em;
-    padding-top: 50px;
-}
-#pic-intro {
-    width: 100%;
-    height: 200px;
-    background-color: grey;
-    display: inline-flex;
-}
-.introduction {
-    width: 25%;
-    height: 200px;
 }
 </style>

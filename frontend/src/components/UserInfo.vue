@@ -11,10 +11,9 @@
                 {{ $store.state._const.NICKNAME }}
             </span>
             <p>{{ this.$store.state.userNickName }}</p>
-            <el-button type="text" @click="changeName()" title="点击修改昵称">修改昵称</el-button><br>
-            <!-- <input type="text" :placeholder="$store.state._const.NEED_NICKNAME" maxlength="16" v-model="nickname">
-            <input type="button" @click="nameSubmit()" :value="$store.state._const.CONFIRM" id="btn"><br> -->
-            <i class="el-icon-message"></i>
+            <el-button type="text" @click="changeName()" :title="$store.state._const.CLICK_TO_CHANGE_NICKNAME">
+                {{ $store.state._const.CHANGE_NICKNAME }}
+            </el-button><br>
             <span>
                 {{ $store.state._const.EMAIL }}
             </span>
@@ -37,7 +36,7 @@
             </span>
             <p>{{ remainedLevel }}</p>
         </div>
-        <el-button type="text" @click="resetPasswordChange()" title="点击修改密码">
+        <el-button type="text" @click="resetPasswordChange()" :title="$store.state._const.CLICK_TO_CHANGE_PASSWORD">
             {{ $store.state._const.RESET_PASSWORD }}
         </el-button>
         <el-dialog :title="$store.state._const.RESET_PASSWORD" :visible.sync="$store.state.changePasswordDialog" size="tiny">
@@ -147,7 +146,6 @@ export default {
         *@method nameSubmit
         */
         nameSubmit: async function () {
-            // Message.success({message: '修改成功'})
             let response = await simplePost('api/change-nickname', {
                 'nickname': this.nickname
             })
@@ -181,16 +179,11 @@ h1 {
 }
 .user-info {
     margin-top: -30px;
-    /*background-color: #b4e2f4;*/
     background: url(../assets/img/infobackgro1.png) no-repeat 0px center;
     background-size: cover;
-    /*animation: myfirst 3s;*/
     width: 100%;
     text-align: justify;
 }
-/*#btn {
-    background-image: url(../assets/img/border3.jpg);
-}*/
 .el-button {
     font-size: 20px;
 }

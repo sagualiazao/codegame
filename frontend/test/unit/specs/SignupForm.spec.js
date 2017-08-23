@@ -15,7 +15,7 @@ Mock.mock(
     '/api/captcha',
     'get',
     {
-        img: '111111',
+        img: 'data:image/png;base64,111111',
         captcha: 'abcd'
     }
 )
@@ -41,15 +41,7 @@ Mock.mock(
     'post',
     function (request) {
         let json = JSON.parse(request.body)
-        console.log(json.email)
-        console.log(json.nickname)
-        console.log(json.captcha)
-        console.log(json.password)
         if (json.email !== '123456@qq.com') {
-            let keyStr = json.captcha
-            let crypted = json.password
-            let password = cbcDecrypt(keyStr, crypted)
-            console.log(password)
             return {
                 status: '1'
             }
@@ -65,28 +57,12 @@ describe('signup-form', function () {
     let vm
     beforeEach(function () {
         vm = createVue(SignupForm, true)
+        vm.$store.dispatch('init')
         vm.$store.state.signupDialog = true
     })
 
     afterEach(function () {
-        vm.$store.dispatch('init')
         destroyVM(vm)
-    })
-
-    it('store挂载成功', function () {
-        expect(vm.$store.state.loginStatus).to.equal(false)
-        expect(vm.$store.state.userEmail).to.equal(null)
-        expect(vm.$store.state.userId).to.equal(null)
-        expect(vm.$store.state.userNickName).to.equal(null)
-        expect(vm.$store.state.userGameProgress).to.equal(null)
-        expect(vm.$store.state.userHasPaied).to.equal(null)
-        let date = new Date(null)
-        date = date.toLocaleString()
-        expect(vm.$store.state.registerDate).to.equal(date)
-        expect(vm.$store.state.currentMenbar).to.equal('menu-bar-unlogged')
-        expect(vm.$store.state.signinDialog).to.equal(false)
-        expect(vm.$store.state.signupDialog).to.equal(true)
-        expect(vm.$store.state.resetPasswordDialog).to.equal(false)
     })
 
     it('vue组件挂载成功', function () {

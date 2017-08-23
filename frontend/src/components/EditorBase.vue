@@ -232,6 +232,13 @@ export default {
             * @default {}
             */
             whiteListConstData: require('../assets/js/white_list.js'),
+            /**
+            *是否显示关卡提示窗口
+            *
+            * @property gameTips
+            * @type {Boolean}
+            * @default false
+            */
             gameTips: false
         }
     },

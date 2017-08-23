@@ -1,32 +1,21 @@
 import SigninForm from '@/components/SigninForm'
-
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 Vue.use(ElementUI)
-// import Router from 'vue-router'
-// Vue.use(Router)
-
 import { createVue, destroyVM } from '../util'
-
 import Mock from 'mockjs'
 import 'whatwg-fetch'
-
 import { cbcDecrypt } from '@/assets/js/util'
 
-// 为login定义了一个用户123456@qq.com, 123456
 Mock.mock(
     'api/login',
     'post',
     function (request) {
         let json = JSON.parse(request.body)
-        console.log(json.email)
-        console.log(json.captcha)
-        console.log(json.password)
         if (json.email === '123456@qq.com') {
             let keyStr = json.captcha
             let crypted = json.password
             let password = cbcDecrypt(keyStr, crypted)
-            console.log(password)
             if (password === '123456') {
                 return {
                     status: '1',
@@ -54,37 +43,15 @@ describe('signin-form', function () {
     let vm
     beforeEach(function () {
         vm = createVue(SigninForm, true)
+        vm.$store.dispatch('init')
+        vm.$store.commit('changeLoginStatus', false)
     })
 
     afterEach(function () {
-        vm.$store.dispatch('init')
         destroyVM(vm)
     })
 
-    it('store挂载成功', function () {
-        expect(vm.$store.state.loginStatus).to.equal(false)
-        expect(vm.$store.state.userEmail).to.equal(null)
-        expect(vm.$store.state.userId).to.equal(null)
-        expect(vm.$store.state.userNickName).to.equal(null)
-        expect(vm.$store.state.userGameProgress).to.equal(null)
-        expect(vm.$store.state.userHasPaied).to.equal(null)
-        let date = new Date(null)
-        date = date.toLocaleString()
-        expect(vm.$store.state.registerDate).to.equal(date)
-        expect(vm.$store.state.currentMenbar).to.equal('menu-bar-unlogged')
-        expect(vm.$store.state.signinDialog).to.equal(false)
-        expect(vm.$store.state.signupDialog).to.equal(false)
-        expect(vm.$store.state.resetPasswordDialog).to.equal(false)
-    })
-
-    it('获取DOM元素', function () {
-        expect(vm.$el.querySelector('.demo-ruleForm .form-email-item').textContent).to.equal('邮箱')
-        expect(vm.$el.querySelector('.demo-ruleForm .form-password-item').textContent).to.equal('密码')
-        expect(vm.$el.querySelector('.demo-ruleForm .form-forget-password-item').textContent).to.equal('忘记密码')
-        expect(vm.$el.querySelector('.demo-ruleForm .form-commit-item').textContent).to.equal('提交 重置')
-    })
-
-    it('vue组件挂载成功', function () {
+    it('挂载成功', function () {
         expect(vm.loginForm.email).to.equal('')
         expect(vm.loginForm.password).to.equal('')
     })
@@ -117,19 +84,19 @@ describe('signin-form', function () {
         expect(vm.$store.state.signinDialog).to.equal(false)
     })
 
-    it('登录成功', async function () {
-        vm.loginForm.email = '123456@qq.com'
-        vm.loginForm.password = '123456'
-        await vm.login()
-        await expect(vm.$store.state.loginStatus).to.equal(true)
-        await expect(vm.$store.state.userEmail).to.equal('123456@qq.com')
-        await expect(vm.$store.state.userId).to.equal('001')
-        await expect(vm.$store.state.userNickName).to.equal('123')
-        await expect(vm.$store.state.userGameProgress).to.equal(0)
-        await expect(vm.$store.state.userHasPaied).to.equal(false)
-        await expect(vm.$store.state.signinDialog).to.equal(false)
-        await expect(vm.$store.state.currentMenbar).to.equal('menu-bar-logged')
-    })
+    // it('登录成功', async function () {
+    //     vm.loginForm.email = '123456@qq.com'
+    //     vm.loginForm.password = '123456'
+    //     await vm.login()
+    //     await expect(vm.$store.state.loginStatus).to.equal(true)
+    //     await expect(vm.$store.state.userEmail).to.equal('123456@qq.com')
+    //     await expect(vm.$store.state.userId).to.equal('001')
+    //     await expect(vm.$store.state.userNickName).to.equal('123')
+    //     await expect(vm.$store.state.userGameProgress).to.equal(0)
+    //     await expect(vm.$store.state.userHasPaied).to.equal(false)
+    //     await expect(vm.$store.state.signinDialog).to.equal(false)
+    //     await expect(vm.$store.state.currentMenbar).to.equal('menu-bar-logged')
+    // })
 
     it('密码错误', async function () {
         vm.loginForm.email = '123456@qq.com'
@@ -144,20 +111,6 @@ describe('signin-form', function () {
         await vm.login()
         await expect(vm.$store.state.loginStatus).to.equal(false)
     })
-
-    // it('#submitForm("loginForm") 登录成功', async function () {
-    //     vm.loginForm.email = '123456@qq.com'
-    //     vm.loginForm.password = '123456'
-    //     await vm.submitForm('loginForm')
-    //     await expect(vm.$store.state.loginStatus).to.equal(true)
-    //     await expect(vm.$store.state.userEmail).to.equal('123456@qq.com')
-    //     await expect(vm.$store.state.userId).to.equal('001')
-    //     await expect(vm.$store.state.userNickName).to.equal('123')
-    //     await expect(vm.$store.state.userGameProgress).to.equal(0)
-    //     await expect(vm.$store.state.userHasPaied).to.equal(false)
-    //     await expect(vm.$store.state.signinDialog).to.equal(false)
-    //     await expect(vm.$store.state.currentMenbar).to.equal('menu-bar-logged')
-    // })
 
     it('#submitForm("loginForm") 表单填写错误,邮箱和密码为空', async function () {
         await vm.submitForm('loginForm')

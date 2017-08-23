@@ -11,8 +11,25 @@ Mock.mock(
     }
 )
 
-describe('vuex store', function () {
+Mock.mock(
+    'api/login',
+    'get',
+    function (request) {
+        let date = new Date(null)
+        date = date.toLocaleString()
+        return {
+            status: '1',
+            email: 'tom@123.com',
+            id: 1,
+            nickname: 'tom',
+            gameProgress: 13,
+            hasPaied: false,
+            createdAt: date
+        }
+    }
+)
 
+describe('vuex store', function () {
     beforeEach(function () {
         store.dispatch('init')
     })
@@ -26,7 +43,7 @@ describe('vuex store', function () {
         expect(store.state.userEmail).to.equal(null)
         expect(store.state.userId).to.equal(null)
         expect(store.state.userNickName).to.equal(null)
-        expect(store.state.userGameProgress).to.equal(null)
+        expect(store.state.userGameProgress).to.equal(0)
         expect(store.state.userHasPaied).to.equal(null)
         let date = new Date(null)
         date = date.toLocaleString()
@@ -35,6 +52,9 @@ describe('vuex store', function () {
         expect(store.state.signinDialog).to.equal(false)
         expect(store.state.signupDialog).to.equal(false)
         expect(store.state.resetPasswordDialog).to.equal(false)
+        expect(store.state.levelPassModal).to.equal(false)
+        expect(store.state.gameReplayModal).to.equal(false)
+        expect(store.state.gameInformation).to.equal('')
     })
 
     it('#changeLoginStatus()', function () {
@@ -82,6 +102,11 @@ describe('vuex store', function () {
         expect(store.state.resetPasswordDialog).to.equal(true)
     })
 
+    it('#changePasswordWindow()', function () {
+        store.commit('changePasswordWindow', true)
+        expect(store.state.changePasswordDialog).to.equal(true)
+    })
+
     it('#changeMenu()', function () {
         store.commit('changeMenu', true)
         expect(store.state.currentMenbar).to.equal(true)
@@ -94,17 +119,57 @@ describe('vuex store', function () {
         expect(store.state.registerDate).to.equal(date)
     })
 
-    it('#signout()', function () {
+    it('#changeLevelMode()', function () {
+        store.commit('changeLevelMode', false)
+        expect(store.state.levelMode).to.equal(false)
+    })
+
+    it('#changeMap()', function () {
+        store.commit('changeMap', null)
+        expect(store.state.mapId).to.equal(1)
+        expect(store.state.mapString).to.equal('0000000000000000000000103000000010000000001000000000100000000010000000001040000000000000000000000000')
+        expect(store.state.mapName).to.equal('XXX要回家')
+        expect(store.state.mapTips).to.equal('XXX误入了迷失森林，请根据它来时留下的小旗帮助它回家吧！\n请使用go(5)使XXX走到小旗处')
+        expect(store.state.mapCodes).to.equal('go(3)')
+        expect(store.state.mapAuthor).to.equal('仨瓜俩枣')
+        expect(store.state.levelMode).to.equal(true)
+    })
+
+    it('#changeLevelPassModal()', function () {
+        store.commit('changeLevelPassModal', true)
+        expect(store.state.levelPassModal).to.equal(true)
+    })
+
+    it('#changeGameReplayModal()', function () {
+        store.commit('changeGameReplayModal', true)
+        expect(store.state.gameReplayModal).to.equal(true)
+    })
+
+    it('#changeGameInformation()', function () {
+        store.commit('changeGameInformation', '123')
+        expect(store.state.gameInformation).to.equal('123')
+    })
+
+    it('#signout()', async function () {
         store.dispatch('signout')
-        expect(store.state.loginStatus).to.equal(false)
+        await expect(store.state.loginStatus).to.equal(false)
         expect(store.state.userEmail).to.equal(null)
         expect(store.state.userId).to.equal(null)
         expect(store.state.userNickName).to.equal(null)
-        expect(store.state.userGameProgress).to.equal(null)
+        expect(store.state.userGameProgress).to.equal(0)
         expect(store.state.userHasPaied).to.equal(null)
         let date = new Date(null)
         date = date.toLocaleString()
         expect(store.state.registerDate).to.equal(date)
         expect(store.state.currentMenbar).to.equal('menu-bar-unlogged')
+    })
+
+    it('#signin()', async function () {
+        await store.dispatch('signin')
+        await expect(store.state.loginStatus).to.equal(true)
+        expect(store.state.userEmail).to.equal('tom@123.com')
+        expect(store.state.userId).to.equal(1)
+        expect(store.state.userNickName).to.equal('tom')
+        expect(store.state.userHasPaied).to.equal(false)
     })
 })

@@ -2,50 +2,102 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import MapSquare from '@/components/MapSquare'
 import { createVue, destroyVM } from '../util'
-
 Vue.use(ElementUI)
+import Mock from 'mockjs'
+import 'whatwg-fetch'
 
-describe('MapSquare.vue', () => {
+Mock.mock(
+    'api/login',
+    'get',
+    function (request) {
+        let date = new Date(null)
+        date = date.toLocaleString()
+        return {
+            status: '1',
+            email: 'tom@123.com',
+            id: 1,
+            nickname: 'tom',
+            gameProgress: 13,
+            hasPaied: false,
+            createdAt: date
+        }
+    }
+)
+
+Mock.mock(
+    'api/read-map-list',
+    'get',
+    {
+        status: '1',
+        data: '{[1, "map one", "tom", "imgimg", "no remarks", false]}'
+    }
+)
+
+Mock.mock(
+    'api/read-published-map-list',
+    'get',
+    {
+        status: '1',
+        data: '{[1, "map one", "imgimg", "no remarks", true]}'
+    }
+)
+
+Mock.mock(
+    'api/read-favorite-map-list',
+    'get',
+    {
+        status: '1',
+        data: '{[1, "map one", "tom", "imgimg", "no remarks"]}'
+    }
+)
+
+Mock.mock(
+    'api/change-favorite',
+    'post',
+    function (request) {
+        let obj = request.body
+        return {
+            mapid: obj.id,
+            status: obj.status
+        }
+    }
+)
+
+Mock.mock(
+    'api/change-publish',
+    'post',
+    {
+        status: '1'
+    }
+)
+
+describe('MapSquare.vue', function () {
     let vm
-    // 在每个测试之前执行的
-    beforeEach(() => {
-        // 创建组件实例
+
+    beforeEach(async function () {
         vm = createVue(MapSquare, true)
+        vm.$store.dispatch('init')
+        await vm.$store.dispatch('signin')
+        await vm.init()
     })
 
-    afterEach(() => {
-        // 清理组件
+    afterEach(function () {
         destroyVM(vm)
     })
 
-    it('sets the correct defaultData', () => {
-        expect(typeof MapSquare.data).to.equal('function')
-        const defaultData = MapSquare.data()
-        expect(defaultData.activeName).to.equal('first')
+    it('挂载成功', function () {
+        expect(vm.activeName).to.equal('first')
+        expect(vm.mapList).to.equal(null)
+        expect(vm.publishedMapList).to.equal(null)
+        expect(vm.favoriteMapList).to.equal(null)
+        expect(vm.currentPages).to.equal(1)
     })
 
-    it('should render correct contents', () => {
-        expect(vm.$el.querySelector('.map-square-tab h1').textContent).to.equal('这是地图广场')
-        expect(vm.$el.querySelector('.published-map-tab h1').textContent).to.equal('这是我发布的地图')
-        expect(vm.$el.querySelector('.favorite-map-tab h1').textContent).to.equal('这是我收藏的地图')
+    it('#changeFavoriteMap()', async function () {
+        vm.changeFavoriteMap(1, true)
     })
 
-    it('active-name,#handleClick', done => {
-        vm = createVue(MapSquare, true)
-        setTimeout(_ => {
-            const paneList = vm.$el.querySelector('.el-tabs__content').children
-            const tabList = vm.$refs.tabs.$refs.nav.$refs.tabs
-
-            expect(tabList[0].classList.contains('is-active')).to.be.true
-            expect(paneList[0].style.display).to.not.ok
-
-            tabList[1].click()
-            vm.$nextTick(_ => {
-                expect(tabList[1].classList.contains('is-active')).to.be.true
-                expect(paneList[1].style.display).to.not.ok
-                expect(vm.activeName === 'second')
-                done()
-            })
-        }, 100)
+    it('#cancelPublishedStatus()', async function () {
+        vm.cancelPublishStatus(1)
     })
 })
