@@ -118,6 +118,7 @@ export async function readMap (levelMode, id) {
 * @param {String}  cvalue
 */
 export function setCookie (cname, cvalue) {
+    cvalue = cvalue.replace('\n', '$')
     document.cookie = cname + '=' + cvalue + '; '
 }
 
@@ -134,7 +135,7 @@ export function getCookie (cname) {
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i]
         while (c.charAt(0) === ' ') c = c.substring(1)
-        if (c.indexOf(name) !== -1) return c.substring(name.length, c.length)
+        if (c.indexOf(name) !== -1) return c.substring(name.length, c.length).replace('$', '\n')
     }
     return ''
 }
