@@ -61,7 +61,10 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                this.$message(this.$store.state._const.LOGIN_FIRST)
+                this.$message({
+                    message: this.$store.state._const.LOGIN_FIRST,
+                    type: 'warning'
+                })
                 this.$router.push('/')
             }
         }
@@ -76,7 +79,10 @@ export default {
             if (level <= this.$store.state.userGameProgress + 1) {
                 this.enterLevel(level)
             } else {
-                this.$message('您还没玩到这关哦！您现在已经通过了第' + this.$store.state.userGameProgress + '关')
+                this.$message({
+                    message: '您还没玩到这关哦！您现在已经通过了第' + this.$store.state.userGameProgress + '关',
+                    type: 'warning'
+                })
             }
         },
         /**

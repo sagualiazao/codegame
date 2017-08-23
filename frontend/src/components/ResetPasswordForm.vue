@@ -176,7 +176,10 @@ export default {
                     this.$store.commit('resetPasswordWindow', false)
                     return true
                 } else {
-                    this.$message(this.$store.state._const.CHECK_FORM)
+                    this.$message({
+                        message: this.$store.state._const.CHECK_FORM,
+                        type: 'warning'
+                    })
                     return false
                 }
             })
@@ -239,7 +242,7 @@ export default {
                 this.timer = setInterval(this.countTime, 1000)
                 this.cannotResetPassword = false
             } else {
-                this.$message(this.$store.state._const.OPERATION_FAILURE)
+                this.$message.error(this.$store.state._const.OPERATION_FAILURE)
             }
         },
         /**
@@ -271,9 +274,12 @@ export default {
             let response = await simplePost('api/reset-password', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                this.$message(this.$store.state._const.OPERATION_SUCCESS)
+                this.$message({
+                    message: this.$store.state._const.OPERATION_SUCCESS,
+                    type: 'success'
+                })
             } else {
-                this.$message(this.$store.state._const.OPERATION_FAILURE)
+                this.$message.error(this.$store.state._const.OPERATION_FAILURE)
             }
         }
     }

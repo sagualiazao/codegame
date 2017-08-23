@@ -71,7 +71,10 @@ export default {
                 this.$router.push('/')
             }
             if (index === 'edit-map') {
-                this.$message(this.$store.state._const.LOGIN_FIRST)
+                this.$message({
+                    message: this.$store.state._const.LOGIN_FIRST,
+                    type: 'warning'
+                })
             }
         },
         /**

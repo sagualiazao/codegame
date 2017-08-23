@@ -178,7 +178,10 @@ export default {
                 if (valid) {
                     this.register()
                 } else {
-                    this.$message(this.$store.state._const.CHECK_FORM)
+                    this.$message({
+                        message: this.$store.state._const.CHECK_FORM,
+                        type: 'warning'
+                    })
                     return false
                 }
             })
@@ -206,10 +209,13 @@ export default {
             let response = await simplePost('api/register', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                this.$message(this.$store.state._const.REGISTER_SUCCESS)
+                this.$message({
+                    message: this.$store.state._const.REGISTER_SUCCESS,
+                    type: 'success'
+                })
                 this.$store.commit('signupWindow', false)
             } else {
-                this.$message(this.$store.state._const.REGISTER_FAILURE)
+                this.$message.error(this.$store.state._const.REGISTER_FAILURE)
             }
         },
         /**

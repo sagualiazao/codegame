@@ -80,8 +80,26 @@ export default {
         * @method signout
         */
         signout: async function () {
-            await this.$store.dispatch('signout')
-            await this.$router.push('/')
+            this.$store.commit('changeLoginStatus', false)
+            this.$store.commit('changeUserEmail', null)
+            this.$store.commit('changeUserId', null)
+            this.$store.commit('changeUserNickName', null)
+            this.$store.commit('changeUserGameProgress', 0)
+            this.$store.commit('changeUserHasPaied', null)
+            this.$store.commit('changeMenu', 'menu-bar-unlogged')
+            this.$store.commit('changeRegisterDate', null)
+            this.$store.commit('changeMap', null)
+            let response = await simpleGet('api/logout')
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                this.$message({
+                    message: this.$store.state._const.LOGOUT_SUCCESS,
+                    type: 'success'
+                })
+                this.$router.push('/')
+            } else {
+                this.$message.error(this.$store.state._const.LOGOUT_FAILURE)
+            }
         },
         /**
         *支付
