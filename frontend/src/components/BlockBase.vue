@@ -1081,7 +1081,7 @@ export default {
         */
         nextLevel: async function () {
             /* eslint no-eval: 0 */
-            let level = this.$store.state.mapId
+            let level = parseInt(getCookie('mapId'))
             if (level > this.$store.state.userGameProgress && this.$store.state.loginStatus) {
                 simplePost('/api/change-progress', {
                     progress: level
@@ -1102,12 +1102,14 @@ export default {
                 setCookie('mapMode', JSON.stringify(this.$store.state.mapMode))
                 setCookie('mapAuthor', this.$store.state.mapAuthor)
                 this.$store.commit('changeLevelPassModal', false)
-                this.init()
-                this.chooseRightToolBox()
-                this.workspace.addChangeListener(this.updateFunction)
-                this.cleanWorkspace()
                 this.gameTips = true
             }
+            // await this.chooseRightToolBox()
+            // this.workspace.addChangeListener(this.updateFunction)
+            // this.gameTips = true
+            // this.init()
+            // this.cleanWorkspace()
+            await this.$router.go(0)
         },
         getCookie (cname) {
             return getCookie(cname)
