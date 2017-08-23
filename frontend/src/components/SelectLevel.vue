@@ -1,35 +1,36 @@
 <template>
 <div id="select-level">
     <div id="btn-container">
-        <button id="continue-play" @click="showDialog">
+        <button id="continue-play" @click="showDialog" v-show="!selectLevelDialog">
             {{ $store.state._const.CONTINUE_GAME }}
         </button>
     </div>
-    <el-dialog class="select-demo" :title="$store.state._const.SELECT_LEVEL" :visible.sync="selectLevelDialog" size="tiny" :before-close="handleClose">
-        <div class="level-line">
-            <a class="level-btn level-btn1" @click="selectLevel(1)">level 1</a>
-            <a class="level-btn level-btn2" @click="selectLevel(2)">level 2</a>
-            <a class="level-btn level-btn3" @click="selectLevel(3)">level 3</a>
-            <a class="level-btn level-btn4" @click="selectLevel(4)">level 4</a>
+    <div class="select-demo" v-show="selectLevelDialog">
+        <div class="close-button" @click="closeDialog">关闭</div>
+        <div class="level-line level-line1">
+            <a class="level-btn level-btn1" @click="selectLevel(1)"></a>
+            <a class="level-btn level-btn2" @click="selectLevel(2)"></a>
+            <a class="level-btn level-btn3" @click="selectLevel(3)"></a>
+            <a class="level-btn level-btn4" @click="selectLevel(4)"></a>
         </div>
         <div class="level-line">
-            <a class="level-btn level-btn5" @click="selectLevel(5)">level 5</a>
-            <a class="level-btn level-btn6" @click="selectLevel(6)">level 6</a>
-            <a class="level-btn level-btn7" @click="selectLevel(7)">level 7</a>
-            <a class="level-btn level-btn8" @click="selectLevel(8)">level 8</a>
+            <a class="level-btn level-btn5" @click="selectLevel(5)"></a>
+            <a class="level-btn level-btn6" @click="selectLevel(6)"></a>
+            <a class="level-btn level-btn7" @click="selectLevel(7)"></a>
+            <a class="level-btn level-btn8" @click="selectLevel(8)"></a>
         </div>
         <div class="level-line">
-            <a class="level-btn level-btn9" @click="selectLevel(9)">level 9</a>
-            <a class="level-btn level-btn10" @click="selectLevel(10)">level 10</a>
-            <a class="level-btn level-btn11" @click="selectLevel(11)">level 11</a>
-            <a class="level-btn level-btn12" @click="selectLevel(12)">level 12</a>
+            <a class="level-btn level-btn9" @click="selectLevel(9)"></a>
+            <a class="level-btn level-btn10" @click="selectLevel(10)"></a>
+            <a class="level-btn level-btn11" @click="selectLevel(11)"></a>
+            <a class="level-btn level-btn12" @click="selectLevel(12)"></a>
         </div>
-        <div class="level-line">
-            <a class="level-btn level-btn13" @click="selectLevel(13)">level 13</a>
-            <a class="level-btn level-btn14" @click="selectLevel(14)">level 14</a>
-            <a class="level-btn level-btn15" @click="selectLevel(15)">level 15</a>
+        <div class="level-line" id="level-line4">
+            <a class="level-btn level-btn13" @click="selectLevel(13)"></a>
+            <a class="level-btn level-btn14" @click="selectLevel(14)"></a>
+            <a class="level-btn level-btn15" @click="selectLevel(15)"></a>
         </div>
-    </el-dialog>
+    </div>
 </div>
 </template>
 
@@ -66,6 +67,7 @@ export default {
     *@method mounted
     */
     mounted: async function () {
+        this.selectLevelDialog = false
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
@@ -116,16 +118,19 @@ export default {
         */
         showDialog: function () {
             this.selectLevelDialog = true
+        },
+        /**
+        *隐藏选择关卡窗口
+        *
+        *@method closeDialog
+        */
+        closeDialog: function () {
+            this.selectLevelDialog = false
         }
     }
 }
 </script>
 
-<style>
-.el-dialog--tiny {
-    width: 400px;
-}
-</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
@@ -136,6 +141,7 @@ h1 {
     height: 600px;
     margin-top: -22px;
     background: url(../assets/img/back7.jpg) center center no-repeat;
+    background-color: white;
     background-size: 100% 100%;
 
 }
@@ -158,11 +164,33 @@ h1 {
     border-color: #00FF7F;
     cursor: pointer;
 }
+
+.select-demo {
+    width: 510px;
+    height: 500px;
+    background: url(../assets/img/level_background.png) center center no-repeat;
+    background-size: cover;
+    position: absolute;
+    left: 30%;
+    top: 10%;
+    color: gray;
+}
+.close-button {
+    margin-left: 340px;
+    margin-top: 70px;
+    width: 40px;
+    cursor: pointer;
+}
 .level-line {
     display: flex;
+    padding-left: 40px;
+    padding-top: 3px;
+}
+.level-line1 {
+    margin-top:0px;
 }
 .level-btn {
-    margin-top: 20px;
+    /*margin-top: 40px;*/
     display: block;
     width: 80px;
     height: 80px;
@@ -170,6 +198,7 @@ h1 {
     background-position: 0px 0px;
     cursor: pointer;
     text-align:center;
+    margin-left: 5px;
 }
 .level-btn1 {
     background-image: url(../assets/img/level1.png);
@@ -215,17 +244,5 @@ h1 {
 }
 .level-btn15 {
     background-image: url(../assets/img/level15.png);
-}
-.el-dialog {
-    width: 20%;
-    height: auto;
-    background-image: url(../assets/img/back3.png);
-    background-position: -70px;
-    background-size: 50%;
-    background-repeat: no-repeat;
-    border: 18px solid transparent;
-    border-radius:25px;
-    font-weight: 600;
-    background-color: #FFE4E1;
 }
 </style>
