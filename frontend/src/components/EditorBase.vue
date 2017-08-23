@@ -1002,6 +1002,19 @@ export default {
             this.init()
         },
         /**
+        *更具当前地图更新代码库限制
+        * @method addCodeLibraryConstraint
+        */
+        addCodeLibraryConstraint () {
+            this.whiteListConstData.init()
+            let inactiveIndex = this.$store.state.mapMode
+            for (let i = 0; i < inactiveIndex.length; i++) {
+                let indexX = inactiveIndex[i][0]
+                let indexY = inactiveIndex[i][1]
+                this.whiteListConstData.commandCodeLibrary[indexX][indexY] = ''
+            }
+        },
+        /**
         *进入下一关,如果未登录,且到达试玩关卡最后一关,需要登录.
         * @method nextLevel
         */
@@ -1023,13 +1036,7 @@ export default {
                 this.$store.commit('changeLevelPassModal', false)
                 this.init()
                 // 代码库限制
-                this.whiteListConstData.init()
-                let inactiveIndex = this.$store.state.mapMode
-                for (let i = 0; i < inactiveIndex.length; i++) {
-                    let indexX = inactiveIndex[i][0]
-                    let indexY = inactiveIndex[i][1]
-                    this.whiteListConstData.commandCodeLibrary[indexX][indexY] = ''
-                }
+                this.addCodeLibraryConstraint()
                 // 代码提示
                 this.jsEditor.setValue(this.$store.state.mapCodes)
             }
@@ -1056,13 +1063,7 @@ export default {
         this.gameTips = true
         this.init()
         // 代码库限制
-        this.whiteListConstData.init()
-        let inactiveIndex = this.$store.state.mapMode
-        for (let i = 0; i < inactiveIndex.length; i++) {
-            let indexX = inactiveIndex[i][0]
-            let indexY = inactiveIndex[i][1]
-            this.whiteListConstData.commandCodeLibrary[indexX][indexY] = ''
-        }
+        this.addCodeLibraryConstraint()
         // 代码提示
         this.jsEditor.setValue(this.$store.state.mapCodes)
     }
