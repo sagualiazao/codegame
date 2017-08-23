@@ -639,12 +639,13 @@ export default {
         * @method victory
         */
         victory () {
-            console.log(this.$store.state.mapId)
-            console.log(this.$store.state._const.TOTAL_LEVELS)
-            console.log(this.$store.state.levelMode)
+            let mapId = getCookie('mapId')
+            if (mapId === '') {
+                mapId = this.$store.state.mapId
+            }
             if (
                 this.$store.state.loginStatus === false &&
-                this.$store.state.mapId >= this.$store.state._const.LEVEL_LIMIT
+                mapId >= this.$store.state._const.LEVEL_LIMIT
             ) {
                 this.$message({
                     message: this.$store.state._const.NEED_LOGIN,
@@ -656,7 +657,7 @@ export default {
                 this.$store.commit('changeGameInformation', this.$store.state._const.PASS_LEVEL)
                 this.$store.commit('changeGameReplayModal', true)
             } else {
-                if (this.$store.state.mapId === this.$store.state._const.TOTAL_LEVELS) {
+                if (mapId === this.$store.state._const.TOTAL_LEVELS) {
                     this.$store.commit('changeGameInformation', this.$store.state._const.FINISH_GAME)
                     this.$store.commit('changeGameReplayModal', true)
                 } else {
