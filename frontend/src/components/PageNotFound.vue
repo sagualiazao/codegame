@@ -26,7 +26,10 @@ export default {
     *@method mounted
     */
     mounted () {
-        this.$message(this.$store.state._const.NOT_EXIST_PAGE)
+        this.$message({
+            message: this.$store.state._const.NOT_EXIST_PAGE,
+            type: 'warning'
+        })
         this.$router.push('/')
     }
 }

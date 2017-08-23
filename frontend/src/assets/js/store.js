@@ -90,6 +90,7 @@ const state = {
         NEED_NICKNAME: '请输入昵称',
         NEED_PASSWORD: '请输入密码',
         NEED_PASSWORD_REGISTER: '6-16位数字\\字母\\下划线',
+        NEED_PLAYER: '请放置角色或终点',
         NEED_REPEAT_PASSWORD: '请再次输入密码',
         NEXT_LEVEL: '下一关',
         NICKNAME: '昵称',
@@ -108,6 +109,7 @@ const state = {
         REPLAY_GAME: '重玩',
         RESET: '重置',
         RESET_PASSWORD: '修改密码',
+        RETRY_PLEASE: '游戏失败了呢，再试一次吧！',
         RUN: 'Run',
         SAVE_FAILURE: '保存失败',
         SAVE_SUCCESS: '保存成功',
@@ -125,6 +127,7 @@ const state = {
         WRONG_CAPTCHA: '验证码错误',
         WRONG_DISPLAY: '显示错误',
         WRONG_EMAIL_FORMAT: '邮箱格式错误',
+        WRONG_INPUT: '输入错误',
         WRONG_PASSWORD_FORMAT: '密码格式错误',
         CHANGE_SUCCESS: '修改成功',
         CHANGE_FALURE: '修改失败'

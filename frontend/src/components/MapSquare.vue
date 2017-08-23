@@ -140,7 +140,10 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                this.$message(this.$store.state._const.LOGIN_FIRST)
+                this.$message({
+                    message: this.$store.state._const.LOGIN_FIRST,
+                    type: 'warning'
+                })
                 this.$router.push('/')
             } else {
                 this.init()
@@ -229,7 +232,7 @@ export default {
                     // map[5]: favorite 收藏状态
                 }
             } else if (await obj.status === '0') {
-                this.$message(this.$store.state._const.LOAD_FAILURE)
+                this.$message.error(this.$store.state._const.LOAD_FAILURE)
             }
         },
         /**
@@ -251,7 +254,7 @@ export default {
                     // map[4]: published 发布状态
                 }
             } else if (await obj.status === '0') {
-                this.$message(this.$store.state._const.LOAD_FAILURE)
+                this.$message.error(this.$store.state._const.LOAD_FAILURE)
             }
         },
         /**
@@ -273,7 +276,7 @@ export default {
                     // map[4]: remarks 地图说明
                 }
             } else if (await obj.status === '0') {
-                this.$message(this.$store.state._const.LOAD_FAILURE)
+                this.$message.error(this.$store.state._const.LOAD_FAILURE)
             }
         },
         /**

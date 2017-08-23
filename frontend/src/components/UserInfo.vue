@@ -106,7 +106,10 @@ export default {
         if (this.$store.state.loginStatus === false) {
             await this.$store.dispatch('signin')
             if (await this.$store.state.loginStatus === false) {
-                this.$message(this.$store.state._const.LOGIN_FIRST)
+                this.$message({
+                    message: this.$store.state._const.LOGIN_FIRST,
+                    type: 'warning'
+                })
                 this.$router.push('/')
             } else {
                 this.init()
@@ -139,10 +142,7 @@ export default {
                 this.nickname = value
                 this.nameSubmit()
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '取消输入'
-                })
+                this.$message('取消输入')
             })
         },
         /**

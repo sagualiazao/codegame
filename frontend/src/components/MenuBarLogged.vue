@@ -92,10 +92,13 @@ export default {
             let response = await simpleGet('api/logout')
             let obj = await response.json()
             if (await obj.status === '1') {
-                this.$message(this.$store.state._const.LOGOUT_SUCCESS)
+                this.$message({
+                    message: this.$store.state._const.LOGOUT_SUCCESS,
+                    type: 'success'
+                })
                 this.$router.push('/')
             } else {
-                this.$message(this.$store.state._const.LOGOUT_FAILURE)
+                this.$message.error(this.$store.state._const.LOGOUT_FAILURE)
             }
         },
         /**

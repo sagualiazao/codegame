@@ -96,7 +96,10 @@ export default {
                 if (valid) {
                     this.login()
                 } else {
-                    this.$message(this.$store.state._const.CHECK_FORM)
+                    this.$message({
+                        message: this.$store.state._const.CHECK_FORM,
+                        type: 'warning'
+                    })
                     return false
                 }
             })
@@ -125,7 +128,10 @@ export default {
             let response = await simplePost('api/login', jsonObj)
             let obj = await response.json()
             if (await obj.status === '1') {
-                this.$message(this.$store.state._const.LOGIN_SUCCESS)
+                this.$message({
+                    message: this.$store.state._const.LOGIN_SUCCESS,
+                    type: 'success'
+                })
                 this.$store.commit('changeLoginStatus', true)
                 this.$store.commit('changeUserEmail', obj.email)
                 this.$store.commit('changeUserId', obj.id)
@@ -138,7 +144,7 @@ export default {
                 this.$router.push('/' + 'SelectLevel')
             } else {
                 this.$store.commit('changeLoginStatus', false)
-                this.$message(this.$store.state._const.LOGIN_FAILURE)
+                this.$message.error(this.$store.state._const.LOGIN_FAILURE)
             }
         },
         /**

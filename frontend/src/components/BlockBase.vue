@@ -367,7 +367,7 @@ export default {
                 let safeCode = this.getSafeCode(commandList[i])
                 if (safeCode === false) {
                     safeCommandString = ''
-                    this.$message('wrong input!')
+                    this.$message.error(this.$store.state._const.WRONG_INPUT)
                     break
                 } else {
                     safeCommandString += safeCode
@@ -391,7 +391,7 @@ export default {
             try {
                 eval(safeCommandString)
             } catch (e) {
-                this.$message(e)
+                this.$message.error(e)
             }
         },
         /**
@@ -656,7 +656,7 @@ export default {
         * @method gameover
         */
         gameover () {
-            this.$store.commit('changeGameInformation', '游戏失败了呢，再试一次吧！')
+            this.$store.commit('changeGameInformation', this.$store.state._const.RETRY_PLEASE)
             console.log(this.$store.state.gameInformation)
             this.$store.commit('changeGameReplayModal', true)
         },
@@ -669,7 +669,10 @@ export default {
                 this.$store.state.loginStatus === false &&
                 this.$store.state.mapId >= this.$store.state._const.LEVEL_LIMIT
             ) {
-                this.$message(this.$store.state._const.NEED_LOGIN)
+                this.$message({
+                    message: this.$store.state._const.NEED_LOGIN,
+                    type: 'warning'
+                })
                 return
             }
             if (this.$store.state.levelMode === false) {
