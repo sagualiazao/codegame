@@ -6,21 +6,29 @@
         </button>
     </div>
     <el-dialog class="select-demo" :title="$store.state._const.SELECT_LEVEL" :visible.sync="selectLevelDialog" size="tiny" :before-close="handleClose">
-        <el-button type="success" class="level-btn" @click="selectLevel(1)">1</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(2)">2</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(3)">3</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(4)">4</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(5)">5</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(6)">6</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(7)">7</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(8)">8</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(9)">9</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(10)">10</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(11)">11</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(12)">12</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(13)">13</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(14)">14</el-button>
-        <el-button type="success" class="level-btn" @click="selectLevel(15)">15</el-button>
+        <div class="level-line">
+            <a class="level-btn level-btn1" @click="selectLevel(1)">level 1</a>
+            <a class="level-btn level-btn2" @click="selectLevel(2)">level 2</a>
+            <a class="level-btn level-btn3" @click="selectLevel(3)">level 3</a>
+            <a class="level-btn level-btn4" @click="selectLevel(4)">level 4</a>
+        </div>
+        <div class="level-line">
+            <a class="level-btn level-btn5" @click="selectLevel(5)">level 5</a>
+            <a class="level-btn level-btn6" @click="selectLevel(6)">level 6</a>
+            <a class="level-btn level-btn7" @click="selectLevel(7)">level 7</a>
+            <a class="level-btn level-btn8" @click="selectLevel(8)">level 8</a>
+        </div>
+        <div class="level-line">
+            <a class="level-btn level-btn9" @click="selectLevel(9)">level 9</a>
+            <a class="level-btn level-btn10" @click="selectLevel(10)">level 10</a>
+            <a class="level-btn level-btn11" @click="selectLevel(11)">level 11</a>
+            <a class="level-btn level-btn12" @click="selectLevel(12)">level 12</a>
+        </div>
+        <div class="level-line">
+            <a class="level-btn level-btn13" @click="selectLevel(13)">level 13</a>
+            <a class="level-btn level-btn14" @click="selectLevel(14)">level 14</a>
+            <a class="level-btn level-btn15" @click="selectLevel(15)">level 15</a>
+        </div>
     </el-dialog>
 </div>
 </template>
@@ -113,6 +121,11 @@ export default {
 }
 </script>
 
+<style>
+.el-dialog--tiny {
+    width: 400px;
+}
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
@@ -145,8 +158,63 @@ h1 {
     border-color: #00FF7F;
     cursor: pointer;
 }
+.level-line {
+    display: flex;
+}
 .level-btn {
     margin-top: 20px;
+    display: block;
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    background-position: 0px 0px;
+    cursor: pointer;
+    text-align:center;
+}
+.level-btn1 {
+    background-image: url(../assets/img/level1.png);
+}
+.level-btn2 {
+    background-image: url(../assets/img/level2.png);
+}
+.level-btn3 {
+    background-image: url(../assets/img/level3.png);
+}
+.level-btn4 {
+    background-image: url(../assets/img/level4.png);
+}
+.level-btn5 {
+    background-image: url(../assets/img/level5.png);
+}
+.level-btn6 {
+    background-image: url(../assets/img/level6.png);
+}
+.level-btn7 {
+    background-image: url(../assets/img/level7.png);
+}
+.level-btn8 {
+    background-image: url(../assets/img/level8.png);
+}
+.level-btn9 {
+    background-image: url(../assets/img/level9.png);
+}
+.level-btn10 {
+    background-image: url(../assets/img/level10.png);
+}
+.level-btn11 {
+    background-image: url(../assets/img/level11.png);
+}
+.level-btn12 {
+    background-image: url(../assets/img/level12.png);
+}
+.level-btn13 {
+    background-image: url(../assets/img/level13.png);
+}
+.level-btn14 {
+    background-image: url(../assets/img/level14.png);
+}
+.level-btn15 {
+    background-image: url(../assets/img/level15.png);
 }
 .el-dialog {
     width: 20%;
