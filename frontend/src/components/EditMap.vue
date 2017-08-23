@@ -145,8 +145,13 @@ export default {
             if (await obj.status === '1') {
                 this.$store.commit('changeMap', obj)
                 setCookie('levelMode', this.$store.state.levelMode.toString())
-                setCookie('mapId', this.$store.state.mapId.toString())
-                setCookie('mapString', this.$store.state.mapString)
+                setCookie('mapId', obj.id)
+                setCookie('mapString', obj.map)
+                setCookie('mapName', obj.name)
+                setCookie('mapTips', obj.tips)
+                setCookie('mapCodes', obj.codes)
+                setCookie('mapMode', JSON.stringify(obj.mode))
+                setCookie('mapAuthor', obj.author)
                 this.$router.push('/BlockBase')
             }
         },
