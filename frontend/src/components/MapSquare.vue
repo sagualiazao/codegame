@@ -72,14 +72,14 @@
                 :total="totalMaps(favoriteMapList)">
                 </el-pagination>
             </div>
-            <div v-for="map in favoriteMapList()" :key="map[0]" v-if="judgePage(map, favoriteMapList(), currentPageFavorite)">
+            <div v-for="map in favoriteMapList" :key="map[0]" v-if="judgePage(map, favoriteMapList, currentPageFavorite)"> 
                 <div class="map-picture">
                     <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
                         <p class="mapname">{{ $store.state._const.MAP_NAME }}: {{ map[1] }}</p>
                         <p class="author">{{ $store.state._const.MAP_AUTHOR }}: {{ map[2] }}</p>
                         <p class="remarks">{{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}</p>
-                        <i class="el-icon-star-on" @click="changeFavor(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
+                        <i class="el-icon-star-on" @click="changeFavor(map)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
                             {{ $store.state._const.IS_FAVORITE }}
                         </i>
                     </div>
@@ -131,6 +131,14 @@ export default {
             * @default null
             */
             publishedMapList: null,
+            /**
+            *收藏地图列表
+            *
+            * @property favoriteMapList
+            * @type {Object}
+            * @default null
+            */
+            favoriteMapList: null,
             /**
             *地图广场列表页码
             *
@@ -187,7 +195,6 @@ export default {
         */
         init: function () {
             this.readMapList()
-            this.readPublishedMapList()
         },
         /**
         *切换标签页
@@ -195,7 +202,15 @@ export default {
         * @param {Object} tab 标签页
         * @param {Event} event 事件
         */
-        handleClick: function (tab, event) {},
+        handleClick: function () {
+            if (this.activeName === 'first') {
+                this.readMapList()
+            } else if (this.activeName === 'second') {
+                this.readPublishedMapList()
+            } else {
+                this.readFavoriteMapList()
+            }
+        },
         /**
         *进入地图游戏界面
         * @method enterMap
@@ -226,7 +241,9 @@ export default {
         */
         publishClick: function (map) {
             let i = this.publishedMapList.indexOf(map)
-            this.publishedMapList.splice(i, i + 1)
+            this.publishedMapList.splice(i, 1)
+            let j = this.mapList.indexOf(map)
+            this.mapList.splice(j, 1)
             this.cancelPublishStatus(map[0])
         },
         /**
@@ -235,9 +252,11 @@ export default {
         * @param {Object} map
         * @param {Boolean} status
         */
-        changeFavor (map, status) {
-            map[5] = status
-            this.changeFavoriteMap(map[0], status)
+        changeFavor (map) {
+            let id = map[0]
+            let i = this.favoriteMapList.indexOf(map)
+            this.favoriteMapList.splice(i, 1)
+            this.changeFavoriteMap(id, false)
         },
         /**
         *读取数据库所有地图列表
@@ -285,6 +304,28 @@ export default {
             }
         },
         /**
+        *读取数据库所有收藏地图列表
+        * @method readFavoriteMapList
+        */
+        readFavoriteMapList: async function () {
+            let response = await simpleGet('api/read-favorite-map-list')
+            let obj = await response.json()
+            if (await obj.status === '1') {
+                if (obj.number > 0) {
+                    let list = JSON.parse(obj.data)
+                    this.favoriteMapList = list
+                    // 返回一个数组对象, for map in mapList
+                    // map[0]: id 地图id
+                    // map[1]: name 地图名称
+                    // map[2]: author 地图作者
+                    // map[3]: img 地图缩略图
+                    // map[4]: remarks 地图说明
+                }
+            } else if (await obj.status === '0') {
+                this.$message.error(this.$store.state._const.LOAD_FAILURE)
+            }
+        },
+        /**
         *更改数据库收藏地图列表
         * @method changeFavoriteMap
         */
@@ -304,9 +345,7 @@ export default {
                 'mapid': id,
                 'status': Number(status).toString()
             }
-            await simplePost('api/change-publish', jsonObj)
-            await this.readPublishedMapList()
-            await this.readMapList()
+            simplePost('api/change-publish', jsonObj)
         },
         /**
         *判断地图是否应该在当前页码中显示
