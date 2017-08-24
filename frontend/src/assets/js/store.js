@@ -44,7 +44,7 @@ const state = {
             mode: '[[0, 0], [0, 1], [0, 3], [0, 4], [0, 5], [2, 0], [2, 1], [2, 2], [2, 3], [2, 4], [3, 0], [3, 1], [3, 2]]',
             author: '仨瓜俩枣'
         },
-        DELETE_CONFIRM_INFORMATION: '此操作将永久删除该文件, 是否继续?',
+        DELETE_CONFIRM_INFORMATION: '此操作将永久删除该地图, 是否继续?',
         DELETE_FAILURE: '删除失败',
         DELETE_MAP: '删除地图',
         DELETE_SUCCESS: '删除成功',

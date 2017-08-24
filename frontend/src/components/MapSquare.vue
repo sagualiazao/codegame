@@ -2,7 +2,15 @@
 <div class="map-square">
     <el-tabs ref="tabs" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane :label="$store.state._const.MAP_SQUARE" name="first" class="map-square-tab">
-            <div v-for="(map, index) in mapList">
+            <div class="page-block">
+                <el-pagination
+                :current-page.sync="currentPageAll"
+                :page-size="8"
+                layout="total, prev, pager, next"
+                :total="totalMaps(mapList)">
+                </el-pagination>
+            </div>
+            <div v-for="map in mapList" :key="map[0]" v-if="judgePage(map, mapList, currentPageAll)">
                 <div class="map-picture">
                     <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
@@ -28,19 +36,17 @@
                     </div>
                 </div>
             </div><br>
-            <div class="page-block">
-                <el-pagination @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPages"
-                :page-sizes="[8, 10, 12, 16]"
-                :page-size="8"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="100">
-                </el-pagination>
-            </div>
         </el-tab-pane>
         <el-tab-pane :label="$store.state._const.MY_PUBLISHED_MAPS" name="second" class="published-map-tab">
-            <div v-for="map in publishedMapList">
+            <div class="page-block">
+                <el-pagination
+                :current-page.sync="currentPagePublished"
+                :page-size="8"
+                layout="total, prev, pager, next"
+                :total="totalMaps(publishedMapList)">
+                </el-pagination>
+            </div>
+            <div v-for="map in publishedMapList" :key="map[0]" v-if="judgePage(map, publishedMapList, currentPagePublished)">
                 <div class="map-picture">
                     <a @click="enterMap(map[0])"><img :src="map[2]" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
@@ -60,7 +66,15 @@
             </div>
         </el-tab-pane>
         <el-tab-pane :label="$store.state._const.MY_FAVORITE_MAPS" name="third" class="favorite-map-tab">
-            <div v-for="map in favoriteMapList">
+            <div class="page-block">
+                <el-pagination
+                :current-page.sync="currentPageFavorite"
+                :page-size="8"
+                layout="total, prev, pager, next"
+                :total="totalMaps(favoriteMapList)">
+                </el-pagination>
+            </div>
+            <div v-for="map in favoriteMapList" :key="map[0]" v-if="judgePage(map, favoriteMapList, currentPageFavorite)">
                 <div class="map-picture">
                     <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
@@ -127,7 +141,30 @@ export default {
             * @default null
             */
             favoriteMapList: null,
-            currentPages: 1
+            /**
+            *地图广场列表页码
+            *
+            * @property currentPage
+            * @type {Number}
+            * @default 1
+            */
+            currentPageAll: 1,
+            /**
+            *我发布的地图列表页码
+            *
+            * @property currentPage
+            * @type {Number}
+            * @default 1
+            */
+            currentPagePublished: 1,
+            /**
+            *我收藏的地图列表页码
+            *
+            * @property currentPage
+            * @type {Number}
+            * @default 1
+            */
+            currentPageFavorite: 1
         }
     },
     /**
@@ -306,18 +343,32 @@ export default {
             await this.readMapList()
         },
         /**
-        *更改每页数据
-        * @method handleSizeChange
+        *判断地图是否应该在当前页码中显示
+        * @method judgePage
+        * @param {Object} map
+        * @param {Object} list
+        * @param {Number} page
         */
-        handleSizeChange (val) {
-            console.log(`每页 ${val} 条`)
+        judgePage: function (map, list, page) {
+            let i = list.indexOf(map)
+            let begin = page * 8 - 8
+            let end = page * 8
+            if (begin <= i && i < end) {
+                return true
+            }
+            return false
         },
         /**
-        *更改当前页数据
-        * @method handleCurrentChange
+        *计算制定列表的地图总数
+        * @method totalMaps
+        * @param {Object} list
         */
-        handleCurrentChange (val) {
-            console.log(`当前页: ${val}`)
+        totalMaps: function (list) {
+            if (list === null) {
+                return 0
+            } else {
+                return list.length
+            }
         }
     }
 }
