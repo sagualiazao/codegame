@@ -8,6 +8,7 @@ from Crypto.Hash import MD5
 from Crypto.Cipher import AES
 from django.http import JsonResponse, HttpResponseNotFound
 import api.models
+import os
 
 
 def blank_func():
@@ -449,9 +450,10 @@ class MapImage:
     """
     生成地图缩略图
     """
-    RESOURCE_DIR = './api/static/map/'
-    MAP_DIR = './frontend/static/img/saved_maps/'
-    MAP_DIR_DEV = './api/static/img/saved_maps/'
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    RESOURCE_DIR = BASE_DIR + '/api/static/map/'
+    MAP_DIR = BASE_DIR + '/frontend/static/img/saved_maps/'
+    MAP_DIR_DEV = BASE_DIR + '/api/static/img/saved_maps/'
     HREF_DIR = '/static/img/saved_maps/'
     RESOURCE_WIDTH = 64
     RESOURCE_HEIGHT = 64
