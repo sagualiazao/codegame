@@ -6,7 +6,15 @@
                 <map-editor></map-editor>
             </el-tab-pane>
             <el-tab-pane :label="$store.state._const.MY_DISIGNED_MAPS" name="my-map">
-                <div v-for="map in myMapList">
+                <div class="page-block">
+                    <el-pagination
+                    :current-page.sync="currentPage"
+                    :page-size="8"
+                    layout="total, prev, pager, next"
+                    :total="totalMaps()">
+                    </el-pagination>
+                </div>
+                <div v-for="map in myMapList" :key="map[0]" v-if="judgePage(map)">
                     <div class="map-picture">
                         <a @click="enterMap(map[0])"><img :src="map[2]" :alt="$store.state._const.WRONG_DISPLAY"></a>
                         <div class="caption">
@@ -25,7 +33,7 @@
                                 </i>
                             </div>
                             <div v-else>
-                                <i class="el-icon-upload" @click="publishClick(map, true)" title="$store.state._const.CLICK_TO_PUBLISH">
+                                <i class="el-icon-upload" @click="publishClick(map, true)" :title="$store.state._const.CLICK_TO_PUBLISH">
                                     {{ $store.state._const.MAP_UNPUBLISHED }}
                                 </i>
                                 <i class="el-icon-delete" @click="deleteClick(map)">
@@ -75,7 +83,15 @@ export default {
             * @type {Object}
             * @default null
             */
-            myMapList: null
+            myMapList: null,
+            /**
+            *我的地图列表页码
+            *
+            * @property currentPage
+            * @type {Number}
+            * @default 1
+            */
+            currentPage: 1
         }
     },
     components: {
@@ -237,6 +253,31 @@ export default {
                 }).catch(() => {
                     this.$message.error(failureMsg)
                 })
+        },
+        /**
+        *判断地图是否应该在当前页码中显示
+        * @method judgePage
+        * @param {Object} map
+        */
+        judgePage: function (map) {
+            let i = this.myMapList.indexOf(map)
+            let begin = this.currentPage * 8 - 8
+            let end = this.currentPage * 8
+            if (begin <= i && i < end) {
+                return true
+            }
+            return false
+        },
+        /**
+        *计算地图总数
+        * @method totalMaps
+        */
+        totalMaps: function () {
+            if (this.myMapList === null) {
+                return 0
+            } else {
+                return this.myMapList.length
+            }
         }
     }
 }
@@ -306,6 +347,7 @@ img:hover {
 .el-icon-upload {
     float: left;
     color: #2E8B57;
+    cursor: pointer;
 }
 .el-icon-circle-check {
     float: left;

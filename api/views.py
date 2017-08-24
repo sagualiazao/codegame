@@ -465,7 +465,6 @@ def change_favorite_map(request):
         :'status': 修改失败'0',修改成功'1'\n
     """
     def change_favorite_map_function(request, email):
-        print(email)
         user = User.objects.get(email=email)
         req = simplejson.load(request)
         map_id = req['mapid']
