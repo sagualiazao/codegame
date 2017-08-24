@@ -13,11 +13,11 @@
             {{ $store.state._const.EDITOR }}
         </el-button>
         <button class="clean-button" @click="cleanWorkspace()">
-            {{ $store.state._const.CLEAN }}
         </button>
+        <div class="clean-text button-text">{{ $store.state._const.CLEAN }}</div>
         <button class="run-button" @click="tinyEditorRun()">
-            {{ $store.state._const.RUN }}
         </button>
+        <div class="run-text button-text">{{ $store.state._const.RUN }}</div>
     </div>
     <div class="game-background" v-show="$store.state.levelPassModal">
         <div class="btn-container">
@@ -1088,8 +1088,8 @@ export default {
 .editor-base {
     margin: 0 auto;
     width: 100%;
-    height: 700px;
-    background-color: #FFEC8B;
+    height: 540px;
+    background-color:  #FAFAD2;
     display: inline-flex;
     border: ridge 2px #ADD8E6;
 }
@@ -1100,12 +1100,13 @@ export default {
     position: absolute;
     left: 1%;
     width: 50%;
-    height: 700px;
+    height: 540px;
     padding: 10px;
     border-right: 1px solid #7B68EE;
 }
 #game-canval {
     width: 100%;
+    height: 570px;
 }
 .tab-plugin {
     box-sizing: border-box;
@@ -1114,22 +1115,22 @@ export default {
     position: absolute;
     right: 1%;
     width: 48%;
-    height: 700px;
+    height: 485px;
 }
 .tab-plugin .tab-container {
     position: absolute;
     top: 11px;
     left: 0;
     width: 98%;
-    height: 540px;
+    height: 485px;
     opacity: 1;
 }
 .tab-container pre {
     position: absolute;
     top: 10px;
-    left: 10px;
+    left: 0;
     width: 100%;
-    height: 525px;
+    height: 485px;
     opacity: 1;
     border-top: solid 1px;
 }
@@ -1147,7 +1148,7 @@ export default {
 }
 .editor-tab {
     left: 60px;
-    background: #FFEC8B;
+    background: #FAFAD2;
 }
 #game-circle {
     height: 30px;
@@ -1212,7 +1213,8 @@ export default {
 }
 .clean-button, .run-button {
     position: absolute;
-    top: 590px;
+    top: 480px;
+    z-index: 200;
     height: 40px;
     width: 60px;
     font-size: 14px;
@@ -1221,28 +1223,43 @@ export default {
     text-decoration: none;
     outline: none;
     color: white;
-    background-color: #8FBC8F;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 3px 3px 3px #333;
+    background-color: transparent;
+    background: url(../assets/img/border11.png) center center;
+    background-repeat: no-repeat;
+    background-size:contain;
+    border: transparent;
+    border-radius: 8em;
 }
 .clean-button:hover, .run-button:hover {
-    background-color: #FFE4B5;
     color: black;
 }
 .clean-button:active, .run-button:active {
-    background-color: #D19275;
+    background-color: transparent;
     color: black;
-    box-shadow: 3px 5px #333;
     transform: translateY(2px);
 }
 .run-button {
-    left: 30%;
+    left: 100px;
 }
 .clean-button {
-    right: 20%;
+    left: 0;
+}
+.button-text {
+    z-index: 200;
+    position: absolute;
+    top: 490px;
+    color: #FF6347;
+    font-size: 13px;
+}
+.run-text {
+    left: 158px;
+}
+.clean-text {
+    left: 58px;
 }
 .game-info {
-    white-space: pre;
+    /*white-space: pre;*/
+    word-wrap: break-word;
+    word-break: break-all;
 }
 </style>

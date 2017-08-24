@@ -9,13 +9,12 @@
         </el-button>
         <el-button class="editor-tab tab" @click="editorClick('EditorBase')" id="editor-tab">Editor</el-button>
         <div class="tab-container" id="block-area"></div>
-        <textarea id="code-area" class="code-area" rows="3" cols="18"></textarea>
-        <button class="clean-button" @click="cleanWorkspace()">
-            {{ $store.state._const.CLEAN}}
-        </button>
-        <button class="run-button" @click="blockRunCode()">
-            {{ $store.state._const.RUN }}
-        </button>
+        <button class="code-button" @click="blocklyToCodeStatus = true"></button>
+        <div class="tocode-text button-text">ToCode</div>
+        <button class="clean-button" @click="cleanWorkspace()"></button>
+        <div class="clean-text button-text">{{ $store.state._const.CLEAN }}</div>
+        <button class="run-button" @click="blockRunCode()"></button>
+        <div class="run-text button-text">{{ $store.state._const.RUN }}</div>
     </div>
     <div class="game-background" v-show="$store.state.levelPassModal">
         <div class="btn-container">
@@ -39,6 +38,9 @@
     <el-dialog :title="getCookie('mapName')" :visible.sync="gameTips">
         <a class="game-info">{{ getCookie('mapTips') }}</a>
     </el-dialog>
+    <el-dialog title="积木块对应代码" :visible.sync="blocklyToCodeStatus">
+        <a>{{ getCode() }}</a>
+    </el-dialog>
 </div>
 </template>
 
@@ -60,6 +62,7 @@ export default {
     store: store,
     data: function () {
         return {
+            blocklyToCodeStatus: false,
             /**
             *用来存放生成的blockly工作区
             *
@@ -252,6 +255,14 @@ export default {
         }
     },
     methods: {
+        getCode () {
+            if (this.workspace === null) {
+                return ''
+            } else {
+                let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
+                return code
+            }
+        },
         /**
         *界面切换函数, 点击 Editor Tab 切换到 editor 游戏界面
         *
@@ -440,15 +451,6 @@ export default {
         */
         cleanWorkspace () {
             this.workspace.clear()
-        },
-        /**
-        *根据当前工作区的积木块动态生成可以直接复制到代码编辑器中执行的代码
-        *
-        * @method updateFunction
-        */
-        updateFunction (event) {
-            let code = global.Blockly.JavaScript.workspaceToCode(this.workspace)
-            document.getElementById('code-area').value = code
         },
         /**
         *读取vuex中的mapString,并转化成二维数组存于maps中
@@ -1041,27 +1043,28 @@ export default {
                 let expression = 'this.toolBoxTextLibrary.toolBoxText' + currentMapId
                 toolBoxTest = eval(expression)
             }
-            this.workspace = null
-            this.workspace = global.Blockly.inject('block-area', {
-                toolbox: toolBoxTest,
-                media: '../static/media/',
-                sounds: false,
-                trashcan: true,
-                grid: {
-                    spacing: 20,
-                    length: 3,
-                    colour: '#ccc',
-                    snap: true
-                },
-                zoom: {
-                    controls: true,
-                    wheel: true,
-                    startScale: 1.0,
-                    maxScale: 3,
-                    minScale: 0.3,
-                    scaleSpeed: 1.2
-                }
-            })
+            return toolBoxTest
+            // this.workspace = null
+            // this.workspace = global.Blockly.inject('block-area', {
+            //     toolbox: toolBoxTest,
+            //     media: '../static/media/',
+            //     sounds: false,
+            //     trashcan: true,
+            //     grid: {
+            //         spacing: 20,
+            //         length: 3,
+            //         colour: '#ccc',
+            //         snap: true
+            //     },
+            //     zoom: {
+            //         controls: true,
+            //         wheel: false,
+            //         startScale: 1.0,
+            //         maxScale: 3,
+            //         minScale: 0.3,
+            //         scaleSpeed: 1.2
+            //     }
+            // })
         },
         /**
         *进入下一关,如果未登录,且到达试玩关卡最后一关,需要登录.
@@ -1092,7 +1095,11 @@ export default {
                 this.$store.commit('changeLevelPassModal', false)
                 this.gameTips = true
             }
-            await this.$router.go(0)
+            this.workspace.updateToolbox(this.chooseRightToolBox())
+            this.cleanWorkspace()
+            this.gameTips = true
+            this.init()
+            // await this.$router.go(0)
             this.$store.commit('changeGameId')
         },
         getCookie (cname) {
@@ -1109,8 +1116,27 @@ export default {
     */
     mounted: function () {
         require('../../static/block_defined/blockly_defined.js')
-        this.chooseRightToolBox()
-        this.workspace.addChangeListener(this.updateFunction)
+        let toolBoxTest = this.chooseRightToolBox()
+        this.workspace = global.Blockly.inject('block-area', {
+            toolbox: toolBoxTest,
+            media: '../static/media/',
+            sounds: false,
+            trashcan: true,
+            grid: {
+                spacing: 20,
+                length: 3,
+                colour: '#ccc',
+                snap: true
+            },
+            zoom: {
+                controls: true,
+                wheel: false,
+                startScale: 1.0,
+                maxScale: 3,
+                minScale: 0.3,
+                scaleSpeed: 1.2
+            }
+        })
         this.gameTips = true
         this.init()
         // 清空工作区
@@ -1124,8 +1150,8 @@ export default {
 .block-base {
     margin: 0 auto;
     width: 100%;
-    height: 700px;
-    background-color: #FFEC8B;
+    height: 540px;
+    background-color: #FAFAD2;
     display: inline-flex;
     border: ridge 2px #ADD8E6;
 }
@@ -1136,13 +1162,13 @@ export default {
     position: absolute;
     left: 1%;
     width: 50%;
-    height: 700px;
+    height: 540px;
     padding: 10px;
     border-right: 1px solid #7B68EE;
 }
 #game-canval {
     width: 100%;
-    height: 500px;
+    height: 570px;
 }
 .tab-plugin {
     box-sizing: border-box;
@@ -1151,22 +1177,14 @@ export default {
     position: absolute;
     right: 1%;
     width: 48%;
-    height: 700px;
+    height: 485px;
 }
 .tab-plugin .tab-container {
     position: absolute;
     top: 46px;
     left: 0;
     width: 100%;
-    height: 400px;
-    opacity: 1;
-}
-.tab-plugin .code-area {
-    position: absolute;
-    top: 530px;
-    left: 0;
-    width: 100%;
-    height: 140px;
+    height: 485px;
     opacity: 1;
 }
 .tab {
@@ -1179,7 +1197,7 @@ export default {
 }
 .block-tab {
     left: 0;
-    background: #FFEC8B;
+    background: #FAFAD2;
 }
 .editor-tab {
     left: 60px;
@@ -1238,12 +1256,10 @@ export default {
     left: 70%;
     top: 50%;
 }
-.clean-button, .run-button {
+.clean-button, .run-button, .code-button {
     position: absolute;
-    top: 460px;
-    /*margin-top: 30px;
-    margin-bottom: 10px;
-    padding: 10px 20px;*/
+    top: 480px;
+    z-index: 200;
     height: 40px;
     width: 60px;
     font-size: 14px;
@@ -1252,28 +1268,49 @@ export default {
     text-decoration: none;
     outline: none;
     color: white;
-    background-color: #8FBC8F;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 3px 3px 3px #333;
+    background-color: transparent;
+    background: url(../assets/img/border11.png) center center;
+    background-repeat: no-repeat;
+    background-size:contain;
+    border: transparent;
+    border-radius: 8em;
 }
-.clean-button:hover, .run-button:hover {
-    background-color: #FFE4B5;
+.clean-button:hover, .run-button:hover, .code-button:hover {
     color: black;
 }
-.clean-button:active, .run-button:active {
-    background-color: #D19275;
+.clean-button:active, .run-button:active, .code-button:active {
+    background-color: transparent;
     color: black;
-    box-shadow: 3px 5px #333;
     transform: translateY(2px);
 }
 .run-button {
-    left: 30%;
+    left: 100px;
 }
 .clean-button {
-    right: 20%;
+    left: 0;
+}
+.code-button {
+    left: 200px;
+}
+.button-text {
+    z-index: 200;
+    position: absolute;
+    top: 490px;
+    color: #FF6347;
+    font-size: 13px;
+}
+.run-text {
+    left: 158px;
+}
+.clean-text {
+    left: 58px;
+}
+.tocode-text {
+    left: 258px;
 }
 .game-info {
-    white-space: pre;
+    /*white-space: pre;*/
+    word-wrap: break-word;
+    word-break: break-all;
 }
 </style>
