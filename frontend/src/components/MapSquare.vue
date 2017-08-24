@@ -23,16 +23,14 @@
                         <p class="remarks">
                             {{ $store.state._const.MAP_REMARKS }}: {{ map[4] }}
                         </p>
-                        <div v-if="map[5] === true">
-                            <i class="el-icon-star-on" @click="changeFavor(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_FAVORITE">
-                                {{ $store.state._const.IS_FAVORITE }}
-                            </i>
-                        </div>
-                        <div v-else>
-                            <i class="el-icon-star-off" @click="changeFavor(map, true)" :title="$store.state._const.CLICK_TO_FAVORITE">
-                                {{ $store.state._const.IS_NOT_FAVORITE }}
-                            </i>
-                        </div>
+                        <el-switch
+                            @change="handleFavoriteSwitch(map)"
+                            v-model="map[5]"
+                            :on-text="$store.state._const.IS_FAVORITE"
+                            :off-text="$store.state._const.IS_NOT_FAVORITE"
+                            :width="80"
+                        >
+                        </el-switch>
                     </div>
                 </div>
             </div><br>
@@ -74,7 +72,7 @@
                 :total="totalMaps(favoriteMapList)">
                 </el-pagination>
             </div>
-            <div v-for="map in favoriteMapList" :key="map[0]" v-if="judgePage(map, favoriteMapList, currentPageFavorite)">
+            <div v-for="map in favoriteMapList()" :key="map[0]" v-if="judgePage(map, favoriteMapList(), currentPageFavorite)">
                 <div class="map-picture">
                     <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
@@ -134,14 +132,6 @@ export default {
             */
             publishedMapList: null,
             /**
-            *收藏地图列表
-            *
-            * @property favoriteMapList
-            * @type {Object}
-            * @default null
-            */
-            favoriteMapList: null,
-            /**
             *地图广场列表页码
             *
             * @property currentPage
@@ -197,7 +187,6 @@ export default {
         */
         init: function () {
             this.readMapList()
-            this.readFavoriteMapList()
             this.readPublishedMapList()
         },
         /**
@@ -219,7 +208,7 @@ export default {
             if (await obj.status === '1') {
                 this.$store.commit('changeMap', obj)
                 setCookie('levelMode', this.$store.state.levelMode.toString())
-                setCookie('mapId', obj.id)
+                setCookie('mapId', obj.id.toString())
                 setCookie('mapString', obj.map)
                 setCookie('mapName', obj.name)
                 setCookie('mapTips', obj.tips)
@@ -236,7 +225,8 @@ export default {
         * @param {Boolean} status
         */
         publishClick: function (map) {
-            map[4] = false
+            let i = this.publishedMapList.indexOf(map)
+            this.publishedMapList.splice(i, i + 1)
             this.cancelPublishStatus(map[0])
         },
         /**
@@ -295,28 +285,6 @@ export default {
             }
         },
         /**
-        *读取数据库所有收藏地图列表
-        * @method readFavoriteMapList
-        */
-        readFavoriteMapList: async function () {
-            let response = await simpleGet('api/read-favorite-map-list')
-            let obj = await response.json()
-            if (await obj.status === '1') {
-                if (obj.number > 0) {
-                    let list = JSON.parse(obj.data)
-                    this.favoriteMapList = list
-                    // 返回一个数组对象, for map in mapList
-                    // map[0]: id 地图id
-                    // map[1]: name 地图名称
-                    // map[2]: author 地图作者
-                    // map[3]: img 地图缩略图
-                    // map[4]: remarks 地图说明
-                }
-            } else if (await obj.status === '0') {
-                this.$message.error(this.$store.state._const.LOAD_FAILURE)
-            }
-        },
-        /**
         *更改数据库收藏地图列表
         * @method changeFavoriteMap
         */
@@ -325,9 +293,7 @@ export default {
                 'mapid': id,
                 'status': Number(status).toString()
             }
-            await simplePost('api/change-favorite', jsonObj)
-            await this.readMapList()
-            await this.readFavoriteMapList()
+            simplePost('api/change-favorite', jsonObj)
         },
         /**
         *更改数据库发布地图列表
@@ -368,6 +334,29 @@ export default {
                 return 0
             } else {
                 return list.length
+            }
+        },
+        /**
+        *点击地图广场的收藏开关
+        * @method handleFavoriteSwitch
+        * @param {Object} map
+        */
+        handleFavoriteSwitch: function (map) {
+            let id = map[0]
+            let status = map[5]
+            this.changeFavoriteMap(id, !status)
+        },
+        /**
+        *返回收藏地图列表
+        * @method favoriteMapList
+        */
+        favoriteMapList: function () {
+            if (this.mapList === null) {
+                return null
+            } else {
+                return this.mapList.filter(function (item) {
+                    return item[5]
+                })
             }
         }
     }

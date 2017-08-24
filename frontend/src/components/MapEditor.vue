@@ -15,7 +15,7 @@
                 {{ $store.state._const.RESET }}
             </button>
         </div>
-        <el-dialog title="请填写地图信息" :visible.sync="mapInfo" size="tiny">
+        <el-dialog :title="$store.state._const.NEED_MAP_NAME" :visible.sync="mapInfo" size="tiny">
             <label>{{ $store.state._const.MAP_NAME }}</label><br>
             <input v-model="mapName" :placeholder="$store.state._const.NEED_MAP_NAME">
             <br>

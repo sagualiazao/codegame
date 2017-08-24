@@ -24,23 +24,18 @@
                             <p class="remarks">
                                 {{ $store.state._const.MAP_REMARKS }}: {{ map[3] }}
                             </p>
-                            <div v-if="map[4] === true">
-                                <i class="el-icon-circle-check" @click="publishClick(map, false)" :title="$store.state._const.CLICK_TO_CANCEL_PUBLISH">
-                                    {{ $store.state._const.MAP_PUBLISHED }}
-                                </i>
-                                <i class="el-icon-delete" @click="deleteClick(map)">
-                                    {{ $store.state._const.DELETE_MAP }}
-                                </i>
-                            </div>
-                            <div v-else>
-                                <i class="el-icon-upload" @click="publishClick(map, true)" :title="$store.state._const.CLICK_TO_PUBLISH">
-                                    {{ $store.state._const.MAP_UNPUBLISHED }}
-                                </i>
-                                <i class="el-icon-delete" @click="deleteClick(map)">
-                                    {{ $store.state._const.DELETE_MAP }}
-                                </i>
-                            </div>
                         </div>
+                        <el-switch
+                            @change="handlePublishSwitch(map[4], map[0])"
+                            v-model="map[4]"
+                            :on-text="$store.state._const.MAP_PUBLISHED"
+                            :off-text="$store.state._const.MAP_UNPUBLISHED"
+                            :width="80"
+                        >
+                        </el-switch>
+                        <i class="el-icon-delete" @click="deleteClick(map)">
+                            {{ $store.state._const.DELETE_MAP }}
+                        </i>
                     </div>
                 </div>
             </el-tab-pane>
@@ -150,7 +145,28 @@ export default {
         * @param {Object} map
         */
         deleteClick (map) {
-            this.confirmDelete(map[0])
+            let i = this.myMapList.indexOf(map)
+            let successMsg = this.$store.state._const.DELETE_SUCCESS
+            let failureMsg = this.$store.state._const.DELETE_FAILURE
+            let deleteMap = this.deleteMap
+            let id = map[0]
+            this.$confirm(
+                this.$store.state._const.DELETE_CONFIRM_INFORMATION,
+                this.$store.state._const.TIPS,
+                {
+                    confirmButtonText: this.$store.state._const.CONFIRM,
+                    cancelButtonText: this.$store.state._const.CANCEL,
+                    type: 'warning'
+                }).then(() => {
+                    this.myMapList.splice(i, i + 1)
+                    deleteMap(id)
+                    this.$message({
+                        type: 'success',
+                        message: successMsg
+                    })
+                }).catch(() => {
+                    this.$message.error(failureMsg)
+                })
         },
         /**
         *进入地图游戏界面
@@ -164,7 +180,7 @@ export default {
             if (await obj.status === '1') {
                 this.$store.commit('changeMap', obj)
                 setCookie('levelMode', this.$store.state.levelMode.toString())
-                setCookie('mapId', obj.id)
+                setCookie('mapId', obj.id.toString())
                 setCookie('mapString', obj.map)
                 setCookie('mapName', obj.name)
                 setCookie('mapTips', obj.tips)
@@ -207,11 +223,7 @@ export default {
                 'mapid': id,
                 'status': Number(status).toString()
             }
-            let response = await simplePost('api/change-publish', jsonObj)
-            let obj = await response.json()
-            if (await obj.status === '1') {
-                this.readMyMapList()
-            }
+            simplePost('api/change-publish', jsonObj)
         },
         /**
         *删除地图
@@ -222,11 +234,7 @@ export default {
             let jsonObj = {
                 'mapid': id
             }
-            let response = await simplePost('api/delete-map', jsonObj)
-            let obj = await response.json()
-            if (await obj.status === '1') {
-                this.readMyMapList()
-            }
+            simplePost('api/delete-map', jsonObj)
         },
         /**
         *删除地图提示确认的响应函数
@@ -234,25 +242,7 @@ export default {
         * @param {Number} id
         */
         confirmDelete: function (id) {
-            let successMsg = this.$store.state._const.DELETE_SUCCESS
-            let failureMsg = this.$store.state._const.DELETE_FAILURE
-            let deleteMap = this.deleteMap
-            this.$confirm(
-                this.$store.state._const.DELETE_CONFIRM_INFORMATION,
-                this.$store.state._const.TIPS,
-                {
-                    confirmButtonText: this.$store.state._const.CONFIRM,
-                    cancelButtonText: this.$store.state._const.CANCEL,
-                    type: 'warning'
-                }).then(() => {
-                    deleteMap(id)
-                    this.$message({
-                        type: 'success',
-                        message: successMsg
-                    })
-                }).catch(() => {
-                    this.$message.error(failureMsg)
-                })
+
         },
         /**
         *判断地图是否应该在当前页码中显示
@@ -278,6 +268,15 @@ export default {
             } else {
                 return this.myMapList.length
             }
+        },
+        /**
+        *点击发布开关的相应函数
+        * @method handlePublishSwitch
+        * @param {Boolean} status
+        * @param {Number} id
+        */
+        handlePublishSwitch: function (status, id) {
+            this.changePublishStatus(id, !status)
         }
     }
 }
@@ -343,16 +342,6 @@ img:hover {
         width: 49.99999%;
         margin: 6px 0;
     }
-}
-.el-icon-upload {
-    float: left;
-    color: #2E8B57;
-    cursor: pointer;
-}
-.el-icon-circle-check {
-    float: left;
-    color:#FFA07A;
-    cursor: pointer;
 }
 .el-icon-delete {
     float: right;
