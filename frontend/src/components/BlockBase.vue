@@ -1,7 +1,7 @@
 <template>
 <div class="block-base">
     <div class="game-area">
-        <canvas id="game-canval" height="640" width="640"></canvas>
+        <canvas id="game-canval" height="700px" width="640"></canvas>
     </div>
     <div class="tab-plugin">
         <el-button class="block-tab tab" id="block-tab">
@@ -511,20 +511,6 @@ export default {
         toScreenY (mapY) {
             return Math.floor(this.mapy + this.div * mapY)
         },
-        // mapTest () {
-        //     this.maps = [
-        //         ['6', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-        //         ['7', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-        //         ['8', '1', '0', '2', '0', '1', '3', '1', '0', '1'],
-        //         ['0', '1', '0', '2', '0', '1', '0', '1', '0', '1'],
-        //         ['9', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-        //         ['54', '1', '0', '0', '50', '0', '0', '0', '0', '0'],
-        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1'],
-        //         ['0', '1', '0', '1', '0', '1', '0', '1', '0', '1']
-        //     ]
-        // },
         /**
         *根据二维数组的值加载对应资源到指定位置，‘0’ 为草地，‘1’为树木，‘2’为河，‘3’为主角
         *‘4’为终点，‘6’为配角，‘7’为钥匙，‘8’为门，‘9’为石头，‘xx’格式为传送门
@@ -636,9 +622,6 @@ export default {
             this.stage = new createjs.Stage(canvas)
             this.mapx = this.stage.x
             this.mapy = this.stage.y
-            var scale = Math.min(canvas.width / 640, canvas.height / 640)
-            this.stage.scaleX = scale
-            this.stage.scaleY = scale
             this.pic = new createjs.Bitmap('../../static/map/background.png')
             this.pic.x = this.mapx
             this.pic.y = this.mapy
@@ -1109,11 +1092,6 @@ export default {
                 this.$store.commit('changeLevelPassModal', false)
                 this.gameTips = true
             }
-            // await this.chooseRightToolBox()
-            // this.workspace.addChangeListener(this.updateFunction)
-            // this.gameTips = true
-            // this.init()
-            // this.cleanWorkspace()
             await this.$router.go(0)
             this.$store.commit('changeGameId')
         },
@@ -1164,6 +1142,7 @@ export default {
 }
 #game-canval {
     width: 100%;
+    height: 500px;
 }
 .tab-plugin {
     box-sizing: border-box;
