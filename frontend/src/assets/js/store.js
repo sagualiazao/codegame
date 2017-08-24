@@ -45,7 +45,7 @@ const state = {
             author: '仨瓜俩枣'
         },
         DELETE_CONFIRM_INFORMATION: '此操作将永久删除该地图, 是否继续?',
-        DELETE_FAILURE: '删除失败',
+        DELETE_FAILURE: '已取消删除',
         DELETE_MAP: '删除地图',
         DELETE_SUCCESS: '删除成功',
         DIFFERENT_PASSWORD: '两次输入密码不一致',
