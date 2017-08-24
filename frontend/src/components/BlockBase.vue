@@ -642,7 +642,6 @@ export default {
         */
         gameover () {
             this.$store.commit('changeGameInformation', this.$store.state._const.RETRY_PLEASE)
-            console.log(this.$store.state.gameInformation)
             this.$store.commit('changeGameReplayModal', true)
         },
         /**
