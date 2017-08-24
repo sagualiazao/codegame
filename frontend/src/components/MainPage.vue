@@ -2,7 +2,7 @@
 <div>
     <div class="main-page">
         <div id="button-container">
-            <button id="start-game" @click="routerTo('BlockBase')">
+            <button id="start-game" @click="enterGame">
                 {{ $store.state._const.START_GAME }}
             </button>
         </div>
@@ -20,19 +20,27 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
+import { setCookie } from '@/assets/js/util.js'
 
 export default {
     name: 'main-page',
     store: store,
     methods: {
         /**
-        *路由切换
-        * @method routerTo
-        * @param {String} path
+        *进入游戏
+        * @method enterGame
         */
-        routerTo: function (path) {
+        enterGame: function () {
             this.$store.commit('changeMap', null)
-            this.$router.push('/' + path)
+            setCookie('levelMode', this.$store.state.levelMode.toString())
+            setCookie('mapId', this.$store.state.mapId.toString())
+            setCookie('mapString', this.$store.state.mapString)
+            setCookie('mapName', this.$store.state.mapName)
+            setCookie('mapTips', this.$store.state.mapTips)
+            setCookie('mapCodes', this.$store.state.mapCodes)
+            setCookie('mapMode', JSON.stringify(this.$store.state.mapMode))
+            setCookie('mapAuthor', this.$store.state.mapAuthor)
+            this.$router.push('/BlockBase')
         }
     },
     /**
