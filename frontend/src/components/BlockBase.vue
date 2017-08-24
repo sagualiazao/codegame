@@ -1043,27 +1043,28 @@ export default {
                 let expression = 'this.toolBoxTextLibrary.toolBoxText' + currentMapId
                 toolBoxTest = eval(expression)
             }
-            this.workspace = null
-            this.workspace = global.Blockly.inject('block-area', {
-                toolbox: toolBoxTest,
-                media: '../static/media/',
-                sounds: false,
-                trashcan: true,
-                grid: {
-                    spacing: 20,
-                    length: 3,
-                    colour: '#ccc',
-                    snap: true
-                },
-                zoom: {
-                    controls: true,
-                    wheel: false,
-                    startScale: 1.0,
-                    maxScale: 3,
-                    minScale: 0.3,
-                    scaleSpeed: 1.2
-                }
-            })
+            return toolBoxTest
+            // this.workspace = null
+            // this.workspace = global.Blockly.inject('block-area', {
+            //     toolbox: toolBoxTest,
+            //     media: '../static/media/',
+            //     sounds: false,
+            //     trashcan: true,
+            //     grid: {
+            //         spacing: 20,
+            //         length: 3,
+            //         colour: '#ccc',
+            //         snap: true
+            //     },
+            //     zoom: {
+            //         controls: true,
+            //         wheel: false,
+            //         startScale: 1.0,
+            //         maxScale: 3,
+            //         minScale: 0.3,
+            //         scaleSpeed: 1.2
+            //     }
+            // })
         },
         /**
         *进入下一关,如果未登录,且到达试玩关卡最后一关,需要登录.
@@ -1094,7 +1095,11 @@ export default {
                 this.$store.commit('changeLevelPassModal', false)
                 this.gameTips = true
             }
-            await this.$router.go(0)
+            this.workspace.updateToolbox(this.chooseRightToolBox())
+            this.cleanWorkspace()
+            this.gameTips = true
+            this.init()
+            // await this.$router.go(0)
             this.$store.commit('changeGameId')
         },
         getCookie (cname) {
@@ -1111,7 +1116,27 @@ export default {
     */
     mounted: function () {
         require('../../static/block_defined/blockly_defined.js')
-        this.chooseRightToolBox()
+        let toolBoxTest = this.chooseRightToolBox()
+        this.workspace = global.Blockly.inject('block-area', {
+            toolbox: toolBoxTest,
+            media: '../static/media/',
+            sounds: false,
+            trashcan: true,
+            grid: {
+                spacing: 20,
+                length: 3,
+                colour: '#ccc',
+                snap: true
+            },
+            zoom: {
+                controls: true,
+                wheel: false,
+                startScale: 1.0,
+                maxScale: 3,
+                minScale: 0.3,
+                scaleSpeed: 1.2
+            }
+        })
         this.gameTips = true
         this.init()
         // 清空工作区
