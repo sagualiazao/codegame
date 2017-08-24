@@ -119,16 +119,18 @@ export default {
         *
         *@method init
         */
-        init: function () {
-            this.readMyMapList()
-        },
+        init: function () {},
         /**
         *切换标签页
         * @method handleClick
         * @param {Object} tab 标签页
         * @param {Event} event 事件
         */
-        handleClick: function (tab, event) {},
+        handleClick: function (tab, event) {
+            if (this.activeName === 'my-map') {
+                this.readMyMapList()
+            }
+        },
         /**
         *点击发布按钮的相应函数
         * @method publishClick
@@ -158,7 +160,7 @@ export default {
                     cancelButtonText: this.$store.state._const.CANCEL,
                     type: 'warning'
                 }).then(() => {
-                    this.myMapList.splice(i, i + 1)
+                    this.myMapList.splice(i, 1)
                     deleteMap(id)
                     this.$message({
                         type: 'success',
