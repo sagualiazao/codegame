@@ -284,7 +284,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
     font-weight: normal;
@@ -303,7 +302,6 @@ div.map-picture {
     height: auto;
     margin: 2%;
     display: block;
-    /*box-sizing: border-box;*/
     overflow: hidden;
 }
 div.map-picture:hover {
@@ -319,10 +317,6 @@ div.map-picture:hover {
   .map-picture a {
       display: block;
   }
-  /*.map-picture a p {
-      display: none;
-      transform: scale(1);
-  }*/
 .map-picture img {
     width: 80%;
     height: auto;
@@ -338,8 +332,6 @@ img:hover {
     opacity: 1.0;
     filter: alpha(opacity = 100); /* For IE8 and earlier */
     transform: scale(1.2);
-    /*border: 1px solid #333333;*/
-    /*box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);*/
     overflow: hidden;
 }
 @media only screen and (max-width: 700px){

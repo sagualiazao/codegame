@@ -17,8 +17,7 @@
         </div>
         <el-dialog :title="$store.state._const.NEED_MAP_NAME" :visible.sync="mapInfo" size="tiny">
             <label>{{ $store.state._const.MAP_NAME }}</label><br>
-            <el-input v-model="mapName" :placeholder="$store.state._const.NEED_MAP_NAME"></el-input>
-            <br>
+            <el-input v-model="mapName" :placeholder="$store.state._const.NEED_MAP_NAME"></el-input><br>
             <label>{{ $store.state._const.MAP_REMARKS }}</label><br>
             <el-input type="textarea" id="text-area" v-model="mapTips" :placeholder="$store.state._const.NEED_MAP_REMARKS"></el-input><br>
             <el-button type="primary" @click="submit">{{ $store.state._const.SUBMIT }}</el-button>
@@ -617,7 +616,4 @@ button:active {
     background-size: 5%;
     background-repeat: no-repeat;
 }
-/*.el-dialog {
-    font-size: 50px;
-}*/
 </style>

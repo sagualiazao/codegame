@@ -597,7 +597,6 @@ export default {
             for (i = 0; i < this.mapWidth; i++) {
                 this.maps[i] = new Array(this.mapHeight)
             }
-            // this.mapTest()
             this.read()
             for (i = 0; i < this.mapWidth; i++) {
                 for (j = 0; j < this.mapHeight; j++) {
@@ -789,7 +788,6 @@ export default {
             text.x = this.player[index].x
             text.y = this.player[index].y
             sp.graphics.s('black').rr(text.x - 5, text.y - 5, text.getBounds().width + 10, text.getBounds().height + 10, 10)
-            // 圆角矩形
             this.stage.addChild(text)
             this.stage.addChild(sp)
             const that = this
@@ -1043,27 +1041,6 @@ export default {
                 toolBoxTest = eval(expression)
             }
             return toolBoxTest
-            // this.workspace = null
-            // this.workspace = global.Blockly.inject('block-area', {
-            //     toolbox: toolBoxTest,
-            //     media: '../static/media/',
-            //     sounds: false,
-            //     trashcan: true,
-            //     grid: {
-            //         spacing: 20,
-            //         length: 3,
-            //         colour: '#ccc',
-            //         snap: true
-            //     },
-            //     zoom: {
-            //         controls: true,
-            //         wheel: false,
-            //         startScale: 1.0,
-            //         maxScale: 3,
-            //         minScale: 0.3,
-            //         scaleSpeed: 1.2
-            //     }
-            // })
         },
         /**
         *进入下一关,如果未登录,且到达试玩关卡最后一关,需要登录.
@@ -1098,7 +1075,6 @@ export default {
             this.cleanWorkspace()
             this.gameTips = true
             this.init()
-            // await this.$router.go(0)
             this.$store.commit('changeGameId')
         },
         getCookie (cname) {
@@ -1138,13 +1114,11 @@ export default {
         })
         this.gameTips = true
         this.init()
-        // 清空工作区
         this.cleanWorkspace()
     }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .block-base {
     margin: 0 auto;
@@ -1205,7 +1179,7 @@ export default {
 .game-background {
     width: 100%;
     height: 100%;
-    background-color:rgba(0,152,50,0.6);
+    background-color:rgba(0, 152, 50, 0.6);
     z-index: 9999;
 }
 .btn-container1, .btn-container2 {
@@ -1256,7 +1230,6 @@ export default {
 }
 #replay {
     position: absolute;
-    /*left: 15%;*/
     top: 54%;
     left: 40%;
 }
@@ -1323,7 +1296,6 @@ export default {
     left: 258px;
 }
 .game-info {
-    /*white-space: pre;*/
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -1332,15 +1304,12 @@ export default {
     height: auto;
     background-image: url(../assets/img/border2.png);
     background-position: 2% -38px;
-    /*background-position: 2% 50px;*/
     background-size: 50%;
     background-repeat: no-repeat;
     border: 18px solid transparent;
-    /*border-image: url(../assets/img/back3.png);
-    border-right: 100%;*/
-    /*border: 2px solid #888888;*/
     border-radius:25px;
     font-weight: 600;
     background-color: #F0FFFF;
+    word-break: break-all;
 }
 </style>

@@ -283,9 +283,6 @@ export default {
             }
         }
     }
-    // mounted () {
-    //     this.$store.dispatch('signout')
-    // }
 }
 </script>
 
@@ -295,6 +292,6 @@ export default {
 }
 .send-ver {
     width: 60%;
-	margin-left: 40%;
+    margin-left: 40%;
 }
 </style>

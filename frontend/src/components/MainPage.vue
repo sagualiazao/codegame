@@ -78,8 +78,6 @@ h1 {
     background-color: #F0FFFF;
 }
 #start-game {
-    /*width: 200px;
-    height: 60px;*/
     padding: 0;
     height: 13%;
     width: 15%;
@@ -100,7 +98,6 @@ button {
     color: rgba(255,255,255,1);
     text-decoration: none;
     cursor: pointer;
-    /*background-color: rgba(219,87,5,1);*/
     background-color: rgba(255,127,80,1);
     font-family: 'Yanone Kaffeesatz';
     font-weight: 700;
@@ -112,7 +109,6 @@ button {
     border-radius: 8px;
     -webkit-box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);
     -moz-box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);
-    /*box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);*/
     box-shadow: 0px 9px 0px rgba(205,120,80,1), 0px 9px 25px rgba(0,0,0,.7);
     margin: 100px auto;
     width: 160px;

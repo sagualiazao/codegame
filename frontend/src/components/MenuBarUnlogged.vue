@@ -99,17 +99,12 @@ export default {
 
 <style>
 .el-dialog {
-    /*width: 30%;*/
     height: auto;
     background-image: url(../assets/img/border2.png);
     background-position: 2% -38px;
-    /*background-position: 2% 50px;*/
     background-size: 50%;
     background-repeat: no-repeat;
     border: 18px solid transparent;
-    /*border-image: url(../assets/img/back3.png);
-    border-right: 100%;*/
-    /*border: 2px solid #888888;*/
     border-radius:25px;
     font-weight: 600;
     background-color: #F0FFFF;
@@ -117,7 +112,6 @@ export default {
 .el-menu {
     height: 60px;
     background-color: #FFFACD;
-    /*background-color: #E6E6FA;*/
     font-size: 60px;
     background-image: url(../assets/img/border2.png), url(../assets/img/back2.png);
     background-repeat: no-repeat, no-repeat;

@@ -12,7 +12,9 @@
             </span>
             <p class=“name”>{{ this.$store.state.userNickName }}</p>
             <i class="el-icon-edit"></i>
-            <el-button id="btn" type="text" @click="changeName = true" title="点击修改昵称">修改昵称</el-button><br><br>
+            <el-button id="btn" type="text" @click="changeName = true" :title="$store.state._const.CLICK_TO_CHANGE_NICKNAME">
+                {{ $store.state._const.RESET_NAME }}
+            </el-button><br><br>
             <i class="el-icon-message"></i>
             <span>
                 {{ $store.state._const.EMAIL }}
@@ -258,7 +260,6 @@ img {
     border: 18px solid transparent;
     border-radius:25px;
     font-weight: 600;
-    /*background-color: #E6E6FA;*/
     background-color: #F0FFFF;
 }
 </style>

@@ -7,7 +7,9 @@
     </div>
     <div class="dialog-modify" v-show="selectLevelDialog">
         <div class="select-demo" v-show="selectLevelDialog">
-            <div class="close-button" @click="closeDialog">关闭</div>
+            <div class="close-button" @click="closeDialog">
+                {{ $store.state._const.CLOSE }}
+            </div>
             <div class="level-line level-line1">
                 <a class="level-btn level-btn1" @click="selectLevel(1)"></a>
                 <a class="level-btn level-btn2" @click="selectLevel(2)"></a>
@@ -139,7 +141,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1 {
     font-weight: normal;
@@ -149,13 +150,10 @@ h1 {
     height: 600px;
     margin-top: 0px;
     background: url(../assets/img/SelectLevel.jpg) center center no-repeat;
-    /*background-color: white;*/
     background-size: 90% 100%;
 
 }
 #continue-play {
-    /*width: 200px;
-    height: 60px;*/
     padding: 0;
     height: 14%;
     width: 14%;
@@ -176,7 +174,6 @@ button {
     color: rgba(255,255,255,1);
     text-decoration: none;
     cursor: pointer;
-    /*background-color: rgba(219,87,5,1);*/
     background-color: rgba(255,127,80,1);
     font-family: 'Yanone Kaffeesatz';
     font-weight: 700;
@@ -188,19 +185,16 @@ button {
     border-radius: 8px;
     -webkit-box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);
     -moz-box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);
-    /*box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);*/
     box-shadow: 0px 9px 0px rgba(205,120,80,1), 0px 9px 25px rgba(0,0,0,.7);
     margin: 100px auto;
     width: 160px;
     text-align: center;
-
     -webkit-transition: all .1s ease;
     -moz-transition: all .1s ease;
     -ms-transition: all .1s ease;
     -o-transition: all .1s ease;
     transition: all .1s ease;
 }
-
 button:active {
     -webkit-box-shadow: 0px 3px 0px rgba(219,31,5,1), 0px 3px 6px rgba(0,0,0,.9);
     -moz-box-shadow: 0px 3px 0px rgba(219,31,5,1), 0px 3px 6px rgba(0,0,0,.9);
@@ -239,7 +233,6 @@ button:active {
     margin-top:0px;
 }
 .level-btn {
-    /*margin-top: 40px;*/
     display: block;
     width: 80px;
     height: 80px;

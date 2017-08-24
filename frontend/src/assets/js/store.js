@@ -33,6 +33,7 @@ const state = {
         CLICK_TO_CHANGE_NICKNAME: '点击修改昵称',
         CLICK_TO_FAVORITE: '点击收藏地图',
         CLICK_TO_PUBLISH: '点击发布',
+        CLOSE: '关闭',
         CONFIRM: '确认',
         CONTINUE_GAME: '继续游戏',
         DEFAULT_MAP: {
@@ -66,8 +67,9 @@ const state = {
         LOGIN_FAILURE: '邮箱或密码错误,登录失败',
         LOGIN_FIRST: '请先登录哦!',
         LOGIN_SUCCESS: '登录成功',
-        LOGOUT_FAILURE: '注销失败',
-        LOGOUT_SUCCESS: '注销成功',
+        LOGOUT: '登出',
+        LOGOUT_FAILURE: '登出失败',
+        LOGOUT_SUCCESS: '登出成功',
         MAIN_PAGE_INFORMATION: '让孩子在游戏中走进编程世界，没有压力，开启头脑风暴',
         MAP_AUTHOR: '作者',
         MAP_EDITOR_INFORMATION: '在这里创建你的地图',
@@ -569,7 +571,7 @@ const mutations = {
 */
 const actions = {
     /**
-    *注销登录
+    *登出
     *
     * @method signout
     * @for actions

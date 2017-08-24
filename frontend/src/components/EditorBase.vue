@@ -570,7 +570,6 @@ export default {
             for (i = 0; i < this.mapWidth; i++) {
                 this.maps[i] = new Array(this.mapHeight)
             }
-            // this.mapTest()
             this.read()
             for (i = 0; i < this.mapWidth; i++) {
                 for (j = 0; j < this.mapHeight; j++) {
@@ -762,7 +761,6 @@ export default {
             text.x = this.player[index].x
             text.y = this.player[index].y
             sp.graphics.s('black').rr(text.x - 5, text.y - 5, text.getBounds().width + 10, text.getBounds().height + 10, 10)
-            // 圆角矩形
             this.stage.addChild(text)
             this.stage.addChild(sp)
             const that = this
@@ -1045,9 +1043,7 @@ export default {
                 setCookie('mapAuthor', this.$store.state.mapAuthor)
                 this.$store.commit('changeLevelPassModal', false)
                 this.init()
-                // 代码库限制
                 this.addCodeLibraryConstraint()
-                // 代码提示
                 this.jsEditor.setValue(getCookie('mapCodes'))
                 this.gameTips = true
             }
@@ -1076,9 +1072,7 @@ export default {
         this.jsEditor.resize()
         this.gameTips = true
         this.init()
-        // 代码库限制
         this.addCodeLibraryConstraint()
-        // 代码提示
         this.jsEditor.setValue(getCookie('mapCodes'))
     }
 }
@@ -1212,7 +1206,6 @@ export default {
 }
 #replay {
     position: absolute;
-    /*left: 15%;*/
     top: 54%;
     left: 40%;
 }
@@ -1273,7 +1266,6 @@ export default {
     left: 58px;
 }
 .game-info {
-    /*white-space: pre;*/
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -1281,14 +1273,9 @@ export default {
     width: 30%;
     height: auto;
     background-image: url(../assets/img/border2.png);
-    background-position: 2% -38px;
-    /*background-position: 2% 50px;*/
     background-size: 50%;
     background-repeat: no-repeat;
     border: 18px solid transparent;
-    /*border-image: url(../assets/img/back3.png);
-    border-right: 100%;*/
-    /*border: 2px solid #888888;*/
     border-radius:25px;
     font-weight: 600;
     background-color: #F0FFFF;
