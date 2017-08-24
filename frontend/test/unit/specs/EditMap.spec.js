@@ -1,80 +1,63 @@
-// import Vue from 'vue'
-// import ElementUI from 'element-ui'
-// import EditMap from '@/components/EditMap'
-// import { createVue, destroyVM } from '../util'
-// Vue.use(ElementUI)
-// import Mock from 'mockjs'
-// import 'whatwg-fetch'
+import Vue from 'vue'
+import ElementUI from 'element-ui'
+import EditMap from '@/components/EditMap'
+import { createVue, destroyVM } from '../util'
+Vue.use(ElementUI)
 
-// Mock.mock(
-//     'api/login',
-//     'get',
-//     function (request) {
-//         let date = new Date(null)
-//         date = date.toLocaleString()
-//         return {
-//             status: '1',
-//             email: 'tom@123.com',
-//             id: 1,
-//             nickname: 'tom',
-//             gameProgress: 13,
-//             hasPaied: false,
-//             createdAt: date
-//         }
-//     }
-// )
+// 测试脚本里面应该包括一个或多个describe块，称为测试套件（test suite）
+describe('EditMap', () => {
+    // 每个describe块应该包括一个或多个it块，称为测试用例（test case）
+    let vm
 
-// Mock.mock(
-//     'api/read-my-map-list',
-//     'get',
-//     {
-//         status: '1',
-//         data: '{[1, "map one", "imgimg", "no remarks", false]}'
-//     }
-// )
+    beforeEach(() => {
+        // 创建组件实例
+        vm = createVue(EditMap, true)
+    })
 
-// Mock.mock(
-//     'api/change-publish',
-//     'post',
-//     function (request) {
-//         let obj = request.body
-//         let mapId = obj.mapid
-//         return {
-//             status: '1',
-//             msg: mapId
-//         }
-//     }
-// )
+    afterEach(() => {
+        // 清理组件
+        destroyVM(vm)
+    })
 
-// Mock.mock(
-//     'api/delete-map',
-//     'post',
-//     function (request) {
-//         let obj = request.body
-//         let mapId = obj.mapid
-//         return {
-//             status: '1',
-//             msg: mapId
-//         }
-//     }
-// )
+    it('should render correct contents', () => {
+        expect(vm.$el.querySelector('.published h2').textContent).to.equal('已发布')
+        expect(vm.$el.querySelector('.unpublished h2').textContent).to.equal('未发布')
+        expect(vm.activeName === 'map-editor')
+        expect(vm.$el.querySelector('.unpublished button').textContent).to.equal('发布地图')
+    })
 
-// describe('EditMap', function () {
-//     let vm
+    // it('active-name,#handleClick', async () => {
+    //     const paneList = vm.$el.querySelector('.el-tabs__content').children
+    //     const tabList = vm.$refs.tabs.$refs.nav.$refs.tabs
 
-//     beforeEach(async function () {
-//         vm = createVue(EditMap, true)
-//         vm.$store.dispatch('init')
-//         await vm.$store.dispatch('signin')
-//         await vm.init()
-//     })
+    //     expect(tabList[0].classList.contains('is-active')).to.be.true
+    //     expect(paneList[0].style.display).to.not.ok
 
-//     afterEach(function () {
-//         destroyVM(vm)
-//     })
+    //     tabList[1].click()
+    //     await vm.$nextTick(_ => {
+    //         expect(tabList[1].classList.contains('is-active')).to.be.true
+    //         expect(paneList[1].style.display).to.not.ok
+    //         expect(vm.activeName === 'my-map')
+    //     })
+    // })
+})
 
-//     it('挂载成功', function () {
-//         expect(vm.activeName).to.equal('map-editor')
-//         expect(vm.myMapList).to.equal(null)
-//     })
-// })
+
+getSafeCommandString () {
+    let safeCommandString = ''
+    let commandList = this.getCommandCodeList()
+    console.log(commandList)
+    for (let i = 0; i < commandList.length; i++) {
+        let safeCode = this.getSafeCode(commandList[i])
+        console.log(safeCode)
+        if (safeCode === false) {
+            safeCommandString = ''
+            alert('wrong input!')
+            break
+        } else {
+            safeCommandString += safeCode
+        }
+    }
+    console.log(safeCommandString)
+    return safeCommandString
+},

@@ -292,6 +292,9 @@ h1 {
 h2 {
     color:#808000;
 }
+.edit-map {
+    min-height: 800px;
+}
 div.map-picture {
     border: 1px solid #BFBFBF;
     text-align: center;
@@ -374,5 +377,15 @@ button:active {
     background-color: #D19275;
     box-shadow: 3px 5px #333;
     transform: translateY(4px);
+}
+.page-block {
+    width: 100%;
+}
+.el-pagination {
+    vertical-align: center;
+    position: fixed;
+    margin-left: 40%;
+    bottom: 0px;
+    z-index: 9999;
 }
 </style>

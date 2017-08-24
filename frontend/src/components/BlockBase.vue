@@ -17,7 +17,7 @@
         <div class="run-text button-text">{{ $store.state._const.RUN }}</div>
     </div>
     <div class="game-background" v-show="$store.state.levelPassModal">
-        <div class="btn-container">
+        <div class="btn-container1">
             <p>{{ $store.state.gameInformation }}</p>
             <button class="game-btn" id="replay" @click="replayPass()">
                 {{ $store.state._const.REPLAY_GAME }}
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="game-background" v-show="$store.state.gameReplayModal">
-        <div class="btn-container">
+        <div class="btn-container2">
             <p>{{ $store.state.gameInformation }}</p>
             <button class="game-btn" id="fail-replay" @click="replaySingle()">
                 {{ $store.state._const.REPLAY_GAME }}
@@ -1208,7 +1208,7 @@ export default {
     background-color:rgba(0,152,50,0.6);
     z-index: 9999;
 }
-.btn-container {
+.btn-container1, .btn-container2 {
     float: left;
     position: absolute;
     left: 30%;
@@ -1216,23 +1216,38 @@ export default {
     z-index: 10000;
     width: 40%;
     height: 350px;
+    border: 2px solid #E6E6FA;
+    border-radius:25px;
+}
+.btn-container1 {
     background-image: url(../assets/img/back6.png), url(../assets/img/back5.png), url(../assets/img/back4.png);
     background-position: 20% 20px, 3% 150px, 90% 10px;
     background-size: 20%, 40%, 20%;
     background-repeat: no-repeat;
     background-color: #E0FFFF;
-    border: 2px solid #E6E6FA;
-    border-radius:25px;
 }
-.btn-container p {
+.btn-container2 {
+    background-image: url(../assets/img/back6.png), url(../assets/img/back5.png);
+    background-position: 18% 50px, 3% 150px, 90% 10px;
+    background-size: 20%, 40%, 20%;
+    background-repeat: no-repeat;
+    background-color: #E0FFFF;
+}
+.btn-container1 p {
     margin-top: 53px;
     margin-left: 8%;
     font-size: 1.3em;
     color: #FA8072;
 }
+.btn-container2 p {
+    margin-top: 90px;
+    margin-left: 18%;
+    font-size: 1.2em;
+    color: #FA8072;
+}
 .game-btn {
     width: 18%;
-    height: 90px;
+    height: 20%;
     border-width: 0px;
     border-radius: 10em;
     cursor: pointer;
@@ -1311,5 +1326,21 @@ export default {
     /*white-space: pre;*/
     word-wrap: break-word;
     word-break: break-all;
+}
+.el-dialog {
+    width: 30%;
+    height: auto;
+    background-image: url(../assets/img/border2.png);
+    background-position: 2% -38px;
+    /*background-position: 2% 50px;*/
+    background-size: 50%;
+    background-repeat: no-repeat;
+    border: 18px solid transparent;
+    /*border-image: url(../assets/img/back3.png);
+    border-right: 100%;*/
+    /*border: 2px solid #888888;*/
+    border-radius:25px;
+    font-weight: 600;
+    background-color: #F0FFFF;
 }
 </style>

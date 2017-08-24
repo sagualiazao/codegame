@@ -6,13 +6,13 @@
             </el-menu-item>
             <el-submenu index="2">
                 <template slot="title">
-                    {{ $store.state._const.MY_MAPS }}
+                    {{ $store.state._const.MAP_SQUARE }}
                 </template>
                 <el-menu-item index="EditMap">
                     {{ $store.state._const.EDIT_MAP }}
                 </el-menu-item>
                 <el-menu-item index="MapSquare">
-                    {{ $store.state._const.MAP_SQUARE }}
+                    {{ $store.state._const.ALL_MAPS }}
                 </el-menu-item>
             </el-submenu>
             <el-menu-item index="3" @click="pay">
@@ -24,9 +24,15 @@
                     <el-menu-item index="UserInfo">
                         {{ $store.state._const.MY_INFORMATION }}
                     </el-menu-item>
+                    <el-menu-item index="4-1" @click="resetPasswordChange">
+                        {{ $store.state._const.RESET_PASSWORD }}
+                    </el-menu-item>
                     <el-menu-item index="4-2" @click="signout" class="signout-button">注销</el-menu-item>
                 </el-submenu>
             </div>
+            <el-dialog :title="$store.state._const.RESET_PASSWORD" :visible.sync="$store.state.changePasswordDialog" size="tiny">
+                <reset-password-form></reset-password-form>
+            </el-dialog>
         </el-menu>
 </div>
 </template>
@@ -42,10 +48,14 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import { simpleGet } from '@/assets/js/util.js'
+import ResetPasswordForm from './ResetPasswordForm'
 
 export default {
     name: 'menu-bar-logged',
     store: store,
+    components: {
+        ResetPasswordForm
+    },
     data: function () {
         return {
             /**
@@ -55,7 +65,8 @@ export default {
             * @type {String}
             * @default 'main-page'
             */
-            activeIndex: 'main-page'
+            activeIndex: 'main-page',
+            changePasswordDialog: false
         }
     },
     methods: {
@@ -111,6 +122,9 @@ export default {
             if (await obj.status === '1') {
                 window.open(obj.url)
             }
+        },
+        resetPasswordChange: function () {
+            this.$store.commit('changePasswordWindow', true)
         }
     }
 }
@@ -130,11 +144,27 @@ export default {
     font-size: 60px;
     background-image: url(../assets/img/back1.png), url(../assets/img/back2.png);
     background-repeat: no-repeat, no-repeat;
-    background-position: 85%, 100%;
+    background-position: 85%, 99%;
     background-size: 10% 100%, 10%;
-    /*border-bottom: 1px solid #BFBFBF;*/
-    border-bottom: 1px solid #F0E68C;
-    box-shadow: 2px 1px 3px #888888;
+    /*border-bottom: 1px solid #BFBFBF;#F0E68C;*/
+    border-bottom: 1px solid #C0C0C0;
+    box-shadow: 1px 1px 2px #888888;
 
+}
+.el-dialog {
+    width: 30%;
+    height: auto;
+    background-image: url(../assets/img/border2.png);
+    background-position: 2% -38px;
+    /*background-position: 2% 50px;*/
+    background-size: 50%;
+    background-repeat: no-repeat;
+    border: 18px solid transparent;
+    /*border-image: url(../assets/img/back3.png);
+    border-right: 100%;*/
+    /*border: 2px solid #888888;*/
+    border-radius:25px;
+    font-weight: 600;
+    background-color: #F0FFFF;
 }
 </style>

@@ -4,19 +4,21 @@
         <el-menu-item index="main-page">
             {{ $store.state._const.HOME_PAGE }}
         </el-menu-item>
-        <el-menu-item index="edit-map">
-            {{ $store.state._const.MY_MAPS }}
+        <el-menu-item index="edit-map" @click="signinChange">
+            {{ $store.state._const.MAP_SQUARE }}
         </el-menu-item>
+        <div id="register">
         <el-menu-item index="register" @click="signupChange">
             {{ $store.state._const.REGISTER }}
         </el-menu-item>
+        </div>
         <el-dialog :title="$store.state._const.REGISTER" :visible.sync="$store.state.signupDialog" size="window.innerWidth > " id="sigup-dialog">
             <signup-form></signup-form>
         </el-dialog>
         <el-dialog :title="$store.state._const.FORGET_PASSWORD" :visible.sync="$store.state.resetPasswordDialog" size="tiny">
             <reset-password-form></reset-password-form>
         </el-dialog>
-        <el-menu-item index="login" @click="signinChange">
+        <el-menu-item index="login" @click="signinChange" class="signin">
             {{ $store.state._const.LOGIN }}
         </el-menu-item>
         <el-dialog :title="$store.state._const.LOGIN" :visible.sync="$store.state.signinDialog" size="tiny">
@@ -97,7 +99,7 @@ export default {
 
 <style>
 .el-dialog {
-    width: 30%;
+    /*width: 30%;*/
     height: auto;
     background-image: url(../assets/img/border2.png);
     background-position: 2% -38px;
@@ -105,6 +107,8 @@ export default {
     background-size: 50%;
     background-repeat: no-repeat;
     border: 18px solid transparent;
+    /*border-image: url(../assets/img/back3.png);
+    border-right: 100%;*/
     /*border: 2px solid #888888;*/
     border-radius:25px;
     font-weight: 600;
@@ -114,13 +118,18 @@ export default {
     height: 60px;
     background-color: #FFFACD;
     /*background-color: #E6E6FA;*/
-    font-size: 2em;
+    font-size: 60px;
     background-image: url(../assets/img/border2.png), url(../assets/img/back2.png);
     background-repeat: no-repeat, no-repeat;
-    background-position: 85%, 95%;
+    background-position: 85%, 99%;
     background-size: 10% 100%, 10%;
     border-bottom: 1px solid #F0E68C;
-    box-shadow: 2px 1px 3px #888888;
-
+    box-shadow: 1px 1px 1px #C0C0C0;
+}
+#register {
+    margin-left: 78%;
+}
+.sign-in {
+    margin-left: 90%;
 }
 </style>

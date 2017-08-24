@@ -34,6 +34,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 import store from '@/assets/js/store.js'
 import { cbcEncrypt, simplePost } from '@/assets/js/util.js'
+import { Message } from 'element-ui'
 
 export default {
     name: 'signin-form',
@@ -100,6 +101,7 @@ export default {
                         message: this.$store.state._const.CHECK_FORM,
                         type: 'warning'
                     })
+                    Message.warning(this.$store.state._const.CHECK_FORM)
                     return false
                 }
             })

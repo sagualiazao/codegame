@@ -10,11 +10,9 @@
             <span>
                 {{ $store.state._const.NICKNAME }}
             </span>
-            <p>{{ this.$store.state.userNickName }}</p>
+            <p class=“name”>{{ this.$store.state.userNickName }}</p>
             <i class="el-icon-edit"></i>
-            <el-button type="text" @click="changeName()" :title="$store.state._const.CLICK_TO_CHANGE_NICKNAME">
-                {{ $store.state._const.CHANGE_NICKNAME }}
-            </el-button><br>
+            <el-button id="btn" type="text" @click="changeName = true" title="点击修改昵称">修改昵称</el-button><br><br>
             <i class="el-icon-message"></i>
             <span>
                 {{ $store.state._const.EMAIL }}
@@ -40,12 +38,16 @@
             </span>
             <p>{{ remainedLevel }}</p>
         </div>
-        <i class="el-icon-edit"></i>
-        <el-button type="text" @click="resetPasswordChange()" :title="$store.state._const.CLICK_TO_CHANGE_PASSWORD">
-            {{ $store.state._const.RESET_PASSWORD }}
-        </el-button>
-        <el-dialog :title="$store.state._const.RESET_PASSWORD" :visible.sync="$store.state.changePasswordDialog" size="tiny">
-            <reset-password-form></reset-password-form>
+        <el-dialog :title="$store.state._const.RESET_NAME" :visible.sync="changeName" size="tiny">
+            <el-form label-width="100px" class="demo-nameForm">
+                <el-form-item :label="$store.state._const.NEWNICKNAME" class="form-name-item">
+                    <el-input v-model="nickname"></el-input>
+                </el-form-item>
+                <el-form-item class="form-submit-item">
+                    <el-button type="primary" id="submit" @click="nameSubmit">{{ $store.state._const.SUBMIT }}</el-button>
+                    <el-button id="cancel" @click="changeName = false">{{ $store.state._const.CANCEL }}</el-button>
+                </el-form-item>
+            </el-form>
         </el-dialog>
     </div>
 </div>
@@ -93,7 +95,8 @@ export default {
             * @property nickname
             * @type {String}
             */
-            nickname: null
+            nickname: null,
+            changeName: false
         }
     },
     /**
@@ -130,22 +133,6 @@ export default {
             this.nickname = this.$store.state.userNickName
         },
         /**
-        *更改昵称
-        *
-        *@method changeName
-        */
-        changeName () {
-            this.$prompt('请输入昵称', '修改昵称', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消'
-            }).then(({ value }) => {
-                this.nickname = value
-                this.nameSubmit()
-            }).catch(() => {
-                this.$message('取消输入')
-            })
-        },
-        /**
         *更改昵称提交
         *
         *@method nameSubmit
@@ -161,14 +148,6 @@ export default {
             } else {
                 Message.error({message: this.$store.state._const.CHANGE_FALURE})
             }
-        },
-        /**
-        *更改密码响应
-        *
-        *@method resetPasswordChange
-        */
-        resetPasswordChange: function () {
-            this.$store.commit('changePasswordWindow', true)
         }
     }
 }
@@ -184,16 +163,24 @@ h1 {
 .user-info {
     margin-top: -30px;
     width: 100%;
+    min-height: 760px;
     text-align: justify;
 }
-.el-button {
+#btn {
     font-size: 20px;
+    margin-top: -50px;
+    padding-top: 0px;
+}
+.name {
+    padding-bottom: 0px;
+    margin-bottom: 0;
 }
 h2, p, span, i, input, .el-button {
     position: relative;
     left: 10%;
 }
-.el-button:hover {
+#btn:hover {
+    padding-top: 0PX;
     color: #FF00FF;
     text-decoration: underline;
 }
@@ -247,9 +234,23 @@ img {
 .el-icon-edit {
     color: #FF8C00;
 }
+.el-form {
+    width: 100%;
+}
+.el-input {
+    width: 80%;
+    margin-bottom: 4%;
+}
+#submit {
+    left: 5%;
+}
+#cancel {
+    right: 5%;
+}
 .el-dialog {
     width: 30%;
     height: auto;
+    text-align: center;
     background-image: url(../assets/img/border2.png);
     background-position: 2% -38px;
     background-size: 50%;
