@@ -5,30 +5,32 @@
             {{ $store.state._const.CONTINUE_GAME }}
         </button>
     </div>
-    <div class="select-demo" v-show="selectLevelDialog">
-        <div class="close-button" @click="closeDialog">关闭</div>
-        <div class="level-line level-line1">
-            <a class="level-btn level-btn1" @click="selectLevel(1)"></a>
-            <a class="level-btn level-btn2" @click="selectLevel(2)"></a>
-            <a class="level-btn level-btn3" @click="selectLevel(3)"></a>
-            <a class="level-btn level-btn4" @click="selectLevel(4)"></a>
-        </div>
-        <div class="level-line">
-            <a class="level-btn level-btn5" @click="selectLevel(5)"></a>
-            <a class="level-btn level-btn6" @click="selectLevel(6)"></a>
-            <a class="level-btn level-btn7" @click="selectLevel(7)"></a>
-            <a class="level-btn level-btn8" @click="selectLevel(8)"></a>
-        </div>
-        <div class="level-line">
-            <a class="level-btn level-btn9" @click="selectLevel(9)"></a>
-            <a class="level-btn level-btn10" @click="selectLevel(10)"></a>
-            <a class="level-btn level-btn11" @click="selectLevel(11)"></a>
-            <a class="level-btn level-btn12" @click="selectLevel(12)"></a>
-        </div>
-        <div class="level-line" id="level-line4">
-            <a class="level-btn level-btn13" @click="selectLevel(13)"></a>
-            <a class="level-btn level-btn14" @click="selectLevel(14)"></a>
-            <a class="level-btn level-btn15" @click="selectLevel(15)"></a>
+    <div class="dialog-modify" v-show="selectLevelDialog">
+        <div class="select-demo" v-show="selectLevelDialog">
+            <div class="close-button" @click="closeDialog">关闭</div>
+            <div class="level-line level-line1">
+                <a class="level-btn level-btn1" @click="selectLevel(1)"></a>
+                <a class="level-btn level-btn2" @click="selectLevel(2)"></a>
+                <a class="level-btn level-btn3" @click="selectLevel(3)"></a>
+                <a class="level-btn level-btn4" @click="selectLevel(4)"></a>
+            </div>
+            <div class="level-line">
+                <a class="level-btn level-btn5" @click="selectLevel(5)"></a>
+                <a class="level-btn level-btn6" @click="selectLevel(6)"></a>
+                <a class="level-btn level-btn7" @click="selectLevel(7)"></a>
+                <a class="level-btn level-btn8" @click="selectLevel(8)"></a>
+            </div>
+            <div class="level-line">
+                <a class="level-btn level-btn9" @click="selectLevel(9)"></a>
+                <a class="level-btn level-btn10" @click="selectLevel(10)"></a>
+                <a class="level-btn level-btn11" @click="selectLevel(11)"></a>
+                <a class="level-btn level-btn12" @click="selectLevel(12)"></a>
+            </div>
+            <div class="level-line" id="level-line4">
+                <a class="level-btn level-btn13" @click="selectLevel(13)"></a>
+                <a class="level-btn level-btn14" @click="selectLevel(14)"></a>
+                <a class="level-btn level-btn15" @click="selectLevel(15)"></a>
+            </div>
         </div>
     </div>
 </div>
@@ -145,32 +147,73 @@ h1 {
 #select-level {
     width: 100%;
     height: 600px;
-    margin-top: -22px;
-    background: url(../assets/img/back7.jpg) center center no-repeat;
-    background-color: white;
-    background-size: 100% 100%;
+    margin-top: 0px;
+    background: url(../assets/img/SelectLevel.jpg) center center no-repeat;
+    /*background-color: white;*/
+    background-size: 90% 100%;
 
-}
-#btn-container {
-    width: 40%;
-    height: 300px;
-    color: black;
-    border-radius: 1em;
-    position: absolute;
-    left: 32%;
-    top: 30%;
 }
 #continue-play {
-    width: 20%;
-    height: 20%;
-    margin-top: 100px;
-    border-radius: 10em;
-    border-width: 8px;
-    background-color: #FFE4E1;
-    border-color: #00FF7F;
+    /*width: 200px;
+    height: 60px;*/
+    padding: 0;
+    height: 14%;
+    width: 14%;
+    border-radius: 50em;
+    border-width: 0px;
+    font-size: 1.7em;
+    margin-left: 40%;
+    margin-top: 300px;
+}
+#btn-container {
+    width: 100%;
+    height: 70%;
+    padding-top: 20px;
+    padding-left: 10px;
+}
+button {
+    position: relative;
+    color: rgba(255,255,255,1);
+    text-decoration: none;
     cursor: pointer;
+    /*background-color: rgba(219,87,5,1);*/
+    background-color: rgba(255,127,80,1);
+    font-family: 'Yanone Kaffeesatz';
+    font-weight: 700;
+    font-size: 3em;
+    display: block;
+    padding: 4px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);
+    -moz-box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);
+    /*box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,.7);*/
+    box-shadow: 0px 9px 0px rgba(205,120,80,1), 0px 9px 25px rgba(0,0,0,.7);
+    margin: 100px auto;
+    width: 160px;
+    text-align: center;
+
+    -webkit-transition: all .1s ease;
+    -moz-transition: all .1s ease;
+    -ms-transition: all .1s ease;
+    -o-transition: all .1s ease;
+    transition: all .1s ease;
 }
 
+button:active {
+    -webkit-box-shadow: 0px 3px 0px rgba(219,31,5,1), 0px 3px 6px rgba(0,0,0,.9);
+    -moz-box-shadow: 0px 3px 0px rgba(219,31,5,1), 0px 3px 6px rgba(0,0,0,.9);
+    box-shadow: 0px 3px 0px rgba(205,120,80,1), 0px 3px 6px rgba(0,0,0,.9);
+    position: relative;
+    top: 6px;
+}
+.dialog-modify {
+    width: 100%;
+    height: 640px;
+    margin-top: -480px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
 .select-demo {
     width: 510px;
     height: 500px;

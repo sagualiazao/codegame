@@ -1,6 +1,6 @@
 <template>
 <div class="map-square">
-    <el-tabs ref="tabs" v-model="activeName" @tab-click="handleClick">
+    <el-tabs ref="tabs" type="card" v-model="activeName" @tab-click="handleClick">
         <el-tab-pane :label="$store.state._const.MAP_SQUARE" name="first" class="map-square-tab">
             <div class="page-block">
                 <el-pagination
@@ -72,7 +72,7 @@
                 :total="totalMaps(favoriteMapList)">
                 </el-pagination>
             </div>
-            <div v-for="map in favoriteMapList" :key="map[0]" v-if="judgePage(map, favoriteMapList, currentPageFavorite)"> 
+            <div v-for="map in favoriteMapList" :key="map[0]" v-if="judgePage(map, favoriteMapList, currentPageFavorite)">
                 <div class="map-picture">
                     <a @click="enterMap(map[0])"><img :src="map[3]" class="image" :alt="$store.state._const.WRONG_DISPLAY"></a>
                     <div class="caption">
@@ -406,6 +406,11 @@ export default {
 h1 {
     font-weight: normal;
 }
+.map-square {
+    width: 100%;
+    min-height: 700px;
+    background-color: #FAFAD2;
+}
 .el-icon-star-on {
     color: orange;
     cursor: pointer;
@@ -415,6 +420,7 @@ h1 {
 }
 .el-tab-pane {
     width: 100%;
+    height: 100%;
 }
 div.map-picture {
     border: 1px solid #BFBFBF;
@@ -472,9 +478,14 @@ img:hover {
 .el-icon-circle-check {
     color:#FFA07A;
 }
+.page-block {
+    width: 100%;
+}
 .el-pagination {
     vertical-align: center;
-    position: absolute;
-    bottom: 5%;
+    position: fixed;
+    margin-left: 40%;
+    bottom: 0px;
+    z-index: 9999;
 }
 </style>

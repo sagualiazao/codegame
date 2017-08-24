@@ -17,10 +17,10 @@
         </div>
         <el-dialog :title="$store.state._const.NEED_MAP_NAME" :visible.sync="mapInfo" size="tiny">
             <label>{{ $store.state._const.MAP_NAME }}</label><br>
-            <input v-model="mapName" :placeholder="$store.state._const.NEED_MAP_NAME">
+            <el-input v-model="mapName" :placeholder="$store.state._const.NEED_MAP_NAME"></el-input>
             <br>
             <label>{{ $store.state._const.MAP_REMARKS }}</label><br>
-            <textarea v-model="mapTips" :placeholder="$store.state._const.NEED_MAP_REMARKS"></textarea><br>
+            <el-input type="textarea" id="text-area" v-model="mapTips" :placeholder="$store.state._const.NEED_MAP_REMARKS"></el-input><br>
             <el-button type="primary" @click="submit">{{ $store.state._const.SUBMIT }}</el-button>
             <el-button @click="mapInfo = false">{{ $store.state._const.CANCEL }}</el-button>
         </el-dialog>
@@ -565,17 +565,24 @@ h1 {
     font-size: 30px;
     color: #D8FA2A;
 }
+map-editor {
+    min-height: 700px;
+}
 canvas {
     border: ridge 2px #ADD8E6;
 }
-input, textarea {
-    border: solid 1px #778899;
-    border-radius: 3px;
-    width: 200px;
-    vertical-align: middle;
+.el-input {
+    width: 60%;
+    margin: 8px;
+}
+#text-area {
+    width: 60%;
+    margin: 8px;
 }
 label {
-    vertical-align: middle;
+    position: absolute;
+    left: 23%;
+    font-size: 1.2em;
     display: inline;
 }
 button {
@@ -589,7 +596,7 @@ button {
     text-decoration: none;
     outline: none;
     color: white;
-    background-color: #8FBC8F;
+    background-color: #F4A460;
     border: none;
     border-radius: 15px;
     box-shadow: 5px 5px 5px #333;
@@ -610,4 +617,7 @@ button:active {
     background-size: 5%;
     background-repeat: no-repeat;
 }
+/*.el-dialog {
+    font-size: 50px;
+}*/
 </style>
