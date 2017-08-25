@@ -47,8 +47,8 @@ let whiteListConstData = {
     * @method clean
     */
     clean: function () {
-        this.commandCodeLibrary[4] = ''
-        this.commandCodeLibrary[5] = ''
+        this.commandCodeLibrary[4] = []
+        this.commandCodeLibrary[5] = []
     },
     /**
     *根据输入的角色姓名获取角色的对应序号
@@ -249,7 +249,6 @@ let whiteListConstData = {
     * @return {String} 安全可执行代码
     */
     formatFunction30: function (code) {
-        'var x = 3'
         let temp = code.replace('var', '')
         temp = temp.replace(/=\s*(\d+|[A-Za-z]\w*)\s*/, '')
         let variable = temp.replace(/\s*/g, '')

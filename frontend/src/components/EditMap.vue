@@ -278,7 +278,12 @@ export default {
         * @param {Number} id
         */
         handlePublishSwitch: function (status, id) {
-            this.changePublishStatus(id, !status)
+            let isMac = /mac/i.test(navigator.userAgent)
+            if (isMac) {
+                this.changePublishStatus(id, status)
+            } else {
+                this.changePublishStatus(id, !status)
+            }
         }
     }
 }

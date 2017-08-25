@@ -383,7 +383,12 @@ export default {
         handleFavoriteSwitch: function (map) {
             let id = map[0]
             let status = map[5]
-            this.changeFavoriteMap(id, !status)
+            let isMac = /mac/i.test(navigator.userAgent)
+            if (isMac) {
+                this.changeFavoriteMap(id, status)
+            } else {
+                this.changeFavoriteMap(id, !status)
+            }
         },
         /**
         *返回收藏地图列表
