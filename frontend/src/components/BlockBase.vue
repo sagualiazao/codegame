@@ -1037,7 +1037,8 @@ export default {
         chooseRightToolBox () {
             let toolBoxTest = ''
             let currentMapId = getCookie('mapId')
-            if (currentMapId > 10) {
+            let mode = getCookie('levelMode')
+            if (mode !== 'true' || currentMapId > 10) {
                 toolBoxTest = this.toolBoxTextLibrary.toolBoxTextDefault
             } else {
                 let expression = 'this.toolBoxTextLibrary.toolBoxText' + currentMapId
@@ -1099,8 +1100,6 @@ export default {
             this.cleanWorkspace()
             this.gameTips = true
             this.init()
-            // await this.$router.go(0)
-            this.$store.commit('changeGameId')
         },
         getCookie (cname) {
             return getCookie(cname)
